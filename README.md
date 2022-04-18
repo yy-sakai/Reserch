@@ -103,6 +103,7 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 >>>>>>> 4356a46 (test)
 =======
 <<<<<<< HEAD
@@ -147,6 +148,8 @@
 >>>>>>> 0bd8b43 (Initial commit)
 =======
 >>>>>>> a19f9bc (Update README.md)
+=======
+>>>>>>> b227a25 (Initial commit)
 <<<<<<< HEAD
 =======
 =======
@@ -179,6 +182,8 @@
 >>>>>>> dd6600f (Initial commit)
 =======
 >>>>>>> 9b06e40 (Update README.md)
+=======
+>>>>>>> 5d5d3dd (Initial commit)
 # sakai
 
 Fast back-and-forth method
@@ -275,6 +280,8 @@ Code by Jacobs, Leger for [1]: <https://github.com/Math-Jacobs/bfm>
 >>>>>>> e606076 (Initial commit)
 =======
 >>>>>>> f17ba55 (Update README.md)
+=======
+>>>>>>> 24957f9 (Initial commit)
 # Topic: Optimal transport problem
 Fast back-and-forth method
 
@@ -1106,6 +1113,8 @@ How to proceed with research: <https://github.com/rekka/ctransform>
 >>>>>>> 4c411ac (Initial commit)
 =======
 >>>>>>> 1ffadf3 (Update README.md)
+=======
+>>>>>>> 119b926 (Initial commit)
 # sakai
 
 Fast back-and-forth method
@@ -1155,8 +1164,18 @@ Code by Jacobs, Leger for [1]: <https://github.com/Math-Jacobs/bfm>
 =======
 =======
 >>>>>>> 1a0406c (Update README.md)
+<<<<<<< HEAD
 >>>>>>> 1ffadf3 (Update README.md)
+=======
+=======
+>>>>>>> fc0c42c (Initial commit)
+>>>>>>> 119b926 (Initial commit)
 # Topic: Optimal transport problem
+=======
+<<<<<<< HEAD
+# sakai
+
+>>>>>>> d4be83c (Initial commit)
 Fast back-and-forth method
 
 How to proceed with research: <https://github.com/rekka/ctransform>
@@ -1167,6 +1186,9 @@ How to proceed with research: <https://github.com/rekka/ctransform>
 - [2]:Code by Jacobs, Leger for [1]: Article_A Fast Approach To Optimal Transport (Program) <https://github.com/Math-Jacobs/bfm>
 
 Code by Jacobs, Leger for [1]: <https://github.com/Math-Jacobs/bfm>
+=======
+<<<<<<< HEAD
+>>>>>>> 21dedce (Initial commit)
 # Topic: Optimal transport problem
 Fast back-and-forth method
 
@@ -1329,10 +1351,37 @@ How to proceed with research: <https://github.com/rekka/ctransform>
 =======
 - [9]: Notes by Professor Pozar, C-transform: <https://github.com/pozar-lab/c-transform-note>
 - [10]: Drop box: <https://www.dropbox.com/home>
+<<<<<<< HEAD
 >>>>>>> 22d3e15 (test)
+<<<<<<< HEAD
 >>>>>>> 076b75f (test)
+<<<<<<< HEAD
 >>>>>>> 9191d67 (test)
+<<<<<<< HEAD
 >>>>>>> c798027 (test)
+<<<<<<< HEAD
 >>>>>>> 171f2cb (test)
+<<<<<<< HEAD
 >>>>>>> 23bf2c0 (test)
+<<<<<<< HEAD
 >>>>>>> 09da4f1 (test)
+=======
+=======
+=======
+=======
+=======
+=======
+=======
+<<<<<<< HEAD
+=======
+=======
+# sakai
+>>>>>>> 45ef59f (Initial commit)
+>>>>>>> 21dedce (Initial commit)
+>>>>>>> d4be83c (Initial commit)
+>>>>>>> fc0c42c (Initial commit)
+>>>>>>> 119b926 (Initial commit)
+>>>>>>> 24957f9 (Initial commit)
+>>>>>>> 5d5d3dd (Initial commit)
+>>>>>>> b227a25 (Initial commit)
+>>>>>>> bd1a3c4 (Initial commit)
