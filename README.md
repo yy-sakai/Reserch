@@ -1,6 +1,9 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> bffbf1a (Initial commit)
 # Topic: Optimal transport problem
 Fast back-and-forth method
 
@@ -59,4 +62,13 @@ Code by Jacobs, Leger for [1]: <https://github.com/Math-Jacobs/bfm>
 - [8]: Code by Professor Pozar, C-transform: <https://github.com/pozar-lab/back-and-forth-python>
 - [9]: Notes by Professor Pozar, C-transform: <https://github.com/pozar-lab/c-transform-note>
 - [10]: Drop box: <https://www.dropbox.com/home>
+<<<<<<< HEAD
 >>>>>>> d3adc26 (test)
+=======
+<<<<<<< HEAD
+=======
+=======
+# sakai
+>>>>>>> 45ef59f (Initial commit)
+>>>>>>> 21dedce (Initial commit)
+>>>>>>> bffbf1a (Initial commit)
