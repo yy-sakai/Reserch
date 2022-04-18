@@ -90,6 +90,7 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 >>>>>>> 4356a46 (test)
 =======
 <<<<<<< HEAD
@@ -108,12 +109,16 @@
 >>>>>>> 184ea6b (test)
 =======
 >>>>>>> 82fb16e (test)
+=======
+>>>>>>> c146d09 (Initial commit)
 <<<<<<< HEAD
 =======
 =======
 >>>>>>> 6800639 (test)
 =======
 >>>>>>> 90af55b (test)
+=======
+>>>>>>> 8ba4244 (Initial commit)
 # sakai
 
 Fast back-and-forth method
@@ -593,6 +598,7 @@ How to proceed with research: <https://github.com/rekka/ctransform>
 - [9]: Notes by Professor Pozar, C-transform: <https://github.com/pozar-lab/c-transform-note>
 >>>>>>> 76d7c69 (test)
 <<<<<<< HEAD
+<<<<<<< HEAD
 >>>>>>> 50150c8 (test)
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -802,5 +808,15 @@ How to proceed with research: <https://github.com/rekka/ctransform>
 - [9]: Notes by Professor Pozar, C-transform: <https://github.com/pozar-lab/c-transform-note>
 >>>>>>> 76d7c69 (test)
 >>>>>>> 90af55b (test)
+<<<<<<< HEAD
 >>>>>>> 82fb16e (test)
+<<<<<<< HEAD
 >>>>>>> 3e948e5 (test)
+=======
+=======
+=======
+=======
+>>>>>>> 5e73ab6 (Initial commit)
+>>>>>>> 8ba4244 (Initial commit)
+>>>>>>> c146d09 (Initial commit)
+>>>>>>> 3225296 (Initial commit)
