@@ -21,6 +21,7 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 =======
 >>>>>>> 6800639 (test)
@@ -38,6 +39,8 @@
 >>>>>>> a30b83b (test)
 =======
 >>>>>>> ecfaed6 (Update README.md)
+=======
+>>>>>>> 5484040 (Initial commit)
 # sakai
 
 Fast back-and-forth method
@@ -107,6 +110,8 @@ Code by Jacobs, Leger for [1]: <https://github.com/Math-Jacobs/bfm>
 >>>>>>> 5f51a89 (test)
 =======
 >>>>>>> 0fc738f (Update README.md)
+=======
+>>>>>>> 53198ca (Initial commit)
 # Topic: Optimal transport problem
 Fast back-and-forth method
 
@@ -343,10 +348,13 @@ How to proceed with research: <https://github.com/rekka/ctransform>
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> ecfaed6 (Update README.md)
 =======
 >>>>>>> 8fe8691 (test)
+=======
+>>>>>>> 5484040 (Initial commit)
 - [9]: Notes by Professor Pozar, C-transform: <https://github.com/pozar-lab/c-transform-note>
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -396,6 +404,7 @@ How to proceed with research: <https://github.com/rekka/ctransform>
 =======
 =======
 >>>>>>> 616de2a (test)
+<<<<<<< HEAD
 >>>>>>> 5d2ffd5 (test)
 =======
 # sakai
@@ -499,3 +508,10 @@ How to proceed with research: <https://github.com/rekka/ctransform>
 =======
 >>>>>>> 616de2a (test)
 >>>>>>> 8fe8691 (test)
+=======
+=======
+=======
+# sakai
+>>>>>>> 45ef59f (Initial commit)
+>>>>>>> 53198ca (Initial commit)
+>>>>>>> 5484040 (Initial commit)
