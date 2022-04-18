@@ -9,6 +9,7 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 # Topic: Optimal transport problem
 Fast back-and-forth method
 
@@ -262,3 +263,6 @@ How to proceed with research: <https://github.com/rekka/ctransform>
 =======
 >>>>>>> 616de2a (test)
 >>>>>>> 5d2ffd5 (test)
+=======
+# sakai
+>>>>>>> 45ef59f (Initial commit)
