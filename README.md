@@ -10,6 +10,7 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> bffbf1a (Initial commit)
 =======
@@ -31,6 +32,8 @@
 >>>>>>> 7810ae7 (test)
 =======
 >>>>>>> 77cf449 (Update README.md)
+=======
+>>>>>>> 141e739 (Initial commit)
 =======
 >>>>>>> 1a0406c (Update README.md)
 =======
@@ -68,6 +71,8 @@ Code by Jacobs, Leger for [1]: <https://github.com/Math-Jacobs/bfm>
 >>>>>>> 5f51a89 (test)
 =======
 >>>>>>> 0fc738f (Update README.md)
+=======
+>>>>>>> 53198ca (Initial commit)
 # Topic: Optimal transport problem
 Fast back-and-forth method
 
@@ -192,6 +197,7 @@ Code by Jacobs, Leger for [1]: <https://github.com/Math-Jacobs/bfm>
 - [9]: Notes by Professor Pozar, C-transform: <https://github.com/pozar-lab/c-transform-note>
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 - [9]: Notes by Professor Pozar, C-transform: <https://github.com/pozar-lab/c-transform-note>
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -239,4 +245,12 @@ Code by Jacobs, Leger for [1]: <https://github.com/Math-Jacobs/bfm>
 =======
 =======
 >>>>>>> 616de2a (test)
+<<<<<<< HEAD
 >>>>>>> 5a716b4 (test)
+=======
+=======
+=======
+# sakai
+>>>>>>> 45ef59f (Initial commit)
+>>>>>>> 53198ca (Initial commit)
+>>>>>>> 141e739 (Initial commit)
