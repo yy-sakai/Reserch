@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Topic: Optimal transport problem
 Fast back-and-forth method
 
@@ -22,3 +23,6 @@ How to proceed with research: <https://github.com/rekka/ctransform>
 
 - [9]: Notes by Professor Pozar, C-transform: <https://github.com/pozar-lab/c-transform-note>
 
+=======
+# sakai
+>>>>>>> 45ef59f (Initial commit)
