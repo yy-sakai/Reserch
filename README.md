@@ -1,4 +1,10 @@
+<<<<<<< HEAD
 # Topic: Optimal transport problem
+=======
+<<<<<<< HEAD
+# sakai
+
+>>>>>>> d4be83c (Initial commit)
 Fast back-and-forth method
 
 How to proceed with research: <https://github.com/rekka/ctransform>
@@ -9,6 +15,9 @@ How to proceed with research: <https://github.com/rekka/ctransform>
 - [2]:Code by Jacobs, Leger for [1]: Article_A Fast Approach To Optimal Transport (Program) <https://github.com/Math-Jacobs/bfm>
 
 Code by Jacobs, Leger for [1]: <https://github.com/Math-Jacobs/bfm>
+=======
+<<<<<<< HEAD
+>>>>>>> 21dedce (Initial commit)
 # Topic: Optimal transport problem
 Fast back-and-forth method
 
@@ -35,4 +44,13 @@ How to proceed with research: <https://github.com/rekka/ctransform>
 =======
 - [9]: Notes by Professor Pozar, C-transform: <https://github.com/pozar-lab/c-transform-note>
 - [10]: Drop box: <https://www.dropbox.com/home>
+<<<<<<< HEAD
 >>>>>>> 22d3e15 (test)
+=======
+<<<<<<< HEAD
+=======
+=======
+# sakai
+>>>>>>> 45ef59f (Initial commit)
+>>>>>>> 21dedce (Initial commit)
+>>>>>>> d4be83c (Initial commit)
