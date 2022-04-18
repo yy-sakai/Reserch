@@ -84,10 +84,14 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 >>>>>>> 4356a46 (test)
 =======
 <<<<<<< HEAD
 >>>>>>> 6c68cdc (Update README.md)
+=======
+<<<<<<< HEAD
+>>>>>>> 1d82527 (Initial commit)
 # Topic: Optimal transport problem
 Fast back-and-forth method
 
@@ -630,5 +634,14 @@ How to proceed with research: <https://github.com/rekka/ctransform>
 =======
 >>>>>>> 616de2a (test)
 >>>>>>> 5d2ffd5 (test)
+<<<<<<< HEAD
 >>>>>>> 7cfc1e6 (test)
+<<<<<<< HEAD
 >>>>>>> 5beef94 (test)
+=======
+=======
+=======
+# sakai
+>>>>>>> 45ef59f (Initial commit)
+>>>>>>> 1d82527 (Initial commit)
+>>>>>>> cb86076 (Initial commit)
