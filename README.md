@@ -102,6 +102,7 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 >>>>>>> 4356a46 (test)
 =======
 <<<<<<< HEAD
@@ -144,6 +145,8 @@
 >>>>>>> d71c575 (test)
 =======
 >>>>>>> 0bd8b43 (Initial commit)
+=======
+>>>>>>> a19f9bc (Update README.md)
 <<<<<<< HEAD
 =======
 =======
@@ -174,6 +177,8 @@
 >>>>>>> 8bb28d3 (test)
 =======
 >>>>>>> dd6600f (Initial commit)
+=======
+>>>>>>> 9b06e40 (Update README.md)
 # sakai
 
 Fast back-and-forth method
@@ -268,6 +273,8 @@ Code by Jacobs, Leger for [1]: <https://github.com/Math-Jacobs/bfm>
 >>>>>>> b6b8fb5 (test)
 =======
 >>>>>>> e606076 (Initial commit)
+=======
+>>>>>>> f17ba55 (Update README.md)
 # Topic: Optimal transport problem
 Fast back-and-forth method
 
@@ -1097,6 +1104,8 @@ How to proceed with research: <https://github.com/rekka/ctransform>
 >>>>>>> 50150c8 (test)
 =======
 >>>>>>> 4c411ac (Initial commit)
+=======
+>>>>>>> 1ffadf3 (Update README.md)
 # sakai
 
 Fast back-and-forth method
@@ -1141,7 +1150,12 @@ Code by Jacobs, Leger for [1]: <https://github.com/Math-Jacobs/bfm>
 =======
 =======
 >>>>>>> 76d7c69 (test)
+<<<<<<< HEAD
 >>>>>>> 50150c8 (test)
+=======
+=======
+>>>>>>> 1a0406c (Update README.md)
+>>>>>>> 1ffadf3 (Update README.md)
 # Topic: Optimal transport problem
 Fast back-and-forth method
 
@@ -1163,6 +1177,7 @@ How to proceed with research: <https://github.com/rekka/ctransform>
 - [7]: [小林 愼一郎: 距離コストに対する最適輸送問題について](https://www.math.sci.hokudai.ac.jp/~wakate/mcyr/2020/pdf/kobayashi_shinichiro.pdf)
 
 - [8]: Code by Professor Pozar, C-transform: <https://github.com/pozar-lab/back-and-forth-python>
+<<<<<<< HEAD
 <<<<<<< HEAD
 - [9]: Notes by Professor Pozar, C-transform: <https://github.com/pozar-lab/c-transform-note>
 <<<<<<< HEAD
@@ -1264,8 +1279,26 @@ How to proceed with research: <https://github.com/rekka/ctransform>
 =======
 =======
 >>>>>>> 5e73ab6 (Initial commit)
+<<<<<<< HEAD
 >>>>>>> 4c411ac (Initial commit)
+<<<<<<< HEAD
 >>>>>>> e606076 (Initial commit)
+<<<<<<< HEAD
 >>>>>>> dd6600f (Initial commit)
+<<<<<<< HEAD
 >>>>>>> 0bd8b43 (Initial commit)
+<<<<<<< HEAD
 >>>>>>> fb1cac8 (Initial commit)
+=======
+=======
+=======
+=======
+=======
+=======
+- [9]: Notes by Professor Pozar, C-transform: <https://github.com/pozar-lab/c-transform-note>
+>>>>>>> 1a0406c (Update README.md)
+>>>>>>> 1ffadf3 (Update README.md)
+>>>>>>> f17ba55 (Update README.md)
+>>>>>>> 9b06e40 (Update README.md)
+>>>>>>> a19f9bc (Update README.md)
+>>>>>>> 6e9ba90 (Update README.md)
