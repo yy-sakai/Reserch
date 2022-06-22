@@ -593,9 +593,22 @@ How to proceed with research: <https://github.com/rekka/ctransform>
 <<<<<<< HEAD
 =======
 =======
+<<<<<<< HEAD
 # sakai
 >>>>>>> 45ef59f (Initial commit)
 >>>>>>> 21dedce (Initial commit)
+<<<<<<< HEAD
 >>>>>>> 949f904 (Initial commit)
+<<<<<<< HEAD
 >>>>>>> 761587f (Initial commit)
+<<<<<<< HEAD
 >>>>>>> 4add3eb (Initial commit)
+=======
+=======
+=======
+=======
+# sakai
+>>>>>>> d475966 (Update README.md)
+>>>>>>> 12dcfae (Update README.md)
+>>>>>>> 7d5ea36 (Update README.md)
+>>>>>>> 19ab164 (Update README.md)
