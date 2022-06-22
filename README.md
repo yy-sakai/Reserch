@@ -11,6 +11,7 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> bffbf1a (Initial commit)
 =======
@@ -34,6 +35,8 @@
 >>>>>>> 77cf449 (Update README.md)
 =======
 >>>>>>> 141e739 (Initial commit)
+=======
+>>>>>>> cc9f2bc (Update README.md)
 =======
 >>>>>>> 1a0406c (Update README.md)
 =======
@@ -73,6 +76,8 @@ Code by Jacobs, Leger for [1]: <https://github.com/Math-Jacobs/bfm>
 >>>>>>> 0fc738f (Update README.md)
 =======
 >>>>>>> 53198ca (Initial commit)
+=======
+>>>>>>> 7858b70 (Update README.md)
 # Topic: Optimal transport problem
 Fast back-and-forth method
 
@@ -217,6 +222,7 @@ Code by Jacobs, Leger for [1]: <https://github.com/Math-Jacobs/bfm>
 =======
 # sakai
 >>>>>>> 45ef59f (Initial commit)
+<<<<<<< HEAD
 >>>>>>> 21dedce (Initial commit)
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -253,4 +259,22 @@ Code by Jacobs, Leger for [1]: <https://github.com/Math-Jacobs/bfm>
 # sakai
 >>>>>>> 45ef59f (Initial commit)
 >>>>>>> 53198ca (Initial commit)
+<<<<<<< HEAD
 >>>>>>> 141e739 (Initial commit)
+=======
+=======
+=======
+# sakai
+
+Fast back-and-forth method
+
+References:
+
+*  [1]: [Jacobs, Matt; Léger, Flavien A fast approach to optimal transport: the back-and-forth method. Numer. Math. 146 (2020)](https://link.springer.com/article/10.1007/s00211-020-01154-8): original method
+
+*  [2]: [Jacobs, Matt; Lee, Wonjun; Léger, Flavien The back-and-forth method for Wasserstein gradient flows. ESAIM Control Optim. Calc. Var. 27 (2021)](https://www.esaim-cocv.org/articles/cocv/abs/2021/02/cocv200249/cocv200249.html): Generalization to solve PDEs that can be expressed as a gradient flow with respect to the Wasserstein metric (heat equation, porous medium equation, etc.)
+
+Code by Jacobs, Leger for [1]: <https://github.com/Math-Jacobs/bfm>
+>>>>>>> 9f2031c (Update README.md)
+>>>>>>> 7858b70 (Update README.md)
+>>>>>>> cc9f2bc (Update README.md)
