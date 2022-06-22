@@ -5,6 +5,7 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> bffbf1a (Initial commit)
 =======
@@ -15,6 +16,10 @@
 >>>>>>> c4fa8ce (test)
 =======
 >>>>>>> 6c20420 (Initial commit)
+=======
+=======
+>>>>>>> 1a0406c (Update README.md)
+>>>>>>> 545d6e5 (Update README.md)
 # Topic: Optimal transport problem
 Fast back-and-forth method
 
@@ -36,6 +41,7 @@ How to proceed with research: <https://github.com/rekka/ctransform>
 - [7]: [小林 愼一郎: 距離コストに対する最適輸送問題について](https://www.math.sci.hokudai.ac.jp/~wakate/mcyr/2020/pdf/kobayashi_shinichiro.pdf)
 
 - [8]: Code by Professor Pozar, C-transform: <https://github.com/pozar-lab/back-and-forth-python>
+<<<<<<< HEAD
 <<<<<<< HEAD
 
 - [9]: Notes by Professor Pozar, C-transform: <https://github.com/pozar-lab/c-transform-note>
@@ -75,6 +81,9 @@ Code by Jacobs, Leger for [1]: <https://github.com/Math-Jacobs/bfm>
 =======
 <<<<<<< HEAD
 >>>>>>> c4fa8ce (test)
+=======
+<<<<<<< HEAD
+>>>>>>> 545d6e5 (Update README.md)
 - [9]: Notes by Professor Pozar, C-transform: <https://github.com/pozar-lab/c-transform-note>
 <<<<<<< HEAD
 - [10]: Drop box: <https://www.dropbox.com/home>
@@ -105,4 +114,10 @@ Code by Jacobs, Leger for [1]: <https://github.com/Math-Jacobs/bfm>
 =======
 =======
 >>>>>>> 5e73ab6 (Initial commit)
+<<<<<<< HEAD
 >>>>>>> 6c20420 (Initial commit)
+=======
+=======
+- [9]: Notes by Professor Pozar, C-transform: <https://github.com/pozar-lab/c-transform-note>
+>>>>>>> 1a0406c (Update README.md)
+>>>>>>> 545d6e5 (Update README.md)
