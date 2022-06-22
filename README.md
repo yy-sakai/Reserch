@@ -68,7 +68,14 @@ Code by Jacobs, Leger for [1]: <https://github.com/Math-Jacobs/bfm>
 <<<<<<< HEAD
 =======
 =======
+<<<<<<< HEAD
 # sakai
 >>>>>>> 45ef59f (Initial commit)
 >>>>>>> 21dedce (Initial commit)
+<<<<<<< HEAD
 >>>>>>> bffbf1a (Initial commit)
+=======
+=======
+# sakai
+>>>>>>> d475966 (Update README.md)
+>>>>>>> 1687b2c (Update README.md)
