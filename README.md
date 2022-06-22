@@ -24,4 +24,3 @@ How to proceed with research: <https://github.com/rekka/ctransform>
 - [10]: Drop box: <https://www.dropbox.com/home>
 =======
 # sakai
->>>>>>> 45ef59f (Initial commit)
