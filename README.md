@@ -91,6 +91,7 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 >>>>>>> 4356a46 (test)
 =======
 <<<<<<< HEAD
@@ -111,6 +112,8 @@
 >>>>>>> 82fb16e (test)
 =======
 >>>>>>> c146d09 (Initial commit)
+=======
+>>>>>>> 4dbed21 (Update README.md)
 <<<<<<< HEAD
 =======
 =======
@@ -119,6 +122,8 @@
 >>>>>>> 90af55b (test)
 =======
 >>>>>>> 8ba4244 (Initial commit)
+=======
+>>>>>>> 4ec97cb (Update README.md)
 # sakai
 
 Fast back-and-forth method
@@ -151,8 +156,16 @@ Code by Jacobs, Leger for [1]: <https://github.com/Math-Jacobs/bfm>
 =======
 =======
 >>>>>>> 76d7c69 (test)
+<<<<<<< HEAD
 >>>>>>> 90af55b (test)
+<<<<<<< HEAD
 >>>>>>> 82fb16e (test)
+=======
+=======
+=======
+>>>>>>> 1a0406c (Update README.md)
+>>>>>>> 4ec97cb (Update README.md)
+>>>>>>> 4dbed21 (Update README.md)
 # Topic: Optimal transport problem
 Fast back-and-forth method
 
@@ -181,8 +194,11 @@ How to proceed with research: <https://github.com/rekka/ctransform>
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> 3e948e5 (test)
+=======
+>>>>>>> 0802695 (Update README.md)
 
 - [9]: Notes by Professor Pozar, C-transform: <https://github.com/pozar-lab/c-transform-note>
 <<<<<<< HEAD
@@ -515,6 +531,8 @@ How to proceed with research: <https://github.com/rekka/ctransform>
 <<<<<<< HEAD
 =======
 >>>>>>> 90af55b (test)
+=======
+>>>>>>> 4ec97cb (Update README.md)
 <<<<<<< HEAD
 =======
 <<<<<<< HEAD
@@ -612,6 +630,7 @@ How to proceed with research: <https://github.com/rekka/ctransform>
 =======
 =======
 >>>>>>> 5e73ab6 (Initial commit)
+<<<<<<< HEAD
 <<<<<<< HEAD
 >>>>>>> 4c411ac (Initial commit)
 <<<<<<< HEAD
@@ -818,5 +837,16 @@ How to proceed with research: <https://github.com/rekka/ctransform>
 =======
 >>>>>>> 5e73ab6 (Initial commit)
 >>>>>>> 8ba4244 (Initial commit)
+<<<<<<< HEAD
 >>>>>>> c146d09 (Initial commit)
+<<<<<<< HEAD
 >>>>>>> 3225296 (Initial commit)
+=======
+=======
+=======
+=======
+- [9]: Notes by Professor Pozar, C-transform: <https://github.com/pozar-lab/c-transform-note>
+>>>>>>> 1a0406c (Update README.md)
+>>>>>>> 4ec97cb (Update README.md)
+>>>>>>> 4dbed21 (Update README.md)
+>>>>>>> 0802695 (Update README.md)
