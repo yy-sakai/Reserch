@@ -32,3 +32,4 @@ if __name__ == '__main__':
     plt.plot(x, x[iopt], label=r'x[iopt] = $T_\phi(x)$')
     plt.legend()
     plt.show()
+    
