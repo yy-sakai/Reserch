@@ -76,7 +76,7 @@ if __name__ == '__main__':
     plt.plot(x[j], y[j])
     plt.show()
         
-    x = np.linspace(-2, 2, 100000)
+    x = np.linspace(-2, 2, 10000)
     y = -np.exp(-x**2)
         
     plt.plot(x, y)
@@ -85,7 +85,7 @@ if __name__ == '__main__':
     plt.plot(x[j], y[j])
     plt.show()
         
-    x = np.linspace(-5, 5, 100000)
+    x = np.linspace(-5, 5, 10000)
     y = -math.e**(-x**2)
 
     plt.plot(x, y)
@@ -94,7 +94,7 @@ if __name__ == '__main__':
     plt.plot(x[j], y[j])
     plt.show()
         
-    x = np.linspace(-100, 100, 100000)
+    x = np.linspace(-100, 100, 10000)
     y = -math.e**(-x**2)
 
     plt.plot(x, y)
