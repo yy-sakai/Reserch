@@ -33,8 +33,11 @@ if __name__ == '__main__':
     
     p = np.linspace(-1,1,50)
     t, _ = legendre_fenchel(x, y, p)
+    
     plt.plot(p, t, 'o', label=r'$f^*(p) = \sup_{x}\{xp - f(x)\}$')
-
+    
+    t, iopt = legendre_fenchel(x, y, p)
+    print(t, iopt)
     # f** gives the convex hull
     yss, _ = legendre_fenchel(p, t, x)
     plt.plot(x, yss, label=r'$f^{**}(x) = \sup_{p}\{xp - f(p)\}$')
