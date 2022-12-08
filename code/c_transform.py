@@ -22,9 +22,9 @@ def c_transform(x, phi, p):
 
 if __name__ == '__main__':
     
-    x = np.array([0,1])
-    y = np.array([0,1])
-    p = x
+    x = np.array([0, 1])
+    y = np.array([0, 1])
+    p = np.linspace(-2, 2, 51)
     phi_c, iopt = c_transform(x, y, p)
     plt.plot(p, phi_c)
     phi_cc, _= c_transform(p, phi_c, p)
