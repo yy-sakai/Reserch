@@ -29,7 +29,7 @@ p = x
 y = np.sin(0.5 * x)
 #y = 0.5 * x * x
 #y = 0 * x
- 
+
 yy, _ = c_transform(x, y, p)
 t, iopt = c_transform(x, yy, p)
 plt.plot(x, t-y)
