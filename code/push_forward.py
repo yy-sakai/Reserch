@@ -31,7 +31,7 @@ y = np.sin(0.5 * x)
 #y = 0 * x
 
 yy, _ = c_transform(x, y, p)
-t, iopt = c_transform(x, yy, p)
+t, iopt = c_transform(p, yy, p)
 plt.plot(x, t-y)
 plt.show()
 #t, _ = c_transform(x, t)
