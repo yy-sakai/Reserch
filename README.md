@@ -86,6 +86,7 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 >>>>>>> 4356a46 (test)
 =======
 <<<<<<< HEAD
@@ -96,6 +97,9 @@
 =======
 <<<<<<< HEAD
 >>>>>>> ba04833 (Update README.md)
+=======
+<<<<<<< HEAD
+>>>>>>> a6b5203 (test)
 # Topic: Optimal transport problem
 Fast back-and-forth method
 
@@ -320,7 +324,12 @@ Code by Jacobs, Leger for [1]: <https://github.com/Math-Jacobs/bfm>
 =======
 =======
 >>>>>>> 9f2031c (Update README.md)
+<<<<<<< HEAD
 >>>>>>> 9aa8255 (Update README.md)
+=======
+=======
+>>>>>>> db8097a (test)
+>>>>>>> d8fe5a9 (test)
 # sakai
 
 Fast back-and-forth method
@@ -332,6 +341,7 @@ References:
 *  [2]: [Jacobs, Matt; Lee, Wonjun; Léger, Flavien The back-and-forth method for Wasserstein gradient flows. ESAIM Control Optim. Calc. Var. 27 (2021)](https://www.esaim-cocv.org/articles/cocv/abs/2021/02/cocv200249/cocv200249.html): Generalization to solve PDEs that can be expressed as a gradient flow with respect to the Wasserstein metric (heat equation, porous medium equation, etc.)
 
 Code by Jacobs, Leger for [1]: <https://github.com/Math-Jacobs/bfm>
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -414,7 +424,13 @@ Code by Jacobs, Leger for [1]: <https://github.com/Math-Jacobs/bfm>
 =======
 =======
 >>>>>>> 0fc738f (Update README.md)
+<<<<<<< HEAD
 >>>>>>> 07d6a40 (Update README.md)
+=======
+=======
+=======
+>>>>>>> db8097a (test)
+>>>>>>> d8fe5a9 (test)
 # Topic: Optimal transport problem
 Fast back-and-forth method
 
@@ -441,12 +457,16 @@ How to proceed with research: <https://github.com/rekka/ctransform>
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 <<<<<<< HEAD
 >>>>>>> 87ba7ee (test)
 =======
 <<<<<<< HEAD
 >>>>>>> 07d6a40 (Update README.md)
+=======
+<<<<<<< HEAD
+>>>>>>> d8fe5a9 (test)
 - [9]: Notes by Professor Pozar, C-transform: <https://github.com/pozar-lab/c-transform-note>
 <<<<<<< HEAD
 - [10]: Drop box: <https://www.dropbox.com/home>
@@ -661,5 +681,16 @@ How to proceed with research: <https://github.com/rekka/ctransform>
 =======
 =======
 >>>>>>> 9f2031c (Update README.md)
+<<<<<<< HEAD
 >>>>>>> ba04833 (Update README.md)
+<<<<<<< HEAD
 >>>>>>> 9aa8255 (Update README.md)
+=======
+=======
+=======
+- [9]: Notes by Professor Pozar, C-transform: <https://github.com/pozar-lab/c-transform-note>
+- [10]: Drop box: <https://www.dropbox.com/home>
+>>>>>>> ad43fa8 (test)
+>>>>>>> db8097a (test)
+>>>>>>> a6b5203 (test)
+>>>>>>> d8fe5a9 (test)
