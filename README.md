@@ -13,6 +13,7 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> bffbf1a (Initial commit)
 =======
@@ -40,6 +41,8 @@
 >>>>>>> cc9f2bc (Update README.md)
 =======
 >>>>>>> 3848241 (Initial commit)
+=======
+>>>>>>> 1e80c1e (test)
 =======
 >>>>>>> 1a0406c (Update README.md)
 =======
@@ -83,6 +86,8 @@ Code by Jacobs, Leger for [1]: <https://github.com/Math-Jacobs/bfm>
 >>>>>>> 7858b70 (Update README.md)
 =======
 >>>>>>> 761587f (Initial commit)
+=======
+>>>>>>> aa92e6f (test)
 # Topic: Optimal transport problem
 Fast back-and-forth method
 
@@ -271,6 +276,8 @@ Code by Jacobs, Leger for [1]: <https://github.com/Math-Jacobs/bfm>
 =======
 =======
 >>>>>>> 949f904 (Initial commit)
+=======
+>>>>>>> 930bfb0 (test)
 # sakai
 
 Fast back-and-forth method
@@ -296,7 +303,15 @@ Code by Jacobs, Leger for [1]: <https://github.com/Math-Jacobs/bfm>
 =======
 <<<<<<< HEAD
 >>>>>>> 21dedce (Initial commit)
+<<<<<<< HEAD
 >>>>>>> 949f904 (Initial commit)
+=======
+=======
+<<<<<<< HEAD
+=======
+>>>>>>> 969d7f4 (test)
+>>>>>>> 61d0d12 (test)
+>>>>>>> 930bfb0 (test)
 # Topic: Optimal transport problem
 Fast back-and-forth method
 
@@ -319,6 +334,7 @@ How to proceed with research: <https://github.com/rekka/ctransform>
 
 - [8]: Code by Professor Pozar, C-transform: <https://github.com/pozar-lab/back-and-forth-python>
 - [9]: Notes by Professor Pozar, C-transform: <https://github.com/pozar-lab/c-transform-note>
+<<<<<<< HEAD
 - [10]: Drop box: <https://www.dropbox.com/home>
 <<<<<<< HEAD
 >>>>>>> 57848e0 (test)
@@ -331,6 +347,7 @@ How to proceed with research: <https://github.com/rekka/ctransform>
 =======
 <<<<<<< HEAD
 =======
+<<<<<<< HEAD
 =======
 <<<<<<< HEAD
 # sakai
@@ -348,6 +365,21 @@ How to proceed with research: <https://github.com/rekka/ctransform>
 =======
 # sakai
 >>>>>>> d475966 (Update README.md)
+<<<<<<< HEAD
 >>>>>>> 12dcfae (Update README.md)
+<<<<<<< HEAD
 >>>>>>> 7d5ea36 (Update README.md)
+<<<<<<< HEAD
 >>>>>>> 7b47a22 (Update README.md)
+=======
+=======
+=======
+=======
+# sakai
+=======
+- [10]: Drop box: <https://www.dropbox.com/home>
+>>>>>>> 969d7f4 (test)
+>>>>>>> 61d0d12 (test)
+>>>>>>> 930bfb0 (test)
+>>>>>>> aa92e6f (test)
+>>>>>>> 1e80c1e (test)
