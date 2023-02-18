@@ -1,0 +1,85 @@
+\documentclass[a4j,10.5pt]{jarticle}
+\usepackage[dvipdfmx]{graphicx}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{float}
+\begin{document}
+\begin{center}
+\thispagestyle{empty}
+\vspace*{3.5cm}
+{\Huge 統計学的な研究タイトル}\\
+\vspace*{12.5cm}
+{\Large 大食大学肉食学部ミディアムレア学科}\\
+{\Large 大蒜研究室}\\
+{\Large 08D7100000X \ 統☆計太郎}
+\end{center}
+\newpage
+\pagenumbering{roman}
+\tableofcontents
+\newpage
+\pagenumbering{arabic}
+\section{はじめに}
+目次を作る際は\verb+\tableofcontents+ と打ちます。\\
+新しいページに区切るときは\verb+\newpage+ と打ちます
+\section{研究目的}
+Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+\section{先行研究}
+Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+\section{解析手法}
+\subsection{サブセクション}
+\subsubsection{サブサブセクション}
+Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+\begin{equation}
+Y=ax^3+bx^2+cx+d \\
+\end{equation}
+\begin{eqnarray}
+E[3^S] & = & \sum ^{N} _{k=0}{} _{N}\mathrm{C}_{k} \left( \frac{3}{9} \right)^{k} \left( \frac{8}{9} \right)^{N-k} \\
+       & = & \left( \frac{11}{9}\right)^N \\
+\end{eqnarray}
+\subsubsection{サブサブセクション}
+Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+\begin{eqnarray}
+\int^\frac{\pi}{2} _0 \sin^4\theta \cos^2 \theta {\rm d} \theta &=& \frac{1}{2} \cdot 2 \int^\frac{\pi}{2} _0 \sin^{2 \cdot \frac{5}{2} -1}\theta \cos^{2 \cdot \frac{3}{2}-1} \theta {\rm d}\theta\\
+&=& \frac{1}{2} \cdot \rm B \left( \frac{5}{2} , \frac{3}{2} \right)\nonumber \\
+&=& \frac{\Gamma \left(\frac{5}{2} \right)\Gamma \left(\frac{3}{2} \right)}{2\cdot\Gamma \left( 4 \right)}\\
+&=& \frac{\frac{3}{2} \cdot \frac{1}{2} \cdot \sqrt{\pi} \cdot \frac{1}{2} \cdot \sqrt{\pi}}{2 \cdot 3! }  =  \frac{3 \cdot \pi}{2^5 \cdot 3}\nonumber \\
+&=& \frac{\pi}{32}
+\end{eqnarray}
+\section{実験}
+Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+\section{結果}
+Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+\section{考察と今後の課題}
+Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+\section*{謝辞}
+\addcontentsline{toc}{section}{謝辞}
+ここに研究の謝辞．主にご協力いただいた方など．
+\bibliographystyle{jplain}
+\addcontentsline{toc}{section}{参考文献}
+\begin{thebibliography}{3}
+\bibitem{1}
+谷啓（2011），
+統計学的トロンボーン演奏法．
+どこかの統計学論文誌Ａ, 0号, Vol.0, 11--92 
+\bibitem{2}
+つのだ☆ひろ（2009），
+Rを使ったドラム演奏法．
+どこかの統計学論文誌B, 0号, Vol.0, 11--92 
+\bibitem{3}
+Dan Aykroyd（2000），
+Statistical American Joke．
+{\it Journal of Blues Brothers},0号, Vol.0, 11--92 
+
+\bibitem{4}
+「ホームページの引用はあんまりしないほうがいいよ講座」{\it http://www.google.co.jp/}（最終アクセス　2013年1月2日）
+\end{thebibliography}
+
+\section*{付録}
+\addcontentsline{toc}{section}{付録}
+
+\end{document}

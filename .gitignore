@@ -1,0 +1,8 @@
+/target
+*.png
+*.mp4
+*.JPG
+*.jpeg
+Reference/*
+.DS_Store
+__pycache__
