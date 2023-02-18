@@ -29,6 +29,7 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 =======
 >>>>>>> 6800639 (test)
@@ -62,6 +63,8 @@
 >>>>>>> 9b06e40 (Update README.md)
 =======
 >>>>>>> 5d5d3dd (Initial commit)
+=======
+>>>>>>> 4ee57a4 (test)
 # sakai
 
 Fast back-and-forth method
@@ -147,6 +150,8 @@ Code by Jacobs, Leger for [1]: <https://github.com/Math-Jacobs/bfm>
 >>>>>>> f17ba55 (Update README.md)
 =======
 >>>>>>> 24957f9 (Initial commit)
+=======
+>>>>>>> 575b347 (test)
 # Topic: Optimal transport problem
 Fast back-and-forth method
 
@@ -567,6 +572,8 @@ How to proceed with research: <https://github.com/rekka/ctransform>
 >>>>>>> 1ffadf3 (Update README.md)
 =======
 >>>>>>> 119b926 (Initial commit)
+=======
+>>>>>>> e364c84 (test)
 # sakai
 
 Fast back-and-forth method
@@ -619,6 +626,8 @@ Code by Jacobs, Leger for [1]: <https://github.com/Math-Jacobs/bfm>
 # Topic: Optimal transport problem
 =======
 <<<<<<< HEAD
+=======
+>>>>>>> 84c2d3b (test)
 # sakai
 
 >>>>>>> d4be83c (Initial commit)
@@ -635,6 +644,8 @@ Code by Jacobs, Leger for [1]: <https://github.com/Math-Jacobs/bfm>
 =======
 <<<<<<< HEAD
 >>>>>>> 21dedce (Initial commit)
+=======
+>>>>>>> 61d0d12 (test)
 # Topic: Optimal transport problem
 Fast back-and-forth method
 
@@ -754,6 +765,7 @@ How to proceed with research: <https://github.com/rekka/ctransform>
 - [9]: Notes by Professor Pozar, C-transform: <https://github.com/pozar-lab/c-transform-note>
 =======
 - [9]: Notes by Professor Pozar, C-transform: <https://github.com/pozar-lab/c-transform-note>
+<<<<<<< HEAD
 - [10]: Drop box: <https://www.dropbox.com/home>
 <<<<<<< HEAD
 >>>>>>> 22d3e15 (test)
@@ -772,12 +784,25 @@ How to proceed with research: <https://github.com/rekka/ctransform>
 =======
 <<<<<<< HEAD
 =======
+<<<<<<< HEAD
 =======
 # sakai
 >>>>>>> 45ef59f (Initial commit)
 >>>>>>> 21dedce (Initial commit)
+<<<<<<< HEAD
 >>>>>>> d4be83c (Initial commit)
 >>>>>>> fc0c42c (Initial commit)
+<<<<<<< HEAD
 >>>>>>> 119b926 (Initial commit)
+<<<<<<< HEAD
 >>>>>>> 24957f9 (Initial commit)
+<<<<<<< HEAD
 >>>>>>> 5d5d3dd (Initial commit)
+=======
+=======
+=======
+=======
+>>>>>>> 84c2d3b (test)
+>>>>>>> e364c84 (test)
+>>>>>>> 575b347 (test)
+>>>>>>> 4ee57a4 (test)
