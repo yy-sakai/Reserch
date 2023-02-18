@@ -1,0 +1,368 @@
+\documentclass[12pt]{jsarticle}
+\usepackage{amsmath, amssymb}
+\usepackage{type1cm}
+\usepackage{mathtools}
+\usepackage{bm}
+\usepackage{amsthm} 
+\usepackage{otf}
+
+
+\begin{document}
+
+
+\begin{proof}(Thm 2.2.)
+
+定理から、Cが凸であるので
+\[
+\theta_1 x_1 +  \theta _2 x_2  \in C, \qquad \forall x_1   x_2  \in C,  \,\,
+\forall \theta_1, \theta_2,  \in [0, 1]
+\]
+を満たす。すなわち、$C$が凸であることは、$C$が$n=2$の凸結合で閉じていることと同値である。
+したがって、$n >2$のときであっても、$C$が$n>2$の凸結合で閉じていることを示せばよい。\\
+
+帰納法で示す。
+
+凸結合$y =  \sum \limits_{i=1}^n \theta_i x_i  \in C$を考える。
+ここで凸結合の定義から、
+$\exists i = 1,...,n,  \, \theta_i \in[0,1],\, \sum \limits_{i=1}^n \theta_i =1, \, x_i \in C$
+である。
+
+$n=1$のとき
+\[
+\theta_1 = 1, \,  x_1 \in C \quad \Rightarrow\quad  \theta_1x_1 \in C
+\]
+
+$n >2$のときを考える。
+
+$n=k$のとき$\Rightarrow$ が成り立つと仮定する。
+
+$n=k+1$のとき
+
+$\theta_{k+1} \ne 1$
+であるので、
+$\theta_i^{\prime} = \frac{\theta_i}{1 - \theta_{n+1}}\in [0,1] $
+を考えると、
+$(\because \theta_i \geqq 0,\, 1 - \theta_{n+1} = \sum \limits_{i=1}^n \theta_i \geqq 0, \, \theta_i \leqq 1 - \theta_{n+1})$
+\[
+y^{\prime} = \sum \limits_{i=1}^n \theta_i^{\prime} x_i \in C, ( \because n = k\text {のとき、全ての凸結合はCに含まれるという仮定})
+\]
+\[
+\sum \limits_{i=1}^n \theta_i^{\prime}= \sum \limits_{i=1}^n  \frac{\theta_i}{1-\theta_{n+1}} =  \frac{\sum \limits_{i=1}^n \theta_i }{\sum \limits_{i=1}^n \theta_i}=1, 
+\]
+となる。
+
+よって、
+\[
+y = (1 - \theta_{n+1}) y^{\prime} + \theta_{n+1} x_{n+1}, \quad y^{\prime} \in C, \, x_{n+1} \in C
+\]
+$n=2$のとき、$C$が凸であることと、$C$が$n=2$の凸結合で閉じていることは同値なので、$y \in C$である。
+
+よって任意の$n$で$C$が凸であることと、$C$の元からなる全ての凸結合で閉じていることがわかる。
+
+\end{proof}
+
+
+\begin{proof}
+(thm convex hull(3))
+
+$S = \{ \sum \limits_{i=1}^n \theta_i x_i \in \mathbb{R}^n\, | \, \exists m \in \mathbb{N}, \, \exists x_1, ... , x_m \in X,    \, \exists \theta_1, ..., \theta_m \in [0, 1],  \, \sum \limits_{i=1}^n \theta_i = 1 \} $
+とする。
+2つの凸結合
+$x = \sum \limits_{i=1}^n \theta_i x_i $,  $y = \sum \limits_{i=1}^m \lambda_i y_i $ ($ x_1, ..., x_n \in S,   y_1 ..., y_m \in S$,  $\sum \limits_{i=1}^n \theta_i = 1,  \sum \limits_{i=1}^m \lambda_i = 1 $)
+を考える。ここで、
+\[
+  (1 - \theta )x +  \theta y = (1 - \theta) \theta_1 x_1 + ... + (1 - \theta) \theta_n x_n + \theta \lambda_1 y_1 + \theta \lambda_m y_m,  \quad \theta \in [0, 1]
+ \]
+ 
+ を考えると、$(1 - \theta )x +  \theta y$は$S$の$n+m$個の元からなる別の凸結合になる。
+ 
+ 係数の和を考えると、$(1 - \theta) \sum \limits_{i=1}^n \theta_i +  \theta \sum \limits_{i=1}^m \lambda_i = \theta + 1 - \theta = 1$ となるので、
+ $S$の定義より、$(1 - \theta )x +  \theta y \in S$
+がわかる。
+ 
+ よって凸集合の定義から$X$の元からなる凸結合の全体の集合$S$は凸集合になる。\\
+ 
+次に$S$が$X$を含む最小の凸集合であることを示す。
+
+$i = 1$のとき、
+$\forall x \in X,1 \cdot x \in S$
+ より明らかに
+ $X \subset S$
+ である。
+
+$conv X$は$X$を含む最小の凸集合であり、$X$を含む凸集合であるので、$(X \subset) conv X \subset S$である。
+
+一方、
+\[
+\sum \limits_{i=1}^n \theta_ix_i \in S ,  \quad x_i\in X, \, \theta_i \in [0, 1],  \, \sum \limits_{i=1}^n \theta_i = 1
+\]
+を考えると、
+一つ上の定理から、凸集合$conv X$は$conv X$の元からなる全ての凸結合を含むので、
+\[
+\sum \limits_{i=1}^n \theta_ix_i \in X,  \quad x_i\in X \subset conv X, \, \theta_i \in [0, 1],  \, \sum \limits_{i=1}^n \theta_i = 1
+\]
+よって、$S \subset conv X$。
+したがって$S = conv X$ となり、$S$が$X$を含む最小の凸集合である。
+\end{proof}
+
+
+\begin{proof}
+(thm convex hull(4)$\mathbb{R}^n$の部分集合$conv X$ に含まれる任意の点$x$は$X$の$n+1$個の元の凸結合で表される)
+
+\[
+conv X = {\{ \sum \limits_{i=1}^{n+1} \theta_i x_i \quad |\quad n \in \mathbb{N}, x_i \in X, \theta_i > 0, \sum
+\limits_{i=1}^{n+1} \theta_i = 1} \}
+\]
+
+$x \in conv X \subset \mathbb{R}^n$となる任意の凸結合$x =  \sum \limits_{i=1}^{k} \theta_i x_i (k > n+1)$を考える。
+係数$\theta_i > 0$と仮定する。
+$k > n+1$個の$x_i$はアフィン従属である
+($\because$ Definition 1.5)。すなわち$x_2 - x_1, \dots, x_k - x_1$は線形従属である。
+
+つまり、少なくとも一つは0でない$\lambda_i (i  = 2, \dots, k)$が存在し、
+\[
+\sum \limits_{i=2}^{k} \lambda_i (x_i - x_1)= 0,
+\]
+が成り立つ。$\lambda_1 := - \sum \limits_{i=2}^{k} \lambda_i $と定義すると、
+\[
+\sum \limits_{i=1}^{k} \lambda_i x_i = 0,  \quad  \sum \limits_{i=1}^{k} \lambda_i  = 0
+\]
+であり、$\lambda_i$全てが$0$になることはない、従って少なくとも1つ$\lambda_i > 0$となるものが存在する。任意の実数$t$を用い、
+\[
+\theta_i^{\prime} := \theta_i - t^* \lambda_i, \quad i = 1,\dots, k,
+\]
+
+\begin{align*}
+t^* := \max \{t  \ge 0 \, | \, \theta_i - t \lambda_i \ge 0, \, i = 1,\dots, k\} &= \cap_{i=1}^{k} \{t  \ge 0 \, | \, \theta_i - t \lambda_i \ge 0\}\\
+                                                                                                                  &= \cap_{\lambda_i > 0} \{t  \ge 0 \, | \, \theta_i - t \lambda_i \ge 0\}\\
+                                                                                                                  &= \cap_{\lambda_i > 0} \{0 \le t \le {\frac{\theta_i}{\lambda_i}}\}\\
+                                                                                                                  &= \max [0, \min_{\lambda_i > 0}{\frac{\theta_i}{\lambda_i}}] \\
+                                                                                                                  &= \min_{\lambda_i > 0}{\frac{\theta_i}{\lambda_i}}  = \frac{\theta_j}{\lambda_j}
+\end{align*}
+
+と定義すると
+\begin{align*}
+ \sum \limits_{i=1}^{k} \theta_i^{\prime} &=  \sum \limits_{i=1}^{k} (\theta_i - t^*\lambda_i)\\
+                                                                          &= \sum \limits_{i=1}^{k} \theta_i - t^* \sum \limits_{i=1}^{k} \lambda_i \\
+                                                                          &= 1 - t^* \sum \limits_{i=1}^{k} \lambda_i x_i  \\
+                                                                          &= 1
+\end{align*}
+
+\begin{align*}
+ \sum \limits_{i=1}^{k} \theta_i^{\prime} x_i  &=  \sum \limits_{i=1}^{k} (\theta_i - t^*\lambda_i) x_i \\
+                                                                          &= \sum \limits_{i=1}^{k} \theta_i x_i - t^* \sum \limits_{i=1}^{k} \lambda_i x_i  \\
+                                                                          &= x - t^* \sum \limits_{i=1}^{k} \lambda_i x_i  \\
+                                                                          &= x
+\end{align*}
+
+が成り立つ。$t^*$の定義より、$\theta_j - t^*\lambda_j = 0$である。
+$x$の係数$\theta^{\prime}$を考える。
+
+$\lambda_i < 0$のとき、$\theta_i > 0, t^* > 0$より、$\theta_i^{\prime} = \theta_i - t^* \lambda_j > 0$。 $\lambda_i > 0の$とき、$\theta_i^{\prime} = \theta_i - t^* \lambda_j \ge \theta_j -  \frac{\theta_j}{\lambda_j} \lambda_j = 0$。従って、
+
+よって$x$は係数$\theta^{\prime} > 0$で和が1、$\theta_j - t^*\lambda_j = 0$である。
+すなわち$x$は$k-1$個の凸結合で表される。
+これを$k = n+1$個まで繰り返せばよい。
+
+
+\end{proof}
+
+
+
+
+\begin{proof}
+(Thm2.4)
+
+Let $K_{i} \subset \mathbb{R}^n$ : convex cone,  $\forall x, y \in \cap_{i \in I} K_{i}$,  $\theta \in [0, 1]$. Then 
+ \[
+ \{ \theta x + (1 - \theta) y \} \subset K_{i \in I}, \quad \forall i \in I
+ \]
+Thus 
+ \[
+ \{ \theta x + (1 - \theta) y \} \subset \cap_{i \in I} K_{\i}, \quad \forall i \in I
+ \]
+
+\end{proof}
+
+\begin{proof}
+(Cor2.4.1)
+
+Let
+$K_i = \{x \in \mathbb{R}^n \, | \, \langle x,  b_i \rangle \le 0,  i \in I , b \in \mathbb{R}^n\}$. 
+Fix $\lambda x,  \lambda y \in K_i$,  $\lambda  > 0$, $\theta \in [0,1],$. 
+\begin{align*}
+\langle {\theta \lambda x + (1 - \theta)  \lambda y}, {b_i} \rangle & = \langle {\theta \lambda x},  {b_i} \rangle + \langle {(1 - \theta) y}, {b_i} \rangle\\
+                                                                            & = \theta \langle {\lambda x},  {b_i} \rangle + (1 - \theta) \langle {\lambda y}, {b_i} \rangle\\      
+                                                                            & \le \theta 0 + (1 - \theta) 0  = 0  
+\end{align*}
+
+Thus $\theta \lambda x + (1 - \theta) \lambda y \in K_i$,  so $K_i$ is \textit{convex cone},  and $K = \cap_{i \in I} K_{i}$.
+
+
+\end{proof}
+
+
+\begin{proof}
+(Thm 3.1)
+
+($\Rightarrow$)
+
+Suppose that $f$ is convex function. Fix $x,  y$ s.t. $(\bm{x}, \alpha), (\bm{y}, \beta) \in$ epi$f$,  $\lambda \in [0, 1]$. Then
+\begin{align*}
+(1 - \lambda) \alpha + \lambda \beta \ & \ge \ (1 - \lambda) f(\bm{x}) + \lambda f(\bm{y})\\
+                                                                & \ge \ f((1 - \lambda) \bm{x} + \lambda \bm{y})
+\end{align*}
+
+Then $((1 - \lambda) \bm{x} + \lambda \bm{y}\ ,\  (1 - \lambda) \alpha + \lambda \beta) \in$ epi$f$, and epi $f$ is convex set.
+
+
+($\Leftarrow$)
+
+Suppose that epi$f$ is convex set.  Fix $(\bm{x}, \alpha), (\bm{y}, \beta) \in$ epi$f$.
+
+Case 1)
+
+$f(\bm{x}) = \alpha < +\infty$ and $ f(\bm{y}) = \beta < \infty$,  $\lambda \in [0, 1]$.  From the convexity of epi$f$,
+\[
+(1 - \lambda) (\bm{x}, \alpha) + \lambda (\bm{y}, \beta) \in \text{epi} f. 
+\]
+Then $((1 - \lambda) \bm{x} + \lambda \bm{y}\ ,\  (1 - \lambda) \alpha + \lambda \beta) \in$ epi$f$.
+
+From the definition of epi $f$,
+\[
+(1 - \lambda)f(\bm{x}) + \lambda f(\bm{y}) = (1 - \lambda) \alpha + \lambda \beta \ge  f((1 - \lambda) \bm{x}  + \lambda \bm{y}).
+\]
+Thus $f(\bm{x})$ is convex funtion.
+
+Case 2)
+``$f(\bm{x}) = +\infty$ and $ f(\bm{y}) < + \infty$,  $\lambda \in [0, 1'' $ or $ ``f(\bm{x}) < +\infty$ and $ f(\bm{y}) = + \infty$,  $\lambda \in [0, 1]''$. 
+From the convexity of epi $f$,
+\[
+(1 - \lambda)f(\bm{x}) + \lambda f(\bm{y})  \ge  f((1 - \lambda) \bm{x}  + \lambda \bm{y}).
+\]
+Thus $f(\bm{x})$ is convex funtion.
+
+Case 3)
+Same as Case 2.
+
+
+\end{proof}
+
+
+\begin{proof}
+
+帰納法で示す。$k = 1$のとき、$\lambda_1 = 1$となり、
+\[
+f(\lambda_1 x_1) = f(x_1) = \lambda_1 f(x_1)
+\]
+であるので不等式を満たす。
+$k = 2$のとき、$\lambda_2 = 1 - \lambda_1$より、
+\[
+f((1 - \lambda_1)x_2+ \lambda x_1) \le (1 - \lambda_1) f(x_2) + \lambda_1 f(x_1), \quad \forall x_1,  x_2\in \mathbb{R}^n, \quad \lambda \in [0, 1].
+\] 
+
+
+\end{proof}
+
+
+
+\begin{proof}(Prop 3.3.)
+
+(\ajroman{1})$\Rightarrow$(\ajroman{3})
+
+$(x_i, \mu_i)\xrightarrow[i \rightarrow + \infty]{}(x^{\prime}, \mu)$となるエピグラフの数列を考える。すなわち全ての$i$に対し、$\mu_i  \ge f(x_i)$となる。
+よって
+\[
+\mu = \lim_{i \rightarrow + \infty} \mu_i \ge \liminf_{i \rightarrow + \infty} {f(x_i)} \ge \liminf_{x \rightarrow x^{\prime}}{f(x)} \ge f(x^{\prime})
+\].
+したがって $(x^{\prime},  \mu) \in$ epi $f$でありエピグラフはclosedである.
+
+(\ajroman{3})$\Rightarrow$(\ajroman{2})
+
+(\ajroman{1})$\Rightarrow$(\ajroman{3})の条件条件下で、全ての$i$に対し$\alpha = \mu = \mu_i$となる$\alpha$を固定する。
+全ての$i$に対し、$\alpha \ge f(x_i)$となるので、$(x_i  \alpha) \in$ epi $f$、かつ$(x_i, \alpha)\rightarrow(x^{\prime}, \alpha)$.
+
+よって、$(x^{\prime},  \alpha) \in$ epi $f$かつ$x^{\prime} \in L$.
+
+
+(\ajroman{2})$\Rightarrow$(\ajroman{1})
+
+$x^{\prime} \in \mathbb{R}^n$, $x_i \rightarrow x^{\prime}$となる$\{x_i\}$を考える。
+
+$f$がある$x^{\prime}$ においてlower semi-continuousではないと仮定する。すなわち、 
+\[
+\liminf_{x \to x^{\prime}} {f(x)} < f(x^{\prime})
+\]
+となる。したがって
+\[
+f(x_{i_j}) \le \mu < f(x^{\prime})
+\]
+となる$\mu \in \mathbb{R}$, 部分列$\{x_{i_j}\} \subset \{x_i\}  \subset L$が存在する。
+
+$\{x_{i}\} \rightarrow x^{\prime}$かつ$L$はclosedなので$x^{\prime} \in L$.
+よって$f(x^{\prime}) \le \mu$に反する。
+
+\[
+\liminf_{x \to x^{\prime}} {f(x)} \ge f(x^{\prime})
+\]
+
+\end{proof}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\end{document}

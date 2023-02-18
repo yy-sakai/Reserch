@@ -1,0 +1,587 @@
+\documentclass{jsarticle}
+
+\usepackage{amsmath, amssymb}
+\usepackage{type1cm}
+\usepackage{mathtools}
+\usepackage{bm}
+\usepackage{amsthm}
+\usepackage{color}
+\usepackage[dvipdfmx]{graphicx}
+\usepackage{listings,jvlisting}
+
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{cor}{Corollary} [thm]
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{prop}[thm]{Proposition}
+\theoremstyle{definition}
+\newtheorem{dfn}{Definition}[section]
+\newtheorem{ex}{Example}[section]
+
+
+\lstset{
+  basicstyle={\ttfamily},
+  identifierstyle={\small},
+  commentstyle={\smallitshape},
+  keywordstyle={\small\bfseries},
+  ndkeywordstyle={\small},
+  stringstyle={\small\ttfamily},
+  frame={tb},
+  breaklines=true,
+  columns=[l]{fullflexible},
+  numbers=left,
+  xrightmargin=0zw,
+  xleftmargin=3zw,
+  numberstyle={\scriptsize},
+  stepnumber=1,
+  numbersep=1zw,
+  lineskip=-0.5ex
+}
+
+
+\begin{document}
+
+
+\title{Convex}
+\maketitle
+
+\section{Affine sets}
+
+
+$\bm{x} = (\xi_1,  ... , \xi_n) \subset \mathbb{R}^n$
+
+$\langle x, x^*\rangle = \sum \limits_{i=1}^{n} \xi_i \cdot
+\xi_i^* $
+
+$A: m \times n$ real matrix and linear operator from
+$\mathbb{R}^n$ to $\mathbb{R}^m$
+
+\begin{math}
+f: \mathbb{R}^n  \to \mathbb{R}^m   \colon x \mapsto Ax
+\end{math}
+
+\begin{math}
+A^* = \overline{A}^\top
+\end{math}
+ : adjoint matrix (随伴行列、エルミート転置行列)
+ 
+ (the transpose matrix and the corresponding adjoint linear transformation from
+$\mathbb{R}^n$ to $\mathbb{R}^m$)
+
+\begin{math}
+\langle Ax, y^*\rangle =  \langle x, A^*y^*\rangle
+\end{math}
+\\
+
+
+
+\begin{dfn}[affine set]
+A subset $M$ of $\mathbb{R}^n $ is called \textit{affine set }
+if
+\[
+\theta x + (1 - \theta )y \in M, \qquad \forall x, y \in M,
+\forall \theta \in \mathbb{R}
+\]
+\end{dfn}
+
+
+The empty set $\emptyset$ and the space $\mathbb{R}^n$ itself
+are affine sets.
+Also coverd by the definition is the case where $M$ consists of
+a solitary point.(一点集合もAffine set)
+An affine set has to contain, along with any two different
+points, the entire line through those points.\\
+
+
+\begin{thm} 
+The subspaces of $\mathbb{R}^n$ are the affine sets which
+contain the origin. 
+\end{thm}
+
+
+
+\begin{dfn}
+For $M \subset \mathbb{R}^n$ and $a \in \mathbb{N}$, the
+translate(平行移動) of $M$ by $a$ is defined to be the set
+\[
+M + a = \{x + a \,| \,   x \in M \}
+\]
+\end{dfn}
+
+
+An affine set $M$ is said to be parallel to an affine set $L$ if $L = M + a$ for some $a$.
+\\
+
+\begin{thm}
+Each non-empty affine set $M$ is parallel to a unique subspace
+$L$. This $L$ is given by
+\[
+L = C - C = \{ x - y \,| \, x, y  \in C\} 
+\]
+\end{thm}
+
+The dimension of a non-empty affine set is defined as the
+dimension of the subspace parallel to it. (The dimension of
+$\emptyset$ is $-1$ by convention.)
+
+空でないアフィン集合の次元は、それに平行な部分空間の次元と定義される。($\emptyset$の次元は慣習的に$-1$）
+
+Affine sets of dimension 0, 1 and 2 are called points, lines andplanes, respectively.\\
+
+
+
+\begin{dfn}[Affine combination]
+Let $x_1,...,x_n \in \mathbb{R}^n $, and $\theta_1,..., \theta_n\in \mathbb{R} (n \in \mathbb{N})$.
+
+$\sum \limits_{i=1}^n \theta_i x_i $ is an affine
+combination of $x_1, ..., x_n$ if $\sum \limits_{i=1}^n \theta_i= 1$ 
+\end{dfn}
+
+
+
+\begin{thm}[Hyperplane]
+Given $\beta \in \mathbb{R}$ and a non-zero $\bm{b} \in
+\mathbb{R}^n$ , the set
+\[
+H = \{ x \in \mathbb{R}^n\,| \,\langle \bm{x}, \bm{b} \rangle =
+\bm{\beta } \}
+\]
+is a hyperplane in $\mathbb{R}^n$.
+\end{thm}
+
+
+The vector $\bm{b}$ is called a normal to the hyperplane $H$.\\
+Every hyper plane has ''two sides,'' loke one's picture of alne
+in $\mathbb{R}^2$ or a plane in $\mathbb{R}^3$.\\
+
+
+\begin{thm} 
+Given $\bm{b} \in \mathbb{R}^m$ and an $m \times n$ real matrix
+$\bm{B}$, the set
+\[
+M = \{ x \in \mathbb{R}^n \,| \, \bm{B} \bm{x} = \bm{b}  \}
+\]
+is an affine set in $\mathbb{R}^n$. 
+Moreover, every affine set may be represented in this way.
+\end{thm}
+
+
+
+Let $\bm{b_i}$ is the $i$th row of $\bm{B}$, $\beta_i$ is the
+$i$-th component of $\bm{b}$, and
+\[
+H_i = \{ \bm{x} \, | \, \langle \bm{x}, \bm{b_i} \rangle =
+\beta_i, \} .
+\]
+Then, 
+\[
+M = \{ \bm{x} \, | \, \langle \bm{x}, \bm{b_i} \rangle =
+\beta_i, i = 1, ... , m\} = \bigcap_{i=1}^{m}{H_i} .
+\]
+
+Each $H_i$ is a hyperplane ($\bm{b_i} \neq \bm{0}$).\\
+
+
+The affine set $M$ in Theorem can be expressed in terms of the
+vebtors $b'_1, ..., b'_n$ which form the columns of $\bm{B}$ by
+\[
+M = \{ \bm{x} = ( \xi_1, ..., \xi_n) \, | \, \sum
+\limits_{i=1}^n \xi_i b'_i = \bm{b} \}
+\]
+\\
+
+
+任意の集合$S \in \subset
+\mathbb{R}^n$に対し、$S$を含む（唯一で）最小のアフィン集合が存在する。これをアフィン包($affine
+hull$)という。\\
+
+
+
+\begin{dfn}[affine hull]
+A subset $C$ of $\mathbb{R}^n $ is callded \textit{affine hull }if
+\[
+\text{aff} \, S = \{ \sum \limits_{i=1}^n \theta_i x_i \, | \,
+x_i \in S (i = 1,...,n), \sum \limits_{i=1}^n \theta_i = 1\} .
+\]
+\end{dfn}
+
+
+
+
+
+
+\begin{dfn}
+A set of $k+1$points $b_0, b_1, \dots , b_k$ is  said \textit{affinely independent} if the set 
+
+\begin{align*}
+\text{aff}  \{b_0,  b_1,  \dots,  b_k\} &= \text{aff} \{b_0 - b_0,  b_1 - b_0,  \dots,  b_k - b_0\}  + b_0\\
+                                           &=  \text{aff} \{0,  b_1 - b_0,  \dots,  b_k - b_0\} + b_0\\
+                                           &= L + b_0  \quad \because L = \text{aff} \{0,  b_1 - b_0,  \dots,  b_k - b_0\}
+\end{align*}
+ is $k$-dimensional.
+
+\end{dfn}
+
+
+定理1.1より、Lは$b_1 - b_0,  \dots,  b_k - b_0$を含む最小の部分集合と同じになる。
+Lの次元が$k$になる必要十分条件は$b_1 - b_0,  \dots,  b_k - b_0$が、線形独立になることである。
+従って、$b_0,  b_1,  \dots,  b_k$がアフィン独立である必要十分条件は$b_1 - b_0,  \dots,  b_k - b_0$が線形独立であることである。\\
+
+よって$x_0, x_1, \dots, x_k$がアフィン独立であれば、 $x \in$ aff$\{b_0,  b_1,  \dots,  b_k\}$は次のように表せる。
+\[
+x = \sum \limits_{i=0}^{k} \theta_i x_i, \quad \sum \limits_{i=0}^{k} \theta_i = 1. 
+\]\\
+
+
+\begin{dfn}[affine transform]
+$T: x \to Tx$ from $\mathbb{R}^n$ to $\mathbb{R}^m$ is called
+\textit{affine transformation} if
+\[
+T((1 - \lambda)x + \lambda y) = (1 - \lambda)Tx + \lambda Ty ,
+\qquad \forall x, y \in \mathbb{R}^n, \forall \lambda \in
+\mathbb{R}
+\]
+\end{dfn}
+
+
+
+
+\section{Convex Sets and Cones}
+ 
+\begin{dfn}[convex set]
+A subset $C$ of $\mathbb{R}^n $ is called \textit{convex} if
+\[
+\theta x + (1 - \theta )y \in C, \qquad \forall x, y \in C,
+\forall \theta \in [0, 1]
+\]
+\end{dfn}
+
+All affine sets are convex.
+
+\begin{dfn}[convex combination]
+
+An affine combination with a coefficient $\theta_i \in [0,1]$ iscalled a \textit{convex combination}, i.e.
+
+let $x_1,...,x_n \in \mathbb{R}^n $, and $\theta_1,..., \theta_n\in \mathbb{R} (n \in \mathbb{N})$.
+$\sum \limits_{i=1}^n \theta_i \cdot x_i $ is an \textit{combex
+combination} of $x_1, ..., x_n$ if
+\[
+\sum \limits_{i=1}^n \theta_i x_i \quad (\theta_i \in
+[0,1] (i = 1,...,n)), \qquad \sum \limits_{i=1}^n \theta_i = 1,
+\]
+\end{dfn}
+
+
+\begin{dfn}[Half-spaces(半空間)]
+
+For any non-zero $\bm{b} \in \mathbb{R}^n$ and any $\beta$ in
+$\mathbb{R}$, the sets
+\[
+\{ \bm{x} \, | \, \langle \bm{x}, \bm{b}\rangle \le \beta \},
+\qquad \{ \bm{x} \, | \, \langle \bm{x}, \bm{b}\rangle \ge \beta\}
+\]
+are called \textit{closed half-spaces}.  The sets
+\[
+\{ \bm{x} \, | \, \langle \bm{x}, \bm{b}\rangle < \beta \},
+\qquad \{ \bm{x} \, | \, \langle \bm{x}, \bm{b}\rangle > \beta
+\}
+\]
+are called \textit{open half-spaces}. All four sets are plainly
+non-empty and convex.
+\end{dfn}
+
+
+\begin{thm}
+The intersection of an arbitrary collection of convex sets is convex.
+\end{thm}
+
+
+A set which can be expressed as the inter section of finitely
+many closed half spaces of $\mathbb{R}^n$ is called a
+\textit{polyhedral convex set}. (凸多面体)\\
+
+
+
+$H = \{ x \in \mathbb{R}^n\,| \,\langle \bm{x}, \bm{b} \rangle =\bm{\beta } \} $,
+$a \in H$とするとき、半空間($\{ x \in \mathbb{R}^n\,| \,\langle \bm{x},
+\bm{b} \rangle \le \bm{\beta} \} $)は
+\[
+C = \{ x \in \mathbb{R}^n\,| \,\langle \bm{x - a}, \bm{b}
+\rangle \le \bm{0} \}
+\]
+と表せる。$\bm{b}$は点$a$における法線ベクトルである。
+
+これは点$a$から半空間($\{ x \in \mathbb{R}^n\,| \,\langle \bm{x}, \bm{b}
+\rangle \le \bm{\beta} \}
+$)上の点$a$に向かうベクトルが超平面の法線ベクトル$b$と鈍角をなすことを意味している。
+
+よって、半空間($\{ x \in \mathbb{R}^n\,| \,\langle \bm{x}, \bm{b}
+\rangle \le \bm{\beta} \} $)は$b$の反対側に位置する。
+
+一方、半空間($\{ x \in \mathbb{R}^n\,| \,\langle \bm{x}, \bm{b}
+\rangle \ge \bm{\beta} \} $)は$b$の同じ側に位置する。\\
+
+
+
+\begin{cor}
+Let $b_i \in \mathbb{R}^n$ and  $\beta_i \in \mathbb{R}$ for $i \in I$, where $I$ is an arbitrary index set, and consider the set 
+\[
+C = \{ x \in \mathbb{R}^n\,| \,\langle \bm{x}, \bm{b_i}
+\rangle \le \bm{\beta_i}, \forall i \in I \}.
+\]
+
+It is crealy convex.\\
+\end{cor}
+
+\begin{thm}
+A set $C \in \mathbb{R}^n$ is convex if and only if it contains all the convex combinations of its elements.
+
+($C \in \mathbb{R}^n$が凸集合$\, \Longleftrightarrow \, $Cの元からなる全ての凸結合をC自身が含む)\\　
+\end{thm}
+
+
+\begin{thm}[convex hull]
+The convex hull of a given set $X \subset \mathbb{R}^n $ may be defined as
+the set satisfying any one (and hence all) of the following
+equivalence conditions.
+\begin{enumerate}
+\item The (unique) minimal convex set containing $X$. ($X$
+を含む（唯一の）最小の凸集合)
+\item The intersection of all convex sets containing $X$. 
+\[
+conv X = \cap \{ C : C \text{ is convex set} ,  X \subset C \}
+\]
+\item The set of all the convex combinations of points in $X$.
+($X$ に属する点から得られる凸結合全体の成す集合)
+\[
+conv X = \{ \sum \limits_{i=1}^n \theta_i x_i \in \mathbb{R}^n\, | \, \exists m \in \mathbb{N}, \, \exists x_1, ... , x_m \in X,    \, \exists \theta_1, ..., \theta_m \in [0, 1],  \, \sum \limits_{i=1}^n \theta_i = 1 \}
+\]
+
+\item (Carath$\acute{e}$odory's Theorem)The union of all simplices with vertices in $X$. ($X$
+に属する点を頂点とする単体全ての合併)
+
+\[
+conv X = {\{ \sum \limits_{i=1}^{n+1} \theta_i x_i \quad |\quad n \in \mathbb{N}, x_i \in X, \theta_i > 0, \sum
+\limits_{i=1}^{n+1} \theta_i = 1} \}
+\]
+\end{enumerate}
+\end{thm}
+
+
+
+A set which is a convex hull of a finite number of points is called a polytope(超多面体).\\
+
+\begin{dfn}
+A subset K of $\mathbb{R}^n$ is called \textit{cone} if it is closed under positive scalar multiplication, i.e. $\lambda x \in K$ for $x \in K$ and $  \lambda > 0$.  
+\end{dfn}
+
+
+\begin{dfn}
+A subset K of $\mathbb{R}^n$ is called \textit{convex cone} if it is closed under positive scalar multiplication, i.e. $\lambda x + (1 - \lambda) y \in K$ for $x, y \in K$ and $  \lambda > 0$.  
+\end{dfn}
+
+If K contains the origin, we call it a convex cone.
+
+A convex cone should not necessarily be considered ``pointed''.
+A subspace of $\mathbb{R}^n$ is a particularly convex cones.
+The same is true is the open and closed half-space corresponding to a hyperplane through the origin.
+
+Non-negative \textit{orthant}  of $\mathbb{R}^n$ is convex cone.
+\[
+\mathbb{R}^n_{+} = \{x = (\xi_1,  \dots, \xi_n) \in \mathbb{R}^n \, | \, \xi_i \ge 0 \, \text{for}\,  i = 1,  \dots,  n\} = \{x \in \mathbb{R}^n \, | \, x \ge 0\}
+\]
+\[
+\mathbb{R}^n_{> 0} = \{x = (\xi_1,  \dots, \xi_n) \in \mathbb{R}^n \, | \, \xi_i > 0 \, \text{for}\,  i = 1,  \dots,  n\} = \{x \in \mathbb{R}^n \, | \, x > 0\}
+\]
+
+
+\begin{thm}
+The intersection of an arbitrary collection of convex cones is a convex cone.
+\end{thm}
+
+\begin{cor}
+Let  $b_i \in \mathbb{R}^n$ for $i \in I$, where I is an arbitrary index set.  Then
+\[
+K = \{x \in \mathbb{R}^n \, | \, \langle \bm{x}, \bm{b_i} \rangle \le 0, i \in I \}
+\]
+is a convex cone.
+
+\end{cor}
+
+
+
+
+\section{Convex Functions}
+
+\textcolor{red}{This note is excluded the value $f(x) = - \infty$.}
+
+\begin{dfn}
+A function $f:C \to \mathbb{R}$,  where $C$ is a convex set.  Then $f$ is $convex$ on $C$ if and only if
+\[
+f((1 - \lambda)x + \lambda y) \le (1 - \lambda) f(x) + \lambda f(y), \quad \forall x, y \in C, \quad \lambda \in [0, 1].
+\] 
+\end{dfn}
+
+Let
+$f:$ convex function,  $f \in C \ne \emptyset$.
+Extending $f$ to $\mathbb{R}^n$ by setting $f(x) = +\infty$ for $x \notin C \subset \mathbb{R}^n$.
+Then the above definition is equivalent to the following definition.
+
+\begin{dfn}
+A function $f:\mathbb{R}^n \to \mathbb{R} \cup \{+ \infty\}$,  not identically $+ \infty$,  is convex if and only if
+\[
+f((1 - \lambda)\bm{x} + \lambda \bm{y}) \le (1 - \lambda) f(\bm{x}) + \lambda f(\bm{y}), \quad \forall \bm{x}, \bm{y} \in \mathbb{R}^n, \quad \lambda \in [0, 1].
+\] 
+\end{dfn}
+
+
+$f: \mathbb{R}^n \to \mathbb{R} :$ $concave$  $\Leftrightarrow$ $- f$ is convex.
+
+\begin{dfn}
+$f: \mathbb{R}^n \to \mathbb{R} \cup \{ +\infty\},  C \subset \mathbb{R}^n $. We define epigraph of $f$ as
+\[
+\text{epi} f := \{(\bm{x},  y) \, | \, \bm{x} \in C,  y \in \mathbb{R},  y \ge f(\bm{x}) \}.
+\]
+Note that $f(x) = +\infty$ for $x \notin C$.
+
+In othe words, 
+
+$f: \mathbb{R}^n \to \mathbb{R} \cup \{ +\infty\}$, not identically equal to $+ \infty$ .  We define epigraph of $f$ is the non-empty set 
+\[
+\text{epi} f := \{(\bm{x},  y) \, | \, \bm{x} \in \mathbb{R}^n,  y \in \mathbb{R},  y \ge f(\bm{x}) \}.
+\]
+
+\end{dfn}
+
+
+%We define $f$ to be convex function on $C$ if epi$f  (\subset \mathbb{R}^{n+1})$ is convex set.
+
+\begin{dfn}
+The \textit{effective domain} of function f on C is the set
+\[
+\text{dom} f = \{\bm{x} \in \mathbb{R}^n \, | \,  \exists y,  (\bm{x}, y) \in \text{epi} f \} = \{ \bm{x} \in \mathbb{R}^n \, | \, f(\bm{x}) < + \infty \}.
+\]
+\end{dfn}
+
+
+\begin{dfn}
+A convex function $f$ is said to be $proper$ if 
+$f(x) < +\infty$ at least one $x \in C$ and $f(x) > - \infty$ for all $x \in C$.
+
+In other words,  $f$ is $proper$ if its epigraph is non-empty and does not contain ``vertical lines''.
+\end{dfn}
+
+Let $f: $ convex function, $C \subset \mathbb{R}^n$ is non-empty convex set.
+
+$f \in C$ is proper
+$\Leftrightarrow$ 
+ 
+dom $f = C$ where $f \in C$ is finite. \\
+ 
+ 
+ $f \in \mathbb{R}^n$ is proper
+$\Leftrightarrow$ 
+
+ $f \in \mathbb{R}^n$ is convex function and $f \in C$ is finite. $ \Rightarrow$ 
+ $f(x) = 
+\begin{cases}
+f(x) & (x \in C)\\
++ \infty & (x \notin C)
+\end{cases}
+$\\
+
+\textcolor{red}{In this note,  we excluded the value $f(x) = - \infty$, so from the definition 3.2,  every convex function $f$ is ``proper''.}
+
+
+\begin{thm}
+$f: \mathbb{R}^n \to \mathbb{R} \cup \{+ \infty \}$.
+
+$f$ is a convex funciton if and only if  \textup{epi} $f$ is convex set. 
+\end{thm}
+
+\begin{thm}
+Let $f: \mathbb{R}^n \to (-\infty, + \infty], \lambda_i \ge 0$ and $\sum \limits_{i=0}^{k} \lambda_i = 1$. Then f is convex if and only if 
+\[
+f(\sum \limits_{i=0}^{k} \lambda_i x_i) \le \sum \limits_{i=0}^{k} \lambda_i f(x_i).
+\]
+\end{thm}
+
+
+Neighborhood of $x^{\prime}$ is defined by
+\[
+B(x^{\prime}, \delta) := \{\bar{x} \, | \, d(x^{\prime},  x) \le \delta \}.
+\]
+\[
+V \in \mathcal{N}(x^{\prime}) := \text{the collection of all neiborhoods of $x^{\prime}$}.
+\]
+
+\begin{dfn}(lower limits)
+    Let $f: \mathbb{R}^n \to \mathbb{R} \cup \{+ \infty\}$ and let $x^{\prime}$ is a limit point of $f$. Then the lower limit of function $f$ is defined by 
+    \begin{align*}
+        \liminf_{x \to x^{\prime}}{f(x)} &= \lim_{\delta \, \searrow \, 0} {[\inf_{x \in B(x^{\prime}, \delta)}{f(x)}]} \\
+                                          &= \sup_{\delta \, > \, 0} {[\inf_{x \in B(x^{\prime}, \delta)}{f(x)}]} 
+                                          = \sup_{V \in \mathcal{N}(x^{\prime})} {[\inf_{x \in V}{f(x)}]}. 
+    \end{align*}
+\end{dfn}
+
+\begin{dfn}(lower semi-continuous)
+    Let $f: \mathbb{R}^n \to \mathbb{R} \cup \{+ \infty\}$ and let $x^{\prime}$ is a limit point of $f$. Then $f$ is lower semi-continuous at $x^{\prime}$ if and only if
+    \[
+        \liminf_{x \to x^{\prime}} {f(x)} \ge f(x^{\prime}), \text{\, or \,} \liminf_{x \to x^{\prime}} {f(x)} = f(x^{\prime}) 
+    \]
+\end{dfn}
+
+\begin{dfn}(level set)
+The lower level sets $lev_{\le \alpha}{f}$ is defined by
+\[
+lev_{\le \alpha} f := \{x \in \mathbb{R}^n \, | \, f(x) \le \alpha \}
+\]
+\end{dfn}
+
+\begin{figure}[htbp]
+\begin{center}
+\includegraphics[width=50mm]{level_set.JPG}
+\caption{Level set}
+\end{center}
+\end{figure}
+
+
+\begin{prop}
+Let arbitrary function $f: \mathbb{R}^n \to [- \infty, + \infty]$, the following are equivalent:
+
+\begin{enumerate}
+\renewcommand{\labelenumi}{(\roman{enumi})}
+\item $f$ is lower semi-continuous at all $x^{\prime} \in \mathbb{R}^n$;
+\item $lev_{\le \alpha} f := \{x^{s\prime} \in \mathbb{R}^n \, | \, f(x^{\prime}) \le \alpha \}$ is closed for every $\alpha$;
+\item \text{epi}$f$ is a closed set in $\mathbb{R}^{n+1}$.
+\end{enumerate}
+
+\end{prop}
+
+\begin{dfn}(level boundedness)
+    A funciton  $f : \mathbb{R}^n \to \mathbb{R} \cup \{+ \infty \}$ is \textit{lower level bounded} 
+    if the set $lev_{\le \alpha}{f}$ is bounded (possibly empty) for every $\alpha \in \mathbb{R}.$
+\end{dfn}
+
+\begin{thm}(conditions $\inf f = \min f$)
+    Suppose $f : \mathbb{R}^n \to \mathbb{R} \cup \{+ \infty \}$ is lower semi-continuous, level-bounded and proper. 
+    Then the set $argmin f$ is nonenpty and compact and the value $\inf f$ is finite.
+    In other words, $\inf f = \min f$.
+\end{thm}
+
+\begin{cor}(lower bounds)
+    Suppose $f: \mathbb{R}^n \to \mathbb{R} \cup \{+ \infty \}$ is lsc and proper.
+    Then it is bounded from below on each bounded subset of $\mathbb{R}^n$. 
+    Actually, it is minimum with respect to any compact subset of $\mathbb{R}^n$ that satisfies dom f.
+\end{cors}
+
+
+
+
+
+\section{}
+
+
+
+
+
+\end{document}

@@ -1,0 +1,313 @@
+\documentclass[a4j,10pt, twocolumn, dvipdfmx]{article}
+
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{here, amsmath, latexsym, amssymb, bm, ascmac, mathtools, multicol, tcolorbox, subfig, graphicx, comment, pgfplots, listings,jvlisting, type1cm, amsthm, comment, algorithm, algpseudocode, url}
+
+%---------------------------------------------------
+% ページの設定
+%---------------------------------------------------
+\setlength{\pdfpagewidth}{8.5in}  % DO NOT CHANGE THIS
+\setlength{\pdfpageheight}{11in}  % DO NOT CHANGE THIS
+\pagestyle{empty}
+\setlength{\headheight}{0truemm}
+\setlength{\parindent}{1zw}
+
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{cor}{Corollary} [thm]
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{prop}[thm]{Proposition}
+\theoremstyle{definition}
+\newtheorem{dfn}{Definition}[section]
+\newtheorem{ex}{Example}[section]
+
+
+
+
+\lstset{
+    basicstyle={\ttfamily},
+    identifierstyle={\small},
+    commentstyle={\smallitshape},
+    keywordstyle={\small\bfseries},
+    ndkeywordstyle={\small},
+    stringstyle={\small\ttfamily},
+    frame={tb},
+    breaklines=true,
+    columns=[l]{fullflexible},
+    numbers=left,
+    xrightmargin=0zw,
+    xleftmargin=3zw,
+    numberstyle={\scriptsize},
+    stepnumber=1,
+    numbersep=1zw,
+    lineskip=-0.5ex
+}
+
+
+%---------------------------
+%1段組
+\begin{document}
+\twocolumn
+[
+\begin{center}
+{\huge Application to Partial Differential Equations for Optimal Transport Problem}
+\end{center}
+\begin{flushright}
+\begin{tabular}{rr}
+{\Large \ } &\ \\
+2215011016&Yukito Sakai\\
+{\Large \ } &\ \\
+\end{tabular}
+\end{flushright}
+
+%\begin{abstract}
+%    Recently, a new method for solving partial differential equations has been proposed by utilizing the solution of the optimal transportation problem.
+%    This method is particularly effective for solving nonlinear partial differential equations. 
+%    In this paper, we explain an efficient way to solve the optimal transportation problem with strictly convex cost functions.
+%    \newline
+%\end{abstract}
+
+\vspace{2truemm}
+]
+%-----------------------------------
+
+\section{Introduction}
+
+Interest in the optimal transportation problem has increased in recent years due to the discovery of a deep relationship between the optimal transportation problem and partial differential equations.
+The back-and-forth method (Matt Jacobs, Flavien Léger, 2020) is a new method for solving partial differential equations using the solution of the optimal transportation problem. 
+This method is particularly effective for solving nonlinear partial differential equations and can solve a wider range of problems than previous methods because it is faster and does not require stability conditions. 
+I am interested in the back-and-forth method and my ultimate goal is to create a program that solves partial differential equations using this method. 
+
+In this paper, I will explain the back-and-forth method, which efficiently solves the optimal transportation problem with strictly convex costs.
+
+\section{Background}
+
+%--------------Optimal transform problem---------------------
+\subsection{Optimal transport problem}
+\textbf{Optimal transform problem(Monge,1781).}
+Find a method to minimize cost, 
+which depends on weight and distance, 
+for transporting sand from a sandpit with measure $\mu$ to a hole with the same volume and measure $\nu$ using a mapping $T$.
+
+\begin{dfn}[pushforward measure]
+    Given a mapping $T$ that transports from measure $\mu$ to measure $\nu$ $(T_\#\mu = \nu)$, 
+    the pushforward measure is defined as:
+    \begin{equation*}
+        \nu (A) =  T_\#\mu (A) := \mu (T^{-1} (A)) \qquad A \subset \Omega.
+    \end{equation*}
+\end{dfn}
+
+\begin{figure}[htbp]
+    \begin{center}
+        \includegraphics[width=0.5\textwidth]{transport_map2.JPG}
+        \caption{transport map}
+    \end{center}
+\end{figure}
+
+The optimal transportation problem can be formalized as follows.
+\newline
+%-----------------------------------------------------------
+
+%--------------Optimal transform problem formalize---------------------
+\textbf{Optimal transform problem.}
+Let $\Omega \subset \mathbb{R}^d$ be a convex set,
+$c: \Omega \times \Omega \to \mathbb{R}$ be a cost function that represents the cost of transporting from $x$ to $y$, 
+$\mu, \nu : \Omega \to \mathbb{R}$ be probability measures on $\Omega$, and $T: \Omega \to \Omega$ be a mapping such that $T_\#\mu = \nu$, 
+meaning it transforms measure $\mu$ to measure $\nu$.
+
+The minimum cost to transport $\mu$ to $\nu$ is denoted by $C(\mu, \nu)$ and is given by:
+
+\begin{equation*}
+    C(\mu, \nu) = \inf_T \int_\Omega c(x, T(x)) d \mu (x).
+\end{equation*}
+
+The optimal cost $C$ can be treated as a problem of maximizing the volume of sand transported, 
+rather than fixing the transportation location.
+\newline
+%-----------------------------------------------------------
+
+%--------------Kantorovich dual problem---------------------
+\textbf{Kantorovich dual problem.}
+When $\nu$ and $\mu$ are probability measures and $c(x, y)$ represents the cost of transporting from $x$ to $y$, the cost C can be expressed as maximizing the volume of sand transported as follows:
+\begin{equation*}
+    C(\mu, \nu) = \sup_{\phi, \psi} \int \phi d\nu + \int \psi d\mu
+\end{equation*}
+where $\phi(y)$ and $\psi(x)$ are the Kantorovich potentials and satisfy the inequality:
+\begin{equation*}
+    \phi(y) + \psi(x) \le c(x, y).
+\end{equation*}
+
+If there exists an optimal map from $\mu$ to $\nu$, the maximum value of the dual problem $\phi_(y), \psi_(x)$ can be restored. Then,
+\begin{equation*}
+    \phi_*(y) + \psi_*(x) = c(x, y).
+\end{equation*}
+
+%-----------------------------------------------------------
+\subsection{c-transform}
+
+\begin{dfn}[$c$-transform]
+    Given a continuous function $\phi: \Omega \to \mathbb{R}$, 
+    we define its $c$-transform $\phi^c: \Omega \to \mathbb{R}$ as follows:
+    \begin{equation*}
+        \phi^c(x) := \inf_{y \in \Omega} (c(x, y) - \phi(y))
+    \end{equation*}
+    
+    A function $\phi$ is called a $c$-concave function if there exists a continuous function $\psi: \Omega \to \mathbb{R}$ such that $\phi = \psi^c$.
+    Additionally,  pair of functions $(\phi, \psi)$ is called $c$-conjugate if $\phi = \psi^c$ and $\psi = \phi^c$.
+\end{dfn}
+
+If $(\phi, \psi)$ is c-conjugate, then the maximum values $\phi_*$ and $\psi_*$ are given by:
+\begin{align*}
+    \phi_*(y) = \psi^c_*(y) = \inf_{x \in \Omega}{c(x, y) - \psi_*(x) },\\
+    \psi_*(x) = \phi^c_*(x) = \inf_{y \in \Omega}{c(x, y) - \phi_*(y) }.
+\end{align*}
+
+
+\section{The back-and-forth method}
+The Kantorovich dual problem, given by
+\begin{equation*}
+    C = \sup_{\phi, \psi} \int \phi d\nu + \int \psi d\mu,
+\end{equation*}
+can be expressed as the $\sup$ of 
+\begin{equation*}
+    J(\phi) = \int \phi d \nu + \int \phi^c d \mu,
+\end{equation*}
+and 
+\begin{equation*}
+    I(\psi) = \int \psi^c d \nu + \int \psi d \mu.
+\end{equation*}
+using c-transformation. In other words, $c = \sup J = \sup I$.
+
+The back-and-forth method solves the Kantorovich dual problem rapidly by finding the supremum of $J$ and $I$ using gradient ascent, 
+and by alternating back and forth between $J$ and $I$ through c-transformations.
+
+\begin{algorithm}
+    \caption{The back-and-forth method}
+    \begin{algorithmic}
+        \State Given probability densities $\mu$ and $\nu$, set $\phi_0 = 0, \psi_0 = 0$, and iterate:
+        \State \begin{align*}
+            \phi_{n + \frac{1}{2}} &= \phi_{n} + \sigma \nabla_{\dot{H}^1} J(\phi_{n}),\\
+            \psi_{n + \frac{1}{2}} &= (\phi_{n + \frac{1}{2}})^c,\\
+            \psi_{n + 1} &= \psi_{n + \frac{1}{2}} + \sigma \nabla_{\dot{H}^1} I(\psi_{n + \frac{1}{2}}),\\
+            \phi_{n + 1} &= (\psi_{n + 1})^c.
+        \end{align*}
+    \end{algorithmic}
+\end{algorithm}
+
+Where,
+\begin{align*}
+    \nabla_{\dot{H}^1} J(\phi) = (- \Delta)^{-1} (\nu - T_{\phi \#} \mu),\\
+    \nabla_{\dot{H}^1} I(\psi) = (- \Delta)^{-1} (\mu - T_{\psi \#} \nu).\\
+\end{align*}
+
+\section{Results}
+An example of $\nu$ and $\nu$ optimal transport using the back-and-forth method is shown.
+
+\begin{ex}
+    Initial conditions
+
+    $\mu = \left\{
+        \begin{array}{ll}
+            1 & 0.3 \le x \le 0.8\\
+            0 & otherwise \\
+        \end{array},
+    \right.
+    $
+
+    $\nu = \left\{
+        \begin{array}{ll}
+            1 & - 0.8 \le x \le - 0.3 \\
+            0 & otherwise \\
+        \end{array}.
+    \right.
+    $
+
+
+\end{ex}
+\begin{figure}[htb]
+    \begin{center}
+        \begin{minipage}{0.45\hsize}
+            \includegraphics[width=\linewidth]{back-and-forth-update_ex1_0.png}
+        \end{minipage}
+        \begin{minipage}{0.45\hsize}
+            \includegraphics[width=\linewidth]{back-and-forth-update_ex1_19.png}
+        \end{minipage}
+    \end{center}
+    \caption{Example 4.1.}
+\end{figure}
+\label{Example 1}
+
+\begin{ex}
+    Initial conditions
+
+    $\mu = \left\{
+        \begin{array}{ll}
+            0.5 & 0 \le x \le 0.5 \\
+            0 & otherwise \\
+        \end{array}
+    \right.
+    $
+
+    $\nu = \left\{
+        \begin{array}{ll}
+            1 & - 0.5 \le x \le - 0.25 \\
+            0 & otherwise \\
+        \end{array}
+    \right.
+    $
+
+    \begin{figure}[htb]
+        \begin{center}
+            \begin{minipage}{0.45\hsize}
+                \includegraphics[width=\linewidth]{back-and-forth-update_ex2_0.png}
+            \end{minipage}
+            \begin{minipage}{0.45\hsize}
+                \includegraphics[width=\linewidth]{back-and-forth-update_ex2_19.png}
+            \end{minipage}
+        \end{center}
+        \caption{Example 4.2.}
+    \end{figure}
+
+\end{ex}
+
+\section{Issues}
+
+\begin{figure}[htbp]
+    \begin{center}
+        \includegraphics[width=0.7\linewidth]{x[iopt]explanation1.JPG}
+        \caption{Transport map $T_{\phi \#} \mu$}
+        \includegraphics[width=0.7\linewidth]{x[iopt]explanation2.JPG}
+        \caption{Transport map $T_{\psi \#} \nu$}
+    \end{center}
+\end{figure}
+\label{x[iopt]explanation}
+
+Since the $x$-coordinates before and after transportation have a one-to-one correspondence, 
+the mass (value) of $\nu$ and $\mu$ at a certain $x$ is reflected directly to the destination of the transportation.
+
+Therefore, even though the calculation results in $T_{\phi \#} \mu = \nu, T_{\psi \#} \nu = \mu$ , a large error occurs.
+\section{Next steps}
+\begin{enumerate}
+    \item Creation of a program for transport maps without a one-to-one correspondence (for improved accuracy)
+    \item Creation of a program that solves partial differential equations using the back-and-forth method
+    \item Development of a program to find new solutions for nonlinear equations
+\end{enumerate}
+
+\bibliography{references}
+\begin{thebibliography}{99}
+    \bibitem{1}
+    Matt Jacobs, Flavien Léger.
+    \newblock A fast approach to optimal transport: the back-and-forth method.
+    \newblock Numerische Mathematik, 2020. 
+    \bibitem{2}
+    Shin-ichi OHTA.
+    \newblock 最適輸送理論とその周辺.
+    \newblock \url{http://www4.math.sci.osaka-u.ac.jp/~sohta/jarts/kino09.pdf}.
+    \bibitem{3}
+    Shinichiro KOBAYASHI.
+    \newblock 距離コストに対する最適輸送問題について.
+    \newblock \url{https://www.math.sci.hokudai.ac.jp/~wakate/mcyr/2020/pdf/kobayashi_shinichiro.pdf}.
+
+    \end{thebibliography}
+
+\end{document}

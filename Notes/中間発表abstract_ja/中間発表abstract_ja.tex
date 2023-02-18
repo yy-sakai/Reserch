@@ -1,0 +1,119 @@
+\documentclass[a4j,10pt, twocolumn]{jarticle}
+
+\usepackage[dvipdfmx]{graphicx}
+\usepackage{float}
+\usepackage{here, amsmath, latexsym, amssymb, bm, ascmac, mathtools, multicol, tcolorbox, subfig, graphicx, comment, pgfplots}
+
+%---------------------------------------------------
+% ページの設定
+%---------------------------------------------------
+\setlength{\pdfpagewidth}{8.5in}  % DO NOT CHANGE THIS
+\setlength{\pdfpageheight}{11in}  % DO NOT CHANGE THIS
+\pagestyle{empty}
+\setlength{\headheight}{0truemm}
+\setlength{\parindent}{1zw}
+
+%---------------------------
+%1段組
+\begin{document}
+\twocolumn
+[
+\begin{center}
+{\huge Application to Partial Differential Equations for Optimal Transport Problem}
+\end{center}
+\begin{flushright}
+\begin{tabular}{rr}
+{\Large \ } &\ \\
+2215011016&Yukito Sakai\\
+{\Large \ } &\ \\
+\end{tabular}
+\end{flushright}
+
+\begin{abstract}
+    近年発表された偏微分方程式の新たな解法として、最適輸送問題を解法を用いたものがある。
+    この解法は特に非線形偏微分方程式に有効である。
+    今回は、厳密に凸なコストにおける最適輸送問題を効率的に解く方法の説明を行う。
+    \newline
+\end{abstract}
+
+\vspace{2truemm}
+]
+%-----------------------------------
+
+\section{Introduction}
+近年最適輸送問題と偏微分方程式の間に深い関係が発見されたことから最適輸送問題への関心が高まっている。
+The back-and-forth method (Matt Jacobs, Flavien Léger, 2020) は近年発表された最適輸送問題を解法を用いた偏微分方程式の新たな解法である。
+この解法は特に非線形偏微分方程式に有効であり、今までの解法に比べて高速でかつ安定性条件を必要としないため、より幅広い問題を解くことが可能である。
+私はこの The back-and-forth method に興味があり、最終的には The back-and-forth method を用いた偏微分方程式を解くプログラムを作ることを目標にしている。
+今回は、厳密に凸なコストにおける最適輸送問題を効率的に解くThe back-and-forth methodの説明を行う。
+
+\begin{eqnarray*}
+f(x)&=&\frac{1}{\sqrt{2\pi\sigma^{2}}} \exp\!\left(-\frac{(x-\mu)^2}{2\sigma^2} \right) \\
+F(x)&=&\frac12 \left(1 + \mathrm{erf}\,\frac{x-\mu}{\sqrt{2\sigma^{2} } }\right) \\
+f(x; \lambda) &=& \left\{ \begin{array}{ll} \lambda e^{-\lambda x} & (x \geq 0) \\ 0 & (x < 0)\end{array}\right.  \\
+F(x; \lambda) &=& \left\{ \begin{array}{ll} 1 - e^{-\lambda x} & (x \geq 0) \\ 0 & (x < 0)\end{array}\right.
+\end{eqnarray*}
+Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+\subsection{サブセクション}
+Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+\begin{itemize}
+\item Lorem
+\item ipsum
+\item dolor
+\item sit
+\item amet
+\item consectetur
+\end{itemize}
+\section{実験方法}
+Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+\section{結果}
+Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+\vspace{-1em}
+\begin{table}[H]
+\begin{center}
+\caption{表題}
+\vspace{-0.5em}
+無理やりだがここにも書ける
+\label{all0}
+\begin{tabular}{|r|c|c|c|c|}
+\hline
+
+1&1A&1B&1C&1D \\ \hline
+2&2A&2B&2C&2D \\ \hline
+3&3C&3B&3C&3D \\ \hline
+4&4C&4B&4C&4D \\ \hline
+\end{tabular}
+\end{center}
+\end{table}
+
+\begin{table}[H]
+\begin{center}
+\caption{西暦と和暦の対応表}
+\vspace{1zw}
+\label{03AB-A2}
+\begin{tabular}{cc}
+\noalign{\hrule height 1pt}
+西暦&和暦\\ \hline
+1989年&平成元年\\
+1990年&平成2年\\
+1991年&平成3年\\
+\noalign{\hrule height 1pt}
+\end{tabular}
+\end{center}
+\end{table}
+
+Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+\section{考察と今後の課題}
+Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum
+Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+\bibliography{references}
+\bibliographystyle{unsrt}
+\begin{thebibliography}{3}
+\bibitem{3} \label{takada}
+著者名(年),``論文タイトル", なんの学会誌200X,(SMB YYYY).
+\end{thebibliography}
+\end{document}
