@@ -1,4 +1,7 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 969d7f4 (test)
 # Topic: Optimal transport problem
 Fast back-and-forth method
 
@@ -21,6 +24,10 @@ How to proceed with research: <https://github.com/rekka/ctransform>
 
 - [8]: Code by Professor Pozar, C-transform: <https://github.com/pozar-lab/back-and-forth-python>
 - [9]: Notes by Professor Pozar, C-transform: <https://github.com/pozar-lab/c-transform-note>
+<<<<<<< HEAD
 - [10]: Drop box: <https://www.dropbox.com/home>
 =======
 # sakai
+=======
+- [10]: Drop box: <https://www.dropbox.com/home>
+>>>>>>> 969d7f4 (test)
