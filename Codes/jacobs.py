@@ -148,4 +148,7 @@ def push_forward2(t_mu, mu, phi_c, h):
                 t_mu[tio, tj] += a * (1. - b) * mass
                 t_mu[ti, tjo] += (1. - a) * b * mass
                 t_mu[tio, tjo] += a * b * mass
+<<<<<<< HEAD
 
+=======
+>>>>>>> 76d22ba (Material presented on research in March of M1)
