@@ -22,4 +22,3 @@ How to proceed with research: <https://github.com/rekka/ctransform>
 
 - [9]: Notes by Professor Pozar, C-transform: <https://github.com/pozar-lab/c-transform-note>
 
-- [9]: Notes by Professor Pozar, C-transform: <https://github.com/pozar-lab/c-transform-note>
