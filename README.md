@@ -83,7 +83,11 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 >>>>>>> 4356a46 (test)
+=======
+<<<<<<< HEAD
+>>>>>>> 6c68cdc (Update README.md)
 # Topic: Optimal transport problem
 Fast back-and-forth method
 
@@ -298,7 +302,12 @@ Code by Jacobs, Leger for [1]: <https://github.com/Math-Jacobs/bfm>
 >>>>>>> e364c84 (test)
 =======
 >>>>>>> 273ca02 (test)
+<<<<<<< HEAD
 >>>>>>> 87ba7ee (test)
+=======
+=======
+>>>>>>> 580e828 (Update README.md)
+>>>>>>> 07d6a40 (Update README.md)
 # sakai
 
 Fast back-and-forth method
@@ -386,7 +395,12 @@ Code by Jacobs, Leger for [1]: <https://github.com/Math-Jacobs/bfm>
 =======
 >>>>>>> 969d7f4 (test)
 >>>>>>> 5f51a89 (test)
+<<<<<<< HEAD
 >>>>>>> 87ba7ee (test)
+=======
+=======
+>>>>>>> 0fc738f (Update README.md)
+>>>>>>> 07d6a40 (Update README.md)
 # Topic: Optimal transport problem
 Fast back-and-forth method
 
@@ -412,9 +426,13 @@ How to proceed with research: <https://github.com/rekka/ctransform>
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 <<<<<<< HEAD
 >>>>>>> 87ba7ee (test)
+=======
+<<<<<<< HEAD
+>>>>>>> 07d6a40 (Update README.md)
 - [9]: Notes by Professor Pozar, C-transform: <https://github.com/pozar-lab/c-transform-note>
 <<<<<<< HEAD
 - [10]: Drop box: <https://www.dropbox.com/home>
@@ -534,9 +552,13 @@ How to proceed with research: <https://github.com/rekka/ctransform>
 =======
 =======
 >>>>>>> 053761a (test)
-- [9]: Notes by Professor Pozar, C-transform: <https://github.com/pozar-lab/c-transform-note>
 =======
+
+>>>>>>> 0fc738f (Update README.md)
 - [9]: Notes by Professor Pozar, C-transform: <https://github.com/pozar-lab/c-transform-note>
+
+- [9]: Notes by Professor Pozar, C-transform: <https://github.com/pozar-lab/c-transform-note>
+<<<<<<< HEAD
 <<<<<<< HEAD
 >>>>>>> 87ba7ee (test)
 - [10]: Drop box: <https://www.dropbox.com/home>
@@ -584,6 +606,17 @@ How to proceed with research: <https://github.com/rekka/ctransform>
 - [9]: Notes by Professor Pozar, C-transform: <https://github.com/pozar-lab/c-transform-note>
 >>>>>>> 5f51a89 (test)
 >>>>>>> 053761a (test)
+<<<<<<< HEAD
 >>>>>>> 273ca02 (test)
+<<<<<<< HEAD
 >>>>>>> 4356a46 (test)
+<<<<<<< HEAD
 >>>>>>> 87ba7ee (test)
+=======
+=======
+=======
+=======
+>>>>>>> 0fc738f (Update README.md)
+>>>>>>> 580e828 (Update README.md)
+>>>>>>> 6c68cdc (Update README.md)
+>>>>>>> 07d6a40 (Update README.md)
