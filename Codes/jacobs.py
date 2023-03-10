@@ -149,6 +149,12 @@ def push_forward2(t_mu, mu, phi_c, h):
                 t_mu[ti, tjo] += (1. - a) * b * mass
                 t_mu[tio, tjo] += a * b * mass
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 =======
 >>>>>>> 76d22ba (Material presented on research in March of M1)
+=======
+=======
+
+>>>>>>> 0e36a64 (sampling)
+>>>>>>> 20d2aa8 (sampling)
