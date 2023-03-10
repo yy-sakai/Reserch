@@ -4,6 +4,6 @@
 *.JPG
 *.jpeg
 Reference/*
+Codes/Reference/*
 .DS_Store
 __pycache__
-Codes/Reference/*
