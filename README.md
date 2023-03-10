@@ -89,6 +89,7 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 >>>>>>> 4356a46 (test)
 =======
 <<<<<<< HEAD
@@ -105,10 +106,14 @@
 =======
 =======
 >>>>>>> 184ea6b (test)
+=======
+>>>>>>> 82fb16e (test)
 <<<<<<< HEAD
 =======
 =======
 >>>>>>> 6800639 (test)
+=======
+>>>>>>> 90af55b (test)
 # sakai
 
 Fast back-and-forth method
@@ -133,8 +138,16 @@ Code by Jacobs, Leger for [1]: <https://github.com/Math-Jacobs/bfm>
 =======
 >>>>>>> 969d7f4 (test)
 >>>>>>> 61d0d12 (test)
+<<<<<<< HEAD
 >>>>>>> 6800639 (test)
+<<<<<<< HEAD
 >>>>>>> 184ea6b (test)
+=======
+=======
+=======
+>>>>>>> 76d7c69 (test)
+>>>>>>> 90af55b (test)
+>>>>>>> 82fb16e (test)
 # Topic: Optimal transport problem
 Fast back-and-forth method
 
@@ -162,6 +175,9 @@ How to proceed with research: <https://github.com/rekka/ctransform>
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 3e948e5 (test)
 
 - [9]: Notes by Professor Pozar, C-transform: <https://github.com/pozar-lab/c-transform-note>
 <<<<<<< HEAD
@@ -492,6 +508,8 @@ How to proceed with research: <https://github.com/rekka/ctransform>
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+=======
+>>>>>>> 90af55b (test)
 <<<<<<< HEAD
 =======
 <<<<<<< HEAD
@@ -558,6 +576,7 @@ How to proceed with research: <https://github.com/rekka/ctransform>
 - [10]: Drop box: <https://www.dropbox.com/home>
 >>>>>>> 969d7f4 (test)
 >>>>>>> 61d0d12 (test)
+<<<<<<< HEAD
 <<<<<<< HEAD
 >>>>>>> 930bfb0 (test)
 <<<<<<< HEAD
@@ -772,5 +791,16 @@ How to proceed with research: <https://github.com/rekka/ctransform>
 >>>>>>> 969d7f4 (test)
 >>>>>>> 61d0d12 (test)
 >>>>>>> 6800639 (test)
+<<<<<<< HEAD
 >>>>>>> 184ea6b (test)
+<<<<<<< HEAD
 >>>>>>> 5f56669 (test)
+=======
+=======
+=======
+=======
+- [9]: Notes by Professor Pozar, C-transform: <https://github.com/pozar-lab/c-transform-note>
+>>>>>>> 76d7c69 (test)
+>>>>>>> 90af55b (test)
+>>>>>>> 82fb16e (test)
+>>>>>>> 3e948e5 (test)
