@@ -342,8 +342,11 @@ How to proceed with research: <https://github.com/rekka/ctransform>
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> ecfaed6 (Update README.md)
+=======
+>>>>>>> 8fe8691 (test)
 - [9]: Notes by Professor Pozar, C-transform: <https://github.com/pozar-lab/c-transform-note>
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -387,6 +390,7 @@ How to proceed with research: <https://github.com/rekka/ctransform>
 =======
 =======
 >>>>>>> 0fc738f (Update README.md)
+<<<<<<< HEAD
 <<<<<<< HEAD
 >>>>>>> 580e828 (Update README.md)
 =======
@@ -491,3 +495,7 @@ How to proceed with research: <https://github.com/rekka/ctransform>
 =======
 >>>>>>> 0fc738f (Update README.md)
 >>>>>>> ecfaed6 (Update README.md)
+=======
+=======
+>>>>>>> 616de2a (test)
+>>>>>>> 8fe8691 (test)
