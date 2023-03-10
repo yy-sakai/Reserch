@@ -9,6 +9,7 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> bffbf1a (Initial commit)
 =======
@@ -28,6 +29,8 @@
 >>>>>>> 3c667d2 (test)
 =======
 >>>>>>> 7810ae7 (test)
+=======
+>>>>>>> 77cf449 (Update README.md)
 =======
 >>>>>>> 1a0406c (Update README.md)
 =======
@@ -63,6 +66,8 @@ Code by Jacobs, Leger for [1]: <https://github.com/Math-Jacobs/bfm>
 =======
 >>>>>>> 969d7f4 (test)
 >>>>>>> 5f51a89 (test)
+=======
+>>>>>>> 0fc738f (Update README.md)
 # Topic: Optimal transport problem
 Fast back-and-forth method
 
@@ -84,6 +89,7 @@ How to proceed with research: <https://github.com/rekka/ctransform>
 - [7]: [小林 愼一郎: 距離コストに対する最適輸送問題について](https://www.math.sci.hokudai.ac.jp/~wakate/mcyr/2020/pdf/kobayashi_shinichiro.pdf)
 
 - [8]: Code by Professor Pozar, C-transform: <https://github.com/pozar-lab/back-and-forth-python>
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -135,6 +141,9 @@ Code by Jacobs, Leger for [1]: <https://github.com/Math-Jacobs/bfm>
 =======
 <<<<<<< HEAD
 >>>>>>> 7810ae7 (test)
+=======
+<<<<<<< HEAD
+>>>>>>> 77cf449 (Update README.md)
 - [9]: Notes by Professor Pozar, C-transform: <https://github.com/pozar-lab/c-transform-note>
 <<<<<<< HEAD
 - [10]: Drop box: <https://www.dropbox.com/home>
@@ -177,9 +186,13 @@ Code by Jacobs, Leger for [1]: <https://github.com/Math-Jacobs/bfm>
 =======
 =======
 >>>>>>> 053761a (test)
-- [9]: Notes by Professor Pozar, C-transform: <https://github.com/pozar-lab/c-transform-note>
 =======
+
+>>>>>>> 0fc738f (Update README.md)
 - [9]: Notes by Professor Pozar, C-transform: <https://github.com/pozar-lab/c-transform-note>
+
+- [9]: Notes by Professor Pozar, C-transform: <https://github.com/pozar-lab/c-transform-note>
+<<<<<<< HEAD
 <<<<<<< HEAD
 - [10]: Drop box: <https://www.dropbox.com/home>
 <<<<<<< HEAD
@@ -215,4 +228,9 @@ Code by Jacobs, Leger for [1]: <https://github.com/Math-Jacobs/bfm>
 - [9]: Notes by Professor Pozar, C-transform: <https://github.com/pozar-lab/c-transform-note>
 >>>>>>> 5f51a89 (test)
 >>>>>>> 053761a (test)
+<<<<<<< HEAD
 >>>>>>> 7810ae7 (test)
+=======
+=======
+>>>>>>> 0fc738f (Update README.md)
+>>>>>>> 77cf449 (Update README.md)
