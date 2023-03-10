@@ -2,6 +2,7 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 # Topic: Optimal transport problem
 Fast back-and-forth method
 
@@ -34,6 +35,8 @@ How to proceed with research: <https://github.com/rekka/ctransform>
 >>>>>>> 949f904 (Initial commit)
 =======
 >>>>>>> 930bfb0 (test)
+=======
+>>>>>>> 50150c8 (test)
 # sakai
 
 Fast back-and-forth method
@@ -61,7 +64,12 @@ Code by Jacobs, Leger for [1]: <https://github.com/Math-Jacobs/bfm>
 =======
 >>>>>>> 969d7f4 (test)
 >>>>>>> 61d0d12 (test)
+<<<<<<< HEAD
 >>>>>>> 930bfb0 (test)
+=======
+=======
+>>>>>>> 76d7c69 (test)
+>>>>>>> 50150c8 (test)
 # Topic: Optimal transport problem
 Fast back-and-forth method
 
@@ -83,6 +91,7 @@ How to proceed with research: <https://github.com/rekka/ctransform>
 - [7]: [小林 愼一郎: 距離コストに対する最適輸送問題について](https://www.math.sci.hokudai.ac.jp/~wakate/mcyr/2020/pdf/kobayashi_shinichiro.pdf)
 
 - [8]: Code by Professor Pozar, C-transform: <https://github.com/pozar-lab/back-and-forth-python>
+<<<<<<< HEAD
 - [9]: Notes by Professor Pozar, C-transform: <https://github.com/pozar-lab/c-transform-note>
 <<<<<<< HEAD
 - [10]: Drop box: <https://www.dropbox.com/home>
@@ -112,4 +121,10 @@ How to proceed with research: <https://github.com/rekka/ctransform>
 - [10]: Drop box: <https://www.dropbox.com/home>
 >>>>>>> 969d7f4 (test)
 >>>>>>> 61d0d12 (test)
+<<<<<<< HEAD
 >>>>>>> 930bfb0 (test)
+=======
+=======
+- [9]: Notes by Professor Pozar, C-transform: <https://github.com/pozar-lab/c-transform-note>
+>>>>>>> 76d7c69 (test)
+>>>>>>> 50150c8 (test)
