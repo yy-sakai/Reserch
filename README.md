@@ -20,6 +20,7 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> bffbf1a (Initial commit)
 =======
@@ -74,6 +75,8 @@
 >>>>>>> 87ba7ee (test)
 =======
 >>>>>>> 60b5be0 (Update README.md)
+=======
+>>>>>>> d751e4a (Update README.md)
 
 =======
 <<<<<<< HEAD
@@ -308,6 +311,8 @@ Code by Jacobs, Leger for [1]: <https://github.com/Math-Jacobs/bfm>
 >>>>>>> 4356a46 (test)
 =======
 >>>>>>> 6c68cdc (Update README.md)
+=======
+>>>>>>> 13ac37a (Update README.md)
 # Topic: Optimal transport problem
 Fast back-and-forth method
 
@@ -340,6 +345,7 @@ How to proceed with research: <https://github.com/rekka/ctransform>
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> 3e948e5 (test)
 =======
@@ -350,8 +356,11 @@ How to proceed with research: <https://github.com/rekka/ctransform>
 >>>>>>> a6ff615 (test)
 =======
 >>>>>>> 3a6b250 (Update README.md)
+=======
+>>>>>>> d751e4a (Update README.md)
 
 - [9]: Notes by Professor Pozar, C-transform: <https://github.com/pozar-lab/c-transform-note>
+<<<<<<< HEAD
 <<<<<<< HEAD
 =======
 <<<<<<< HEAD
@@ -1513,4 +1522,9 @@ How to proceed with research: <https://github.com/rekka/ctransform>
 >>>>>>> 7cfc1e6 (test)
 >>>>>>> f39713b (test)
 >>>>>>> 987d6b1 (test)
+<<<<<<< HEAD
 >>>>>>> e4d705d (test)
+=======
+=======
+>>>>>>> 13ac37a (Update README.md)
+>>>>>>> d751e4a (Update README.md)
