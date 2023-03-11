@@ -19,6 +19,7 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> bffbf1a (Initial commit)
 =======
@@ -71,6 +72,8 @@
 >>>>>>> 2f615f3 (Initial commit)
 =======
 >>>>>>> 87ba7ee (test)
+=======
+>>>>>>> 60b5be0 (Update README.md)
 
 =======
 <<<<<<< HEAD
@@ -199,6 +202,8 @@
 >>>>>>> 70e3f55 (test)
 =======
 >>>>>>> d5b94e9 (Update README.md)
+=======
+>>>>>>> 3c73615 (Update README.md)
 # sakai
 
 Fast back-and-forth method
