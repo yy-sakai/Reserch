@@ -9,13 +9,13 @@ def dist(a, b):
 
 def push_forward1(t_mu, mu, phi_c, h):
     assert t_mu.shape == mu.shape == phi_c.shape
-    t_mu.fill(0.)
-
-    n = phi_c.shape[0]
+    
+    t_mu.fill(0.)                  # 0.で初期化 
+    n = phi_c.shape[0]             #  n = \phi_cの要素数
 
     # map each cell
     for i, mu_val in enumerate(mu):
-        if mu_val == 0.:
+        if mu_val == 0.:                # muの値が0.ならt_mu[ti], t_mu[tio]も0なのでスキップ
             continue
         # approximate T_#φ in each corner of the cell
         t_phi = np.zeros((2,))
@@ -46,8 +46,8 @@ def push_forward1(t_mu, mu, phi_c, h):
         c = phi_c[min(cj + 0, n - 1)]
         d = phi_c[min(cj + 1, n - 1)]
         # compute "x - \nabla(phi^c)"  using a simple 2nd order central finite difference
-        t_phi[0] = (ci * h) - (0.5 / h * (c - a))
-        t_phi[1] = (cj * h) - (0.5 / h * (d - b))
+        t_phi[0] = (ci * h) - ((c - a) / (2 * h))
+        t_phi[1] = (cj * h) - ((d - b) / (2 * h))
 
         x_stretch = dist(t_phi[0], t_phi[1])
         x_samples = max(int(np.ceil(x_stretch / h)), 1)  #距離を幅hで割り、小数点以下繰り上げることで,x_stretchの間のグリッドの数を計算.最低グリッド1つ.
@@ -59,7 +59,7 @@ def push_forward1(t_mu, mu, phi_c, h):
 
 
         for k in range(x_samples):
-            a = (k + 0.5) / x_samples
+            a = (k + 0.5) / x_samples      #a: [0, 1] 
 
             # sample position in [0,1]
             x = (1. - a) * t_phi[0] + a * t_phi[1]
@@ -148,13 +148,4 @@ def push_forward2(t_mu, mu, phi_c, h):
                 t_mu[tio, tj] += a * (1. - b) * mass
                 t_mu[ti, tjo] += (1. - a) * b * mass
                 t_mu[tio, tjo] += a * b * mass
-<<<<<<< HEAD
-<<<<<<< HEAD
 
-=======
->>>>>>> 76d22ba (Material presented on research in March of M1)
-=======
-=======
-
->>>>>>> 0e36a64 (sampling)
->>>>>>> 20d2aa8 (sampling)
