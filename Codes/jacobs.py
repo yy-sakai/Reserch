@@ -1,6 +1,7 @@
 import numpy as np
 import math
 import matplotlib.pyplot as plt
+from c_transform import c_transform
 
 def dist(a, b):
     return abs(a - b)
@@ -75,10 +76,47 @@ def push_forward1(t_mu, mu, phi_c, h):
             t_mu[ti] += (1. - a) * mass
             t_mu[tio] += a * mass
 
+#######################
+
+def lap_solve(f):
+    """Solves (-\Delta)u = f with Neumann boundary condition on [0,1]. 
+    f needs to be given at all nodes including the endpoints. The mean of f is set to zero."""
+    # even periodic extension to get cosine series; imaginary part of the result will be zero
+    pf = np.concatenate((f, f[-2:0:-1]))
+    ff = np.fft.rfft(pf)
+    xi = np.linspace(0, 1, len(f))
+    N = len(f) - 1
+    ff[0] = 0 # set mean to 0
+    ff[1:] /= 4 * np.sin(0.5 * np.pi * xi[1:])**2 * N**2
+    # perform inverse fft and remove the even periodic extension
+    return np.fft.irfft(ff)[:len(f)]
 
 
+if __name__ == '__main__':
+    x = np.linspace(-10, 10, 101)
+    p = x
+    #y = np.random.random(len(x))
+    y = np.sin(0.5 * x)
+    y = 0.5 * x * x
+    #y = 0 * x
+
+    yy, _ = c_transform(x, y, p)
+    t, iopt = c_transform(p, yy, p)
+    print(iopt)
 
 
+    mu = np.ones_like(x)
+    nu = push_forward1(mu, iopt)
+
+    plt.plot(x, mu)
+    plt.plot(x, nu)
+    plt.show() 
+
+    plt.plot(x, lap_solve(nu - mu))
+    plt.show()
+
+
+"""
 def push_forward2(t_mu, mu, phi_c, h):
     assert t_mu.shape == mu.shape == phi_c.shape
     t_mu.fill(0.)
@@ -148,4 +186,4 @@ def push_forward2(t_mu, mu, phi_c, h):
                 t_mu[tio, tj] += a * (1. - b) * mass
                 t_mu[ti, tjo] += (1. - a) * b * mass
                 t_mu[tio, tjo] += a * b * mass
-
+"""
