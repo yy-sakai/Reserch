@@ -8,10 +8,11 @@ def dist(a, b):
 
 ##########################################################
 
-def push_forward1(t_mu, mu, phi_c, h):
-    assert t_mu.shape == mu.shape == phi_c.shape
+def push_forward1(mu, phi_c, h):
+    assert mu.shape == phi_c.shape
     
-    t_mu.fill(0.)                  # 0.で初期化 
+    nu = np.zeros_like(mu)
+    #nu.fill(0.)                  # 0.で初期化 
     n = phi_c.shape[0]             #  n = \phi_cの要素数
 
     # map each cell
@@ -73,8 +74,10 @@ def push_forward1(t_mu, mu, phi_c, h):
 
             a = xcell - np.floor(xcell)
 
-            t_mu[ti] += (1. - a) * mass
-            t_mu[tio] += a * mass
+            nu[ti] += (1. - a) * mass
+            nu[tio] += a * mass
+            
+    return nu
 
 #######################
 
@@ -102,11 +105,12 @@ if __name__ == '__main__':
 
     yy, _ = c_transform(x, y, p)
     t, iopt = c_transform(p, yy, p)
-    print(iopt)
+    plt.plot(x, t)
+    plt.show() 
 
-
+    h = 0.2
     mu = np.ones_like(x)
-    nu = push_forward1(mu, iopt)
+    nu = push_forward1(mu, t, h)
 
     plt.plot(x, mu)
     plt.plot(x, nu)
