@@ -9,8 +9,10 @@ from push_forward import lap_solve
 x = np.linspace(-1, 1, 101)
 p = x
 
-mu = np.where((x > 0.) & (x < 0.5), 1, 0.)     #True: 1. False: 0.
-nu = np.where((x > -0.5) & (x < -0.), 1., 0.)
+mu = np.exp(-(x - 0.5)**2 * 100)   #e^(-(x-0.5)^2 * 100)    #True: 1. False: 0.
+mu /= np.sum(mu)                   # mu = mu / np.sum(mu)
+nu = np.exp(-(x + 0.2)**2 * 100) + np.exp(-(x+0.7)**2 * 100)
+nu /= np.sum(nu) 
 """
 plt.plot(x, mu)
 plt.plot(x, nu)
@@ -39,7 +41,7 @@ fig, ax = plt.subplots()
 artists = []
 
 
-for k in range(50):
+for k in range(300):
     phi_c, phi_iopt = c_transform(x, phi, p)
     phi += sigma * lap_solve(nu - push_forward1(mu, phi_c, h))
     psi, _ = c_transform(x, phi, p)                             #psi_{n + 1/2} = (phi_{n + 1/2})^c
@@ -53,10 +55,8 @@ for k in range(50):
     img2, = ax.plot(x, push_forward1(mu, phi_c, h), color='blue', label=r'$T_{\psi \#} \nu$')
     
     if k % 1 == 0:
-        ax.set_xlim(-1,1)
-        ax.set_ylim(-0.5,2.5) 
         ax.legend(prop={'size': 15})
         artists.append([img1, img2, title])
     
-ani = animation.ArtistAnimation(fig, artists, interval=100)
+ani = animation.ArtistAnimation(fig, artists, interval=2, repeat_delay=1000)
 plt.show()
