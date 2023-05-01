@@ -5,6 +5,44 @@ from c_transform import c_transform
 from jacobs import push_forward1
 from push_forward import lap_solve
 
+scaleDown = 0.5
+scaleUp   = 1/scaleDown
+upper = 0.75
+lower = 0.25
+
+sigma = 2000.
+
+def update_sigma(diff, H1_sq, sigma):
+    if diff < 0.:
+        sigma *= 0.1
+    elif diff > H1_sq * sigma * upper:
+        sigma *= scaleUp
+    elif diff < H1_sq * sigma * lower:
+        sigma *= scaleDown
+    return sigma
+
+# ascent step of J(phi) = \int phi dnu + \int phi^c dmu
+# fills phi and phi_c, returns new sigma
+def ascent(phi, phi_c, mu, nu, sigma):
+    phi_c[:] = phi
+    c_transform(x, phi_c, x)
+
+    old_J = w2(phi, phi_c, mu, nu)
+
+    baf.push_forward2(pfwd, mu, phi_c, h)
+    rho = nu - pfwd
+    # TODO: This is by far the slowest part of the algorithm
+    lp = nlap.solve(rho)
+    phi += sigma * lp
+
+    phi_c[:] = phi
+    baf.ctransform2(phi_c, h)
+
+    J = w2(phi, phi_c, mu, nu)
+    H1_sq = np.sum(rho * lp)
+    return update_sigma(J - old_J, H1_sq, sigma), J, H1_sq
+
+
 
 x = np.linspace(-1, 1, 101)
 p = x
@@ -21,7 +59,6 @@ plt.show()
 phi = np.zeros_like(x)
 psi = np.zeros_like(x)  
 
-sigma = 1
 
 phi_iopt = np.arange(len(x))
 psi_iopt = np.arange(len(x))
