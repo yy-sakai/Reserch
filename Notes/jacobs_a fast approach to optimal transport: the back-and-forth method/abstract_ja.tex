@@ -1,5 +1,5 @@
 \documentclass{jsarticle}
-
+%
 \usepackage{type1cm}
 \usepackage{amsthm}
 \usepackage{color}
@@ -7,7 +7,7 @@
 \usepackage{listings,jvlisting}
 \usepackage{float}
 \usepackage{here, amsmath, latexsym, amssymb, bm, ascmac, mathtools, multicol, tcolorbox, subfig, graphicx, comment, pgfplots}
-
+%
 
 \newtheorem{thm}{Theorem}[section]
 \newtheorem{cor}{Corollary} [thm]
@@ -17,7 +17,7 @@
 \newtheorem{dfn}{Definition}[section]
 \newtheorem{ex}{Example}[section]
 
-
+%
 \lstset{
   basicstyle={\ttfamily},
   identifierstyle={\small},
@@ -37,29 +37,28 @@
   lineskip=-0.5ex
 }
 
-
-\begin{document}
-
-
 \title{C-transform}
 
+\author{坂井幸人}
+
+\date{\today}
+
+\begin{document}
 \maketitle
 
-\section{Convex hull (Convex envelope)}
+\section{Introduction}
+狭凸関数の最適輸送問題を効率よく解く解法。
 
+$n$個の点を持つ離散グリッド上の最適輸送マップを$O(n log(n))$の操作と$O(n)$のストレージで計算。
 
-\begin{enumerate}
-   \item $f(x)$を離散化する.
-   \item $l = [0, - \infty ]$(点と2点の傾きを保存する.) 
-   \item 傾き更新(繰り返し)
-   \begin{enumerate}
-   	\item ''一つ前の傾き''$ < $''現在の傾き''$\Rightarrow$ OK $l$に点と傾きを追加
-   	\item ''一つ前の傾き''$ > $''現在の傾き''$\Rightarrow$ 一つ前の点と傾きを消去
-   	
-   	傾き計算：$c_i = \tfrac{f_{i+1} - f_i}{x_{i+1}- x_i}$
-   \end{enumerate}
-\end{enumerate}
+一連のソースからシンクへの質量輸送の最も費用効率の良い方法を見つけることを目的としている。
 
+この理論は、1942年にKantorovichによって近代化され、最適輸送と線形計画法の間に重要な関連性を見出しました。近年、最適輸送への関心は爆発的に高まっています。
+
+これは、2次コスト最適輸送問題と、統計力学や流体力学で発生する偏微分方程式（PDE）の多様なクラスとの深い関連性が発見されたことに一因があります。
+
+最適マップの計算は非常に困難な課題でした。私たちの知る限りでは、これまでに最適輸送問題を解決するための既知のすべての方法は、問題サイズに関して線形スケーリングしない[3,5]、最適マップを正確に計算できない[10]、または限られた確率密度のクラスにしか適用できない[4]という問題があります。
+\subsection{}
 
 
 \end{document}
