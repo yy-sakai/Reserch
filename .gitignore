@@ -4,7 +4,7 @@
 *.JPG
 *.jpeg
 Reference/*
-Codes/Reference/*
+Codes/Reference
 .DS_Store
 __pycache__
 *.synctex.gz
