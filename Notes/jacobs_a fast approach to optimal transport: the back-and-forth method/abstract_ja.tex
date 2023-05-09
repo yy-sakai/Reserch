@@ -776,6 +776,30 @@ vanilla勾配上昇法 $\phi_{n+1} = \phi_n + \sigma\nabla_{\dot{H}^1} J(\phi_n)
 また、代わりに $\psi$-空間で作業し、関数 $I$ 上の勾配上昇スキームを書くこともできます。
 おそらくより良いアイデアは、$\phi$-空間と $\psi$-空間を交互に行き来することです。
 これは、アルゴリズム1で示されている back-and-forth 方法の中心的なアイデアです。
+現在の反復$(\phi_n, \psi_n)$は以下のように更新されます:
+\begin{align*}
+  \phi_{n+\frac{1}{2}} &= \phi_n + \sigma \nabla_{\dot{H}^1} J(\phi_n),\\
+  \psi_{n+\frac{1}{2}} &= (\phi_{n+\frac{1}{2}})^c,\\
+  \psi_{n+1} &= \psi_{n+\frac{1}{2}} + \sigma \nabla_{\dot{H}^1} I(\psi_{n+\frac{1}{2}}), \\
+  \quad \phi_{n+1} &= (\psi_{n+1})^c.
+\end{align*} 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 \section{Numerical implementation and results}
