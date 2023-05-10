@@ -96,7 +96,7 @@ $n$個の点を持つ離散グリッド上の最適輸送マップを$O(n log(n)
 そのため、大部分の領域でゼロになる密度であっても最適輸送問題を解くことができます。
 前後法の効率性と柔軟性により、以前の手法では扱えなかった最適輸送問題を解くことができます。
 
-\color{black}0
+\color{black}
 
 
 \subsection{Overall approach}
@@ -272,6 +272,7 @@ $T$に関する項でまとめると、
 $c$-変換は、関数$\phi$を別の関数$\phi^c$にマップするものであり、凸解析のルジャンドル変換（凸共役）の一般化と見ることができます。
 
 \begin{dfn}
+  \label{dfn:c-transform}
   連続関数 $\phi: \omega \to \mathbb{R}$に対して、その$c$-transform $\phi^c: \omega \to \mathbb{R}$を以下のように定義する。
   \begin{equation*}
     \phi^c(x) = \inf_{y \in \omega} c(x, y) - \phi(y)
@@ -295,6 +296,7 @@ $c$-変換は、関数$\phi$を別の関数$\phi^c$にマップするもので�
 
 
 \begin{lem}
+  \label{lem:c-transform}
   $\left[ 12, 13 \right]$
   連続関数 $\phi: \Omega \to \mathbb{R}$ について、$c$-transform は次の特性を持ちます:
   \begin{enumerate}
@@ -440,7 +442,7 @@ $$
 
 
 \section{The back-and-forth method}
-
+\label{sect:the back-and-forth method}
 
 $\omega \subset \mathbb{R}^d$を凸かつコンパクトな領域とし、次の形式のコスト$c: \omega \times \omega \to \mathbb{R}$を考える。
 $$
@@ -508,7 +510,7 @@ $J$と$I$の関数は基本的に同じであることに注意してくださ�
 
 
 \subsection{$\dot{H}^1$-gradientascent}
-
+\label{sect:H1-gradient ascent}
 The back-and-forth methodの主要なステップは、$\dot{H}^1$メトリックにおける勾配上昇ステップであり、
 
 \begin{align*}
@@ -660,8 +662,9 @@ $$
 （注意：より正確な議論により、式(9)の右辺にある $\frac{1}{2}$ の因子は除去できますが、ここでは気にしません）。
 再度強調しますが、$\mathcal{H}$ に関連付けられたノルムが強くなるにつれて、不等式(9)はより簡単に満たされるようになります。
 実際、$\mathcal{H}$ が強くなると $\mathcal{H}^*$ は弱くなり、左辺が小さくなる一方で、右辺が大きくなります。\\
-
+{\color{teal}
 不等式(9)は、関数$\phi \mapsto T_{\phi \#}$が$\mathcal{H} \to \mathcal{H}$へのLipschitz連続写像である必要があることを示しています。
+}
 したがって、上昇特性を持つ勾配上昇スキームを得るために、$\phi$と$\hat{\phi}$が$\mathcal{H}$で近ければ、$T_{\phi \#} \mu$と$T_{\hat{\phi} \#} \mu$が$\mathcal{H}^*$で近くなるHilbert空間$\mathcal{H}$を選ぶ必要があります。
 これは容易な課題ではありません。
 たとえば、$\phi$が$c$-凸でない場合、写像$\phi \mapsto T_\phi$ がwell-definedではない場合があり、必ずしも特定の連続性を持たない場合があります。\\
@@ -756,7 +759,7 @@ $$
 $$
 上では、$\iota_C$ は0をとり、他のペア$(\varphi, \psi)$に対しては$+ \infty$をとります。
 
-
+\color{teal}
 Kantorovich問題(\ref{eq:Kantorovich問題})は、 双対汎関数$D$(\ref{eq:双対汎関数})を用いて、
 $C(\mu, \nu) = \sup_{\phi, \psi} D(\phi, \psi)$
 と簡潔に書くことができます。
@@ -770,7 +773,7 @@ $$
 $$
 J(\phi) = D(\phi, \phi^c) = \sup_\psi D(\phi, \psi), \quad I(\psi) = D(\psi^c, \psi) = \sup_\phi D(\phi, \psi).
 $$
-
+\color{black}
 vanilla勾配上昇法 $\phi_{n+1} = \phi_n + \sigma\nabla_{\dot{H}^1} J(\phi_n)$ は、
 (任意の) $\phi$-空間にフォーカスし、関数 $J$ の勾配ステップを反復します。
 また、代わりに $\psi$-空間で作業し、関数 $I$ 上の勾配上昇スキームを書くこともできます。
@@ -785,26 +788,179 @@ vanilla勾配上昇法 $\phi_{n+1} = \phi_n + \sigma\nabla_{\dot{H}^1} J(\phi_n)
 \end{align*} 
 
 
+The back-and-forthのアプローチは、前のサブセクションで特定した問題を既に解決しています。 
+$\phi$と$J$に関しての純粋な勾配上昇スキーム$\phi_{n + 1} = \phi_n + \sigma \nabla_{\dot{H}^1} J(\phi_n)$（または同様に$\psi$と$I$に関して）、その繰り返し（反復）が$c$-concaveであることが保証されません.
+$\phi$または$\psi$が$c$-concaveでない場合、勾配$\nabla_{\dot{H}^1} J(\phi)$または$\nabla_{\dot{H}^1} I(\psi)$がwell-definedでない可能性があります。
+the back-and-forth methodでは、勾配を取るたびに、対象の関数が常に$c$-concaveであるため、問題がありません。
+実際、$\phi_n = \psi_{n -1}^c$および$\psi_{n + \frac{1}{2}}$であるため、$\nabla_{\dot{H}^1} J(\phi_n)$および$\nabla_{\dot{H}^1} I(\psi_{n + \frac{1}{2}})$は常にwell-definedです。\\
 
 
+さらに、the back-and-forthの更新は純粋な勾配上昇法よりも悪化することはありません。
+実際、$c$-transformを行う中間ステップは、双対問題の値を増加させることしかできません。
+{\color{teal}
+Lemma \ref{lem:c-transform}の性質$(i)$から、以下が成り立ちます。
 
+$$
+J(\phi_{n + \frac{1}{2}}) \leq J(\phi_{n + \frac{1}{2}}^{cc}) = I(\psi_{n + \frac{1}{2}}),
+$$
 
+$$
+I(\psi_{n+1}) \leq I(\psi_{n + 1}^{cc}) = J(\phi_{n+1}).
+$$
+}
 
+したがって、中間の$c$-transformのステップは双対的な機能の値を増加させるのに役立ちます。
+これをSect. \ref{sect:H1-gradient ascent}の以前の結果と組み合わせると、The back-and-forth methodに関する以下の結果を得ることができます。\\
 
+\color{teal}
+\begin{prop}
+  \label{prop:不等式連鎖}
+  二次コスト最適輸送問題に対するthe back-and-forth method（Algorithm 1）を考えます。
+  すべての繰り返し$\phi_n$, $\phi_{n + \frac{1}{2}}$, $\psi_n$, $\psi_{n + \frac{1}{2}}$が、
+  関数の集合
+  $$
+  S_{\lambda}=\{\varphi:(1-\lambda^{-1})I\leq D^2\varphi(x)\leq (1-\lambda)I\},
+  $$
+  に属している$\lambda > 0$が存在するとします。このとき、すべての整数$n$に対して次の不等式連鎖が成り立ちます。
+  $$
+  D(\phi_{n+1},\psi_{n+1})\geq D(\phi_{n + \frac{1}{2}},\psi_{n + \frac{1}{2}})\geq D(\phi_n,\psi_n),
+  $$
+  同値的に、$I$と$J$の値は交互に増加します。
+  $$
+  I(\psi_{n+1})\geq I(\psi_{n + \frac{1}{2}})\geq J(\phi_{n + \frac{1}{2}})\geq J(\phi_n)\geq I(\psi_n).
+  $$
+\end{prop}
 
+\color{black}
+Proposition \ref{prop:不等式連鎖}の簡単な証明は「付録」に記載されています。
 
+\begin{comment}
+  Proposition 2の簡単な証明を以下に示します。
 
+  1. 全ての反復$\varphi_n$、$\varphi_{n+1/2}$、$\psi_n$、$\psi_{n+1/2}$が関数集合$S_{\lambda}=\{\varphi:(1-\lambda^{-1})I\leq D^2\varphi(x)\leq(1-\lambda)I\}$に属すると仮定します。
+  2. 反復の定義を使用して、$\varphi_{n+1}$と$\psi_{n+1}$を$\varphi_n$、$\varphi_{n+1/2}$、$\psi_n$、$\psi_{n+1/2}$の式で表します。
+  3. 関数集合$S_{\lambda}$に関する仮定を使用して、$\varphi_{n+1}$と$\varphi_{n+1/2}$の差、および$\psi_{n+1}$と$\psi_{n+1/2}$の差を境界します。
+  4. 差の境界と二次コスト関数の性質を使用して、不等式$D(\varphi_{n+1},\psi_{n+1})\geq D(\varphi_{n+1/2},\psi_{n+1/2})\geq D(\varphi_n,\psi_n)$を導出します。
+  5. 原始問題と双対問題の双方の関係性と二次コスト関数の性質を使用して、不等式$I(\psi_{n+1})\geq I(\psi_{n+1/2})\geq J(\varphi_{n+1/2})\geq J(\varphi_n)\geq I(\psi_n)$を導出します。
 
+  注意：これは一般的な概要であり、実際の証明には追加の手順と技術的な詳細が必要な場合があります。
+\end{comment}
 
+\vspace\baselineskip 
 
-
-
-
+The back-and-forthの更新を行っても、反復関数の凸性の境界条件を仮定しない限り、厳密な収束証明を行うことはできないことに注意。
+しかし、私たちが完全に理解していない理由で、the back-and-forth methodは、比較的大きなステップサイズでも非常に安定しています（JまたはIのvanilla上昇法はより不利に振る舞います）。
+さらに、the back-and-forth methodは最大値に非常に迅速に収束します。
+この発見には、特定の特徴を "$\phi$-空間"または "$\psi$-空間"のどちらかで構築することが容易であるためであると考えられます。
+実際、二次コストのための$c$-共役関数Def.\ref{dfn:c-transform}のペア$(\phi, \psi)$がある場合、次の関係が成立します。
+$$
+D^2 \phi(x - \nabla\phi(x)) = (D^2 \psi(x))^{-1}
+$$
+すなわち、二次$c$-transformはヘシアンの上限を反転させます。
+空間を交互に切り替えることで、より小さい空間で特徴を構築し、より迅速に解に収束することができます。
 
 
 \section{Numerical implementation and results}
 \subsection{The fast c-transform}
+
+
+定格グリッド上での$c$-変換の計算は、次の最適化問題を各グリッド点$x$に対して解く必要があります。
+$$
+\phi^c(x) = \inf_y h(y - x) - \phi(y)
+$$
+一次元の場合、コストの厳密な凸性は、$y$に関する導関数
+$$
+h^\prime(y - x) - \phi^\prime(y)
+$$
+が$x$の減少関数であることを意味します。
+この結果、最小化する $y(x)=\operatorname{argmin}_y h(y-x) - \phi(y)$ は $x$ に関して単調に増加することがわかります。
+つまり、$x_1 \leq x_2$ のとき、$y(x_1) \leq y(x_2)$ です。
+この観察結果は、$n$個の点における1次元の$c$-transformを $O(n \log(n))$ の操作で計算するための分割統治アルゴリズムの設計に利用できます [9]。
+
+
+このアルゴリズムのキーとなるアイデアは、点$x = \frac{k}{n},\frac{k + 2}{n}$について最小値を持つ$y(x)$がわかっている場合、中央の点の最小値が他の$2$点の間に「閉じ込められる」ということです。つまり、
+
+$$
+y\left(\frac{k}{n} \right) \leq y\left(\frac{k + 1}{n} \right) \leq y\left(\frac{k + 2}{n} \right),
+$$
+となります。
+したがって、偶数のグリッドポイントの$c$-transformと、奇数のグリッドポイントの$c$-transformを別々に計算し、上記の交錯性を使用して完全な解を再構築することができます。
+具体的なアルゴリズムや詳細については、[9]を参照してください。\\
+
+このため、各次元で分解するコスト関数 
+$$
+h(y-x) = \sum_{i = 1}^{d}  h_i(y_i - x_i),
+$$ に限定すると、$1$-次元の $c$-transform を反復適用することで $d$-次元の $c$-transform を計算することができます。
+例えば、2次元の場合は次のようになります。
+
+\begin{align*}
+  \inf_y h(y - x) - \phi(y) &= \inf_{y_2} \inf_{y_1} \left\{ h_2(y_2 - x_2) + h_1(y_1 - x_1) - \phi(y_1, y_2) \right\}  \\
+                            &= \inf_{y_2} \left\{ h_2(y_2 - x_2) + \phi(\cdot, y_2)^c(x_1) \right\}.
+\end{align*}
+ここで、$\tilde{\phi}(x_1, y_2) = -\phi(\cdot, y_2)^c(x_1)$ と書くと、最後の式は$y_2$に関する$c$-transformとなります。
+$$
+  \inf_{y_2} h_2(y_2 - x_2) - \tilde{\phi}(x_1, y_2).
+$$
+
+したがって、$2$次元の場合、全体の$c$-transformを計算するためには、
+まずすべての水平線に沿って1次元のc-transformを計算し、次にすべての垂直線に沿って計算します。
+このアイデアは任意の次元に一般化され、多次元高速フーリエ変換（FFT）を計算するために使用される完全に同じメカニズムです。\\
+
+極めて重要で特別な$h(y-x)=\frac{1}{2}|y-x|^2$ の場合、$c$-transform はより効率的に計算できます。
+$h$の2乗部分を計算すると、次のようになります。
+\begin{align*}
+  \phi^c(x) &= \inf_y \left[h(y - x) - \phi(y) \right]\\
+            &= \inf_y \left[\frac{1}{2}|y-x|^2 - \phi(y) \right]\\
+            &=\frac{1}{2}|x|^2+\inf_y\left[-x\cdot y+\frac{1}{2}|y|^2-\phi(y)\right].
+\end{align*}
+ここで、$\varphi(y)=\frac{1}{2}|y|^2-\phi(y)$ と設定し、Legendre 変換を $\varphi^*(x)$ で表すと,
+\begin{equation}
+  \label{eq:legendre}
+  \varphi^*(x)=\sup_y x\cdot y-\varphi(y),
+\end{equation}
+そして、
+$$\phi^c(x)=\frac{1}{2}|x|^2-\varphi^*(x).$$
+したがって、2次の$c$-transformを計算する代わりにLegendre変換を計算することで$c$-transformが計算できます。
+
+$n$個の点集合に対する一次元のLegendre変換は、$O(n)$の操作で計算することができます[19]。
+[19]のアイデアは、Legendre変換の2つの非常に重要な性質、つまり$\varphi^* = \varphi^{***} = (\varphi^{**})^*$であり、
+$\varphi^{**}$が$\varphi$のconvex hullであることを利用しています.
+したがって、(\ref{eq:legendre})を計算することは、
+\begin{equation}
+  x - (\varphi^{**})^\prime(y)
+\end{equation}
+の値を求めることに相当し、ここで符号が正から負に変わる場所が$y(x)$の値です。
+
+$\varphi^{**}$が凸であるため、勾配$(\varphi^{**})^\prime(y)$は増加します。
+したがって、(13)の各$x$に対応する符号変化$y(x)$を1回の$(\varphi^{**})^\prime(y)$値のスキャンで見つけることができます。
+$n$個の定格の点を持つ1次元グリッドでは、スキャンステップは$O(n)$の操作を要し、
+重要なことに、convex hull $\varphi^{**}$も$O(n)$の操作で計算できます[19]。
+また、$c$-transformの場合と同様に、多次元レジェンドル変換も各次元で問題を分解することで計算できます。
+最後に、正確なアルゴリズムと詳細については、[19]を参照してください。
+
 \subsection{Step sizes}
+
+\ref{sect:the back-and-forth method}章で見たように、任意の関数$\phi$における勾配マッピングのLipschitz定数を決定することは容易ではありません。
+したがって、固定したステップサイズの勾配上昇法において最適な$\sigma$を選択する方法は明確ではありません。
+そのため、Armijo-Goldstein型のアップデートルール[2]を使用して、アルゴリズム中に$\sigma = \sigma_n$を更新します。\\
+
+各勾配ステップ後に、$J(\phi_{n+1})-J(\phi_n)$ を2乗ノルム$\| \nabla_{\dot{H}^1} J(\phi) \|_{\dot{H}^1}^2$ （$I$および$\psi, \psi$の場合についても同様）に比較します。
+パラメータ$0<\beta_1<\beta_2<1, \alpha_1>1, \alpha_2<1$ が与えられた場合、以下を確認します。
+
+$$
+- \sigma_n \beta_2 \|\nabla_{\dot{H}^1} J(\phi_n)\|^2 \leq J(\phi_n)-J(\phi_{n+1}) \leq - \sigma_n \beta_1 \|\nabla_{\dot{H}^1} J(\phi_n)\|_{\dot{H}^1}^2.
+$$
+
+もし上の不等式が成立しない場合、
+我々は$\sigma_n$を減らすために$\sigma_{n+1}=\alpha_2\sigma_n$を取ります。
+下の不等式が成立しない場合、$\sigma_n$を増やすために$\sigma_{n+1}=\alpha_1\sigma_n$を取ります。
+全ての実験において、$\beta_1 = \frac{1}{4},\beta_2 = \frac{3}{4}, \alpha_1 = \frac{5}{4}, \alpha_2 = \frac{4}{5}$とし、$\sigma = 8 \min(\|\mu\|_{L^\infty}^{-1}, \|\nu\|_{L^\infty}^{-1})$を初期値として選択します。\\
+
+注意すべきは、我々はbacktrackingを行いません。
+新しいの値、すなわち$\sigma = \sigma_{n+1}$は単に次の更新ステップで使用されます。
+実際、関数における$J$または$I$を評価するには$c$-transformの計算が必要であるため、特定の反復回数でステップサイズを最適化しようとする価値はありません。
+
+
 \subsection{Experiments}
 
 
