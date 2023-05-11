@@ -99,16 +99,16 @@ if __name__ == '__main__':
     x = np.linspace(-10, 10, 101)
     p = x
     #y = np.random.random(len(x))
-    y = np.sin(0.5 * x)
+    #y = np.sin(0.5 * x)
     y = 0.5 * x * x
     #y = 0 * x
 
     yy, _ = c_transform(x, y, p)
-    t, iopt = c_transform(p, yy, p)
+    t, _= c_transform(p, yy, p)
     plt.plot(x, t)
     plt.show() 
 
-    h = 0.2
+    h = x[1] - x[0]
     mu = np.ones_like(x)
     nu = push_forward1(mu, t, h)
 

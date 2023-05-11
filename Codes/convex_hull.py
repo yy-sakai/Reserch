@@ -14,7 +14,7 @@ def convex_hull(x, y):
         while True:
             pi, pv = l[-1]                               #pi:一つ前の(Previous)「点の添字番号（左から数えた点の番号(x_i)）」pv: 一つ前の「現在の点と前の点で作る直線の傾きv」
             v = (ny - y[pi]) / (nx - x[pi])              #v:現在の点と一つ前の点で作った直線の傾き
-            #print('v = ', v)
+            # print('v = ', v)
             if v <= pv:                                  #傾きが一つ前の傾きより小さかったら
                 del l[-1]                                #一つ前の点（添字、傾き）を消す
                 #print(l)

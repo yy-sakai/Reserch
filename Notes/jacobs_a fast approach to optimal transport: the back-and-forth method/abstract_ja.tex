@@ -486,7 +486,7 @@ $J$と$I$の関数は基本的に同じであることに注意してくださ�
   $$
   ここで、任意の c-凹関数 $\phi: \omega \rightarrow \mathbb{R}$ に対して、
   $$
-  T_\phi(x) = x - (\nabla h)^{-1}(\nabla \psi^c(x)).
+  T_\varphi(x) = x - (\nabla h)^{-1}(\nabla \varphi^c(x)).
   $$
   になることを思い出す。
 \end{lem}
@@ -791,9 +791,10 @@ vanilla勾配上昇法 $\phi_{n+1} = \phi_n + \sigma\nabla_{\dot{H}^1} J(\phi_n)
 The back-and-forthのアプローチは、前のサブセクションで特定した問題を既に解決しています。 
 $\phi$と$J$に関しての純粋な勾配上昇スキーム$\phi_{n + 1} = \phi_n + \sigma \nabla_{\dot{H}^1} J(\phi_n)$（または同様に$\psi$と$I$に関して）、その繰り返し（反復）が$c$-concaveであることが保証されません.
 $\phi$または$\psi$が$c$-concaveでない場合、勾配$\nabla_{\dot{H}^1} J(\phi)$または$\nabla_{\dot{H}^1} I(\psi)$がwell-definedでない可能性があります。
+{\color{red}
 the back-and-forth methodでは、勾配を取るたびに、対象の関数が常に$c$-concaveであるため、問題がありません。
-実際、$\phi_n = \psi_{n -1}^c$および$\psi_{n + \frac{1}{2}}$であるため、$\nabla_{\dot{H}^1} J(\phi_n)$および$\nabla_{\dot{H}^1} I(\psi_{n + \frac{1}{2}})$は常にwell-definedです。\\
-
+実際、$\phi_n = \psi_{n -1}^c$および$\psi_{n + \frac{1}{2}} = \phi^c_{n + \frac{1}{2}}$であるため、$\nabla_{\dot{H}^1} J(\phi_n)$および$\nabla_{\dot{H}^1} I(\psi_{n + \frac{1}{2}})$は常にwell-definedです。\\
+}
 
 さらに、the back-and-forthの更新は純粋な勾配上昇法よりも悪化することはありません。
 実際、$c$-transformを行う中間ステップは、双対問題の値を増加させることしかできません。
