@@ -1,9 +1,13 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
+import os
 from c_transform import c_transform
 from jacobs import push_forward1
 from push_forward import lap_solve
+
+image_root = "./images/back_and_forth/"
+os.makedirs(image_root, exist_ok = True)
 
 # Wasserstein distance \int \phi d\nu + \int \phi^c d\mu
 def w2(phi, psi, mu, nu):
@@ -91,31 +95,105 @@ plt.show()
 
 fig, ax = plt.subplots()
 artists = []
+plt.xlim(-1,1)
+plt.ylim(-0.0001,0.013) 
+
+
+class Hist: pass
+
+hist = Hist()
+
+hist.sigma1 = []
+hist.sigma2 = []
+hist.J = []
+hist.I = []
+hist.H1_sq = []
+hist.phi = []
+hist.Tphi_mu = []
+hist.Tpsi_nu = []
+
 
 for k in range(100):
     plt.title(r'back-and-forth update $\mu$ and $\nu$. Example 1:  Iterate ' + str(k+1))
     #title = ax.text(4.5, 1.15, 'back-and-forth update $\mu$ and $\nu$. Example 2:  Iterate {}'.format(str(k+1)))
     
     sigma1, J, H1_sq, phi, psi, pfwd  = ascent(phi, psi, mu, nu, sigma1)
-    print(sigma1)
-    print(H1_sq)
-    print(J)
+    
+    print(f'{k:3}: J(φ) = {J}, (H¹)² = {H1_sq:.3}, σ₂ = {sigma1:.5}')
+    
     if common_sigma:
         sigma2 = sigma1
-    if k % 10 == 0:
+        
+    hist.J.append(J)
+    hist.H1_sq.append(H1_sq)
+    hist.sigma1.append(sigma1)
+    
+    hist.phi.append(np.float32(phi))
+    hist.Tphi_mu.append(np.float32(pfwd))
+    
+    
+    
+    if k == 0:
+        plt.plot(x, pfwd,label=r'$\nu$')
+    else:
         plt.plot(x, pfwd,label=r'$T_{\psi \#} \nu$')
     #img2, = ax.plot(x, pfwd, color='blue', label=r'$T_{\psi \#} \nu$')
     
     
     sigma2, J, H1_sq, psi, phi, pfwd = ascent(psi, phi, nu, mu, sigma2)
+    
     if common_sigma:
         sigma1 = sigma2
+    
+    print(f'{k:3}: I(ψ) = {J}, (H¹)² = {H1_sq:.3}, σ₂ = {sigma2:.5}')
+    
+    hist.I.append(J)
+    hist.H1_sq.append(H1_sq)
+    hist.sigma2.append(sigma2)
+    
+    hist.Tpsi_nu.append(np.float32(pfwd))
+
         
-    if k % 10 == 0:
+    if k == 0:
+        plt.plot(x, pfwd,label=r'$\mu$')
+    else:
         plt.plot(x, pfwd,label=r'$T_{\phi \#} \mu$')
+        
+    
+    plt.legend(prop={'size': 15})
+    plt.savefig(f'{image_root}Tphi_mu,Tpsi_nu{k:04}.png', )
+    plt.close()
     #img1, = ax.plot(x, pfwd, color='red',label=r'$T_{\phi \#} \mu$')
     
     
+plt.plot(hist.sigma1)
+plt.plot(hist.sigma2)
+plt.savefig(f'{image_root}_sigma.png')
+plt.close()
+    
+    
+J = np.array(hist.J)
+plt.semilogy(np.max(J) - J)
+plt.savefig(f'{image_root}_J.png')
+plt.close()
+
+I = np.array(hist.I)
+plt.semilogy(np.max(I) - I)
+plt.savefig(f'{image_root}_I.png')
+plt.close()
+
+plt.semilogy(hist.H1_sq)
+plt.savefig(f'{image_root}_H1_sq.png')
+plt.close()
+
+
+np.savez_compressed(f'{image_root}phi', *hist.phi)
+np.savez_compressed(f'{image_root}Tphi_mu', *hist.Tphi_mu)
+np.savez_compressed(f'{image_root}Tpsi_nu', *hist.Tpsi_nu)
+
+print(f'Plots saved in {image_root}')
+    
+"""
     if k % 10 == 0:
         #plt.xlim(-1,1)
         plt.ylim(-0.0001,0.013) 
@@ -124,7 +202,7 @@ for k in range(100):
        
         #ax.legend(prop={'size': 15})
         #artists.append([img1, img2, title])
-        
+"""
 #ani = animation.ArtistAnimation(fig, artists, interval=100, repeat_delay=1000)
 #plt.show()
     
