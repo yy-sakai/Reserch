@@ -1,0 +1,317 @@
+\documentclass{jsarticle}
+%
+\usepackage{type1cm}
+\usepackage{amsthm}
+\usepackage{color}
+
+\usepackage[dvipdfmx]{graphicx}
+\usepackage{listings,jvlisting}
+\usepackage{float}
+\usepackage{here, amsmath, latexsym, amssymb, bm, ascmac, mathtools, multicol, tcolorbox, subfig, graphicx, comment, pgfplots}
+%
+
+% 「%」は以降の内容を「改行コードも含めて」無視するコマンド
+\usepackage[%
+ dvipdfmx,% 欧文ではコメントアウトする
+ setpagesize=false,%
+ bookmarks=true,%
+ bookmarksdepth=tocdepth,%
+ bookmarksnumbered=true,%
+ colorlinks=true,%
+ citecolor=green,%
+ urlcolor=magenta,%
+ linkcolor=blue,%
+ pdftitle={},%
+ pdfsubject={},%
+ pdfauthor={},%
+ pdfkeywords={}%
+]{hyperref}
+% PDFのしおり機能の日本語文字化けを防ぐ((u)pLaTeXのときのみかく)
+\usepackage{pxjahyper}
+
+
+
+\makeatletter
+\@addtoreset{equation}{section}
+\def\theequation{\thesection.\arabic{equation}}% renewcommand でもOK
+\makeatother
+
+
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{cor}{Corollary} [thm]
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{prop}[thm]{Proposition}
+\theoremstyle{definition}
+\newtheorem{dfn}{Definition}[section]
+\newtheorem{ex}{Example}[section]
+\newtheorem{rem}{Remark}[section]
+
+\renewcommand{\labelenumi}{(\roman{enumi})}
+
+%
+\lstset{
+  basicstyle={\ttfamily},
+  identifierstyle={\small},
+  commentstyle={\smallitshape},
+  keywordstyle={\small\bfseries},
+  ndkeywordstyle={\small},
+  stringstyle={\small\ttfamily},
+  frame={tb},
+  breaklines=true,
+  columns=[l]{fullflexible},
+  numbers=left,
+  xrightmargin=0zw,
+  xleftmargin=3zw,
+  numberstyle={\scriptsize},
+  stepnumber=1,
+  numbersep=1zw,
+  lineskip=-0.5ex
+}
+
+\title{Note  "THE BACK-AND-FORTH METHOD FOR WASSERSTEIN GRADIENT FLOWS"}
+
+\author{坂井幸人}
+
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+    ワッサーシュタイン勾配流を効率的に計算する方法を提案。
+    アプローチは、最適輸送問題を解くためにJacobsとL$\acute{e}$gerが導入した往復法（BFM）の一般化に基づいています[Numer. Math. 146（2020）513-544.]。
+    JKOスキームの双対問題を解くことにより、勾配流を進化させる。
+    一般的に、双対問題は原始問題よりも扱いやすい。
+    これにより、特異な非凸エネルギーを含む多くの内部エネルギーに対して、大規模な勾配流シミュレーションを効率的に実行することができる。
+\end{abstract}
+
+\section{INTRODUCTION}
+
+この研究では、以下のような形式の放物型方程式の進化シミュレーションに興味があります。
+
+\begin{align}
+    \begin{split}
+        \label{eq:Darcy's}
+        \partial_t \rho - \nabla \cdot (\delta \nabla \phi) = 0, \\
+        \phi = \delta U(\rho)
+    \end{split}
+\end{align}
+
+
+方程式(\ref{eq:Darcy's})はしばしばダルシーの法則または一般化された多孔質媒体方程式と呼ばれ、内部エネルギー関数 $U$ によって生成された圧力勾配 $\nabla \phi$ に沿って流れる質量密度 $\rho$ の進化を記述します。
+このクラスの方程式は、流体流、熱伝導、拡散(律速)凝集、人流など、さまざまな物理現象をモデル化します。
+一般的に、{\color{red}これらの方程式は剛性があり非線形であり、数値的に解くのは困難です。}
+例えば、$U(\rho) = \frac{1}{m - 1} \int \rho^m (m > 1)$の重要な特殊な場合では、方程式(\ref{eq:Darcy's})は熱方程式の非線形バージョンである多孔質媒体方程式（PME） 
+$$
+    \partial_t \rho - \delta(\rho^m = 0)
+$$
+となる。
+
+
+$U$が微分不可能または凸でない場合、これらの方程式のシミュレーションはさらに困難。
+したがって、この論文では、多種多様な内部エネルギー$U$の式(\ref{eq:Darcy's})を効率的かつ正確にシミュレートするための手法を設計することを目標としています。\\
+
+私たちのDarcyの法則のシミュレーション手法は、方程式(\ref{eq:Darcy's})をWasserstein距離に関する勾配流として解釈するという優れたアプローチに基づいています[19, 25]。
+この解釈は、JKOスキームとして知られる離散時間近似法を作成するために使用することができます[19]。
+このスキームは、次の反復によって近似解を構築します。
+
+\begin{equation}
+    \label{eq:minimizer}
+    \rho^{(n+1)} := \arg\min_{\rho} U(\rho) + \frac{1}{2\tau} W_2^2(\rho, \rho^{(n)})
+\end{equation}
+
+
+ここで、$\tau$はスキーム内の時間ステップを表し、$W_2(\cdot, \cdot)$は最適輸送理論の2-Wasserstein距離です[27]（最適輸送と2-Wasserstein距離の簡単な概要についてはセクション2.1を参照）。
+{\color{teal}スキームの変分的構造により、}反復解は無条件でエネルギー安定性を持ち、時間ステップ$\tau$を任意の空間離散化から独立して選択することができます。
+さらに、JKOスキームは連続方程式の比較型や収縮型の原理など、多くの望ましい特性を保持しています[1, 10, 20]。\\
+
+JKOスキームの多くの有利な特性を考慮すると、問題（\ref{eq:minimizer}）の最小化問題の計算に多くの研究が注がれてきました。
+例えば、[2-4, 6-9, 22, 26]などが挙げられます。
+この問題に関する研究が多く行われているにも関わらず、高い解像度でJKOスキームを効率的に解くことは依然として課題です。
+{\color{red}
+問題（\ref{eq:minimizer}）を解く上での主な困難は、Wasserstein距離項の扱いです。
+実際、密度$\rho$に関するWasserstein距離の変動を与える簡単な公式は存在しません。
+そのため、（\ref{eq:minimizer}）を解くためのほぼすべての方法は、2つの固定された密度間のWasserstein距離を計算するアルゴリズムの適応である。\\
+}
+
+この論文では、[21]で紹介されたback-and-forth method (BFM)を適応して、問題（\ref{eq:minimizer}）を解決します。
+BFMは、2つの固定された密度間の最適輸送写像を計算するための最先端のアルゴリズムです。
+{\color{red}
+BFMは、モンジュの最適輸送問題を直接解くのではなく、関連するカントロビッチの双対問題を解くことによって最適写像を見つけます。
+このアプローチを基に、直接問題（\ref{eq:minimizer}）を解く代わりに、その双対問題の解を計算します。
+双対問題は凹最大化問題であり、次の時刻ステップの圧力変数$\phi^{(n + 1)}$を生成します。
+最適密度変数は、圧力との双対関係$\phi^{(n+1)} = \delta U(\rho^{(n+1)})$を介して簡単に回復することができます。\\
+}
+
+双対問題を解くことによる利点はいくつかあります。
+圧力変数$\phi$は密度変数$\rho$よりも正則性が高いです。
+最悪の場合でも、圧力の勾配は\hyperlink{自乗可積分}{自乗可積分}である必要があります。
+その結果、圧力は離散的な近似スキームに適しています。
+さらに、双対汎関数の微分を計算するための明示的な式があるので、双対問題を解くために勾配上昇法を適用することができます（原始問題に対応する勾配降下法ははるかに困難です）。
+最後に、密度の非圧縮性など、$U$が厳しい制約を表現している場合（例: 密度の非圧縮性）、双対問題は制約のない形で表現されるため、双対アプローチは非常に便利です。\\
+
+{\color{red}
+（\ref{eq:minimizer}）の双対問題とBFMの特殊な勾配上昇構造を活用することで、内部エネルギー$U$の広範なクラスに対してJKOスキームを迅速かつ正確に解くことができます。
+我々は、アルゴリズムが各ステップで双対問題の値を増加させることを示しています。
+特に、この解析は$U$のHessianが特異である場合や、計算グリッドのサイズに依存しない場合でも成立します。
+その結果、従来の方法よりもはるかに大規模なスケールで式(\ref{eq:Darcy's})をシミュレートすることができ、
+障害物を持つ非圧縮性のある群衆モデルや集合拡散方程式（aggregation-diffusion equations）のような難解なケースを簡単に扱うことができます。
+}
+
+\subsection{Overall approach}
+
+Wasserstein勾配流におけるback-and-forth法は、JKOスキームに関連する双対問題を解くことに基づいています。
+この分析の出発点は、Kantorovichの最適輸送の双対形式です。
+2つの測度$\mu$と$\nu$が与えられた場合、2-Wasserstein距離の双対形式は次のようになります。
+
+\begin{equation}
+    \frac{1}{2 \tau}W_2^2(\mu, \nu) = \sup_{(\psi(x), \phi(y)) \in C}  \left\{ \int \psi(x) d\mu(x) - \int \phi(y) d\nu(y) \right\},
+\end{equation}
+
+ここで、以下の制約条件を満たす範囲で最大化されます。
+
+$$
+    \mathcal{C}  := \{(\phi, \psi) \in C(\Omega) \times C(\Omega) : \psi(x) - \phi(y) \leq \frac{1}{2 \tau} |x - y|^2 \}. 
+$$
+\vspace\baselineskip 
+
+{\color{teal}
+最適輸送の双対形式を用いると、問題（\ref{eq:minimizer}）を次のように書き直すことができます。
+}
+\[ \inf_{\rho} \sup_{(\phi,\psi) \in \mathcal{C}} \left\{ U(\rho) + \int_\Omega \psi(x) d\rho^(n)(x) - \int_\Omega \phi(y) d\rho(y) \right\}, \]
+$U$が凸である場合、infとsupを入れ替えることで、（\ref{eq:minimizer}）と同等の双対問題を得ることができます。
+
+\begin{equation}
+    \label{eq:dual}
+    \sup_{(\phi,\psi) \in \mathcal{C}} \int \psi(x) d\rho^{(n)}(x) - U^*(\phi) ,
+\end{equation} 
+ここで、$U^*$は$U$の(\hyperlink{凸共役}{凸共役})を表し、次のように定義されます。
+
+$$
+    U^*(\phi) := \sup_\rho \int \phi(y) d\rho(y) - U(\rho) .
+$$
+
+この双対問題を解くことで、問題（\ref{eq:minimizer}）の双対変数$\phi$を得ることができる。
+また、Legendre 変換 (\hyperlink{凸共役}{凸共役})を用いて双対変数から密度変数を容易に復元することもできる。\\
+
+問題(\ref{eq:dual})は、$\mathcal{C}$によって表現される制約のために困難に見える。
+しかし、問題を再定式化する非常に便利な方法があります。$\rho^{(n)}$が非負測度であるため、できるだけ大きな値を持つように$\psi$を選ぶことが好ましい。
+$\phi$を固定すれば、対応する$\psi$の最大可能な選択肢は次のようになる。
+\begin{equation}
+    \label{eq:backward-c-transform}
+    \phi^c(x) := \inf_{y\in\Omega} \phi(y) + \frac{1}{2 \tau}|x - y|^2.
+\end{equation}
+逆に、$U^*$は$\phi$に関して増加する性質を持っています（セクション\ref{sect:c-trans}を参照）。
+したがって、できるだけ小さい値を持つように$\phi$を選びたいと考える。
+したがって、$\psi$を固定すると、$\phi$の最小の選択肢は次のようになる。
+\begin{equation}
+    \label{eq:forward-c-transform}
+    \psi^{\bar{c}}(y):= \sup_{x\in\Omega} \psi(x) - \frac{1}{2 \tau}|x-y|^2.
+\end{equation}
+
+\vspace\baselineskip 
+
+式(\ref{eq:backward-c-transform})と(\ref{eq:forward-c-transform})はそれぞれbackward-c-transformとforward-c-transformとして知られています。
+これらの変換は最適輸送において重要な役割を果たし、私たちの手法には不可欠です。
+重要な点として、これらの変換を使用して制約Cとφまたはψのいずれかを排除することができます。
+具体的には、問題(\ref{eq:dual})は次の2つの制約のない汎関数の最大化として等価です:
+\begin{equation}
+    \label{eq:J}
+    J(\phi):= \int_{\Omega} \phi^c(x) \,d\rho^{(n)}(x) - U^*(\phi)
+\end{equation}
+
+\begin{equation}
+    \label{eq:I}
+    I(\psi):= \int_{\Omega} \psi(x) \, d\rho^{(n)}(x) - U^*(\psi^{\bar{c}})
+\end{equation}
+
+加えて、もし$\phi_*$が$J$の最大化関数であり、$\psi_*$が$I$の最大化関数であるならば、
+$$
+    \phi_*^c = \psi_*, \qquad \psi_*^{\bar{c}} = \phi_*
+$$
+の関係が成り立ち、$(\phi_*, \psi_*)$は(\ref{eq:dual})の最大化関数となります。
+$I$と$J$の再定式化は、最大化関数を見つける作業を実際に簡素化します。
+正規の離散グリッド上では、$c$-transformは非常に効率的に計算できます[21, 23]。
+その結果、(\ref{eq:dual})を直接扱うよりも、IとJを最大化する方がはるかに取り扱いやすくなります。\\
+
+
+私たちは、[21]で紹介されたBFMアルゴリズムを基にして、最大化関数$\phi$と$\psi_*$を見つける。
+元のBFMは、$U^*$が線形関数という特別な場合に最大化関数を効率的に見つけるための手法を提供している。
+$I$または$J$に焦点を当てるよりも早く、BFMは両方の関数を同時に最大化します。
+この手法は、$\phi$-空間での$J$の勾配上昇更新と$\psi$-空間での$I$の勾配上昇更新を交互に行うことで進行します（そのため、「back-and-forth」の名前があります）。
+勾配ステップの間には、一方の空間（$\phi$-空間または$\psi$-空間）の情報を他方に伝達するために、前方/後方$c$-transformを適用します。
+[21]で指摘されているように、back-and-forthアプローチの利点は、最適解のペア$(\phi_*, \psi_*)$の特定の特徴が、片方の空間よりも他方の空間でより簡単に構築できることです。
+その結果、back-and-forth法は、$\phi$-空間のみまたは$\psi$-空間のみで操作する通常の勾配上昇法よりもはるかに迅速に収束します。\\
+
+Wasserstein gradient flowの場合にBFMを一般化するためには、$U^*$が非線形の場合に(\ref{eq:J})と(\ref{eq:I})の勾配上昇ステップの安定性を保証する必要があります。
+実際には、多くの重要なケースでは、$U^*$のHessianには特異成分が存在する可能性があります。
+この困難を克服するために、適切に重み付けされたSobolev空間で勾配上昇ステップを行います。
+Sobolev制御により、境界積分を全空間上の積分に変換することができ、$U^*$の特異性を抑えることができます（詳細はセクション3.2を参照）。
+この連続解析の結果、離散化スキームは格子サイズに依存しない収束率を持つことになります。
+back-and-forth法は、Algorithm 1にまとめられています。ここで、$H$は前述の重み付きSobolev空間です。\\
+
+一度双対問題を解決した後、元の問題（\ref{eq:minimizer}）の解を回復することができます。
+$U$が凸であれば、最適な双対変数$\phi_*$は$\rho^{(n+1)}$との双対関係$\rho^{(n+1)} = \delta U^*(\phi_*)$を介して関連付けられます（セクション2.2の定理2.14を参照）。
+$U$が凸でない場合、（\ref{eq:minimizer}）と双対問題との間の関係はより不確かになります。
+幸いなことに、凸性分割スキームを使用することで、この困難を回避することができます[12]。
+実際に、$U = U_1 + U_0$と書けるようにすると、$U_1$は凸であり、$U_0$は凹であるとします。
+その場合、JKOスキーム（\ref{eq:minimizer}）を次の修正されたスキームに置き換えることができます。
+
+\begin{equation}
+    \label{eq:JKO}
+    \rho^{(n+1)} = \underset{\rho}{\operatorname{argmin}} \, U_1(\rho) + U_0(\rho^{(n)}) + (\delta U_0(\rho^{(n)}), \rho - \rho^{(n)}) + \frac{1}{2 \tau} W^2_2(\rho, \rho^{(n)})
+\end{equation}
+
+凸性分割は、完全暗黙のスキームのエネルギー安定性を保持することがよく知られています。
+重要なのは、(\ref{eq:JKO})のエネルギー項
+$U_1(\rho) + U_0(\rho^{(n)}) + (\delta U_0(\rho^{(n)}), \rho - \rho^{(n)})$は変数$\rho$
+に対して凸関数であるため、双対アプローチを適用できることです。
+すべてを考慮すると、私たちの方法は$U$が凸でない場合や不規則な場合でも、PDE（\ref{eq:Darcy's}）を非常に迅速にシミュレートする手法を提供します。\\
+
+本論文の残りの部分は以下のように構成されています。
+セクション2では、最適輸送、凸解析、最適化に関する重要な背景情報を見直します。
+セクション3では、前後アルゴリズムを紹介し、安定性の保証とステップサイズの選択方法を説明します。
+最後に、セクション4では、幅広い数値実験を通じてアルゴリズムの精度、速度、汎用性を実証します。
+特に、私たちの実験には、数値的に困難とされる多くのケースが含まれています。
+
+\section{Details}
+\subsection*{自乗可積分}
+\hypertarget{自乗可積分}
+自乗可積分関数(square-integrable function)とは、実数値または複素数値可測函数で絶対値の自乗の積分が有限であるものである。すなわち
+$$
+    \int_{- \infty}^{\infty} |f(x)|^2 dx < + \infty
+$$
+ならば、$f$は実数直線 $(- \infty, + \infty)$ 上で自乗可積分である。場合によっては積分区間が $[0, 1]$ のように有界区間のこともある。
+
+
+\subsection*{Legendre変換 (凸共役)}
+\hypertarget{凸共役}
+関数$\xi$を$\omega$上で定義された凸で微分可能な関数としたとき、そのLegendre変換(凸共役)\,$\xi^*$は以下のように定義できる.
+$$
+    \xi^*(p) := \sup_x p \cdot x - \xi(x) 
+$$
+
+ここで、双対汎関数$J$は$J(\varphi) =  \int \phi\, \nu  + \int \phi^c \, \mu$で定義していたことを思い出す。
+{\color{teal}
+これは凹な汎関数であり、第一項 $\int \phi\, \nu$ は$\phi$に対して線形であるため、$J$の凸性には影響しません。
+}
+そのため、$F$を次のように定義します。
+\begin{equation}
+    F(\phi) = - \int \phi^c \, \mu,
+\end{equation}
+これは、本質的には線形項のみが異なるため、$J$と同じ凸性を持つ凸関数です.
+例えば、任意のポテンシャル $\phi_1$ と $\phi_2$ に対して、次の式が成立することを直接確認できます。
+{\color{teal}
+\begin{equation}
+    J(\phi_2|\phi_1) = -F(\phi_2|\phi_1).
+\end{equation}
+}
+最後に、$F$の凸共役は次のように定義されます。
+\begin{equation}
+    F^*(\rho) := \int_\omega \phi \, \rho - F(\phi)
+\end{equation}
+
+
+
+
+\end{document}
