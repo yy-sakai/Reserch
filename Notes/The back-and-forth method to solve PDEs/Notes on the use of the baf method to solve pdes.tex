@@ -1,0 +1,404 @@
+\documentclass{jsarticle}
+%
+\usepackage{type1cm}
+\usepackage{amsthm}
+\usepackage{color}
+
+\usepackage[dvipdfmx]{graphicx}
+\usepackage{listings,jvlisting}
+\usepackage{float}
+\usepackage{here, amsmath, latexsym, amssymb, bm, ascmac, mathtools, multicol, tcolorbox, subfig, graphicx, comment, pgfplots}
+%
+
+% 「%」は以降の内容を「改行コードも含めて」無視するコマンド
+\usepackage[%
+ dvipdfmx,% 欧文ではコメントアウトする
+ setpagesize=false,%
+ bookmarks=true,%
+ bookmarksdepth=tocdepth,%
+ bookmarksnumbered=true,%
+ colorlinks=true,%
+ citecolor=green,%
+ urlcolor=magenta,%
+ linkcolor=blue,%
+ pdftitle={},%
+ pdfsubject={},%
+ pdfauthor={},%
+ pdfkeywords={}%
+]{hyperref}
+% PDFのしおり機能の日本語文字化けを防ぐ((u)pLaTeXのときのみかく)
+\usepackage{pxjahyper}
+
+
+
+\makeatletter
+\@addtoreset{equation}{section}
+\def\theequation{\thesection.\arabic{equation}}% renewcommand でもOK
+\makeatother
+
+
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{cor}{Corollary} [thm]
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{prop}[thm]{Proposition}
+\theoremstyle{definition}
+\newtheorem{dfn}{Definition}[section]
+\newtheorem{ex}{Example}[section]
+\newtheorem{rem}{Remark}[section]
+\newtheorem{exer}{Exercise}[section]
+\renewcommand{\labelenumi}{(\roman{enumi})}
+
+%
+\lstset{
+  basicstyle={\ttfamily},
+  identifierstyle={\small},
+  commentstyle={\smallitshape},
+  keywordstyle={\small\bfseries},
+  ndkeywordstyle={\small},
+  stringstyle={\small\ttfamily},
+  frame={tb},
+  breaklines=true,
+  columns=[l]{fullflexible},
+  numbers=left,
+  xrightmargin=0zw,
+  xleftmargin=3zw,
+  numberstyle={\scriptsize},
+  stepnumber=1,
+  numbersep=1zw,
+  lineskip=-0.5ex
+}
+
+\title{Note "THE USE OF THE BACK-AND-FORTH METHOD FOR WASSERSTEIN GRADIENT FLOWS TO SOLVE PDES"}
+
+\author{坂井幸人}
+
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\section{Dual Problem}
+\subsection*{Condition}
+
+$\mathcal{P} (\mathbb{R}^n):  (\mathbb{R}^n) \text{上の確率測度, 非負の測度で質量(mass)1}$
+
+$U: \text{lsc(lower semi continuous) on} \mathcal{P} (\mathbb{R}^n)$ 
+
+簡単のため、積分が$1$となる非負の$L^1(\mathbb{R}^n)$で考える。
+
+\subsection*{$JKO$スキーム}
+$JKO$スキームについて考える:
+$$
+\min_{\rho \in \mathcal{P}} U(\rho) + \frac{1}{2\tau} W_2^2(\rho, \mu),
+$$
+
+
+古い論文[JL]からの記号を使用すると、
+2-Wasserstein距離のKantorovichの双対公式は次のように表されます:
+
+$$
+\frac{1}{2\tau} W_2^2(\rho, \mu) = \sup_{(\phi, \psi) \in \mathcal{C}} \left( \int \phi d\rho + \int \psi d\mu \right),
+$$
+
+ここで、$\mathcal{C}$は制約
+$$
+    \mathcal{C}  := \{(\phi, \psi) \in C(\Omega) \times C(\Omega) : \psi(x) + \phi(y) \leq \frac{1}{2 \tau} |x - y|^2 \}. 
+$$
+を満たす関数$(\phi, \psi)$の集合を表します。重要な点として、集合$\mathcal{C}$は凸であることに注意してください。[Exercise \ref{exer: convex}]
+
+
+\begin{exer}
+  \label{exer: convex}
+  \hypertarget{Proof:convex}
+  $\mathcal{C}$がconvex set であることを示せ。(Proof \ref{proof:convex})
+\end{exer}
+
+よって,
+\begin{align*}
+  \min_{\rho \in \mathcal{P}} U(\rho) + \frac{1}{2\tau} W_2^2(\rho, \mu) &= \min_{\rho \in \mathcal{P}} \left(U(\rho) + \sup_{(\varphi, \psi) \in \mathcal{C}} \left(\int \varphi \, d\rho + \int \psi \, d\mu\right)\right)\\
+                                                                          &= \min_{\rho \in \mathcal{P}} \sup_{(\varphi, \psi) \in \mathcal{C}} \left(U(\rho) + \int \varphi \, d\rho + \int \psi \, d\mu\right)
+\end{align*}
+
+次に、\(\mathcal{P}\)と\(\mathcal{C}\)が凸であり、\(U\)が凸であるとすると、関数
+\[
+  \label{eq:L}
+  L(\rho, (\varphi, \psi)) := U(\rho) + \int \varphi \, d\rho + \int \psi \, d\mu
+\]
+は\hypertarget{rho_convex}{\(\rho\)に関して凸関数}（\((\varphi, \psi)\)が固定された場合）(\hyperlink{Proof:rho_convex}{Proof})、
+および\hypertarget{varphipsi_concave}{\((\varphi, \psi)\)に関しては凹関数}（実際には線形）です(\hyperlink{Proof:varphipsi_concave}{Proof})（さらにおそらく、いくつかのconditionが必要である）.
+
+このため、[ET, Ch. VI, Prop. 2.4 (p176)]のような最小最大の定理を適用して、\(\min\)と\(\sup\)の順序を交換することができます。
+したがって、次のように結論付けることができます：
+\begin{align*}
+  \min_{\rho \in \mathcal{P}} U(\rho) + \frac{1}{2\tau} W_2^2(\rho, \mu) &= \sup_{(\varphi, \psi) \in \mathcal{C}} \min_{\rho \in \mathcal{P}} \left(U(\rho) + \int \varphi \, d\rho + \int \psi \, d\mu \right),\\
+                                                                          &= \sup_{(\varphi, \psi) \in \mathcal{C}} \left(\min_{\rho \in \mathcal{P}} \left(U(\rho) + \int \varphi \, d\rho\right) + \int \psi \, d\mu\right),\\
+                                                                          &= \sup_{(\varphi, \psi) \in \mathcal{C}} \left(\int \psi \, d\mu - U^*(\varphi)\right).\\
+\end{align*}
+ここで、$U^*(\varphi)$は以下のように定義している。 
+\[
+  U^*(\varphi) := -\min_{\rho \in \mathcal{P}} \left(U(\rho) + \int \varphi \, d\rho\right).
+\]
+
+注意しておきますが、\(\rho \geq 0\) の場合、\(U^*\) は \(\varphi\) に関して減少する関数です。
+したがって、与えられた \((\varphi, \psi) \in C\) に対して、\(\psi^c \geq \varphi\) が成り立ちます。
+ただし、
+\[
+  \psi^c(x) := \sup_y \psi(y) - \frac{1}{2\tau}|x-y|^2
+\]
+は \(\psi\) の c-変換（c-transform）です。
+{\color{teal}したがって、以下のようになります。}
+\[
+\sup_{(\varphi, \psi) \in C} \left(\int \psi \, d\mu - U^*(\varphi)\right) = \sup_\psi \left(\int \psi \, d\mu - U^*(\psi^c)\right)
+\]
+
+同様に、\(\mu \geq 0\) であるため、
+
+\[
+\sup_{(\varphi, \psi) \in C} \left(\int \psi \, d\mu - U^*(\varphi)\right) = \sup_\varphi \left(\int \varphi^c \, d\mu - U^*(\varphi)\right)
+\]
+
+となります。
+
+正規化アルゴリズムの主要なアイデアは、上記の右辺のψとφの2つの関数に対して交互に勾配上昇ステップを実行することであり、
+$c$-変換を使用して$\phi$と$\psi$を変換します。
+勾配は適切な重み付きSobolev空間で計算されます。
+
+\section{Porous medium equation(多孔質媒体方程式)}
+
+多孔質媒体方程式（PME）は、固定された \(m > 1\) に対して以下の偏微分方程式(PDE)のことをいう：
+\[
+\frac{{\partial \rho}}{{\partial t}} = \Delta (\rho^m)
+\]
+ここで、非負の解 \(\rho \geq 0\) に興味があります。
+このPDEは、エネルギー関数
+\[
+U(\rho) := \frac{1}{{m-1}} \int \rho^m \, dx
+\]
+に基づくWasserstein勾配フローとして表現することができます。
+
+$\rho \in \mathcal{P}(\mathbb{R}^n) \setminus L^m(\mathbb{R}^n)$のとき、$U(\rho)$は$+\infty$と定義されているとする。
+ただし、これは$s \mapsto s^m$が$[0, \infty)$上で凸関数であるため、$U(\rho)$は$P(\mathbb{R}^n)$上で凸な汎関数です。
+[JLL]のアルゴリズムでは、$\delta U^*$を計算する必要があります。ここで、
+
+$$
+  U^*(\varphi) := \sup_{\rho \in P} \left( -\int \varphi \, d\rho - U(\rho) \right).
+$$
+
+積分の前の符号を反転し、$U(\rho)$の符号も反転させることで、
+
+$$
+U^*(\varphi) = -\inf_{\rho \in P} \int \left(\frac{1}{m-1}\rho^m + \rho\varphi\right) \, dx
+$$
+
+となります。
+$\varphi$の前の符号が[JLL]とは異なることに注意してください、しかしこれは問題ありません。\\
+
+$U^*$は、実質的には$U$のLagrange-Fenchel変換を$-\varphi$に対して行ったものですが、
+重要な違いとして、$\mathcal{P}$がヒルベルト空間の部分集合ではなく、
+測度と連続関数の間の双対性を使って内積の代わりに$\int \varphi d \rho$の積分を扱っています。\\
+
+{\color{teal}
+どちらにせよ、$\delta U^*(\varphi)$は通常の設定における$\partial U^*(\varphi)$に類似しており、
+その場合、下半連続（つまり閉じている）凸関数$f$について、次の関係が成り立ちます。}
+\[
+  x \in \partial f^*(y) \iff z \cdot y - f(z) \text{が} z = x \text{において最大値を取る}
+\]
+言い換えると、
+\[
+  \partial f^*(y) = \operatorname{argmax}_x (x \cdot y - f(x))
+\]
+{\color{teal}
+よって、$\delta U^*$を見つけるために, 以下の最大値を求める必要がある。
+\[
+  V(\rho) := \int \left(\frac{1}{m-1}\rho^m + \rho\varphi\right) \, dx.
+\]
+}
+\vspace\baselineskip 
+
+\begin{lem}
+  $\varphi \in \mathcal{C}$ と仮定し、以下のように定義されるとする.
+  $$
+    \rho_*(x) := \left( \frac{m-1}{m}(C - \varphi)_+ \right)^{\frac{1}{m-1}} 
+  $$
+  ただし、$C \in \mathbb{R}$は$\int \rho_* = 1$となる。
+  $(s)_+ := max(s, 0)$と定義している。
+
+  この時、$\rho_*$ は$\mathcal{P}(\mathbb{R}^n)$上の関数$V$の最大化関数。
+\end{lem}
+
+
+\begin{proof}
+  $C$の選び方により、 $\rho_* \in \mathcal{P}(\mathbb{R}^n)$であることがわかる。
+  次に、以下を示す。
+  $$
+  V(\rho) \geq V(\rho_*) \qquad \text{for all } \, \rho \in \mathcal{P}(\mathbb{R}^n) \cap L^1(\mathbb{R}^n).
+  $$
+  $\rho$を固定し、 
+  $$
+  \mu(x) := \rho(x) - \rho_*(x)
+  $$
+  とします。
+  注意点として、
+  \begin{equation}
+    \label{eq:intmu}
+     \int \mu \, dx = 0
+  \end{equation}
+  であり、また$\mu(x) \geq 0$は$\rho_*(x) = 0$の場所、つまり$\varphi(x) \geq C$の場所で成り立ちます。
+
+  よって、
+  \begin{align*}
+    V(\rho) - V(\rho_*) &= V(\rho_* + \mu) - V(\rho_*)\\
+                        &= \int \left(\frac{1}{m-1} ((\rho_* + \mu)^m - \rho_*^{m}) + \mu \varphi \right) \, dx
+  \end{align*}
+  ここで、関数 $s \mapsto s^m$ は $[0, \infty)$ 上で凸であるため、$s, t \geq 0$ に対して 
+  $$
+    (s + t)^m \geq s^m + ms^{m-1}t, \qquad s + t \geq 0
+  $$ 
+  が成り立ちます。この不等式を適用することで、さらに次のように簡略化できます：
+  \begin{align*}
+    V(\rho) - V(\rho_*) &\geq \int \left(\frac{1}{m-1} ((\rho_*^m + m \rho_*^{m-1} \mu) - \rho_*^{m}) + \mu \varphi \right) \, dx\\
+                        &\geq \int \left(\frac{m}{m-1} \rho_*^{m-1}\mu + \mu\varphi\right) \, dx\\
+  \end{align*}
+
+  $\rho_*$の式を利用することで、
+  \begin{align*}
+    \int \left(\frac{m}{m-1} \rho_*^{m-1}\mu + \mu\varphi\right) \, dx &= \int \left((C - \varphi)_+ \mu + \mu\varphi\right) \, dx \\
+                                                                       &= \int \left((C - \varphi)_+ \mu + \mu \varphi - C \mu\right) \, dx \\
+                                                                       &= \int \left((C - \varphi)_+ + \varphi - C\right)\mu \, dx \\  
+  \end{align*}
+  ただし、(\ref{eq:intmu})を利用する。
+
+  ここで、以下のような観察をします：
+
+  \[
+    (C - \varphi)_+ + \varphi - C = (C - \varphi)_- \begin{cases} = 0 & \text{if } \varphi < C \\ 
+                                                                  \geq 0 & \text{if } \varphi \geq C \end{cases}
+  \]
+
+  また、\(\mu(x) \geq 0\) は、\(\varphi(x) \geq C\) のとき成り立ちます。したがって、
+
+  \[
+     (V(\rho) - V(\rho_*)) \geq \int ((C - \varphi)_* + \varphi - C) \mu \, dx \geq 0
+  \]
+
+  したがって、\(\rho_*\) は \(V\) の最大化点であることがわかります。
+\end{proof}
+
+
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{appendix}
+
+
+\begin{proof}[Proof of Exercise \ref{exer: convex}]
+  \label{proof:convex}
+
+  集合$\mathcal{C}$が凸であることを示すためには、
+  $\mathcal{C}$内の任意の2点\((\varphi_1, \psi_1)\)と\((\varphi_2, \psi_2)\)を結ぶ線分、すなわち
+  \[
+    [(t\varphi_1 + (1-t)\varphi_2, t\psi_1 + (1-t)\psi_2)]
+  \]
+  が$\mathcal{C}$に含まれることを示せばよい。
+
+  $\mathcal{C}$内の2点\((\varphi_1, \psi_1)\)と\((\varphi_2, \psi_2)\)を考え、制約条件\(\varphi_1(x) + \psi_1(y) \leq \frac{1}{2\tau}|x - y|^2\)および\(\varphi_2(x) + \psi_2(y) \leq \frac{1}{2\tau}|x - y|^2\)をすべての\(x, y \in \mathbb{R}^n\)に対して満たすとする。
+
+  線分\([(t\varphi_1 + (1-t)\varphi_2, t\psi_1 + (1-t)\psi_2)]\)上の点\((\varphi, \psi)\)を考える。この点は\(t \in [0, 1]\)に対して\((\varphi, \psi) = (t\varphi_1 + (1 - t)\varphi_2, t\psi_1 + (1 - t)\psi_2)\)とパラメーター化できる。
+
+  次に、\((\varphi, \psi)\)が制約条件\(\varphi(x) + \psi(y) \leq \frac{1}{2\tau}|x - y|^2\)をすべての\(x, y \in \mathbb{R}^n\)に対して満たすかどうかを確認する：
+  \begin{align*}
+    \varphi(x) + \psi(y) &= (t\varphi_1 + (1 - t)\varphi_2)(x) + (t\psi_1 + (1 - t)\psi_2)(y)\\
+                        &= t(\varphi_1(x) + \psi_1(y)) + (1 - t)(\varphi_2(x) + \psi_2(y))\\
+                        &\leq t\left(\frac{1}{2\tau}|x - y|^2\right) + (1 - t)\left(\frac{1}{2\tau}|x - y|^2\right)\\
+                        &= \frac{1}{2\tau}|x - y|^2\\.
+  \end{align*}
+
+  よって、\((\varphi, \psi)\)が制約条件を満たすことがわかり、\((\varphi, \psi) \in C\)となります。
+  したがって、集合Cが凸であることが示された。
+\end{proof}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{proof}[Proof of \hyperlink{rho_convex}{$\rho$が変数とした時$L(\rho, (\varphi, \psi)$が凸関数}]
+  \hypertarget{Proof:rho_convex}
+  関数 \(L(\rho, (\varphi, \psi)) := U(\rho) + \int \varphi \, d\rho + \int \psi \, d\mu\) が、\(\rho\) を変数として固定された \((\varphi, \psi)\) の関数として凸関数であることを証明します。
+
+まず、\(L(\rho, (\varphi, \psi))\) が \((\varphi, \psi)\) に関して線形であることを示します。つまり、
+\begin{align*}
+    L(\rho, (t\varphi_1 + (1-t)\varphi_2, t\psi_1 + (1-t)\psi_2) &= L(\rho, t(\varphi_1, \psi_1) + (1-t)(\varphi_2, \psi_2))\\ 
+                                                                 &= tL(\rho, (\varphi_1, \psi_1)) + (1-t)L(\rho, (\varphi_2, \psi_2))
+\end{align*}
+
+を示します。
+\begin{align*}
+  L(\rho, (t\varphi_1 + (1-t)\varphi_2, t\psi_1 + (1-t)\psi_2) &= L(\rho, t(\varphi_1, \psi_1) + (1-t)(\varphi_2, \psi_2))\\
+                                                               &= U(\rho) + \int (t\varphi_1 + (1-t)\varphi_2) \, d\rho + \int (t\psi_1 + (1-t)\psi_2) \, d\mu \\
+                                                               &= t(U(\rho) + \int \varphi_1 \, d\rho + \int \psi_1 \, d\mu) + (1-t)(U(\rho) + \int \varphi_2 \, d\rho + \int \psi_2 \, d\mu) \\
+                                                               &= tL(\rho, (\varphi_1, \psi_1)) + (1-t)L(\rho, (\varphi_2, \psi_2))
+\end{align*}
+
+次に、\(L(\rho, (\varphi, \psi))\) が凸関数であることを示します。つまり、\(\rho_1, \rho_2 \in \mathcal{P}\) および \(0 \leq \lambda \leq 1\) に対して、以下の不等式が成り立つことを示します：
+
+\[
+L(\lambda\rho_1 + (1-\lambda)\rho_2, (\varphi, \psi)) \leq \lambda L(\rho_1, (\varphi, \psi)) + (1-\lambda) L(\rho_2, (\varphi, \psi))
+\]
+\begin{align*}
+  L(\lambda\rho_1 + (1-\lambda)\rho_2, (\varphi, \psi)) &= U(\lambda\rho_1 + (1-\lambda)\rho_2) + \int \varphi \, d(\lambda\rho_1 + (1-\lambda)\rho_2) + \int \psi \, d\mu \\
+                                                      &= \lambda(U(\rho_1) + \int \varphi \, d\rho_1 + \int \psi \, d\mu) + (1-\lambda)(U(\rho_2) + \int \varphi \, d\rho_2 + \int \psi \, d\mu) \\
+                                                      &= \lambda L(\rho_1, (\varphi, \psi)) + (1-\lambda) L(\rho_2, (\varphi, \psi))\\
+\end{align*}
+したがって、関数 \(L(\rho, (\varphi, \psi))\) は \((\varphi, \psi)\) を固定した場合に凸関数。
+\end{proof}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{proof}[Proof of \hyperlink{varphipsi_concave}{\((\varphi, \psi)\)に関して$L(\rho, (\varphi, \psi))$は凹関数}]
+  \hypertarget{Proof:varphipsi_concave}
+  関数 \(L(\rho, (\varphi, \psi)) := U(\rho) + \int \varphi \, d\rho + \int \psi \, d\mu\) が \((\varphi, \psi)\) を変数として固定された \(\rho\) の関数として凹関数（実際には線形関数）であることを示します。
+
+  まず、\(L(\rho, (\varphi, \psi))\) が \(\rho\) に関して線形であることを示します。
+  つまり、
+  \[
+    L(t\rho_1 + (1-t)\rho_2, (\varphi, \psi)) = tL(\rho_1, (\varphi, \psi)) + (1-t)L(\rho_2, (\varphi, \psi))
+  \]
+  を示す。
+  \begin{align*}
+    L(t\rho_1 + (1-t)\rho_2, (\varphi, \psi)) &= U(t\rho_1 + (1-t)\rho_2) + \int \varphi \, d(t\rho_1 + (1-t)\rho_2) + \int \psi \, d\mu \\
+                                              &= tU(\rho_1) + (1-t)U(\rho_2) + \int \varphi \, d(t\rho_1 + (1-t)\rho_2) + \int \psi \, d\mu \\
+                                              &= t(U(\rho_1) + \int \varphi \, d\rho_1 + \int \psi \, d\mu) + (1-t)(U(\rho_2) + \int \varphi \, d\rho_2 + \int \psi \, d\mu) \\
+                                              &= tL(\rho_1, (\varphi, \psi)) + (1-t)L(\rho_2, (\varphi, \psi))
+  \end{align*}
+
+  次に、\(L(\rho, (\varphi, \psi))\) が凹関数であることを示します。
+  つまり、\(\rho_1, \rho_2 \in \mathcal{P}\) および \(0 \leq \lambda \leq 1\) に対して、以下の不等式が成り立つことを示す：
+  \[
+    L(\lambda\rho_1 + (1-\lambda)\rho_2, (\varphi, \psi)) \geq \lambda L(\rho_1, (\varphi, \psi)) + (1-\lambda) L(\rho_2, (\varphi, \psi))
+  \]
+  \begin{align*}
+    L(\lambda\rho_1 + (1-\lambda)\rho_2, (\varphi, \psi)) &= U(\lambda\rho_1 + (1-\lambda)\rho_2) + \int \varphi \, d(\lambda\rho_1 + (1-\lambda)\rho_2) + \int \psi \, d\mu \\
+                                                          &= \lambda(U(\rho_1) + \int \varphi \, d\rho_1 + \int \psi \, d\mu) + (1-\lambda)(U(\rho_2) + \int \varphi \, d\rho_2 + \int \psi \, d\mu) \\
+                                                          &= \lambda L(\rho_1, (\varphi, \psi)) + (1-\lambda) L(\rho_2, (\varphi, \psi))
+  \end{align*}
+  以上より、関数 \(L(\rho, (\varphi, \psi))\) は \((\varphi, \psi)\) を変数として固定された \(\rho\) の関数としては凹関数（実際には線形関数）であることが示されました。
+\end{proof}
+
+\begin{dfn}(lower limits)
+  Let $f: \mathbb{R}^n \to \mathbb{R} \cup \{+ \infty\}$ and let $x^{\prime}$ is a limit point of $f$. Then the lower limit of function $f$ is defined by 
+  \begin{align*}
+      \liminf_{x \to x^{\prime}}{f(x)} &= \lim_{\delta \, \searrow \, 0} {[\inf_{x \in B(x^{\prime}, \delta)}{f(x)}]} \\
+                                        &= \sup_{\delta \, > \, 0} {[\inf_{x \in B(x^{\prime}, \delta)}{f(x)}]} 
+                                        = \sup_{V \in \mathcal{N}(x^{\prime})} {[\inf_{x \in V}{f(x)}]}. 
+  \end{align*}
+\end{dfn}
+
+\begin{dfn}(lower semi-continuous)
+  Let $f: \mathbb{R}^n \to \mathbb{R} \cup \{+ \infty\}$ and let $x^{\prime}$ is a limit point of $f$. Then $f$ is lower semi-continuous at $x^{\prime}$ if and only if
+  \[
+      \liminf_{x \to x^{\prime}} {f(x)} \ge f(x^{\prime}), \text{\, or \,} \liminf_{x \to x^{\prime}} {f(x)} = f(x^{\prime}) 
+  \]
+\end{dfn}
+
+\end{document}
