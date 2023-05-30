@@ -132,34 +132,63 @@ $$
 \begin{align*}
   \min_{\rho \in \mathcal{P}} U(\rho) + \frac{1}{2\tau} W_2^2(\rho, \mu) &= \sup_{(\varphi, \psi) \in \mathcal{C}} \min_{\rho \in \mathcal{P}} \left(U(\rho) + \int \varphi \, d\rho + \int \psi \, d\mu \right),\\
                                                                           &= \sup_{(\varphi, \psi) \in \mathcal{C}} \left(\min_{\rho \in \mathcal{P}} \left(U(\rho) + \int \varphi \, d\rho\right) + \int \psi \, d\mu\right),\\
-                                                                          &= \sup_{(\varphi, \psi) \in \mathcal{C}} \left(\int \psi \, d\mu - U^*(\varphi)\right).\\
+                                                                          &= \sup_{(\varphi, \psi) \in \mathcal{C}} \left(\int \psi \, d\mu - U^*(- \varphi)\right).\\
 \end{align*}
 ここで、$U^*(\varphi)$は以下のように定義している。 
 \[
-  U^*(\varphi) := -\min_{\rho \in \mathcal{P}} \left(U(\rho) + \int \varphi \, d\rho\right).
+  U^*(\varphi) := \sup_{\rho \in \mathcal{P}} \left(\int \varphi \, d\rho - U(\rho) \right).
 \]
 
+{\color{gray}
+$\bold{detail:}$
+
+\begin{align*}
+  U^*(\varphi)   &= \sup_{\rho \in \mathcal{P}} \left(\int \varphi \, d\rho - U(\rho) \right).\\
+  U^*(- \varphi) &= \sup_{\rho \in \mathcal{P}} \left(\int - \varphi \, d\rho - U(\rho) \right),\\
+                 &= \sup_{\rho \in \mathcal{P}} \left(- \int \varphi \, d\rho - U(\rho) \right),\\
+                 &= \sup_{\rho \in \mathcal{P}} \left\{ -  \left(\int \varphi \, d\rho - U(\rho) \right) \right\} ,\\
+                 &= - \inf_{\rho \in \mathcal{P}} \left\{ \left(\int \varphi \, d\rho - U(\rho) \right) \right\} .\\
+\end{align*}
+よって、
+\[
+  \min_{\rho \in \mathcal{P}} \left(U(\rho) + \int \varphi \, d\rho\right) + \int \psi \, d\mu = - U^*(- \varphi)\\
+\]
+}
+
 注意しておきますが、\(\rho \geq 0\) の場合、\(U^*\) は \(\varphi\) に関して減少する関数です。
+{\color{teal}
 したがって、与えられた \((\varphi, \psi) \in C\) に対して、\(\psi^c \geq \varphi\) が成り立ちます。
+}
 ただし、
 \[
-  \psi^c(x) := \sup_y \psi(y) - \frac{1}{2\tau}|x-y|^2
+  \psi^c(x) := \inf_y \left( \frac{1}{2\tau}|x-y|^2 - \psi(y)\right)
 \]
 は \(\psi\) の c-変換（c-transform）です。
 {\color{teal}したがって、以下のようになります。}
 \[
-\sup_{(\varphi, \psi) \in C} \left(\int \psi \, d\mu - U^*(\varphi)\right) = \sup_\psi \left(\int \psi \, d\mu - U^*(\psi^c)\right)
+\sup_{(\varphi, \psi) \in C} \left(\int \psi \, d\mu - U^*(- \varphi)\right) \le \sup_\psi \left(\int \psi \, d\mu - U^*(- \psi^c)\right)
 \]
+
+$(\varphi, \psi) \in \mathcal{C} \implies (\psi^c, \psi) \in \mathcal{C}$
+であるので,
+\[
+\sup_{(\varphi, \psi) \in C} \left(\int \psi \, d\mu - U^*(- \varphi)\right) \ge \sup_\psi \left(\int \psi \, d\mu - U^*(- \psi^c)\right)
+\]
+が成立する。よって,
+\begin{equation}
+  \label{eq:psi^c}
+\sup_{(\varphi, \psi) \in C} \left(\int \psi \, d\mu - U^*(- \varphi)\right) = \sup_\psi \left(\int \psi \, d\mu - U^*(- \psi^c)\right)
+\end{equation}
 
 同様に、\(\mu \geq 0\) であるため、
 
-\[
-\sup_{(\varphi, \psi) \in C} \left(\int \psi \, d\mu - U^*(\varphi)\right) = \sup_\varphi \left(\int \varphi^c \, d\mu - U^*(\varphi)\right)
-\]
+\begin{equation}
+  \label{eq:phi^c}
+  \sup_{(\varphi, \psi) \in C} \left(\int \psi \, d\mu - U^*(- \varphi)\right) = \sup_\varphi \left(\int \varphi^c \, d\mu - U^*(- \varphi)\right)
+\end{equation}
+となります。\\
 
-となります。
-
-正規化アルゴリズムの主要なアイデアは、上記の右辺のψとφの2つの関数に対して交互に勾配上昇ステップを実行することであり、
+正規化アルゴリズムの主要なアイデアは、上記の右辺の$\phi$と$\psi$の2つの関数に対して交互に勾配上昇ステップを実行することであり、
 $c$-変換を使用して$\phi$と$\psi$を変換します。
 勾配は適切な重み付きSobolev空間で計算されます。
 
@@ -167,7 +196,7 @@ $c$-変換を使用して$\phi$と$\psi$を変換します。
 
 多孔質媒体方程式（PME）は、固定された \(m > 1\) に対して以下の偏微分方程式(PDE)のことをいう：
 \[
-\frac{{\partial \rho}}{{\partial t}} = \Delta (\rho^m)
+\rho_t = \frac{{\partial \rho}}{{\partial t}} = \Delta (\rho^m)
 \]
 ここで、非負の解 \(\rho \geq 0\) に興味があります。
 このPDEは、エネルギー関数
@@ -180,15 +209,10 @@ $\rho \in \mathcal{P}(\mathbb{R}^n) \setminus L^m(\mathbb{R}^n)$のとき、$U(\
 ただし、これは$s \mapsto s^m$が$[0, \infty)$上で凸関数であるため、$U(\rho)$は$P(\mathbb{R}^n)$上で凸な汎関数です。
 [JLL]のアルゴリズムでは、$\delta U^*$を計算する必要があります。ここで、
 
-$$
-  U^*(\varphi) := \sup_{\rho \in P} \left( -\int \varphi \, d\rho - U(\rho) \right).
-$$
-
-積分の前の符号を反転し、$U(\rho)$の符号も反転させることで、
-
-$$
-U^*(\varphi) = -\inf_{\rho \in P} \int \left(\frac{1}{m-1}\rho^m + \rho\varphi\right) \, dx
-$$
+\begin{align*}
+  U^*(\varphi) &= \sup_{\rho \in P} \left( \int \varphi \, d\rho - U(\rho) \right).\\
+               &= \sup_{\rho \in P} \int \left(- \frac{1}{m-1}\rho^m + \rho\varphi\right) \, dx
+\end{align*}
 
 となります。
 $\varphi$の前の符号が[JLL]とは異なることに注意してください、しかしこれは問題ありません。\\
@@ -210,7 +234,7 @@ $U^*$は、実質的には$U$のLagrange-Fenchel変換を$-\varphi$に対して�
 {\color{teal}
 よって、$\delta U^*$を見つけるために, 以下の最大値を求める必要がある。
 \[
-  V(\rho) := \int \left(\frac{1}{m-1}\rho^m + \rho\varphi\right) \, dx.
+  V(\rho) := \int \left(- \frac{1}{m-1}\rho^m + \rho\varphi\right) \, dx.
 \]
 }
 \vspace\baselineskip 
@@ -218,7 +242,7 @@ $U^*$は、実質的には$U$のLagrange-Fenchel変換を$-\varphi$に対して�
 \begin{lem}
   $\varphi \in \mathcal{C}$ と仮定し、以下のように定義されるとする.
   $$
-    \rho_*(x) := \left( \frac{m-1}{m}(C - \varphi)_+ \right)^{\frac{1}{m-1}} 
+    \rho_*(x) := \left( \frac{m-1}{m}(C + \varphi)_+ \right)^{\frac{1}{m-1}} 
   $$
   ただし、$C \in \mathbb{R}$は$\int \rho_* = 1$となる。
   $(s)_+ := max(s, 0)$と定義している。
@@ -226,12 +250,12 @@ $U^*$は、実質的には$U$のLagrange-Fenchel変換を$-\varphi$に対して�
   この時、$\rho_*$ は$\mathcal{P}(\mathbb{R}^n)$上の関数$V$の最大化関数。
 \end{lem}
 
-
+\vspace\baselineskip 
 \begin{proof}
   $C$の選び方により、 $\rho_* \in \mathcal{P}(\mathbb{R}^n)$であることがわかる。
   次に、以下を示す。
   $$
-  V(\rho) \geq V(\rho_*) \qquad \text{for all } \, \rho \in \mathcal{P}(\mathbb{R}^n) \cap L^1(\mathbb{R}^n).
+  V(\rho) \leq V(\rho_*) \qquad \text{for all } \, \rho \in \mathcal{P}(\mathbb{R}^n) \cap L^1(\mathbb{R}^n).
   $$
   $\rho$を固定し、 
   $$
@@ -248,7 +272,7 @@ $U^*$は、実質的には$U$のLagrange-Fenchel変換を$-\varphi$に対して�
   よって、
   \begin{align*}
     V(\rho) - V(\rho_*) &= V(\rho_* + \mu) - V(\rho_*)\\
-                        &= \int \left(\frac{1}{m-1} ((\rho_* + \mu)^m - \rho_*^{m}) + \mu \varphi \right) \, dx
+                        &= \int \left(- \frac{1}{m-1} ((\rho_* + \mu)^m - \rho_*^{m}) + \mu \varphi \right) \, dx
   \end{align*}
   ここで、関数 $s \mapsto s^m$ は $[0, \infty)$ 上で凸であるため、$s, t \geq 0$ に対して 
   $$
@@ -256,34 +280,68 @@ $U^*$は、実質的には$U$のLagrange-Fenchel変換を$-\varphi$に対して�
   $$ 
   が成り立ちます。この不等式を適用することで、さらに次のように簡略化できます：
   \begin{align*}
-    V(\rho) - V(\rho_*) &\geq \int \left(\frac{1}{m-1} ((\rho_*^m + m \rho_*^{m-1} \mu) - \rho_*^{m}) + \mu \varphi \right) \, dx\\
-                        &\geq \int \left(\frac{m}{m-1} \rho_*^{m-1}\mu + \mu\varphi\right) \, dx\\
+    V(\rho) - V(\rho_*) &\leq \int \left(- \frac{1}{m-1} ((\rho_*^m + m \rho_*^{m-1} \mu) - \rho_*^{m}) + \mu \varphi \right) \, dx\\
+                        &\leq \int \left(- \frac{m}{m-1} \rho_*^{m-1}\mu + \mu\varphi\right) \, dx\\
   \end{align*}
 
   $\rho_*$の式を利用することで、
   \begin{align*}
-    \int \left(\frac{m}{m-1} \rho_*^{m-1}\mu + \mu\varphi\right) \, dx &= \int \left((C - \varphi)_+ \mu + \mu\varphi\right) \, dx \\
-                                                                       &= \int \left((C - \varphi)_+ \mu + \mu \varphi - C \mu\right) \, dx \\
-                                                                       &= \int \left((C - \varphi)_+ + \varphi - C\right)\mu \, dx \\  
+    \int \left(\frac{m}{m-1} \rho_*^{m-1}\mu + \mu\varphi\right) \, dx &= \int \left(-(C + \varphi)_+ \mu + \mu\varphi\right) \, dx \\
+                                                                       &= \int \left(-(C + \varphi)_+ \mu + \mu \varphi + C \mu\right) \, dx \\
+                                                                       &= \int \left(-(C + \varphi)_+ + \varphi + C\right)\mu \, dx \\  
   \end{align*}
   ただし、(\ref{eq:intmu})を利用する。
 
   ここで、以下のような観察をします：
 
   \[
-    (C - \varphi)_+ + \varphi - C = (C - \varphi)_- \begin{cases} = 0 & \text{if } \varphi < C \\ 
-                                                                  \geq 0 & \text{if } \varphi \geq C \end{cases}
+    - (C + \varphi)_+ + \varphi + C = - (C + \varphi)_- \begin{cases} = 0 & \text{if } \varphi > - C \\ 
+                                                                  \leq 0 & \text{if } \varphi \leq - C \end{cases}
   \]
 
   また、\(\mu(x) \geq 0\) は、\(\varphi(x) \geq C\) のとき成り立ちます。したがって、
 
   \[
-     (V(\rho) - V(\rho_*)) \geq \int ((C - \varphi)_* + \varphi - C) \mu \, dx \geq 0
+     V(\rho) - V(\rho_*) \leq \int (- (C + \varphi)_+ + \varphi + C) \mu \, dx \leq 0
   \]
 
   したがって、\(\rho_*\) は \(V\) の最大化点であることがわかります。
 \end{proof}
 
+\section{GRADIENT ASCENT}
+
+関数(\ref{eq:psi^c}),(\ref{eq:phi^c})の交互に勾配上昇を行う。
+\[
+  J(\varphi) = \int \varphi^c \, d\mu - U^*(-\varphi),
+\]
+\[
+  I(\psi) = \int \psi \, d\mu - U^*(-\psi^c).
+\]
+
+$\varphi,  \psi$が $c$-凹の場合、の時、$H$空間での勾配は以下のようになる。
+\[
+  \nabla_H J(\varphi) = (\theta_1 I - \theta_2 \Delta)^{-1} (\delta U^*(- \varphi) - T_{\varphi \#} \mu),
+\]
+\[
+  \nabla_H I(\psi) = (\theta_1 I - \theta_2 \Delta)^{-1} (\mu - T_{\psi \#} \delta U^* (- \psi^c)).
+\]
+また、以下が成り立つ。
+\[
+  T_\varphi(x) = x - \tau \nabla \varphi^c(x),
+\]
+\[
+  T_\varphi^{-1}(x) = x - \tau \nabla \varphi(x)
+\]
+
+[JLL]のProposition 2.4.を参照すること。\\
+
+もし$\mu$と$\varphi$が十分に滑らかであり、$\varphi$が$c$-凹関数である場合,
+写像の変数変換の公式を用いて、押し出し密度(pushforward density)は以下のように求められる.
+
+\begin{align*}
+  T_{\varphi \#} \mu(x) &= \mu(T_\varphi^{-1}(x)) | \det \nabla T(T^{-1}(x)) |^{-1},\\
+                        &= \mu(x - \tau \nabla \varphi(x)) | \det(I - \tau D^2 \varphi(x) |.
+\end{align*}
 
 
 

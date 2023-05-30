@@ -165,20 +165,20 @@ Wasserstein勾配流におけるback-and-forth法は、JKOスキームに関連�
 2つの測度$\mu$と$\nu$が与えられた場合、2-Wasserstein距離の双対形式は次のようになります。
 
 \begin{equation}
-    \frac{1}{2 \tau}W_2^2(\mu, \nu) = \sup_{(\psi(x), \phi(y)) \in C}  \left\{ \int \psi(x) d\mu(x) - \int \phi(y) d\nu(y) \right\},
+    \frac{1}{2 \tau}W_2^2(\mu, \nu) = \sup_{(\psi(x), \phi(y)) \in C}  \left\{ \int \psi(x) d\mu(x) + \int \phi(y) d\nu(y) \right\},
 \end{equation}
 
 ここで、以下の制約条件を満たす範囲で最大化されます。
 
 $$
-    \mathcal{C}  := \{(\phi, \psi) \in C(\Omega) \times C(\Omega) : \psi(x) - \phi(y) \leq \frac{1}{2 \tau} |x - y|^2 \}. 
+    \mathcal{C}  := \{(\phi, \psi) \in C(\Omega) \times C(\Omega) : \psi(x) + \phi(y) \leq \frac{1}{2 \tau} |x - y|^2 \}. 
 $$
 \vspace\baselineskip 
 
 {\color{teal}
 最適輸送の双対形式を用いると、問題（\ref{eq:minimizer}）を次のように書き直すことができます。
 }
-\[ \inf_{\rho} \sup_{(\phi,\psi) \in \mathcal{C}} \left\{ U(\rho) + \int_\Omega \psi(x) d\rho^(n)(x) - \int_\Omega \phi(y) d\rho(y) \right\}, \]
+\[ \inf_{\rho} \sup_{(\phi,\psi) \in \mathcal{C}} \left\{ U(\rho) + \int_\Omega \psi(x) d\rho^{(n)}(x) + \int_\Omega \phi(y) d\rho(y) \right\}, \]
 $U$が凸である場合、infとsupを入れ替えることで、（\ref{eq:minimizer}）と同等の双対問題を得ることができます。
 
 \begin{equation}
@@ -188,7 +188,7 @@ $U$が凸である場合、infとsupを入れ替えることで、（\ref{eq:min
 ここで、$U^*$は$U$の(\hyperlink{凸共役}{凸共役})を表し、次のように定義されます。
 
 $$
-    U^*(\phi) := \sup_\rho \int \phi(y) d\rho(y) - U(\rho) .
+    U^*(\phi) := - \inf_\rho  \left( U(\rho) +  \int \phi(y) d\rho(y) \right) .
 $$
 
 この双対問題を解くことで、問題（\ref{eq:minimizer}）の双対変数$\phi$を得ることができる。
