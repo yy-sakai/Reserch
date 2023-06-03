@@ -36,7 +36,6 @@
 \def\theequation{\thesection.\arabic{equation}}% renewcommand でもOK
 \makeatother
 
-
 \newtheorem{thm}{Theorem}[section]
 \newtheorem{cor}{Corollary} [thm]
 \newtheorem{lem}[thm]{Lemma}
@@ -93,7 +92,7 @@
     \begin{split}
         \label{eq:Darcy's}
         \partial_t \rho - \nabla \cdot (\delta \nabla \phi) = 0, \\
-        \phi = \delta U(\rho)
+        \phi = \delta U(\rho).
     \end{split}
 \end{align}
 
@@ -101,7 +100,11 @@
 方程式(\ref{eq:Darcy's})はしばしばダルシーの法則または一般化された多孔質媒体方程式と呼ばれ、内部エネルギー関数 $U$ によって生成された圧力勾配 $\nabla \phi$ に沿って流れる質量密度 $\rho$ の進化を記述します。
 このクラスの方程式は、流体流、熱伝導、拡散(律速)凝集、人流など、さまざまな物理現象をモデル化します。
 一般的に、{\color{red}これらの方程式は剛性があり非線形であり、数値的に解くのは困難です。}
-例えば、$U(\rho) = \frac{1}{m - 1} \int \rho^m (m > 1)$の重要な特殊な場合では、方程式(\ref{eq:Darcy's})は熱方程式の非線形バージョンである多孔質媒体方程式（PME） 
+例えば、
+$$
+    U(\rho) = \frac{1}{m - 1} \int \rho^m (m > 1)
+$$
+の重要な特殊な場合では、方程式(\ref{eq:Darcy's})は熱方程式の非線形バージョンである多孔質媒体方程式（PME） 
 $$
     \partial_t \rho - \delta(\rho^m = 0)
 $$
@@ -115,11 +118,14 @@ $U$が微分不可能または凸でない場合、これらの方程式のシ�
 この解釈は、JKOスキームとして知られる離散時間近似法を作成するために使用することができます[19]。
 このスキームは、次の反復によって近似解を構築します。
 
+
 \begin{equation}
     \label{eq:minimizer}
-    \rho^{(n+1)} := \arg\min_{\rho} U(\rho) + \frac{1}{2\tau} W_2^2(\rho, \rho^{(n)})
+    \min_{\rho \in \mathcal{P}} U(\rho) + \frac{1}{2\tau} W_2^2(\rho, \mu)
 \end{equation}
-
+\[
+    \rho^{(n+1)} := \arg\min_{\rho} U(\rho) + \frac{1}{2\tau} W_2^2(\rho, \rho^{(n)})
+\]
 
 ここで、$\tau$はスキーム内の時間ステップを表し、$W_2(\cdot, \cdot)$は最適輸送理論の2-Wasserstein距離です[27]（最適輸送と2-Wasserstein距離の簡単な概要についてはセクション2.1を参照）。
 {\color{teal}スキームの変分的構造により、}反復解は無条件でエネルギー安定性を持ち、時間ステップ$\tau$を任意の空間離散化から独立して選択することができます。
@@ -178,56 +184,111 @@ $$
 {\color{teal}
 最適輸送の双対形式を用いると、問題（\ref{eq:minimizer}）を次のように書き直すことができます。
 }
-\[ \inf_{\rho} \sup_{(\phi,\psi) \in \mathcal{C}} \left\{ U(\rho) + \int_\Omega \psi(x) d\rho^{(n)}(x) + \int_\Omega \phi(y) d\rho(y) \right\}, \]
-$U$が凸である場合、infとsupを入れ替えることで、（\ref{eq:minimizer}）と同等の双対問題を得ることができます。
-
+\begin{align*}
+    \min_{\rho \in \mathcal{P}} U(\rho) + \frac{1}{2\tau} W_2^2(\rho, \mu) &= \min_{\rho \in \mathcal{P}} \left(U(\rho) + \sup_{(\varphi, \psi) \in \mathcal{C}} \left(\int \varphi \, d\rho + \int \psi \, d\mu\right)\right)\\
+                                                                            &= \min_{\rho \in \mathcal{P}} \sup_{(\varphi, \psi) \in \mathcal{C}} \left(U(\rho) + \int \varphi \, d\rho + \int \psi \, d\mu\right)
+  \end{align*}
+$U$が凸である場合、infとsupを入れ替えることで、（\ref{eq:minimizer}）と同等の双対問題を得ることができます。[YS](P2.detail)
+\begin{align*}
+    \min_{\rho \in \mathcal{P}} U(\rho) + \frac{1}{2\tau} W_2^2(\rho, \mu) &= \sup_{(\varphi, \psi) \in \mathcal{C}} \min_{\rho \in \mathcal{P}} \left(U(\rho) + \int \varphi \, d\rho + \int \psi \, d\mu \right),\\
+                                                                            &= \sup_{(\varphi, \psi) \in \mathcal{C}} \left(\min_{\rho \in \mathcal{P}} \left(U(\rho) + \int \varphi \, d\rho\right) + \int \psi \, d\mu\right),\\
+                                                                            &= \sup_{(\varphi, \psi) \in \mathcal{C}} \left(\int \psi \, d\mu - U^*(- \varphi)\right).\\
+  \end{align*}
 \begin{equation}
     \label{eq:dual}
-    \sup_{(\phi,\psi) \in \mathcal{C}} \int \psi(x) d\rho^{(n)}(x) - U^*(\phi) ,
+    \sup_{(\phi,\psi) \in \mathcal{C}} \int \psi(x) d\rho^{(n)}(x) - U^*(- \phi) ,
 \end{equation} 
 ここで、$U^*$は$U$の(\hyperlink{凸共役}{凸共役})を表し、次のように定義されます。
 
-$$
-    U^*(\phi) := - \inf_\rho  \left( U(\rho) +  \int \phi(y) d\rho(y) \right) .
-$$
+\begin{align*}
+    U^*(\phi) &:= \sup_{\rho \in \mathcal{P}} \left( \int \varphi \, d \rho - U(\rho)\right)\\
+    U^*(- \phi) &= - \inf_\rho \left(\int \phi(y) d\rho(y) + U(\rho) \right).
+    \end{align*}
 
 この双対問題を解くことで、問題（\ref{eq:minimizer}）の双対変数$\phi$を得ることができる。
 また、Legendre 変換 (\hyperlink{凸共役}{凸共役})を用いて双対変数から密度変数を容易に復元することもできる。\\
 
 問題(\ref{eq:dual})は、$\mathcal{C}$によって表現される制約のために困難に見える。
 しかし、問題を再定式化する非常に便利な方法があります。$\rho^{(n)}$が非負測度であるため、できるだけ大きな値を持つように$\psi$を選ぶことが好ましい。
+
 $\phi$を固定すれば、対応する$\psi$の最大可能な選択肢は次のようになる。
 \begin{equation}
     \label{eq:backward-c-transform}
-    \phi^c(x) := \inf_{y\in\Omega} \phi(y) + \frac{1}{2 \tau}|x - y|^2.
+    \phi^c(x) := \inf_{y\in\Omega} \frac{1}{2 \tau}|x - y|^2 - \phi(y).
 \end{equation}
-逆に、$U^*$は$\phi$に関して増加する性質を持っています（セクション\ref{sect:c-trans}を参照）。
-したがって、できるだけ小さい値を持つように$\phi$を選びたいと考える。
-したがって、$\psi$を固定すると、$\phi$の最小の選択肢は次のようになる。
+また、$\mu \ge 0$より,$\psi$を固定すると、$\phi$の最大の選択肢は次のようになる。
 \begin{equation}
     \label{eq:forward-c-transform}
-    \psi^{\bar{c}}(y):= \sup_{x\in\Omega} \psi(x) - \frac{1}{2 \tau}|x-y|^2.
+    \psi^c(x) := \inf_x \left( \frac{1}{2\tau}|x-y|^2 - \psi(x)\right)
 \end{equation}
 
-\vspace\baselineskip 
 
 式(\ref{eq:backward-c-transform})と(\ref{eq:forward-c-transform})はそれぞれbackward-c-transformとforward-c-transformとして知られています。
 これらの変換は最適輸送において重要な役割を果たし、私たちの手法には不可欠です。
-重要な点として、これらの変換を使用して制約Cとφまたはψのいずれかを排除することができます。
-具体的には、問題(\ref{eq:dual})は次の2つの制約のない汎関数の最大化として等価です:
+重要な点として、これらの変換を使用して制約$\mathcal{C}$と$\phi$または$\psi$のいずれかを排除することができます。\\
+
+注意しておきますが、
+{\color{teal}
+与えられた \((\varphi, \psi) \in C\) に対して、{\color{red}\(\psi^c \geq \varphi\) }が成り立ちます。
+}
+なぜなら、
+$
+    \mathcal{C}  := \{(\phi, \psi) \in C(\Omega) \times C(\Omega) : \psi(x) + \phi(y) \leq \frac{1}{2 \tau} |x - y|^2 \}. 
+$
+であり,
+$
+  \varphi(x) \le \frac{1}{2\tau}|x-y|^2 - \psi(y)
+$
+なので、右辺で$\inf$をとっているので、左辺の$\varphi(x)$の中での$\sup$が$\psi^c$になるためである。\\
+
+また、\(\rho \geq 0\) の場合、\(- U^*(-\varphi)\) は \(\varphi\) に関して増加する関数です。
+よって、{\color{red}$-U^*(\varphi) \le -U^*(\psi)^c$}である。
+
+
+したがって、以下のようになります。
+\[
+\sup_{(\varphi, \psi) \in C} \left(\int \psi \, d\mu - U^*(- \varphi)\right) \le \sup_\psi \left(\int \psi \, d\mu - U^*(- \psi^c)\right)
+\]
+
+また、$(\varphi, \psi) \in \mathcal{C} \implies (\psi^c, \psi) \in \mathcal{C}$
+であるので,
+\[
+\sup_{(\varphi, \psi) \in C} \left(\int \psi \, d\mu - U^*(- \varphi)\right) \ge \sup_\psi \left(\int \psi \, d\mu - U^*(- \psi^c)\right)
+\]
+が成立する。よって,
+\begin{equation}
+  \label{eq:psi^c}
+\sup_{(\varphi, \psi) \in C} \left(\int \psi \, d\mu - U^*(- \varphi)\right) = \sup_\psi \left(\int \psi \, d\mu - U^*(- \psi^c)\right)
+\end{equation}
+
+同様に、\(\mu \geq 0\) であるため、
+
+\begin{equation}
+  \label{eq:phi^c}
+  \sup_{(\varphi, \psi) \in C} \left(\int \psi \, d\mu - U^*(- \varphi)\right) = \sup_\varphi \left(\int \varphi^c \, d\mu - U^*(- \varphi)\right)
+\end{equation}
+となります。\\
+
+\vspace\baselineskip 
+
+$c$-変換(\ref{eq:backward-c-transform})(\ref{eq:forward-c-transform})を使用して制約$\mathcal{C}$と$\phi$または$\psi$のいずれかを排除することによって、問題(\ref{eq:dual})は次の2つの制約のない汎関数の最大化として等価になる:
 \begin{equation}
     \label{eq:J}
-    J(\phi):= \int_{\Omega} \phi^c(x) \,d\rho^{(n)}(x) - U^*(\phi)
+    J(\phi):= \int_{\Omega} \phi^c(x) \,d\rho^{(n)}(x) - U^*(- \phi)
 \end{equation}
 
 \begin{equation}
     \label{eq:I}
-    I(\psi):= \int_{\Omega} \psi(x) \, d\rho^{(n)}(x) - U^*(\psi^{\bar{c}})
+    I(\psi):= \int_{\Omega} \psi(x) \, d\rho^{(n)}(x) - U^*(- \psi^{c})
 \end{equation}
 
+すなわち、
+$$
+\sup_{(\phi,\psi) \in \mathcal{C}} \int \psi(x) d\rho^{(n)}(x) - U^*(- \phi) = \sup J(\phi) = \sup I(\psi).
+$$
 加えて、もし$\phi_*$が$J$の最大化関数であり、$\psi_*$が$I$の最大化関数であるならば、
 $$
-    \phi_*^c = \psi_*, \qquad \psi_*^{\bar{c}} = \phi_*
+    \phi_*^c = \psi_*, \qquad \psi_*^c = \phi_*
 $$
 の関係が成り立ち、$(\phi_*, \psi_*)$は(\ref{eq:dual})の最大化関数となります。
 $I$と$J$の再定式化は、最大化関数を見つける作業を実際に簡素化します。
@@ -235,7 +296,7 @@ $I$と$J$の再定式化は、最大化関数を見つける作業を実際に�
 その結果、(\ref{eq:dual})を直接扱うよりも、IとJを最大化する方がはるかに取り扱いやすくなります。\\
 
 
-私たちは、[21]で紹介されたBFMアルゴリズムを基にして、最大化関数$\phi$と$\psi_*$を見つける。
+私たちは、[21]で紹介されたBFMアルゴリズムを基にして、最大化関数$\phi_*$と$\psi_*$を見つける。
 元のBFMは、$U^*$が線形関数という特別な場合に最大化関数を効率的に見つけるための手法を提供している。
 $I$または$J$に焦点を当てるよりも早く、BFMは両方の関数を同時に最大化します。
 この手法は、$\phi$-空間での$J$の勾配上昇更新と$\psi$-空間での$I$の勾配上昇更新を交互に行うことで進行します（そのため、「back-and-forth」の名前があります）。
@@ -251,7 +312,13 @@ Sobolev制御により、境界積分を全空間上の積分に変換するこ�
 back-and-forth法は、Algorithm 1にまとめられています。ここで、$H$は前述の重み付きSobolev空間です。\\
 
 一度双対問題を解決した後、元の問題（\ref{eq:minimizer}）の解を回復することができます。
-$U$が凸であれば、最適な双対変数$\phi_*$は$\rho^{(n+1)}$との双対関係$\rho^{(n+1)} = \delta U^*(\phi_*)$を介して関連付けられます（セクション2.2の定理2.14を参照）。
+$U$が凸であれば、最適な双対変数$\phi_*$は$\rho^{(n+1)}$との双対関係
+{\color{red}
+$$
+    \rho^{(n+1)} = \delta U^*(\phi_*)
+$$
+}
+を介して関連付けられます（セクション2.2の定理2.14を参照）。
 $U$が凸でない場合、（\ref{eq:minimizer}）と双対問題との間の関係はより不確かになります。
 幸いなことに、凸性分割スキームを使用することで、この困難を回避することができます[12]。
 実際に、$U = U_1 + U_0$と書けるようにすると、$U_1$は凸であり、$U_0$は凹であるとします。
@@ -268,13 +335,309 @@ $U_1(\rho) + U_0(\rho^{(n)}) + (\delta U_0(\rho^{(n)}), \rho - \rho^{(n)})$は�
 に対して凸関数であるため、双対アプローチを適用できることです。
 すべてを考慮すると、私たちの方法は$U$が凸でない場合や不規則な場合でも、PDE（\ref{eq:Darcy's}）を非常に迅速にシミュレートする手法を提供します。\\
 
-本論文の残りの部分は以下のように構成されています。
-セクション2では、最適輸送、凸解析、最適化に関する重要な背景情報を見直します。
-セクション3では、前後アルゴリズムを紹介し、安定性の保証とステップサイズの選択方法を説明します。
-最後に、セクション4では、幅広い数値実験を通じてアルゴリズムの精度、速度、汎用性を実証します。
-特に、私たちの実験には、数値的に困難とされる多くのケースが含まれています。
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5
 
-\section{Details}
+\section{BACKGROUND}
+\subsection{The $c$-transform and optimal transport}
+
+ここから、$\Omega$上の連続関数の空間を$C(\Omega)$で表す。
+
+\begin{dfn}
+    $\phi \in C(\Omega)$の\textit{backward c-transform}は以下のように表す:
+    \begin{equation}
+        \label{def:backward-c-transform}
+        \phi^c(x) := \inf_{y\in\Omega} \left(\frac{1}{2 \tau}|x - y|^2 - \phi(y)\right).
+    \end{equation}
+    また、$\psi \in C(\Omega)$の\textit{forward c-transform}は以下のように表す:
+    \begin{equation}
+        \label{def:forward-c-transform}
+        \psi^c(x) := \inf_x \left( \frac{1}{2\tau}|x-y|^2 - \psi(x)\right).
+    \end{equation}
+\end{dfn}
+
+\vspace\baselineskip
+
+\begin{dfn}
+    $\phi$が$c$-concaveであるとは、$\phi = \psi^c$となる $\psi \in C(\Omega)$が存在することである。
+    また、$(\phi, \psi) \in \mathcal{C}$が$c$-conjugateとは、$\phi = \psi^c$かつ$\psi = \phi^c$であることをいう。
+\end{dfn}
+
+\vspace\baselineskip
+
+\begin{lem}
+    \label{lem:c-transform}
+    $\phi, \psi \in C(\Omega)$のとき,
+    $\forall x \in \Omega \text{に対し,}\phi^{cc} \ge \phi$
+    が成り立つ。また、$\phi^{cc} = \phi$の必要十分条件は$\phi$が$c$-concaveの時である。
+    特に、$\phi^{ccc} = \phi^c$が成立する.[JL](Lemma 1(i))
+\end{lem}
+
+\begin{proof}
+    \begin{align*}
+            \phi^c(x)    &= \inf_{y\in\Omega} \left(\frac{1}{2 \tau}|x - y|^2 - \phi(y)\right)\\
+            \phi^{cc}(y) &= \inf_{x\in\Omega} \left(\frac{1}{2 \tau}|x - y|^2 - \phi^c(x)\right)\\
+                      &= \inf_{x\in\Omega} \left(\frac{1}{2 \tau}|x - y|^2 - \inf_{z\in\Omega} \left(\frac{1}{2 \tau}|x - z|^2 - \phi(z)\right)\right)\\
+                      &\ge  \inf_{x\in\Omega} \left(\frac{1}{2 \tau}|x - y|^2 - \left(\frac{1}{2 \tau}|x - y|^2 - \phi(y)\right)\right)\\
+                      &= \phi(y).
+    \end{align*}
+
+次に$\phi^{cc} = \phi$の必要十分条件は$\phi$が$c$-concaveであることを示す。
+
+$(\Leftarrow)$
+
+$\phi: c$-concaveすなわち、$\exists \psi \, s.t. \, \phi = \psi^c$のとき、$\phi^{cc} = \phi$を示す。
+
+$\exists \psi \, s.t. \, \phi = \psi^c$と仮定する。
+$\psi := \phi^c$とおくと、
+$$
+    \phi = \psi^c = (\phi^c)^c= \phi^{cc}
+$$
+
+$(\Rightarrow)$
+
+$\phi^{cc} = \phi$のとき、$\phi: c$-concaveすなわち、$\exists \psi \, s.t. \, \phi = \psi^c$を示す。
+
+$\phi^{cc} = \phi$と仮定すると、
+$$
+    \phi = \phi^{cc} = (\phi^c)^c
+$$
+よって、$\phi = (\phi^c)^c$となる$\phi^c$が存在する。したがって、$\phi$は$c$-concaveである。
+
+
+最後に、$\phi^{ccc} = \phi$を示す。
+まず、$\phi^{ccc} \geq \phi^c$を示す。
+\begin{align*}
+    \phi^{ccc}(x)   &= \inf_{w \in \Omega} \left( \frac{1}{2 \tau} |x - w|^2 - \phi^{cc}(w) \right)\\
+                    &= \inf_{w \in \Omega} \left( \frac{1}{2 \tau} |x - w|^2 - \inf_{z \in \Omega}\left( \frac{1}{2 \tau} |w - z|^2 - \phi^c(z)\right)\right)\\
+                    &= \inf_{w \in \Omega} \left( \frac{1}{2 \tau} |x - w|^2 + \sup_{z \in \Omega}\left( - \frac{1}{2 \tau} |w - z|^2 + \phi^c(z)\right)\right)\\
+                    &\geq \inf_{w \in \Omega} \left( \frac{1}{2 \tau} |x - w|^2 + \left( - \frac{1}{2 \tau} |w - x|^2 + \phi^c(x)\right)\right)\\
+                    &= \phi^c(x)\\
+\end{align*}
+次に、$\phi^{ccc} \leq \phi^c$を示す。
+\begin{align*}
+    \phi^{ccc}(x)   &= \inf_{w \in \Omega} \left( \frac{1}{2 \tau} |x - w|^2 - \phi^{cc}(w) \right)\\
+                    &\leq \inf_{w \in \Omega} \left( \frac{1}{2 \tau} |x - w|^2 - \phi(w) \right)\\
+                    &= \phi^c(x)\\
+\end{align*}
+よって、$\phi^{ccc} = \phi^c$が示された。
+
+{\color{gray}
+$\phi^{cc} = \phi$の必要十分条件は$\phi$が$c$-concaveであることを示す。(別解)
+
+$(\Leftarrow)$
+
+$\phi: c$-concaveすなわち、$\exists \psi \, s.t. \, \phi = \psi^c$のとき、$\phi^{cc} = \phi$を示す。
+
+$\phi = \psi^c$と仮定すると、
+$$
+\phi^{cc} =（\psi^{cc})^c = \psi^{ccc} = \psi^c = \phi
+$$
+
+$(\Rightarrow)$
+$\phi^{cc} = \phi$のとき、$\phi: c$-concaveすなわち、$\exists \psi \, s.t. \, \phi = \psi^c$を示す。
+
+$\phi^{cc} = \phi$と仮定すると、
+$$
+    \phi = \phi^{cc} = (\phi^c)^c
+$$
+よって、$\phi = (\phi^c)^c$となる$\phi^c$が存在する。したがって、$\phi$は$c$-concaveである。
+}
+\end{proof}
+
+\begin{prop}
+    $\phi \in C(\Omega)$が$c$-concaveのとき,以下の写像はwell-definedかつalmost everywhereでuniqueである。
+    \begin{equation}
+            T_\phi(x):= \underset{y \in \Omega} {\operatorname{argmin}}\left( \frac{1}{2 \tau} |x - y|^2 - \phi(y) \right) 
+    \end{equation}
+    すなわち、$\phi^c$はただ一つの最少点を持ち、$\phi^c$が最小値を取る座標はtransport map $T_\phi(x)$で表される。
+    さらに、$u \in C(\Omega)$であるとき、ほとんど全ての(almost every)$x, y \in \Omega$に対し、以下のような$c$-transformの摂動公式が成り立つ。
+    \begin{equation}
+        \lim_{\varepsilon \to 0} \frac{(\phi + \varepsilon u)^c(x) - \phi^c(x)}{\varepsilon} = - u(T_\phi(x))
+    \end{equation}
+    最後に、以下も成り立つ。
+    $$
+        T_\phi(x) = x - \tau \nabla \phi^c(x),
+    $$
+    $$
+        T_\psi(y) = y - \tau \nabla \psi^c(y),
+    $$
+    {\color{teal}
+    また、$T_\phi(T_\psi(y)) = y,\, T_\psi(T_\phi(x)) = x$ がalmost everywhereで成り立つ。
+    }
+\end{prop}
+
+\begin{proof}
+
+まず、写像$T_\phi(x)$がwell-definedであることを示します。
+つまり、任意の$x \in \Omega$に対して$\underset{y \in \Omega} {\operatorname{argmin}}\left( \frac{1}{2 \tau} |x - y|^2 - \phi(y) \right)$が存在することを示す。
+関数$\frac{1}{2 \tau} |x - y|^2 - \phi(y)$は$\Omega$上の連続関数であり、$\Omega$がコンパクト(閉集合$\to$コンパクト)であることから、この関数は最小値を持つことが保証される。(コンパクト空間の連続関数はmaxとminを持つ。)
+したがって、$\underset{y \in \Omega} {\operatorname{argmin}}\left( \frac{1}{2 \tau} |x - y|^2 - \phi(y) \right)$は存在する。
+
+次に、$T_\phi(x)$がalmost everywhereで一意であることを示しす。
+つまり、ほとんど全ての$x \in \Omega$に対して、$\underset{y \in \Omega} {\operatorname{argmin}}\left( \frac{1}{2 \tau} |x - y|^2 - \phi(y) \right)$がただ一つの要素を持つことを示す。
+$\phi$が$c$-concaveであることから、$\underset{y \in \Omega} {\operatorname{argmin}}\left( \frac{1}{2 \tau} |x - y|^2 - \phi(y) \right)$は凸集合となります。(\hyperlink{convex set}{Proof})
+また、凸集合上の任意の点は最小値を持つ点として一意に定まります。
+したがって、ほとんど全ての$x \in \Omega$に対して$\underset{y \in \Omega} {\operatorname{argmin}}\left( \frac{1}{2 \tau} |x - y|^2 - \phi(y) \right)$がただ一つの要素を持つことが示されます。
+
+{\color{teal}
+さらに、$u \in C(\Omega)$の場合、ほとんど全ての$x, y \in \Omega$に対して以下の摂動公式が成り立つことを示します。
+}
+$$
+\lim_{\varepsilon \to 0} \frac{(\phi + \varepsilon u)^c(x) - \phi^c(x)}{\varepsilon} = - u(T_\phi(x))
+$$
+
+最後に、$T_\phi(x) = x - \tau \nabla \phi(x)$が成り立つことを示します。
+
+関数$\frac{1}{2 \tau} |x - y|^2 - \phi(y)$の最小値を実現する$y$は、$ \frac{\partial}{\partial y}  (\frac{1}{2 \tau} |x - y|^2 - \phi(y)) = 0$で求められる。
+なぜなら、$T_\phi$は凸関数であるためである。
+まず、$ \nabla (\frac{1}{2 \tau} |x - y|^2 - \phi(y))$を求める。
+\begin{align*}
+    \nabla (\frac{1}{2 \tau} |x - y|^2 - \phi(y))   &= \frac{\partial}{\partial x}  (\frac{1}{2 \tau} |x - y|^2 - \phi(y)) + \frac{\partial}{\partial y} (\frac{1}{2 \tau} |x - y|^2 - \phi(y))\\
+                                                    &= (x - y) + \left(- (x - y) - \nabla \phi(y) \right)\\
+                                                    &= - \nabla \phi(y) 
+\end{align*}
+$T_\phi$の定義から、$y = T_\phi$のとき、$\frac{1}{2 \tau} |x - y|^2 - \phi(y)$が$\inf$をとる。
+よって、$\phi^c(y)= \inf_{y \in \Omega} (\frac{1}{2 \tau} |x - y|^2 - \phi(y)) $と$\phi(y)$の関係は以下のとおりである。
+$$
+    \nabla \phi^c(x) = - \nabla \phi(T_\phi(x))
+$$
+よって、
+\begin{eqnarray*}
+    &\frac{\partial}{\partial y} (\frac{1}{2 \tau} |x - y|^2 - \phi(y)) = 0\\
+    \iff& - (x - y) - \nabla \phi(y)  = 0\\
+    \iff& y = x + \nabla \phi(y)\\
+    \iff& T_\phi(x) = x + \nabla \phi(T_\phi(x))\\
+    \iff& T_\phi(x) = x - \nabla \phi^c(x)
+\end{eqnarray*}
+
+\begin{align*}
+    T_\psi(T_\phi(x))   &= T_\psi(x - \nabla \phi^c(x))\\
+                        &= y - \tau \nabla \psi(y)
+\end{align*}
+
+\end{proof}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+{\color{gray}
+$T_\phi(T_\psi(y)) = y$を証明します。
+
+$T_\psi(y) = \underset{z \in \Omega}{\operatorname{argmin}}\left(\frac{1}{2 \tau} |y - z|^2 - \psi(z)\right)$と定義されています。
+
+$T_\phi(T_\psi(y))$を考えると、これは以下の最小化問題の解です：
+$$T_\phi(T_\psi(y)) = \underset{x \in \Omega}{\operatorname{argmin}}\left(\frac{1}{2 \tau} |T_\psi(y) - x|^2 - \phi(x)\right)$$
+
+この最小化問題の解$x$について考えましょう。最適解$x = T_\phi(T_\psi(y))$と仮定します。
+
+最適解$x = T_\phi(T_\psi(y))$に対して、以下の条件が成り立ちます：
+$$\frac{1}{\tau}(T_\psi(y) - x) - \nabla \phi(x) = 0$$
+
+この式を変形すると、
+$$T_\psi(y) - x = \tau \nabla \phi(x)$$
+
+両辺に$-1$をかけて整理すると、
+$$x - T_\psi(y) = -\tau \nabla \phi(x)$$
+
+ここで、$\nabla \phi(x) = -\nabla \phi^c(x)$を利用します（先程の議論で示しました）。
+
+したがって、上記の式は次のように書き換えられます：
+$$x - T_\psi(y) = \tau \nabla \phi^c(x)$$
+
+両辺に$-\tau$をかけて整理すると、
+$$T_\psi(y) - x = -\tau \nabla \phi^c(x)$$
+
+これは$T_\psi(y)$と$x$の関係を表しています。右辺は$c$-transformの勾配であり、左辺は$T_\psi(y)$と$x$の差を表しています。
+
+よって、$T_\phi(T_\psi(y)) = y$が成り立ちます。
+
+同様に、$T_\psi(T_\phi(x)) = x$も証明することができます。
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{prop}
+    もし、$\mu$と$\nu$が$\Omega$上の非負密度関数で、質量が等しい場合、つまり、
+    \[
+        \int_{\Omega} \mu(x)dx = \int_{\Omega} \nu(y)dy
+    \]
+    であるならば、次の式が成り立ちます。
+    \[
+        \frac{1}{2\tau}W_2^2(\mu, \nu) = \sup_{\phi \in C(\Omega)} \left( \int_{\Omega} \phi^c(x) \mu(x)dx + \int_{\Omega} \phi(y) \nu(y)dy \right) 
+    \]
+
+    \[
+        \frac{1}{2\tau}W_2^2(\mu, \nu) = \sup_{\psi \in C(\Omega)} \left( \int_{\Omega} \psi(x) \mu(x)dx + \int_{\Omega} \psi^c (y) \nu(y)dy \right) 
+    \]
+
+%ここで、W2(μ, ν)はWasserstein-2距離を表し、C(\Omega)はΩ上の連続関数の集合を表します。式中のφ(x)はμ(x)dxで積分され、φ(y)はν(y)dyで積分されます。同様に、ψ(x)はμ(x)dxで積分され、ψ(y)はν(y)dyで積分されます。
+
+この結果により、最適輸送写像の存在と一意性が保証されます。
+\end{prop}
+
+\begin{proof}
+    
+注意しておきますが、
+{\color{teal}
+与えられた \((\varphi, \psi) \in C\) に対して、{\color{red}\(\psi^c \geq \varphi\) }が成り立ちます。
+}
+ただし、
+\[
+  \psi^c(x) := \inf_y \left( \frac{1}{2\tau}|x-y|^2 - \psi(y)\right)
+\]
+は \(\psi\) の c-変換（c-transform）です。なぜなら、
+$
+    \mathcal{C}  := \{(\phi, \psi) \in C(\Omega) \times C(\Omega) : \psi(x) + \phi(y) \leq \frac{1}{2 \tau} |x - y|^2 \}. 
+$
+であり,
+$
+  \varphi(x) \le \frac{1}{2\tau}|x-y|^2 - \psi(y)
+$
+したがって、以下のようになります。
+\begin{align*}
+    \frac{1}{2 \tau}W_2^2(\mu, \nu) &= \sup_{(\psi(x), \phi(y)) \in C}  \left( \int \psi(x) d\mu(x) + \int \phi(y) d\nu(y) \right),\\
+                                    &\leq \sup_{\phi \in C(\Omega)} \left( \int_{\Omega} \phi^c(x) \mu(x)dx + \int_{\Omega} \phi(y) \nu(y)dy \right) 
+\end{align*}
+
+また、$(\varphi, \psi) \in \mathcal{C} \implies (\psi^c, \psi) \in \mathcal{C}$
+であるので,
+\[
+    \sup_{(\psi(x), \phi(y)) \in C}  \left( \int \psi(x) d\mu(x) + \int \phi(y) d\nu(y) \right) \geq \sup_{\phi \in C(\Omega)} \left( \int_{\Omega} \phi^c(x) \mu(x)dx + \int_{\Omega} \phi(y) \nu(y)dy \right) 
+\]
+が成立する。よって,
+\[
+    \sup_{(\psi(x), \phi(y)) \in C}  \left( \int \psi(x) d\mu(x) + \int \phi(y) d\nu(y) \right) = \sup_{\phi \in C(\Omega)} \left( \int_{\Omega} \phi^c(x) \mu(x)dx + \int_{\Omega} \phi(y) \nu(y)dy \right) 
+\]
+\end{proof}
+
+{\color{teal}
+\begin{thm}
+    もし、$\mu$と$\nu$が$\Omega$上の非負密度関数で、質量が等しい場合、つまり、
+    \[
+        \int_{\Omega} \mu(x)dx = \int_{\Omega} \nu(y)dy
+    \]
+    であるならば、次の条件を満たすc共役のペア$(\phi_*, \psi_*)$が存在する:
+    \begin{align*}
+        \phi_* &\in \underset{\phi \in C(\Omega)} {\operatorname{argmax}}\left\{\int_{\Omega} \phi^c(x) \mu(x)dx - \int_{\Omega} \phi(y) \nu(y)dy \right\} \\
+        \psi_* &\in \underset{\psi \in C(\Omega)} {\operatorname{argmax}} \left\{\int_{\Omega} \psi(x) \mu(x)dx - \int_{\Omega} \psi^c(y) \nu(y)dy \right\}
+    \end{align*}
+さらに、$T_\phi$は$\mu$を$\nu$に送る唯一の最適輸送写像であり、$T_\psi$は$\nu$を$\mu$に送る唯一の最適輸送写像です。
+つまり、$T_{\phi_*} \mu = \nu$および$T_{\psi_*} \nu = \mu$が成り立ちます。
+
+また、2-Wasserstein距離$W^2_2(\mu, \nu)$と関数$\phi_*, \psi_*$との関係は次のようになります。
+
+\[
+\frac{1}{2\tau}W^2_2(\mu, \nu) = \int_{\Omega} \psi_*(x) \mu(x)dx - \int_{\Omega} \phi_*(y) \nu(y)dy.
+\]
+\end{thm}
+}
+
+\subsection{Convex duality}
+
+
+
+
+
+
+\section{Appendix}
 \subsection*{自乗可積分}
 \hypertarget{自乗可積分}
 自乗可積分関数(square-integrable function)とは、実数値または複素数値可測函数で絶対値の自乗の積分が有限であるものである。すなわち
@@ -312,6 +675,24 @@ $$
 \end{equation}
 
 
+\subsection*{Proof}
+\begin{proof}[Proof of \hypertarget{convex set}{$T_\phi(x) = \underset{y \in \Omega} {\operatorname{argmin}}\left( \frac{1}{2 \tau} |x - y|^2 - \phi(y) \right)$は凸集合}]
 
+$\phi$が$c$-concaveであると仮定します。
+
+関数$f(y) = \frac{1}{2 \tau} |x - y|^2 - \phi(y)$を考えます。この関数は凸関数です。なぜなら、次のような理由からです：
+
+\begin{enumerate}
+    \item 二次関数$\frac{1}{2 \tau} |x - y|^2$は凸関数です。二次関数はそのヘッセ行列が半正定値であるため、凸性を持ちます。
+    \item $\phi$が$c$-凹関数より、$-\phi(y)$は下に凸です。$\phi$が$c$-concaveであるため、$\phi$の下に凸な接平面が存在し、その接平面よりも下に凸な部分を持ちます。
+    \item 凸関数の足し算は凸関数。
+  \end{enumerate}
+
+したがって、$f(y) = \frac{1}{2 \tau} |x - y|^2 - \phi(y)$は凸関数です。
+
+関数$f(y)$の最小値を実現する点の集合は凸集合です。なぜなら、凸関数の最小値を実現する点の集合は常に凸集合であり、$f(y)$は凸関数であるためです。
+
+したがって、$\underset{y \in \Omega} {\operatorname{argmin}}\left( \frac{1}{2 \tau} |x - y|^2 - \phi(y) \right)$は凸集合です。
+\end{proof}
 
 \end{document}

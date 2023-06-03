@@ -146,8 +146,8 @@ $\bold{detail:}$
   U^*(\varphi)   &= \sup_{\rho \in \mathcal{P}} \left(\int \varphi \, d\rho - U(\rho) \right).\\
   U^*(- \varphi) &= \sup_{\rho \in \mathcal{P}} \left(\int - \varphi \, d\rho - U(\rho) \right),\\
                  &= \sup_{\rho \in \mathcal{P}} \left(- \int \varphi \, d\rho - U(\rho) \right),\\
-                 &= \sup_{\rho \in \mathcal{P}} \left\{ -  \left(\int \varphi \, d\rho - U(\rho) \right) \right\} ,\\
-                 &= - \inf_{\rho \in \mathcal{P}} \left\{ \left(\int \varphi \, d\rho - U(\rho) \right) \right\} .\\
+                 &= \sup_{\rho \in \mathcal{P}} \left\{ -  \left(\int \varphi \, d\rho + U(\rho) \right) \right\} ,\\
+                 &= - \inf_{\rho \in \mathcal{P}} \left\{ \left(\int \varphi \, d\rho + U(\rho) \right) \right\} .\\
 \end{align*}
 よって、
 \[
@@ -155,21 +155,34 @@ $\bold{detail:}$
 \]
 }
 
-注意しておきますが、\(\rho \geq 0\) の場合、\(U^*\) は \(\varphi\) に関して減少する関数です。
+注意しておきますが、
 {\color{teal}
-したがって、与えられた \((\varphi, \psi) \in C\) に対して、\(\psi^c \geq \varphi\) が成り立ちます。
+与えられた \((\varphi, \psi) \in C\) に対して、{\color{red}\(\psi^c \geq \varphi\) }が成り立ちます。
 }
 ただし、
 \[
   \psi^c(x) := \inf_y \left( \frac{1}{2\tau}|x-y|^2 - \psi(y)\right)
 \]
-は \(\psi\) の c-変換（c-transform）です。
+は \(\psi\) の c-変換（c-transform）です。なぜなら、
+$
+    \mathcal{C}  := \{(\phi, \psi) \in C(\Omega) \times C(\Omega) : \psi(x) + \phi(y) \leq \frac{1}{2 \tau} |x - y|^2 \}. 
+$
+であり,
+$
+  \varphi(x) \le \frac{1}{2\tau}|x-y|^2 - \psi(y)
+$
+なので、$\varphi(x)$の中での$\sup$が$\psi^c$になるためである。
+
+また、\(\rho \geq 0\) の場合、\(- U^*(-\varphi)\) は \(\varphi\) に関して増加する関数です。
+よって、{\color{red}$-U^*(\varphi) \le -U^*(\psi)^c$}である。
+
+
 {\color{teal}したがって、以下のようになります。}
 \[
 \sup_{(\varphi, \psi) \in C} \left(\int \psi \, d\mu - U^*(- \varphi)\right) \le \sup_\psi \left(\int \psi \, d\mu - U^*(- \psi^c)\right)
 \]
 
-$(\varphi, \psi) \in \mathcal{C} \implies (\psi^c, \psi) \in \mathcal{C}$
+また、$(\varphi, \psi) \in \mathcal{C} \implies (\psi^c, \psi) \in \mathcal{C}$
 であるので,
 \[
 \sup_{(\varphi, \psi) \in C} \left(\int \psi \, d\mu - U^*(- \varphi)\right) \ge \sup_\psi \left(\int \psi \, d\mu - U^*(- \psi^c)\right)
