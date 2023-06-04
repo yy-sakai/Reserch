@@ -37,13 +37,14 @@
 \makeatother
 
 \newtheorem{thm}{Theorem}[section]
-\newtheorem{cor}{Corollary} [thm]
-\newtheorem{lem}[thm]{Lemma}
-\newtheorem{prop}[thm]{Proposition}
+\newtheorem{cor}{Corollary} [section]
+\newtheorem{lem}{Lemma}[section]
+\newtheorem{prop}{Proposition}[section]
 \theoremstyle{definition}
 \newtheorem{dfn}{Definition}[section]
 \newtheorem{ex}{Example}[section]
 \newtheorem{rem}{Remark}[section]
+\newtheorem{ass}{Assuption}[section]
 
 \renewcommand{\labelenumi}{(\roman{enumi})}
 
@@ -219,7 +220,7 @@ $\phi$を固定すれば、対応する$\psi$の最大可能な選択肢は次�
 また、$\mu \ge 0$より,$\psi$を固定すると、$\phi$の最大の選択肢は次のようになる。
 \begin{equation}
     \label{eq:forward-c-transform}
-    \psi^c(x) := \inf_x \left( \frac{1}{2\tau}|x-y|^2 - \psi(x)\right)
+    \psi^c(y) := \inf_x \left( \frac{1}{2\tau}|x-y|^2 - \psi(x)\right)
 \end{equation}
 
 
@@ -351,7 +352,7 @@ $U_1(\rho) + U_0(\rho^{(n)}) + (\delta U_0(\rho^{(n)}), \rho - \rho^{(n)})$は�
     また、$\psi \in C(\Omega)$の\textit{forward c-transform}は以下のように表す:
     \begin{equation}
         \label{def:forward-c-transform}
-        \psi^c(x) := \inf_x \left( \frac{1}{2\tau}|x-y|^2 - \psi(x)\right).
+        \psi^c(y) := \inf_x \left( \frac{1}{2\tau}|x-y|^2 - \psi(x)\right).
     \end{equation}
 \end{dfn}
 
@@ -445,6 +446,7 @@ $$
 \end{proof}
 
 \begin{prop}
+    \label{prop:transport map}
     $\phi \in C(\Omega)$が$c$-concaveのとき,以下の写像はwell-definedかつalmost everywhereでuniqueである。
     \begin{equation}
             T_\phi(x):= \underset{y \in \Omega} {\operatorname{argmin}}\left( \frac{1}{2 \tau} |x - y|^2 - \phi(y) \right) 
@@ -577,19 +579,19 @@ $$T_\psi(y) - x = -\tau \nabla \phi^c(x)$$
     
 注意しておきますが、
 {\color{teal}
-与えられた \((\varphi, \psi) \in C\) に対して、{\color{red}\(\psi^c \geq \varphi\) }が成り立ちます。
+与えられた \((\varphi, \psi) \in C\) に対して、{\color{red}\(\phi^c \geq \psi\) }が成り立ちます。
 }
 ただし、
 \[
-  \psi^c(x) := \inf_y \left( \frac{1}{2\tau}|x-y|^2 - \psi(y)\right)
+  \phi^c(x) := \inf_y \left( \frac{1}{2\tau}|x-y|^2 - \phi(y)\right)
 \]
-は \(\psi\) の c-変換（c-transform）です。なぜなら、
+は \(\phi\) の c-変換（c-transform）です。なぜなら、
 $
     \mathcal{C}  := \{(\phi, \psi) \in C(\Omega) \times C(\Omega) : \psi(x) + \phi(y) \leq \frac{1}{2 \tau} |x - y|^2 \}. 
 $
 であり,
 $
-  \varphi(x) \le \frac{1}{2\tau}|x-y|^2 - \psi(y)
+  \psi(x) \le \frac{1}{2\tau}|x-y|^2 - \phi(y)
 $
 したがって、以下のようになります。
 \begin{align*}
@@ -629,8 +631,181 @@ $
 \]
 \end{thm}
 }
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Convex duality}
+一般化最適輸送$(GOT)$問題:
+\begin{equation}
+    \label{eq: GOT}
+        \rho_* = \underset{\rho \in L^1(\Omega)} {\operatorname{argmax}} \left( U(\rho) + \frac{1}{2 \tau}W_2^2(\rho, \mu) \right), 
+\end{equation}
+ここで、$\mu \in L^1(\Omega)$は与えられた非負密度です。
+
+\begin{ass}
+    \label{ass:rho>0}
+    内部エネルギーUは、properで、凸かつ、下半連続な汎関数 $U: L^1(\Omega) \to \mathbb{R} \cup  \{+ \infty\}$ によって与えられます。
+    ただし、$\rho$が正の測度を持つ集合上で負になる場合は $U(\rho) = \infty$ とします。
+\end{ass}
+
+
+\begin{ass}
+    \label{ass:weakly compact}
+    超線形の成長(superlinear growth)を持つ$s: \mathbb{R} \to \mathbb{R} \cup  \{+ \infty\}$が存在し、以下の条件を満たす:
+    $$
+        U(\rho) \geq \int_\Omega s(\rho(y)) \, dy
+    $$
+\end{ass}
+
+\begin{rem}
+    仮定\ref{ass:rho>0}は、密度ρが非負である必要があることを表しています。つまり、ρは負の値を取ることはできません。
+    これにより、非負の密度に対して関数$U(\rho)$が適切に定義されることが保証されます。
+    一方、仮定\ref{ass:weakly compact}は、任意の$B \in \mathbb{R}$に対して、集合$\{ \rho \in L^1(\Omega): U(\rho) < B\}$が弱収束位相において弱コンパクトであることを保証します。
+\end{rem}
+
+\begin{rem}
+    凸性の要件を除けば、仮定\ref{ass:rho>0}と仮定\ref{ass:weakly compact}はWasserstein勾配流の文脈では非常に自然なものです。
+    ただし、セクション3.3では非凸なUも考慮します。
+\end{rem}
+
+\begin{dfn}
+    関数 $U: L^1(\Omega) \to \mathbb{R}$ の凸共役 $U^*: L^{\infty}(\Omega) \to \mathbb{R}$ は次のように定義されます:
+    \begin{align*}
+        U^*(\phi) &:= \sup_{\rho \in L^1(\Omega)} \left\{ \int_\Omega \phi(y) \rho(y) dy - U(\rho) \right\},\\
+                  &= \sup_{\rho \in L^1(\Omega)} \left\{ \int_\Omega \phi d\rho - U(\rho) \right\}.
+    \end{align*}
+    仮定 \ref{ass:rho>0}  のおかげで、$U^*$ は重要な単調性を持ちます。
+\end{dfn}
+
+\begin{lem}
+    $U^*$ は単調増加である、つまり、$\phi_0, \phi_1: \Omega \to \mathbb{R}$ が $\phi_0 \leq \phi_1$ となるすべての点で成り立つ場合、次の不等式が成り立ちます。
+    $$
+        U^*(\phi_0) \leq U^*(\phi_1).
+    $$
+\end{lem}
+
+\begin{proof}
+    \label{lem:monotone increasing}
+    仮定 \ref{ass:rho>0} により、内部エネルギーは非負の密度に対してのみ有限です。
+    したがって、
+    $$
+        U^*(\phi) = \sup_{\rho \geq 0} \left\{ \int_\Omega \phi(y) \rho(y) dy - U(\rho) \right\}.
+    $$
+    ある $\rho \in L^1(\Omega)$ を取る、ただし$\rho(y) \geq 0 \text{ a.e.}$ であるとします。
+    すると、次の不等式が成り立ちます。
+    $$
+        \int \phi_0(y) \rho(y) dy - U(\rho) \leq \int \phi_1(y) \rho(y) dy - U(\rho).
+    $$
+    $\rho \geq 0$ に対して上記の不等式の上限を取ることで、証明が完了する。
+\end{proof}
+
+\begin{prop}
+    与えられた非負密度$\mu \in L^1(\Omega)$に対して、汎関数$I$と$J$は以下のように定義される(\ref{eq:J}),(\ref{eq:I}):
+    \begin{equation}
+        J(\phi):= \int_{\Omega} \phi^c(x) \,d\rho^{(n)}(x) - U^*(- \phi)
+    \end{equation}
+    
+    \begin{equation}
+        I(\psi):= \int_{\Omega} \psi(x) \, d\rho^{(n)}(x) - U^*(- \psi^{c})
+    \end{equation}
+
+    これらの汎関数はproperであり、弱上半連続であり、凹であり、さらに $\sup_{\varphi\in C(\Omega)} J(\varphi) = \sup_{\psi\in C(\Omega)} I(\psi)$ を満たします。
+    {\color{teal}
+    さらに、$\varphi, \psi$がc-凹である場合、$J$と$I$は以下のような一次変分を持ちます：
+
+    \[
+    \delta J(\phi) = \delta U^*(- \phi) - T_{\phi \#} \mu,
+    \]
+    \[
+    \delta I(\psi) = \mu - T_{\psi \#} \delta U^* (- \psi^c).
+    \]
+    }
+\end{prop}
+
+\begin{proof}
+    Lemma \ref{lem:monotone increasing}の証明の論理に従って、次のように表現することができます。
+    $$
+        U^*(\psi^c) = \sup_{\rho \geq 0} \left( \int_\Omega \psi^c(y) \rho(y) dy - U(\rho) \right).
+    $$
+    $$
+        U^*(- \psi^c) = \sup_{\rho \geq 0} \left( \int_\Omega - \psi^c(y) \rho(y) dy - U(\rho) \right).
+    $$
+
+    次に、$\mathcal{M}(\Omega \times \Omega)$を$\Omega \times \Omega$上の非負測度の集合とし、与えられた密度$\rho \geq 0$に対して次のように定義します。
+
+    \[
+        \Pi(\rho) = \left\{ \pi \in \mathcal{M}(\Omega \times \Omega) : \iint_{\Omega \times \Omega} f(y) \, d\pi(x, y) = \int_\Omega f(y) \rho(y) \, dy,  \, \forall f \in C(\Omega) \right\}.
+    \]
+
+    c-変換の定義を用いると、式は次のように書けます。
+
+    \begin{align*}
+        \int_\Omega - \psi^c(y) \rho(y) \, dy   &= - \int_\Omega \inf_{x \in \Omega} \left( \frac{1}{2\tau}|x-y|^2 - \psi(x)\right) \rho(y) \, dy,\\
+                                                &= \int_\Omega  \sup_{x \in \Omega} \left( \psi(x) - \frac{1}{2\tau}|x-y|^2 \right) \rho(y) \, dy,\\
+                                                &= \sup_{\pi \in \Pi(\rho)} \iint_{\Omega \times \Omega}\left(\psi(x) - \frac{1}{2 \tau}|x-y|^2 \right)\, d\pi(x, y).
+    \end{align*}
+
+    したがって、以下のようになります。
+
+    \begin{align*}
+        - U^*(- \psi^c) &= - \sup_{\rho \geq 0} \left( \int_\Omega - \psi^c(y) \rho(y) dy - U(\rho) \right),\\
+                        &= - \sup_{\rho \geq 0} \left( \sup_{\pi \in \Pi(\rho)} \left(\iint_{\Omega \times \Omega}  \left(\psi(x) - \frac{1}{2 \tau}|x-y|^2 \right) \, d\pi(x, y) \right)- U(\rho) \right),\\
+                        &= \inf_{\rho \geq 0} \left( - \sup_{\pi \in \Pi(\rho)} \left(\iint_{\Omega \times \Omega} \left(\psi(x) - \frac{1}{2 \tau}|x-y|^2 \right) \, d\pi(x, y) \right) + U(\rho) \right),\\
+                        &= \inf_{\rho \geq 0} \left( \inf_{\pi \in \Pi(\rho)} \left( - \iint_{\Omega \times \Omega}  \left(\psi(x) - \frac{1}{2 \tau}|x-y|^2 \right) \, d\pi(x, y) \right) + U(\rho) \right),\\
+                        &= \inf_{\rho \geq 0} \inf_{\pi \in \Pi(\rho)} U(\rho) -  \iint_{\Omega \times \Omega} \left( \psi(x) - \frac{1}{2 \tau} |x - y|^2\right) \, d\pi(x, y)
+    \end{align*}
+
+    これにより、$I$は$\psi$に関する一連の線形汎関数の下限として表現できることが明らかになりました。
+    {\color{teal}
+    したがって、$I$はproperであり、凹であり、弱上半連続です。同様の議論が$J$にも適用されます。
+    $U^*$が単調増加であることから、Lemma \ref{lem:monotone increasing}は任意の$\varphi$、$\psi \in C(\Omega)$に対して次の不等式が成り立つことを意味します。
+    \[
+        J(\varphi) \leq I(\varphi^c), \quad I(\psi) \leq J(\psi^c)
+    \]
+    したがって、次の関係が成り立ちます。
+    \[
+        \sup I(\psi) = \sup J(\varphi).
+    \]
+    $\varphi$と$\psi$がそれぞれ$c$-凸性/凹性を持つ場合、一次変分の式はProposition \ref{prop:transport map}から直接導かれます。
+    }
+\end{proof}
+
+このsubsectionの最後に、$I$と$J$の最大化値から(\ref{eq: GOT})の解を復元する方法を以下に示す。
+
+{\color{teal}
+\begin{thm}
+    $\mu \in L^1(\Omega)$であり、$U$がAssumptions \ref{ass:rho>0}と\ref{ass:weakly compact}を満たし、さらに$\delta U(\mu)$が定数関数でない場合、次の条件を満たす一意の密度$\rho_*$と$c$-共役な関数のペア$(\phi_*, \psi_*)$が存在します。
+\begin{equation*}
+    \rho_* = \underset{\rho \in L^1(\Omega)} {\operatorname{argmin}} \, U(\rho) + \frac{1}{2\tau} W_2(\rho, \mu), \quad \phi_* \in \underset{\phi \in C(\Omega)} {\operatorname{argmax}} \, J(\phi), \quad \psi_* \in \underset{\psi \in C(\Omega)} {\operatorname{argmax}} \, I(\psi),
+\end{equation*}
+
+\begin{equation*}
+U(\rho_*) + \frac{1}{2\tau} W_2^2(\rho_*,\mu) = J(\phi_*) = I(\psi_*), 
+\end{equation*}
+
+\begin{equation*}
+    \rho_* \in \delta U^*(\phi_*), \quad \phi_* \in \delta U(\rho_*), \quad \rho_* = T_{\phi_* \#} \mu.
+\end{equation*}
+\end{thm}
+}
+
+\begin{rem}
+    注意すべきは、もし$\delta U(\mu)$が定数関数である場合、$\mu = \underset{\rho \in L^1(\Omega)} {\operatorname{argmin}} \, U(\rho) + \frac{1}{2\tau} W_2^2(\rho, \mu)$となります。
+    したがって、排除されたケースは自明な場合です。
+\end{rem}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
