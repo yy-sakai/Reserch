@@ -30,12 +30,6 @@
 \usepackage{pxjahyper}
 
 
-
-\makeatletter
-\@addtoreset{equation}{section}
-\def\theequation{\thesection.\arabic{equation}}% renewcommand でもOK
-\makeatother
-
 \newtheorem{thm}{Theorem}[section]
 \newtheorem{cor}{Corollary} [section]
 \newtheorem{lem}{Lemma}[section]
@@ -633,6 +627,7 @@ $
 }
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Convex duality}
+\label{sect:Convex duality}
 一般化最適輸送$(GOT)$問題:
 \begin{equation}
     \label{eq: GOT}
@@ -698,6 +693,7 @@ $
 \end{proof}
 
 \begin{prop}
+    \label{prop:functional}
     与えられた非負密度$\mu \in L^1(\Omega)$に対して、汎関数$I$と$J$は以下のように定義される(\ref{eq:J}),(\ref{eq:I}):
     \begin{equation}
         J(\phi):= \int_{\Omega} \phi^c(x) \,d\rho^{(n)}(x) - U^*(- \phi)
@@ -772,6 +768,7 @@ $
 
 {\color{teal}
 \begin{thm}
+\label{thm: duality}
     $\mu \in L^1(\Omega)$であり、$U$がAssumptions \ref{ass:rho>0}と\ref{ass:weakly compact}を満たし、さらに$\delta U(\mu)$が定数関数でない場合、次の条件を満たす一意の密度$\rho_*$と$c$-共役な関数のペア$(\phi_*, \psi_*)$が存在します。
 \begin{equation*}
     \rho_* = \underset{\rho \in L^1(\Omega)} {\operatorname{argmin}} \, U(\rho) + \frac{1}{2\tau} W_2(\rho, \mu), \quad \phi_* \in \underset{\phi \in C(\Omega)} {\operatorname{argmax}} \, J(\phi), \quad \psi_* \in \underset{\psi \in C(\Omega)} {\operatorname{argmax}} \, I(\psi),
@@ -792,25 +789,226 @@ U(\rho_*) + \frac{1}{2\tau} W_2^2(\rho_*,\mu) = J(\phi_*) = I(\psi_*),
     したがって、排除されたケースは自明な場合です。
 \end{rem}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Concave gradient ascent}
+
+JKOスキームを$I$と$J$の双対関数に関連付ける方法を見てきたので、$I$と$J$の最大化方法を開発する必要があります。
+そのために、このサブセクションでは、古典的な制約のない勾配上昇法について説明します。
+まず、勾配の概念を思い出す。
+これには、実ヒルベルト空間$\mathcal{H}$の内積$\langle\cdot,\cdot\rangle_\mathcal{H}$とノルム$\|\cdot\|_\mathcal{H}$の構造が必要です。
+
+\begin{dfn}
+    点$\varphi\in \mathcal{H}$に対して、有界線型写像$\delta F(\varphi): \mathcal{H} \to \mathbb{R}$が$F$の第1変分（フレシェ微分）であるとは、
+    \[
+        \lim_{\|h\|_{\mathcal{H}} \to 0} \frac{\|F(\varphi + h) - F(\varphi) - \delta F(\varphi)(h)\|_{\mathcal{H}}}{\|h\|_{\mathcal{H}}} = 0
+    \]
+    が成り立つことである。
+\end{dfn}
+\begin{dfn}
+    写像$\nabla_\mathcal{H} F: \mathcal{H} \to \mathcal{H}$が$\mathcal{H}$-勾配（または単に勾配、$\mathcal{H}$についての曖昧さがない場合）とは,
+    \[
+        \langle \nabla_\mathcal{H} F(\varphi), h \rangle_\mathcal{H} = \delta F(\varphi)(h)
+    \]
+    をすべての$(\varphi, h) \in \mathcal{H} \times \mathcal{H}$に対して満たすものを指す。
+\end{dfn}
+
+上記の等式は、勾配がヒルベルト空間の内積と密接に関連していることを強調しています。一方、第1変分の概念は、任意のノルム付きベクトル空間上で定義することができますが、勾配の概念は内積を必要とします。
 
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Gradient ascent method}
+
+与えられた$\mathcal{H}$上の凹関数$J$に対し、勾配上昇法の反復式
+\begin{equation}
+    \label{eq:gradient ascent}
+    \phi_{k+1} = \phi_k + \nabla_\mathcal{H} J(\phi_k).
+\end{equation}
+を考える、
+勾配上昇法（式(\ref{eq:gradient ascent})）は、次の変分形式でも同等に書くことができます。
+\begin{equation}
+    \label{eq:gradient ascent variational}
+    \phi_{k+1} =  \underset{\phi} {\operatorname{argmax}} J(\phi_k) + \delta J(\phi_k)(\phi-\phi_k) - \frac{1}{2}\|\phi-\phi_k\|_H^2.
+\end{equation}
+ここで、式(\ref{eq:gradient ascent})と(\ref{eq:gradient ascent variational})には通常、勾配方向でどれだけ進むかを制御するステップサイズパラメータが含まれています。
+後で明らかになる理由（式(2.11)とその後の議論を参照）から、パラメータをノルム$\|\cdot\|_\mathcal{H}$自体に組み込むほうがよいことがわかる。
+
+スキームの収束性を得るために、効率的な収束率で
+$$
+J(\phi_k) \xrightarrow[k \to \infty]{} \sup_\phi J(\phi),
+$$
+
+を達成するためには、適切なノルム$\|\cdot\|_\mathcal{H}$を選ぶことが重要です。ノルムが弱すぎると、アルゴリズムは不安定になり収束しない可能性があります。一方、ノルムが強すぎると、各ステップでほとんど変化が起こらず、アルゴリズムは収束が遅くなります。最適化の基盤の1つである以下の定理は、これらの競合する考慮事項をバランス良く取る方法を説明しています。
+
+{\color{teal}
+\begin{thm}
+    \label{thm:chose norm}
+    $J: \mathcal{H} \rightarrow \mathbb{R}$ を2階フレシェ微分可能な凹関数であり、最大化子 $\phi^*$ を持つとする。
+    以下の条件がすべての $\phi, h \in \mathcal{H}$ に対して成り立つとき,$J$ は「$1$-$smooth$」と呼ばれる:
+    \begin{equation}
+        \label{eq:1-smooth}
+        -\delta^2 J(\phi)(h, h) \leq \|h\|_\mathcal{H}^2.
+    \end{equation}
+    $J$が$1$-$smooth$のとき、
+    勾配上昇法 
+    $$
+        \phi_{k+1} = \phi_k + \nabla_\mathcal{H} J(\phi_k)
+    $$
+    を初期点 $\phi_0$ から開始すると、次の上昇特性(\ref{eq:ascent})を満たし、また収束率(\ref{eq:convergence})を持つ：
+    \begin{equation}
+        \label{eq:ascent}
+        J(\phi_{k+1}) \geq J(\phi_k) + \frac{1}{2}\|\nabla_\mathcal{H} J(\phi_k)\|_\mathcal{H}^2,
+    \end{equation}
+    \begin{equation}
+        \label{eq:convergence}
+        J(\phi^*) - J(\phi_k) \leq \frac{\|\phi^* - \phi_0\|_\mathcal{H}^2}{2k}.
+    \end{equation}
+\end{thm}
+}
+
+定理 \ref{thm:chose norm} から、ノルム $\|\cdot\|_\mathcal{H}$ を弱めるか強めるかという競合する要素が再び現れます。
+より強いノルムは式 (\ref{eq:1-smooth}) を満たしやすくしますが、より弱いノルムは収束率 (\ref{eq:convergence}) を改善します。
+これらの考慮事項をまとめると、式 (\ref{eq:1-smooth}) を満たす限りできるだけ弱いノルムを選ぶのが最適であることが分かります。
 
 
+\subsubsection{Sobolev norm}
+
+$\Omega$を$\mathbb{R}^d$の開有界凸部分集合とする。
+勾配上昇法は、Sobolev空間$H^1(\Omega)$に基づいたノルム$H$を使用します。
+$\Theta_1 > 0$ and $\Theta_2 > 0$を定数として、次のようにノルムを定義します。
+\begin{equation}
+    \label{eq:norm}
+    \|h\|_H^2 = \int_{\Omega} \Theta_2 |\nabla h(x)|^2 + \Theta_1 |h(x)|^2 \, dx.
+\end{equation}
+
+$\Theta_1$や$\Theta_2$の具体的な値は、最大化される関数によって異なる
+（例えば、セクション3の定理3.3を参照してください）。
+多くの場合、$\Theta_1$と$\Theta_2$を大きく異なる値に設定することが最適です。
+そのため、これらのパラメータを単一のステップサイズの値に縮小しないほうがよい。
+次の補題では、この内積に関する勾配の計算方法が示されています。
+{\color{teal}
+\begin{lem}
+    $F = F(\varphi)$ がフレシェ微分可能な汎関数であり、任意の $\phi$ に対して、任意の点 $h$ で評価される第1変分 $\delta F(\phi)$ が関数 $f_{\phi}$ に対する積分として表されるとします。
+    つまり、
+    \[
+        \delta F(\phi)(h) = \int_\Omega h(x) f_{\phi}(x) dx
+    \]
+
+とします。式 (\ref{eq:norm}) で $\| \cdot \|_H$ を定義します。すると、$F$ の $H$-勾配は次のように表されます。
+\[
+    \nabla_H F(\phi) = (\Theta_1 \mathrm{Id} - \Theta_2 \Delta)^{-1} f_{\phi}
+\]
+
+ここで、$\mathrm{Id}$ は単位作用素、$\Delta$ はラプラス作用素であり、ゼロノイマン境界条件を伴って考えます。
+\end{lem}
+}
+
+\begin{proof}
+    固定した$\phi$に対して、楕円型方程式 
+    \begin{equation}
+        \begin{cases}
+            (\Theta_1 \text{Id} - \Theta_2 \Delta)g  = f_\phi  & \text{in} \, \Omega \\
+            n \cdot \nabla g = 0 & \text{on} \, \partial \Omega 
+        \end{cases}
+    \end{equation}
+    
+    の一意な解を考えます。ただし$n(x)$ は $\Omega$ の境界上での単位法線ベクトル。すると、以下の等式の連鎖が得られます：
+
+\begin{align*}
+    \delta F(\phi)(h)   &= \int_\Omega h(x) f_\phi(x) \, dx \\
+                        &= \int_\Omega h(x)(\Theta_1 \text{Id} - \Theta_2 \Delta)g(x) \, dx \\
+                        &= \int_\Omega h(x) \Theta_1 \, dx  - \int_\Omega h(x) \Theta_2 \Delta g(x) \, dx \\
+                        &= \int_\Omega \Theta_1 h(x)g(x) \, dx - \int_\Omega \Theta_2 h(x) \Delta g(x) \, dx \\
+                        &= \int_\Omega \Theta_1 h(x)g(x) \, dx - \left[h(x) \Theta_2 \nabla g(x) \cdot n \right]_{\partial \Omega}+ \int_\Omega \Theta_2 \nabla h(x) \cdot \nabla g(x) \, dx \quad \text{(部分積分・ガウスの発散定理)} \\
+                        &= \int_\Omega \Theta_1 h(x)g(x) \, dx + \int_\Omega \Theta_2 \nabla h(x) \cdot \nabla g(x) \, dx\\
+                        &= \langle h, g \rangle_H.
+\end{align*}
+
+これにより、$g$が$F$のH-勾配であることが示されます。
+
+\end{proof}
+
+{\color{red}
+上記の結果は次のように言い換えることができます：
+$F$の$H$-勾配は、$\delta F$を逆演算子$(\Theta_1 \text{Id} - \Theta_2\Delta)^{-1}$で「事前調整」することによって得られます。
+
+つまり、$F$の$H$-勾配を計算する場合、$\delta F$を直接適用する代わりに、まず逆演算子$(\Theta_1 \text{Id} - \Theta_2\Delta)^{-1}$を$\delta F$に適用します。
+この逆演算子を適用するプロセスは、「事前調整」と呼ばれ、収束特性を改善し、$H$-勾配の計算を効率化するために、$\delta F$を修正する役割を果たします。
+}
 
 
+\section{THE BACK-AND-FORTH METHOD}
 
+私たちの目標は、興味深いエネルギー関数$U$の大きなクラスに対して、JKOスキームを効率的に解くアルゴリズムを開発することです。
+第3.1節では、$U$が$\rho$に関して凸である場合を考えます。
+この場合、JKOスキームには等価な双対問題があり、[21]からのback-and-forthメソッドの改良版を使用して解決します。
+第3.2節では、以下の形式の凸エネルギーに対して、アルゴリズムが適切に重み付けられた$H^1$空間で勾配安定性を持つことを示します。
+\[
+    U(\rho) = \int_\Omega u_m(\rho(x)) + V(x)\rho(x) \, dx
+\]
+ここで、$V: \Omega \to [0, + \infty] $は固定された関数であり、
+\begin{equation}
+    u_m(\rho) = \begin{cases} \frac{\gamma}{m - 1}(\rho^m - \rho) & \text{if } \rho \geq 0 \\ +\infty & \text{otherwise} \end{cases}
+\end{equation}
+となります。ただし、定数\(\gamma > 0\)と\(m > 1\)が存在します。
+また、$m \to 1$および$m \to \infty$の2つの極限の場合も考慮します。
+私たちの解析はより一般的な汎関数に拡張することも可能ですが、わかりやすさのために上記の特殊なケースに焦点を当てています。
+凸エネルギー関数$U$のメソッドを開発した後、第3.3節では非凸な$U$に対してアルゴリズムを一般化する方法を示します。
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\subsection{The back-and-forth method for convex $U$}
 
+JKOスキームを反復するためには、任意の非負密度$\mu \in L^1(\Omega)$に対して、以下の一般化最適輸送（GOT）問題を解くことが必要です:
+\begin{equation}
+\label{eq:GOT}
+    \rho_* = \underset{\rho \in L^1(\Omega)} {\operatorname{argmin}}\,  U(\rho) + \frac{1}{2\tau}W_2(\rho,\mu),
+\end{equation}
 
+ここで、$U$は凸である場合には、一般化最適輸送問題は双対性を持つことがSection \ref{sect:Convex duality}で示されました（Thm. \ref{thm: duality}）。
+具体的には、$U$が凸であるとき、一般化最適輸送問題は次のような対双対関係にあります。
+$$
+    \inf_{\rho \in L^1(\Omega)} U(\rho) + \frac{1}{2 \tau} W^2_2(\rho, \mu) = \sup_\phi J(\phi) = \sup_\psi I (\psi)
+$$
+$I$と$J$は次のように定義されます。
 
+\begin{equation}
+    J(\phi) = \int_\Omega \phi^c(x) \mu(x) \, dx - U^*(\phi) 
+\end{equation}
 
+\begin{equation}
+    I(\psi) = \int_\Omega \psi(x) \mu(x) \, dx - U^*(\psi^c)
+\end{equation}
 
+さらに、問題（\ref{eq:GOT}）の最小化解$\rho_*$は、最大化解$\phi_*, \psi_*$と関連しており、次の関係が成り立ちます。
 
+\begin{equation}
+    \rho_* = T_{\phi_* \#} \mu, \quad \rho_* \in \delta U^*(\phi_*), \quad \phi^c_* = \psi_*
+\end{equation}
 
+$I$と$J$は制約のない凹関数汎関数です（Prop. \ref{prop:functional}を参照）。
+したがって、いずれかの関数の最大化解を標準的な勾配上昇法で見つけることができます。
+一方、単に$I$または$J$だけを使用することは問題の対称性を破壊します。
+したがって、関数のいずれかにだけ焦点を当てるのではなく、back-and-forthメソッドでは$I$と$J$の交互の勾配上昇ステップが行われます。
+$I$と$J$は異なる変数を使用していますが、$c$-変換を使用することで$\psi$と$\phi$の間を切り替えることができます。
+[21]で指摘されているように、$I$と$J$による交互のステップは、標準的な勾配上昇法を超えた方法の収束速度を大幅に加速させます。
 
+今、問題(\ref{eq:GOT})の双対最大化子$(\phi_*, \psi_*)$を見つけるためのアプローチを紹介します。
+この方法は、アルゴリズム2に概要が示されており、以下の2つの主要なアイデアに基づいています:
 
+\subsection{$H^1$ gradient ascent}
+
+\subsection{Back-and-forth for non-convex $U$}
+
+\section{NUMERICAL IMPREMENTATION AND EXPERIMENTS}
+
+\subsection{Implementation details}
+
+\subsection{Experiments}
+\subsubsection{Accuracy: Barenblatt solutions}
+\subsubsection{Slow diffusion with drifts and obstacles}
+\subsubsection{Non-convex U (aggregation-diffusion)}
+\subsubsection{Incompressible projections and flows}
 
 \section{Appendix}
 \subsection*{自乗可積分}
