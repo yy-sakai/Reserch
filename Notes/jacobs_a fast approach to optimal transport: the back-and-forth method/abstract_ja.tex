@@ -220,9 +220,10 @@ $\bold{最適輸送問題(Mongeの問題(1871))}$
 また、連続なテスト関数 $f : \Omega \to \mathbb{R}$ に対する押し出し測度の積分を定義することで、押し出し測度を特徴付けることもできます：
 {
   \color{red}
-\begin{equation*}
-  \int_{\Omega} f(y)d(T_\# \mu)(y) = f(T(x)) d \mu(x).
-\end{equation*}
+\begin{equation}
+  \label{def:pushforward_int}
+  \int_{\Omega} f(y)d(T_\# \mu)(y) = \int_\Omega f(T(x)) d \mu(x).
+\end{equation}
 }
 
 \begin{figure}[htbp]
@@ -312,6 +313,7 @@ $c$-変換は、関数$\phi$を別の関数$\phi^c$にマップするもので�
   
   \item $\phi$ が $c$-concave で $u$ が $\omega$ 上の連続関数である場合、ほとんど全ての $x \in \Omega$ について、以下が成り立ちます。
   \begin{equation*}
+    \label{eq:c-transform lim}
     \lim_{\epsilon \to 0} \frac{(\phi + \epsilon u)^c(x) - \phi^c(x)}{\epsilon} = - u(T_\phi(x)) 
   \end{equation*}
   \end{enumerate}
@@ -490,6 +492,33 @@ $J$と$I$の関数は基本的に同じであることに注意してくださ�
   $$
   になることを思い出す。
 \end{lem}
+
+\begin{proof}
+  \begin{align*}
+    J(\phi) &= \int_\omega \phi \, d\nu + \int_\omega \phi^c \, d\mu \\
+    J(\phi + \epsilon u) &= \int_\omega (\phi + \epsilon u) \, d\nu + \int_\omega (\phi + \epsilon u)^c \, d\mu 
+  \end{align*}
+  より、
+  \begin{align*}
+    J(\phi + \epsilon u) - J(\phi)  &= \int_\omega (\phi + \epsilon u)(x) \, d\nu(x) + \int_\omega (\phi + \epsilon u)^c(x) \, d\mu(x) - \left( \int_\omega \phi(x) \, d\nu(x) + \int_\omega \phi^c(x) \, d\mu(x) \right)\\
+                                    &= \int_\omega (\phi(x) + \epsilon u(x)) - \phi(x) \, d\nu(x) + \int_\omega (\phi + \epsilon u)^c(x) - \phi^c(x) \, d\mu(x) \\
+                                    &= \int_\omega \epsilon u(x) \, d\nu(x) + \int_\omega (\phi + \epsilon u)^c(x) - \phi^c(x) \, d\mu(x) 
+  \end{align*}
+  ここで、Lemmma\ref{eq:c-transform lim}の$(\mathrm{iii})$を用いると、
+  \begin{align*}
+    \lim_{\epsilon \to 0} \frac{J(\phi + \epsilon u) - J(\phi)}{\epsilon} &= \lim_{\epsilon \to 0} \int_\omega \frac{ \epsilon u(x)}{\epsilon} \, d\nu(x) + \lim_{\epsilon \to 0} \int_\omega \frac{(\phi + \epsilon u)^c(x) - \phi^c(x)}{\epsilon} \, d\mu(x) \\
+                                                        \delta J_\phi(u)  &= \int_\omega u(x) \, d\nu(x) + \int_\omega \lim_{\epsilon \to 0} \frac{(\phi + \epsilon u)^c(x) - \phi^c(x)}{\epsilon} \, d\mu(x) \\
+                                                                          &= \int_\omega u(x) \, d\nu(x) - \int_\omega u(T_\phi(x)) \, d\mu(x) \\
+                                                                          &= \int_\omega u(x) \, d\nu(x) - \int_\omega u(y) \, d\, T_{\phi \#} \mu(y) & (\because (\ref{def:pushforward_int}))\\
+                                                                          &= \int_\omega u(x) \nu(x) \, dx - \int_\omega u(x) T_{\phi \#} \mu(x) \, dx\\
+                                                                          &= \int_\omega u(x) \left(\nu(x) - T_{\phi \#} \mu(x) \right)\, dx\\
+                                                                          &= \int_\omega u \left(\nu - T_{\phi \#} \mu \right)
+  \end{align*}
+  よって、
+  \[
+    \delta J_\phi = \int_\omega \nu - T_{\phi \#} \mu
+  \]
+\end{proof}
   
 最適輸送問題を解決するためのアプローチ、すなわち. the back-and-forth method を紹介する準備が整った。
 アルゴリズム1に概要を示す。アルゴリズムは、次の2つの主要なアイデアに基づいている:
