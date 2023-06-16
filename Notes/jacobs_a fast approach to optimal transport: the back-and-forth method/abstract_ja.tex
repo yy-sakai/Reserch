@@ -299,7 +299,7 @@ $c$-変換は、関数$\phi$を別の関数$\phi^c$にマップするもので�
 \begin{lem}
   \label{lem:c-transform}
   $\left[ 12, 13 \right]$
-  連続関数 $\phi: \Omega \to \mathbb{R}$ について、$c$-transform は次の特性を持ちます:
+  連続関数 $\phi: \Omega \to \mathbb{R}$ について、$c$-transform は次の特性を持ちます(\hyperlink{proof:lem:c-transform}{Proof}):
   \begin{enumerate}
   \item 任意の $x \in \Omega$ について、$\phi(x) \le \phi^{cc}(x)$ が成り立ち、$\phi(x) = \phi^{cc}(x)$ であるための必要十分条件は、$\phi$ が $c$-concave であることである。
   その結果、任意の連続関数$\phi$ について、$\phi^{ccc}(x) = \phi^{c}(x)$ が成立する。
@@ -320,6 +320,7 @@ $c$-変換は、関数$\phi$を別の関数$\phi^c$にマップするもので�
 \end{lem}
 
 以下は改めて$J$を定義している。
+{\color{teal}
 \begin{thm}
   $\left[ 7,12,13 \right]$ 
   二重双対問題
@@ -339,7 +340,7 @@ $c$-変換は、関数$\phi$を別の関数$\phi^c$にマップするもので�
     $T^{-1}$は$\nu$を$\mu$にプッシュする最適マップです。
   \end{enumerate}
 \end{thm}
-
+}
 定理1から、最適マップは凸最大化問題を解くことで計算できることがわかります。
 したがって、勾配上昇法などの最適化の標準的なテクニックを用いて、最適輸送問題を解くことができます。
 ただし、{\color{red}勾配上昇法を効果的に使用するためには、適切な距離とステップサイズを選択する必要があります。}
@@ -396,6 +397,7 @@ $H^1(\Omega)$上の内積は、以下のように定義されます。
 以下の補題は、$\dot{H}^1$ 勾配が特に単純な形式を持つことを示している。証明は積分部分法の直接的な応用である。
 
 \begin{lem}
+  \label{lem:variation inf}
   $F: \dot{H}^1(\omega) \rightarrow \mathbb{R}$が、$\forall \phi \in \dot{H}^1(\omega)$に対して、
   任意の$h \in \dot{H}^1(\omega)$で評価される一次変分$\delta F_\phi$が関数$f_\phi$に対する積分として表される、つまり
   $$\delta F_\phi(h) = \int_{\Omega} h(x) f_\phi(x) dx$$
@@ -406,6 +408,10 @@ $H^1(\Omega)$上の内積は、以下のように定義されます。
   ここで、$(-\Delta)^{-1}$はzero Neumann境界条件を持つ負ラプラシアンの逆演算子を表し、
   $\bar{f_\phi} = f_\phi - \frac{1}{|\Omega|} \int_\Omega f_\phi$.
 \end{lem}
+
+\begin{proof}
+  jacobs the back-and-forth method for wasserstein gradient flows.pdfを参照。
+\end{proof}
 
 以下は、一般的なHilbert空間上での勾配法について説明したものです。
 勾配法は、Fréchet-微分可能な汎関数 $F:\mathcal{H} \to \mathbb{R}$ を最大化することを目的として、以下の反復式で表されます。
@@ -423,7 +429,9 @@ $$
 
 
 \begin{thm}（[20]を参照）
-  $F:H \rightarrow \mathbb{R}$ をFrechet微分可能な凸関数とし、ある定数$\sigma>0$が存在して、
+  \label{thm:ascent property}
+  (\hyperlink{proof:thm:ascent property}{Proof})
+  $F:H \rightarrow \mathbb{R}$ をFrechet微分可能な凹関数とし、ある定数$\sigma>0$が存在して、
   $$
   F(\phi) \geq F(\hat{\phi}) + \delta F_{\hat{\phi}} (\phi -\hat{\phi}) - \frac{1}{2 \sigma} \| \phi - \hat{\phi} \|_\mathcal{H}^2
   $$
@@ -437,9 +445,12 @@ $$
   $$
   F(\phi_{n+1}) - F(\phi_n) \geq \frac{\sigma}{2} \|\nabla_\mathcal{H} F(\phi_n)\|_\mathcal{H}^2
   $$
-  さらに、$F$が唯一の極大点$\phi_*$を持ち、$\sup_n \left\lVert\phi_n \right\rVert_\mathcal{H} < \infty$である場合、列$\{\phi_n\}_{n=0}^{\infty}$は$\phi_\ast$に弱収束する。
+  {\color{teal}
+  さらに、$F$が唯一の極大点$\phi_*$を持ち、$\sup_n \|\phi_n \|_\mathcal{H} < \infty$である場合、列$\{\phi_n\}_{n=0}^{\infty}$は$\phi_\ast$に弱収束する。
+  }
 \end{thm}
 
+\vspace\baselineskip
 定理2の証明については,"Appendix"を参照。これらの道具を手に入れたので，我々は交互法を導入する準備が整った。
 
 
@@ -477,6 +488,8 @@ $J$と$I$の関数は基本的に同じであることに注意してくださ�
 
 \begin{lem}
   $\left[11,12 \right]$ 
+  \label{lem:variation}
+  (\hyperlink{proof:lem:variation}{Proof})
   連続関数 $\phi: \omega \rightarrow \mathbb{R}$ および $\psi: \omega \rightarrow \mathbb{R}$ 上で定義される関数 J および I を考える。
   $\phi$ が $c$-凹関数である場合、$J$ の第一変分は、以下のように表される。
   $$
@@ -493,38 +506,12 @@ $J$と$I$の関数は基本的に同じであることに注意してくださ�
   になることを思い出す。
 \end{lem}
 
-\begin{proof}
-  \begin{align*}
-    J(\phi) &= \int_\omega \phi \, d\nu + \int_\omega \phi^c \, d\mu \\
-    J(\phi + \epsilon u) &= \int_\omega (\phi + \epsilon u) \, d\nu + \int_\omega (\phi + \epsilon u)^c \, d\mu 
-  \end{align*}
-  より、
-  \begin{align*}
-    J(\phi + \epsilon u) - J(\phi)  &= \int_\omega (\phi + \epsilon u)(x) \, d\nu(x) + \int_\omega (\phi + \epsilon u)^c(x) \, d\mu(x) - \left( \int_\omega \phi(x) \, d\nu(x) + \int_\omega \phi^c(x) \, d\mu(x) \right)\\
-                                    &= \int_\omega (\phi(x) + \epsilon u(x)) - \phi(x) \, d\nu(x) + \int_\omega (\phi + \epsilon u)^c(x) - \phi^c(x) \, d\mu(x) \\
-                                    &= \int_\omega \epsilon u(x) \, d\nu(x) + \int_\omega (\phi + \epsilon u)^c(x) - \phi^c(x) \, d\mu(x) 
-  \end{align*}
-  ここで、Lemmma\ref{eq:c-transform lim}の$(\mathrm{iii})$を用いると、
-  \begin{align*}
-    \lim_{\epsilon \to 0} \frac{J(\phi + \epsilon u) - J(\phi)}{\epsilon} &= \lim_{\epsilon \to 0} \int_\omega \frac{ \epsilon u(x)}{\epsilon} \, d\nu(x) + \lim_{\epsilon \to 0} \int_\omega \frac{(\phi + \epsilon u)^c(x) - \phi^c(x)}{\epsilon} \, d\mu(x) \\
-                                                        \delta J_\phi(u)  &= \int_\omega u(x) \, d\nu(x) + \int_\omega \lim_{\epsilon \to 0} \frac{(\phi + \epsilon u)^c(x) - \phi^c(x)}{\epsilon} \, d\mu(x) \\
-                                                                          &= \int_\omega u(x) \, d\nu(x) - \int_\omega u(T_\phi(x)) \, d\mu(x) \\
-                                                                          &= \int_\omega u(x) \, d\nu(x) - \int_\omega u(y) \, d\, T_{\phi \#} \mu(y) & (\because (\ref{def:pushforward_int}))\\
-                                                                          &= \int_\omega u(x) \nu(x) \, dx - \int_\omega u(x) T_{\phi \#} \mu(x) \, dx\\
-                                                                          &= \int_\omega u(x) \left(\nu(x) - T_{\phi \#} \mu(x) \right)\, dx\\
-                                                                          &= \int_\omega u \left(\nu - T_{\phi \#} \mu \right)
-  \end{align*}
-  よって、
-  \[
-    \delta J_\phi = \int_\omega \nu - T_{\phi \#} \mu
-  \]
-\end{proof}
-  
+\vspace\baselineskip
 最適輸送問題を解決するためのアプローチ、すなわち. the back-and-forth method を紹介する準備が整った。
 アルゴリズム1に概要を示す。アルゴリズムは、次の2つの主要なアイデアに基づいている:
 
 \begin{enumerate}
-  \item $\dot{H}^1$ metricの勾配上昇ステップであり、
+  \item $\dot{H}^1$ metricの勾配上昇ステップであり、(Lemmma \ref{lem:variation inf}, \ref{lem:variation}を参照)
         $$
         \nabla_{\dot{H}^1} J(\phi) = (- \Delta)^{-1} (\nu - T_{\phi \#} \mu),
         $$
@@ -1014,6 +1001,215 @@ $\mu$ supported in $\omega$ $\Longleftrightarrow$
 $
 \text{supp} \, \mu = \overline{\{x \in \omega \, | \, \mu(x) \ne 0 \}} 
 $
+
+
+\subsection*{Proof}
+
+
+\begin{proof}[Proof of Lemma \ref{lem:c-transform}]
+  \hypertarget{proof:lem:c-transform}{}
+
+  Proof of $(\mathrm{i})$
+  \begin{align*}
+            \phi^c(x)    &= \inf_{y\in\Omega} \left(\frac{1}{2 \tau}|x - y|^2 - \phi(y)\right)\\
+            \phi^{cc}(y) &= \inf_{x\in\Omega} \left(\frac{1}{2 \tau}|x - y|^2 - \phi^c(x)\right)\\
+                      &= \inf_{x\in\Omega} \left(\frac{1}{2 \tau}|x - y|^2 - \inf_{z\in\Omega} \left(\frac{1}{2 \tau}|x - z|^2 - \phi(z)\right)\right)\\
+                      &\ge  \inf_{x\in\Omega} \left(\frac{1}{2 \tau}|x - y|^2 - \left(\frac{1}{2 \tau}|x - y|^2 - \phi(y)\right)\right)\\
+                      &= \phi(y).
+  \end{align*}
+
+次に$\phi^{cc} = \phi$の必要十分条件は$\phi$が$c$-concaveであることを示す。
+
+$(\Leftarrow)$
+
+$\phi: c$-concaveすなわち、$\exists \psi \, s.t. \, \phi = \psi^c$のとき、$\phi^{cc} = \phi$を示す。
+
+$\exists \psi \, s.t. \, \phi = \psi^c$と仮定する。
+$\psi := \phi^c$とおくと、
+$$
+    \phi = \psi^c = (\phi^c)^c= \phi^{cc}
+$$
+
+$(\Rightarrow)$
+
+$\phi^{cc} = \phi$のとき、$\phi: c$-concaveすなわち、$\exists \psi \, s.t. \, \phi = \psi^c$を示す。
+
+$\phi^{cc} = \phi$と仮定すると、
+$$
+    \phi = \phi^{cc} = (\phi^c)^c
+$$
+よって、$\phi = (\phi^c)^c$となる$\phi^c$が存在する。したがって、$\phi$は$c$-concaveである。
+
+
+最後に、$\phi^{ccc} = \phi$を示す。
+まず、$\phi^{ccc} \geq \phi^c$を示す。
+\begin{align*}
+    \phi^{ccc}(x)   &= \inf_{w \in \Omega} \left( \frac{1}{2 \tau} |x - w|^2 - \phi^{cc}(w) \right)\\
+                    &= \inf_{w \in \Omega} \left( \frac{1}{2 \tau} |x - w|^2 - \inf_{z \in \Omega}\left( \frac{1}{2 \tau} |w - z|^2 - \phi^c(z)\right)\right)\\
+                    &= \inf_{w \in \Omega} \left( \frac{1}{2 \tau} |x - w|^2 + \sup_{z \in \Omega}\left( - \frac{1}{2 \tau} |w - z|^2 + \phi^c(z)\right)\right)\\
+                    &\geq \inf_{w \in \Omega} \left( \frac{1}{2 \tau} |x - w|^2 + \left( - \frac{1}{2 \tau} |w - x|^2 + \phi^c(x)\right)\right)\\
+                    &= \phi^c(x)\\
+\end{align*}
+次に、$\phi^{ccc} \leq \phi^c$を示す。
+\begin{align*}
+    \phi^{ccc}(x)   &= \inf_{w \in \Omega} \left( \frac{1}{2 \tau} |x - w|^2 - \phi^{cc}(w) \right)\\
+                    &\leq \inf_{w \in \Omega} \left( \frac{1}{2 \tau} |x - w|^2 - \phi(w) \right)\\
+                    &= \phi^c(x)\\
+\end{align*}
+よって、$\phi^{ccc} = \phi^c$が示された。
+
+
+Proof of $(\mathrm{ii})$.
+
+$T_\phi(x) = x - (\nabla h)^{-1} (\nabla \phi^c(x))$が成り立つことを示します。
+
+$\phi^c(x) = \inf_{y \in \Omega} c(x, y) - \phi(y) =  \inf_{y \in \Omega} h(y - x) - \phi(y)$より、$\phi^c$は$x$についての関数である。
+よって$h(y - x) - \phi(y)$最小値は$\frac{\partial }{\partial x} (h(y - x) - \phi(y)) = \nabla (h(y - x) - \phi(y)) = 0$となる点の値である。
+なぜなら、$h(y - x) - \phi(y)$は凸関数であるためである。($\phi$が凹関数より、$- \phi$は凸関数のため)
+よって、もちろん$\phi^c(x)$も凸関数。よって、
+
+$$
+  \nabla (h(y - x) - \phi(y)) = - \nabla h(y - x) 
+$$
+$T_\phi$の定義から、$y = T_\phi$のとき、$h(y - x) - \phi(y)$が$\inf$をとる。
+すなわち、$y = T_\phi$のとき、$\phi^c(x)$となる。
+よって、上の式を書き換えると
+$$
+    \nabla \phi^c(x) = - \nabla h(T_\phi(x) - x) 
+$$
+よって、
+\begin{eqnarray*}
+    &\nabla \phi^c(x) = - \nabla h(T_\phi(x) - x) \\
+    \iff& T_\phi(x) - x = - (\nabla h)^{-1}(\nabla \phi^c(x))\\
+    \iff& T_\phi(x) = x - (\nabla h)^{-1}(\nabla \phi^c(x))
+\end{eqnarray*}
+
+\end{proof}
+
+
+
+証明します。
+
+まず、$\phi$が$c$-concaveであると仮定します。また、$u$は$\Omega$上の連続関数です。
+
+写像$T_\phi(x) = \underset{y \in \Omega}{\operatorname{argmin}}\left(\frac{1}{2 \tau} |x - y|^2 - \phi(y)\right)$を考えます。
+
+式(1)の最小化問題において、$y = T_\phi(x)$が最小値を取る点です。したがって、$T_\phi(x)$を最小化問題の制約条件に代入すると、
+$$\frac{1}{2 \tau} |x - T_\phi(x)|^2 - \phi(T_\phi(x)) \leq \frac{1}{2 \tau} |x - y|^2 - \phi(y)$$
+$$\frac{1}{2 \tau} |x - T_\phi(x)|^2 - \phi^c(x) \leq \frac{1}{2 \tau} |x - y|^2 - \phi^c(y)$$
+$$\frac{1}{2 \tau} |x - T_\phi(x)|^2 - \phi^c(x) \leq \frac{1}{2 \tau} |x - T_\phi(x)|^2 - \phi^c(T_\phi(x))$$
+$$\phi^c(T_\phi(x)) \leq \phi^c(x)$$
+
+したがって、$\phi^c$が最小値を取る座標は$T_\phi(x)$で表されます。
+
+次に、$u$の連続性を考慮して、以下の極限を考えます。
+$$\lim_{\epsilon \to 0} \frac{(\phi + \epsilon u)^c(x) - \phi^c(x)}{\epsilon}$$
+
+$\epsilon \to 0$の極限を取ると、$(\phi + \epsilon u)^c(x)$は$\phi^c(x)$に収束します。
+
+したがって、極限の中身を展開すると、
+$$\lim_{\epsilon \to 0} \frac{(\phi + \epsilon u)^c(x) - \phi^c(x)}{\epsilon} = \lim_{\epsilon \to 0} \frac{\phi^c(x) - \phi^c(x)}{\epsilon} + \lim_{\epsilon \to 0} \frac{(\epsilon u)^c(x)}{\epsilon}$$
+
+第一項は$0$となります。
+
+第二項を評価するために、$(\epsilon u)^c(x)$の定義を考えます。$(\epsilon u)^c(x)$は$c$-transformの定義により、
+$$(\epsilon u)^c(x) = \sup_{y \in \Omega}\left\{c(x, y) - \epsilon u(y)\right\}$$
+
+$c(x, y) = \frac{1}{2 \tau} |x - y|^2$であることから、
+$$(\epsilon u)^c(x) = \sup_{y \in \Omega}\left\{\frac{1}{2 \tau} |x - y|^2 - \epsilon u(y)\right\}$$
+
+この最適化問題の最大値を取る点を$y_\epsilon$とします。
+
+$T_\phi(x)$が最小化問題の制約条件を満たすことから、
+$$\frac{1}{2 \tau} |x - T_\phi(x)|^2 - \phi(T_\phi(x)) \leq \frac{1}{2 \tau} |x - y|^2 - \phi(y)$$
+$$\frac{1}{2 \tau} |x - T_\phi(x)|^2 - \phi^c(x) \leq \frac{1}{2 \tau} |x - y|^2 - \phi^c(y)$$
+
+$y = y_\epsilon$として、この不等式を書き直すと、
+$$\frac{1}{2 \tau} |x - T_\phi(x)|^2 - \phi^c(x) \leq \frac{1}{2 \tau} |x - y_\epsilon|^2 - \phi^c(y_\epsilon)$$
+
+右辺の不等式は$\epsilon \to 0$の極限を取ると、$y_\epsilon$が$T_\phi(x)$に収束することから、
+$$\frac{1}{2 \tau} |x - T_\phi(x)|^2 - \phi^c(x) \leq \frac{1}{2 \tau} |x - T_\phi(x)|^2 - \phi^c(T_\phi(x))$$
+$$\phi^c(T_\phi(x)) \leq \phi^c(x)$$
+
+したがって、$\phi^c(x)$が最小値を取る座標は$T_\phi(x)$です。
+
+$u$が$\Omega$上で連続な関数であることから、$u(y_\epsilon)$は$u(T_\phi(x))$に収束します。
+
+したがって、$\epsilon \to 0$の極限を取ると、
+$$\lim_{\epsilon \to 0} \frac{(\phi + \epsilon u)^c(x) - \phi^c(x)}{\epsilon} = - u(T_\phi(x))$$
+
+以上が証明です。
+
+
+\begin{proof}[Proof of Theorem \ref{thm:ascent property}]
+  \hypertarget{proof:thm:ascent property}{}
+  まず、与えられた不等式において、$\phi = \phi_{n+1}$および$\hat{\phi} = \phi_n$とすると、不等式は以下のように書き直せる。
+  $$
+    F(\phi_{n+1}) \geq F(\phi_n) + \delta F_{\phi_n} (\phi_{n+1} - \phi_n) - \frac{1}{2\sigma} \|\phi_{n+1} - \phi_n\|_\mathcal{H}^2
+  $$
+  勾配降下法の反復によって$\phi_{n+1} = \phi_n + \sigma \nabla_\mathcal{H} F(\phi_n)$であることを考慮すると、$\phi_{n+1} - \phi_n = \sigma \nabla_\mathcal{H} F(\phi_n)$です。
+  これを上記の不等式に代入すると、
+  \begin{align*}
+    F(\phi_{n+1})   &\geq F(\phi_n) + \delta F_{\phi_n} (\sigma \nabla_\mathcal{H} F(\phi_n)) - \frac{1}{2\sigma} \|\sigma \nabla_\mathcal{H} F(\phi_n)\|_\mathcal{H}^2 \\
+                    &= F(\phi_n) + \sigma \delta F_{\phi_n} (\nabla_\mathcal{H} F(\phi_n)) - \frac{\sigma^2}{2\sigma} \| \nabla_\mathcal{H} F(\phi_n)\|_\mathcal{H}^2\\
+                    &= F(\phi_n) + \sigma \left\langle \nabla_\mathcal{H} F(\phi_n), \nabla_\mathcal{H} F(\phi_n)\right\rangle - \frac{\sigma}{2} \| \nabla_\mathcal{H} F(\phi_n)\|_\mathcal{H}^2\\
+                    &= F(\phi_n)  + \sigma \| \nabla_\mathcal{H} F(\phi_n)\|_\mathcal{H}^2 - \frac{\sigma}{2} \| \nabla_\mathcal{H} F(\phi_n)\|_\mathcal{H}^2\\
+  \end{align*} 
+  よって、
+  $$
+    F(\phi_{n+1}) - F(\phi_n) \geq \frac{\sigma}{2} \| \nabla_\mathcal{H} F(\phi_n)\|_\mathcal{H}^2
+  $$
+
+  以上より、勾配降下法の反復によって$F(\phi_{n+1}) - F(\phi_n)$は$\|\nabla_\mathcal{H} F(\phi_n)\|_\mathcal{H}^2$以上になることが示されました。
+  {\color{teal}
+  次に、$F$が唯一の極大点$\phi_*$を持ち、列$\{\phi_n\}_{n=0}^\infty$が$\mathcal{H}$の有界な部分集合であると仮定します。
+  このとき、列$\{\phi_n\}$から弱収束点$\tilde{\phi}$を取り出すことができます。
+  また、弱上半連続性により、$F(\tilde{\phi}) \geq \lim_{n \to \infty} F(\phi_n)$が成り立ちます
+  （$F$が下に凸かつ実数値であることを仮定しているため、弱上半連続性は自動的に満たされます）。
+  値$F(\phi_n)$は$F(\phi_*)$で上に有界であるため、
+  $\lim_{n \to \infty} \|\nabla_\mathcal{H} F(\phi_n)\|_\mathcal{H} = 0$
+  です。
+  したがって、以下の不等式の連鎖を導くことができます。
+  $$
+    F(\phi_*) \leq F(\phi_n) + \langle \nabla_\mathcal{H} F(\phi_n), \phi_* - \phi_n \rangle \leq F(\phi_n) + 2R \|\nabla_H\mathcal{H} F(\phi_n)\|_\mathcal{H},
+  $$
+  ここで、最初の不等式は$F$が凹であることから、
+  2つ目の不等式は
+  $R = \max(\|\phi_*\|_\mathcal{H}, \sup_n \|\phi_n\|_\mathcal{H})$
+  を選ぶことにより得られます。
+  右辺の極限を取ると、$F(\tilde{\phi}) \geq F(\phi_*)$となります。
+  したがって、$\tilde{\phi} = \phi_*$となります（最大化点は唯一であるため）。
+  }
+\end{proof}
+
+\begin{proof}[Proof of Lemma \ref{lem:variation}]
+  \hypertarget{proof:lem:variation}{}
+  \begin{align*}
+    J(\phi) &= \int_\omega \phi \, d\nu + \int_\omega \phi^c \, d\mu \\
+    J(\phi + \epsilon u) &= \int_\omega (\phi + \epsilon u) \, d\nu + \int_\omega (\phi + \epsilon u)^c \, d\mu 
+  \end{align*}
+  より、
+  \begin{align*}
+    J(\phi + \epsilon u) - J(\phi)  &= \int_\omega (\phi + \epsilon u)(x) \, d\nu(x) + \int_\omega (\phi + \epsilon u)^c(x) \, d\mu(x) - \left( \int_\omega \phi(x) \, d\nu(x) + \int_\omega \phi^c(x) \, d\mu(x) \right)\\
+                                    &= \int_\omega (\phi(x) + \epsilon u(x)) - \phi(x) \, d\nu(x) + \int_\omega (\phi + \epsilon u)^c(x) - \phi^c(x) \, d\mu(x) \\
+                                    &= \int_\omega \epsilon u(x) \, d\nu(x) + \int_\omega (\phi + \epsilon u)^c(x) - \phi^c(x) \, d\mu(x) 
+  \end{align*}
+  ここで、Lemmma \ref{lem:c-transform}の$(\mathrm{iii})$を用いると、
+  \begin{align*}
+    \lim_{\epsilon \to 0} \frac{J(\phi + \epsilon u) - J(\phi)}{\epsilon} &= \lim_{\epsilon \to 0} \int_\omega \frac{ \epsilon u(x)}{\epsilon} \, d\nu(x) + \lim_{\epsilon \to 0} \int_\omega \frac{(\phi + \epsilon u)^c(x) - \phi^c(x)}{\epsilon} \, d\mu(x) \\
+                                                        \delta J_\phi(u)  &= \int_\omega u(x) \, d\nu(x) + \int_\omega \lim_{\epsilon \to 0} \frac{(\phi + \epsilon u)^c(x) - \phi^c(x)}{\epsilon} \, d\mu(x) \\
+                                                                          &= \int_\omega u(x) \, d\nu(x) - \int_\omega u(T_\phi(x)) \, d\mu(x) \\
+                                                                          &= \int_\omega u(x) \, d\nu(x) - \int_\omega u(y) \, d\, T_{\phi \#} \mu(y) & (\because (\ref{def:pushforward_int}))\\
+                                                                          &= \int_\omega u(x) \nu(x) \, dx - \int_\omega u(x) T_{\phi \#} \mu(x) \, dx\\
+                                                                          &= \int_\omega u(x) \left(\nu(x) - T_{\phi \#} \mu(x) \right)\, dx\\
+                                                                          &= \int_\omega u \left(\nu - T_{\phi \#} \mu \right)
+  \end{align*}
+  よって、
+  \[
+    \delta J_\phi = \int_\omega \nu - T_{\phi \#} \mu
+  \]
+\end{proof}
 \end{document}
+
 
 

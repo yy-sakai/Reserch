@@ -500,30 +500,32 @@ $$
 \lim_{\varepsilon \to 0} \frac{(\phi + \varepsilon u)^c(x) - \phi^c(x)}{\varepsilon} = - u(T_\phi(x))
 $$
 
-最後に、$T_\phi(x) = x - \tau \nabla \phi(x)$が成り立つことを示します。
+次に、$T_\phi(x) = x - \tau \nabla \phi(x)$が成り立つことを示します。
 
-関数$\frac{1}{2 \tau} |x - y|^2 - \phi(y)$の最小値を実現する$y$は、$ \frac{\partial}{\partial y}  (\frac{1}{2 \tau} |x - y|^2 - \phi(y)) = 0$で求められる。
-なぜなら、$T_\phi$は凸関数であるためである。
-まず、$ \nabla (\frac{1}{2 \tau} |x - y|^2 - \phi(y))$を求める。
-\begin{align*}
-    \nabla (\frac{1}{2 \tau} |x - y|^2 - \phi(y))   &= \frac{\partial}{\partial x}  (\frac{1}{2 \tau} |x - y|^2 - \phi(y)) + \frac{\partial}{\partial y} (\frac{1}{2 \tau} |x - y|^2 - \phi(y))\\
-                                                    &= (x - y) + \left(- (x - y) - \nabla \phi(y) \right)\\
-                                                    &= - \nabla \phi(y) 
-\end{align*}
-$T_\phi$の定義から、$y = T_\phi$のとき、$\frac{1}{2 \tau} |x - y|^2 - \phi(y)$が$\inf$をとる。
-よって、$\phi^c(y)= \inf_{y \in \Omega} (\frac{1}{2 \tau} |x - y|^2 - \phi(y)) $と$\phi(y)$の関係は以下のとおりである。
+$\phi^c(x) = \inf_{y\in\Omega} \left(\frac{1}{2 \tau}|x - y|^2 - \phi(y)\right)$より、$\phi^c$は$x$についての関数である。
+よって$\frac{1}{2 \tau}|x - y|^2- \phi(y)$最小値は$\frac{\partial }{\partial x} (\frac{1}{2 \tau}|x - y|^2- \phi(y)) = \nabla (\frac{1}{2 \tau}|x - y|^2- \phi(y)) = 0$となる点の値である。
+なぜなら、$\frac{1}{2 \tau}|x - y|^2- \phi(y)$は凸関数であるためである。($\phi$が凹関数より、$- \phi$は凸関数のため)
+よって、もちろん$\phi^c(x)$も凸関数。よって、
+
 $$
-    \nabla \phi^c(x) = - \nabla \phi(T_\phi(x))
+  \nabla (\frac{1}{2 \tau}|x - y|^2- \phi(y)) = \frac{1}{\tau}(x - y)
+$$
+$T_\phi$の定義から、$y = T_\phi$のとき、$\frac{1}{2 \tau}|x - y|^2- \phi(y)$が$\inf$をとる。
+すなわち、$y = T_\phi$のとき、$\frac{1}{2 \tau}|x - y|^2- \phi(y) = \phi^c(x)$となる。
+よって、上の式を書き換えると
+$$
+    \nabla \phi^c(x) = \frac{1}{\tau}(x - T_\phi(x))
 $$
 よって、
 \begin{eqnarray*}
-    &\frac{\partial}{\partial y} (\frac{1}{2 \tau} |x - y|^2 - \phi(y)) = 0\\
-    \iff& - (x - y) - \nabla \phi(y)  = 0\\
-    \iff& y = x + \nabla \phi(y)\\
-    \iff& T_\phi(x) = x + \nabla \phi(T_\phi(x))\\
-    \iff& T_\phi(x) = x - \nabla \phi^c(x)
+    &\nabla \phi^c(x) = \frac{1}{\tau}(x - T_\phi(x)) \\
+    \iff& \tau \nabla \phi^c(x) = x - T_\phi(x)\\
+    \iff& T_\phi(x) = x - \tau \nabla \phi^c(x)
 \end{eqnarray*}
-
+同様に、以下も成り立つ。
+$$
+        T_\psi(y) = y - \tau \nabla \psi^c(y),
+$$
 \begin{align*}
     T_\psi(T_\phi(x))   &= T_\psi(x - \nabla \phi^c(x))\\
                         &= y - \tau \nabla \psi(y)
