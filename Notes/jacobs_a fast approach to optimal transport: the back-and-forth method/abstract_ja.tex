@@ -363,6 +363,7 @@ $(\mathcal{H} , \left\lVert \cdot  \right\rVert_\mathcal{H})$を可分なヒル�
 
 
 \begin{dfn}
+  \label{dfn:inner product}
   $\langle \cdot, \cdot \rangle_\mathcal{H}$をHilbert空間$\mathcal{H}$上で定義された内積とする。
   写像$\nabla_\mathcal{H} F: \mathcal{H} \to \mathcal{H} $が$F$の$\mathcal{H}$-勾配であるとは、任意の$(\phi, h) \in \mathcal{H} \times \mathcal{H}$に対して、以下の式が成立することを言う。
 
@@ -528,7 +529,6 @@ $J$と$I$の関数は基本的に同じであることに注意してくださ�
 \subsection{$\dot{H}^1$-gradientascent}
 \label{sect:H1-gradient ascent}
 The back-and-forth methodの主要なステップは、$\dot{H}^1$メトリックにおける勾配上昇ステップであり、
-
 \begin{align*}
 \phi_{n + \frac{1}{2}} &= \phi_n + \sigma \nabla_{\dot{H}^1} J(\phi_n), \\
 \psi_{n + 1} &= \psi_{n + \frac{1}{2}} + \sigma \nabla_{\dot{H}^1} I(\psi_{n + \frac{1}{2}}).
@@ -545,6 +545,7 @@ $$\phi_{n+1}=\phi_n+\sigma\nabla_H J(\phi_n)$$
 は、不等式
 
 \begin{equation}
+  \label{eq:variation ascent}
   J(\phi)\geq J(\hat{\phi})+\delta J _{\hat{\phi}}(\phi-\hat{\phi})-\frac{1}{2\sigma}\|\phi-\hat{\phi}\|_{\mathcal{H}}^2
 \end{equation}
 が$\sigma>0$と任意の$\phi,\hat{\phi}\in H$について成立するならば、勾配上昇ステップは\hyperlink{上昇性}{上昇性}を持ちます。すなわち、
@@ -556,7 +557,7 @@ $$
 が成立します。
 注意すべきは、この不等式は、$\mathcal{H} $に関連するノルムが強くなると（つまり、右辺がより負になると）、満たしやすくなることです。\\
 
-
+{\color{teal}
 不等式を確立するために、次の式の下限を求める必要があります。
 $$
 J(\phi) - J(\hat{\phi}) - \delta_{\hat{\phi}} J (\phi - \hat{\phi})
@@ -564,122 +565,51 @@ $$
 この式は、$\hat{\phi}$ 周りで1次のTaylor展開で $J$ を近似することによる誤差と認識できます。
 
 {\color{teal}
-進展するための最も簡単な方法は、凸不等式 $J(\hat{\phi}) \le J(\phi) + \delta J_{\phi}(\hat{\phi} - \phi)$ を使って、以下の下限を得ることです。}
+進展するための最も簡単な方法は、凹不等式 $J(\hat{\phi}) \le J(\phi) + \delta J_{\phi}(\hat{\phi} - \phi)$ を使って、以下の下限を得ることです。}
 $$
 J(\phi) - J(\hat{\phi}) - \delta_{\hat{\phi}} J(\phi-\hat{\phi}) \ge (\delta J_{\phi} - \delta J_{\hat{\phi}}) (\phi - \hat{\phi})
 $$
 
 
-Lemma 3の一次変分の明示的な式を使って、以下のように書くことができます。
-
-
-
-$$
-(\delta J_\phi - \delta J_{\hat{\phi}})(\phi - \hat{\phi}) = \int_\omega (\phi - \hat{\phi})(T_{\hat{\phi} \#} \mu - T_{\phi \#} \mu)
-$$
-
-ここで、不等式(8)は以下の式を示すことができれば成立します。
-
-$$
-\int_\Omega (\phi - \hat{\phi})(T_{\hat{\phi} \#} \mu - T_{\phi \#} \mu) \geq - \frac{1}{2\sigma} \|\phi - \hat{\phi}\|_\mathcal{H}^2
-$$\\
-
-\color{gray}
-\begin{proof}
-  
-不等式(8)を示すためには、以下の式変形が必要です。
-
-$$
-\begin{aligned}
-\int_\Omega (\phi - \hat{\phi})(T_{\hat{\phi} \#} \mu - T_{\phi \#} \mu) &= \int_\Omega T_{\phi \#}(\phi - \hat{\phi}) d\mu - \int_\Omega T_{\hat{\phi} \#}(\phi - \hat{\phi}) d\mu \\
-&= \langle T_{\phi \#}(\phi - \hat{\phi}), \phi - \hat{\phi} \rangle_{\mathcal{H}} - \langle T_{\hat{\phi} \#}(\phi - \hat{\phi}), \phi - \hat{\phi} \rangle_{\mathcal{H}} \\
-&= \langle T_{\phi \#}(\phi - \hat{\phi}) - T_{\hat{\phi} \#}(\phi - \hat{\phi}), \phi - \hat{\phi} \rangle_{\mathcal{H}} \\
-&= \langle T_{\hat{\phi} \#}^*(T_{\hat{\phi} \#} \mu - T_{\phi \#} \mu), \phi - \hat{\phi} \rangle_{\mathcal{H}} \\
-&= \langle (T_{\hat{\phi} \#} - I)^*(T_{\hat{\phi} \#} \mu - T_{\phi \#} \mu), \phi - \hat{\phi} \rangle_{\mathcal{H}} \\
-&= \langle (T_{\hat{\phi} \#} - I)(T_{\hat{\phi} \#} \mu - T_{\phi \#} \mu), \phi - \hat{\phi} \rangle_{\mathcal{H}} \\
-&\geq - \|(T_{\hat{\phi} \#} - I)(T_{\hat{\phi} \#} \mu - T_{\phi \#} \mu)\|_{\mathcal{H}} \|\phi - \hat{\phi}\|_{\mathcal{H}} \\
-&= - \|T_{\hat{\phi} \#} \mu - T_{\phi \#} \mu\|_{\mathcal{H}} \|\phi - \hat{\phi}\|_{\mathcal{H}} \\
-&= - \frac{1}{\sigma} \|\phi - \hat{\phi}\|_{\mathcal{H}}^2,
-\end{aligned}
-$$
-
-ここで、2行目から3行目への変形で、ヒルベルト空間 $\mathcal{H}$ 上で内積をとりました。また、3行目から4行目への変形では、$T_{\hat{\phi} \#} - I$ が $\mathcal{H}$ 上の自己共役な線形作用素であることを用いました。最後の行では、前節での定義に従って、$\sigma = \|T_{\hat{\phi} \#} \mu - T_{\phi \#} \mu\|_{\mathcal{H}}$ とおきました。
-
-したがって、不等式(8)は以下のように得られます。
-
-$$
-\int_\Omega (\phi - \hat{\phi})(T_{\hat{\phi} \#} \mu - T_{\phi \#} \mu) \geq - \frac{1}{\sigma} \|\phi - \hat{\phi}\|_{\mathcal{H}}^2 \geq - \frac{1}{2\sigma} \|\phi - \hat{\phi}\|_{\mathcal{H}}^2,
-$$
-
-最後の不等号は $\sigma \leq \frac{1}{2}$ で成立するためです。従って、$\sigma \leq \frac{1}{2}$ の場合には、不等式(8)が成立することが示されました。
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
-\begin{comment}
-左辺にCauchy-Schwarzの不等式を適用することから始めて、以下のようになります。
-
+Lemma \ref{lem:variation}の一次変分の明示的な式を使って、以下のように書くことができます。
 \begin{align*}
-\int_\Omega(\phi - \hat{\phi})(T_{\hat{\phi} \#} \mu - T_{\phi \#} \mu) &\geq - \| \phi - \hat{\phi}\|_\mathcal{H} \|T_{\phi \#} \mu - T_{\hat{\phi} \#} \mu\|_\mathcal{H} \\
-&\geq -\|\phi - \hat{\phi}\|_\mathcal{H} \|T\| \|\phi \# \mu - \hat{\phi \#} \mu|_\mathcal{H}
+  (\delta J_\phi - \delta J_{\hat{\phi}})(\phi - \hat{\phi})  &= \int_\omega (\phi - \hat{\phi})(\nu - T_{\phi \#} \mu) - \int_\omega (\phi - \hat{\phi})(\nu - T_{\hat{\phi} \#} \mu)\\
+                                                              &= \int_\omega (\phi - \hat{\phi})\left((\nu - T_{\phi \#} \mu) - (\nu - T_{\hat{\phi} \#} \mu)\right)\\
+                                                              &= \int_\omega (\phi - \hat{\phi})(T_{\hat{\phi} \#} \mu - T_{\phi \#} \mu)
 \end{align*}
 
-2つめの不等式では、演算子$T$が連続であることを用いています。次に、右辺の第2項目において内積に対して再びCauchy-Schwarzの不等式を適用することで、
 
-$$
-\|\varphi \# \mu - \hat{\varphi} \# \mu\|_H = \langle \mu, \varphi - \hat{\varphi} \rangle_H \leq \|\mu\|_H \|\varphi - \hat{\varphi}\|_H
-$$
+ここで、不等式(\ref{eq:variation ascent})は以下の式を示すことができれば成立します。  (\hyperlink{proof:eq:variation int ineq}{Proof})
 
-を得ることができます。これを元の不等式に代入することで、
 
-$$
-(\varphi - \hat{\varphi})(T_{\hat{\varphi}} \# \mu - T_{\varphi} \# \mu) \geq -\|\varphi - \hat{\varphi}\|_H \|T\| \| \mu \|_H \| \varphi - \hat{\varphi} \|_H
-$$
-
-となります。この式をさらに整理すると、
-
-$$
-(\varphi - \hat{\varphi})(T_{\hat{\varphi}} \# \mu - T_{\varphi} \# \mu) \geq -\|\varphi - \hat{\varphi}\|_H^2 \|T\| \| \mu \|_H
-$$
-
-となります。最後に、$\sigma = \frac{1}{2|T||\mu|_H}$として、上の不等式に代入することで、
-
-\begin{align*}
-  J(\varphi) &\geq J(\hat{\varphi}) + \delta J_{\hat{\varphi}}(\varphi - \hat{\varphi}) - \frac{1}{2\sigma}|\varphi - \hat{\varphi}|H^2 \\
-             &= J(\hat{\varphi}) + (\varphi - \hat{\varphi})(T{\hat{\varphi}} \# \mu - T_{\varphi} \# \mu) - \frac{1}{2\sigma}|\varphi - \hat{\varphi}|_H^2 \\
-             &\geq J(\hat{\varphi}) -2\sigma |\varphi - \hat{\varphi}|_H^2 - \frac{1}{2\sigma}|\varphi - \hat{\varphi}|_H^2 \\
-             &= J(\hat{\varphi}) - \frac{3}{2}\sigma |\varphi - \hat{\varphi}|_H^2.
-\end{align*}
-
-ここで、最後の不等式では先程導いた不等式を用いました。以上より、定理4の主張が示されました。
-
-\end{comment}
-
-\end{proof}
-
-\color{black}
+\begin{equation}
+  \label{eq:variation int ineq}
+  \int_\Omega (\phi - \hat{\phi})(T_{\hat{\phi} \#} \mu - T_{\phi \#} \mu) \geq - \frac{1}{2\sigma} \|\phi - \hat{\phi}\|_\mathcal{H}^2
+\end{equation}
 
 私たちの目標は、この不等式が成り立つようなヒルベルト空間$\mathcal{H}$とパラメータ$\sigma$を見つけることです。\\
 
 任意のヒルベルト空間 $H$ に対して、以下のコーシー・シュワルツの不等式が成立します。
 
-\begin{equation*}
+\begin{equation}
+  \label{eq:cauchy}
   \int_\Omega (\phi - \hat{\phi})(T_{\hat{\phi} \#} \mu - T_{\phi \#} \mu) \geq - \|\phi - \hat{\phi}\|_{\mathcal{H}} \|T_{\hat{\phi} \#} \mu - T_{\phi \#} \mu\|_{\mathcal{H}^*},
-\end{equation*}
-
+\end{equation}
 ここで、$\mathcal{H}^*$ は $L^2$ 内積に関する $\mathcal{H}$  の双対空間です（すなわち、$\mathcal{H}$  を $L^2(\omega)$ といういわゆる "pivot空間" に関して双対化しています）。
 
 
 適切なヒルベルト空間 $\mathcal{H}$ を選ぶことで、
 \begin{equation}
-  \|T_{\hat{\phi} \#} \mu - T_{\phi \#} \mu\|_{\mathcal{H}^*} \geq \frac{1}{2 \sigma} \|\phi - \hat{\phi}\|_\mathcal{H} ,
+  \label{eq:ineq of T ond inner product}
+  \|T_{\hat{\phi} \#} \mu - T_{\phi \#} \mu\|_{\mathcal{H}^*} \leq \frac{1}{2 \sigma} \|\phi - \hat{\phi}\|_\mathcal{H} ,
 \end{equation}
 
-式(9)が成立することを示せば、コーシー・シュワルツの不等式と組み合わせることで式(8)が得られます
-（注意：より正確な議論により、式(9)の右辺にある $\frac{1}{2}$ の因子は除去できますが、ここでは気にしません）。
-再度強調しますが、$\mathcal{H}$ に関連付けられたノルムが強くなるにつれて、不等式(9)はより簡単に満たされるようになります。
+式(\ref{eq:ineq of T ond inner product})が成立することを示せば、コーシー・シュワルツの不等式(\ref{eq:cauchy})と組み合わせることで式(\ref{eq:variation ascent})が得られます
+（注意：より正確な議論により、式(\ref{eq:ineq of T ond inner product})の右辺にある $\frac{1}{2}$ の因子は除去できますが、ここでは気にしません）。
+再度強調しますが、$\mathcal{H}$ に関連付けられたノルムが強くなるにつれて、不等式(\ref{eq:ineq of T ond inner product})はより簡単に満たされるようになります。
 実際、$\mathcal{H}$ が強くなると $\mathcal{H}^*$ は弱くなり、左辺が小さくなる一方で、右辺が大きくなります。\\
 {\color{teal}
-不等式(9)は、関数$\phi \mapsto T_{\phi \#}$が$\mathcal{H} \to \mathcal{H}$へのLipschitz連続写像である必要があることを示しています。
+不等式(\ref{eq:ineq of T ond inner product})は、関数$\phi \mapsto T_{\phi \#}$が$\mathcal{H} \to \mathcal{H}$へのLipschitz連続写像である必要があることを示しています。
 }
 したがって、上昇特性を持つ勾配上昇スキームを得るために、$\phi$と$\hat{\phi}$が$\mathcal{H}$で近ければ、$T_{\phi \#} \mu$と$T_{\hat{\phi} \#} \mu$が$\mathcal{H}^*$で近くなるHilbert空間$\mathcal{H}$を選ぶ必要があります。
 これは容易な課題ではありません。
@@ -692,11 +622,85 @@ $$
 
 結果を述べる前に、$\dot{H}^1$の選択肢はおそらく弱めることができません。
 実際、$T\phi$の式は$\nabla\phi^c$に依存するため、$\phi$と$\hat{\phi}$の勾配を何らかの制御を持つ必要があり、
-(8)または(9)を示す可能性があります。\\
+(\ref{eq:variation ascent})または(\ref{eq:ineq of T ond inner product})を示す可能性があります。\\
+}
 
+\begin{dfn}
+  \label{dfn:Bregman divergence}
+  $\mathcal{H}$をヒルベルト空間とし、Fréchet微分可能な関数$F: \mathcal{H} \to \mathbb{R}$を考えます。
+  Fに関連するBregman divergence はすべての$\phi_1, \phi_2 \in \mathcal{H}$に対して次のように定義されます:
+  $$
+    F(\phi_2|\phi_1) = F(\phi_2) - F(\phi_1) - \delta F_{\phi_1}(\phi_2 - \phi_1),
+  $$
+  同様に、$\omega$が$\mathbb{R}^d$の閉凸集合であり、$f: \omega \rightarrow \mathbb{R}$が微分可能な関数である場合、すべての$x_1, x_2 \in \omega$に対して次のように定義します:
+  $$
+    f(x_2|x_1) = f(x_2) - f(x_1) - \nabla f(x_1) \cdot (x_2 - x_1),
+  $$
+\end{dfn}
+上記の定義から示唆されるように、私たちはBregman距離を、Kantorovichポテンシャル（$\Omega$上で定義されたもの）および双対関数(ヒルベルト空間$\dot{H}^1(\Omega)$上で定義されたもの）の両方において使用します。
+次の結果は、Bregman距離の理論でよく知られている性質をまとめたものです。
+
+\begin{lem}
+  \label{lem:convex conjugate}
+  $f$を$\omega$上で定義された凸で微分可能な関数とし、その凸共役を$f^*(x) = \sup_y x\cdot y- f(y),$と表すと、以下のようになります：
+  \begin{enumerate}
+    \item 任意の$\lambda \geq 0$に対して、$f$が$\lambda$-強凸関数 $\Leftrightarrow$ $f(x_2|x_1) \geq \frac{\lambda}{2} |x_2 - x_1|^2$.
+    \item $p_i = \nabla f(x_i)$とするとき、すべての$x_1, x_2 \in \omega$に対して、$f(x_2|x_1) = f^*(p_1|p_2)$が成り立ちます。
+    \item 任意の$\lambda > 0$に対して、$f$が$\lambda$-強凸である場合、すべての$x_1, x_2 \in \omega$に対して、$f(x_1|x_2) \leq \frac{\lambda^{-1}}{2} |p_2 - p_1|^2$が成り立ちます。ここで、$p_i = \nabla f(x_i)$とします。
+    \item $\omega$内のある固定された$x_0$を選びます。$f(u) = f(x_0 + u|x_0)$および$g(v) = f^*(p_0 + v|p_0)$とします。
+          ここで、$x_1, x_2 \in \omega$、$p_0 = \nabla f(x_0)$とします。すると、$f^*(v) = g(v)$が成り立ちます。
+  \end{enumerate}
+\end{lem}
+
+
+関数$\xi$を$\omega$上で定義された凸で微分可能な関数としたとき、そのLegendre変換(凸共役)\,$\xi^*$は以下のように定義できる.
+$$
+    \xi^*(p) := \sup_x p \cdot x - \xi(x) 
+$$
+
+ここで、双対汎関数$J$は$J(\varphi) =  \int \phi\, \nu  + \int \phi^c \, \mu$で定義していたことを思い出す。
+{\color{teal}
+これは凹な汎関数であり、第一項 $\int \phi\, \nu$ は$\phi$に対して線形であるため、$J$の凸性には影響しません。
+}
+そのため、$F$を次のように定義します。
+\begin{equation}
+  \label{eq:F(phi)}
+    F(\phi) = - \int \phi^c \, \mu,
+\end{equation}
+これは、本質的には線形項のみが異なるため、$J$と同じ凸性を持つ凸関数です.
+例えば、任意のポテンシャル $\phi_1$ と $\phi_2$ に対して、次の式が成立することを直接確認できます。
+{\color{teal}
+\begin{equation}
+  \label{eq:J-F}
+  J(\phi_2|\phi_1) = -F(\phi_2|\phi_1).
+\end{equation}
+}
+最後に、$F$の凸共役は次のように定義されます。
+\begin{equation}
+    F^*(\rho) := \int_\omega \phi \, \rho - F(\phi)
+\end{equation}
+
+\begin{lem}
+  \label{lem:stability estimates}
+  $\phi_1$と$\phi_2$を$\omega$上で定義される二回微分可能な実数値関数とし、以下の条件を満たすとします(\hyperlink{proof:lem:stability estimates}{Proof}):
+  $$
+    (1-\lambda^{-1})I \leq D^2\phi_i(x) \leq (1-\lambda)I, \quad i = 1, 2, \quad (\lambda > 0)
+  $$
+
+  また、$\rho_i = T_{\phi_i \#} \mu$を関連する質量密度とすると ($i = 1, 2$)、以下の不等式が成り立ちます：
+  \begin{equation}
+    \label{eq:F_upper bound}
+    F(\phi_2 | \phi_1) \leq \frac{1}{2}\|\mu\|\lambda^{-(d+1)}\|\phi_2 - \phi_1\|^{2}_{\dot{H}^1}. 
+  \end{equation}
+  \begin{equation}
+    \label{eq:F_lower bound}
+    F(\phi_2 | \phi_1) \geq \frac{1}{2}\|\mu\|^{-1}\lambda^{(d+1)}\|\rho_2 - \rho_1\|_{\dot{H}^1}^2.
+  \end{equation}
+\end{lem}
 
 \begin{prop}
   \label{prop:勾配上昇保持}
+  (\hyperlink{proof:prop:勾配上昇保持}{Proof})
   2次コスト$h(y-x)=\frac{1}{2}|x-y|^2$を持つKantorovich双対問題$\sup_{\phi}J(\phi)$を考える。
   $\lambda>0$が存在して、
   $$
@@ -832,6 +836,7 @@ $$
 \color{teal}
 \begin{prop}
   \label{prop:不等式連鎖}
+  (\hyperlink{proof:prop:不等式連鎖}{Proof})
   二次コスト最適輸送問題に対するthe back-and-forth method（Algorithm 1）を考えます。
   すべての繰り返し$\phi_n$, $\phi_{n + \frac{1}{2}}$, $\psi_n$, $\psi_{n + \frac{1}{2}}$が、
   関数の集合
@@ -1149,12 +1154,14 @@ $$\lim_{\epsilon \to 0} \frac{(\phi + \epsilon u)^c(x) - \phi^c(x)}{\epsilon} = 
   $$
   勾配降下法の反復によって$\phi_{n+1} = \phi_n + \sigma \nabla_\mathcal{H} F(\phi_n)$であることを考慮すると、$\phi_{n+1} - \phi_n = \sigma \nabla_\mathcal{H} F(\phi_n)$です。
   これを上記の不等式に代入すると、
+  {\color{teal}
   \begin{align*}
     F(\phi_{n+1})   &\geq F(\phi_n) + \delta F_{\phi_n} (\sigma \nabla_\mathcal{H} F(\phi_n)) - \frac{1}{2\sigma} \|\sigma \nabla_\mathcal{H} F(\phi_n)\|_\mathcal{H}^2 \\
                     &= F(\phi_n) + \sigma \delta F_{\phi_n} (\nabla_\mathcal{H} F(\phi_n)) - \frac{\sigma^2}{2\sigma} \| \nabla_\mathcal{H} F(\phi_n)\|_\mathcal{H}^2\\
-                    &= F(\phi_n) + \sigma \left\langle \nabla_\mathcal{H} F(\phi_n), \nabla_\mathcal{H} F(\phi_n)\right\rangle - \frac{\sigma}{2} \| \nabla_\mathcal{H} F(\phi_n)\|_\mathcal{H}^2\\
+                    &= F(\phi_n) + \sigma \left\langle \nabla_\mathcal{H} F(\phi_n), \nabla_\mathcal{H} F(\phi_n)\right\rangle - \frac{\sigma}{2} \| \nabla_\mathcal{H} F(\phi_n)\|_\mathcal{H}^2 \qquad (\because \text{Def. } \ref{dfn:inner product})\\
                     &= F(\phi_n)  + \sigma \| \nabla_\mathcal{H} F(\phi_n)\|_\mathcal{H}^2 - \frac{\sigma}{2} \| \nabla_\mathcal{H} F(\phi_n)\|_\mathcal{H}^2\\
   \end{align*} 
+  }
   よって、
   $$
     F(\phi_{n+1}) - F(\phi_n) \geq \frac{\sigma}{2} \| \nabla_\mathcal{H} F(\phi_n)\|_\mathcal{H}^2
@@ -1209,7 +1216,253 @@ $$\lim_{\epsilon \to 0} \frac{(\phi + \epsilon u)^c(x) - \phi^c(x)}{\epsilon} = 
     \delta J_\phi = \int_\omega \nu - T_{\phi \#} \mu
   \]
 \end{proof}
+
+\begin{proof}[Proof of (\ref{eq:variation int ineq})]
+  \hypertarget{proof:eq:variation int ineq}{}
+  不等式(\ref{eq:variation ascent})を示すためには、以下の式変形が必要です。
+  \begin{align*}
+    \int_\Omega (\phi - \hat{\phi})(T_{\hat{\phi} \#} \mu - T_{\phi \#} \mu)  &= \int_\Omega T_{\phi \#}(\phi - \hat{\phi}) d\mu - \int_\Omega T_{\hat{\phi} \#}(\phi - \hat{\phi}) d\mu \\
+                                                                              &= \langle T_{\phi \#}(\phi - \hat{\phi}), \phi - \hat{\phi} \rangle_{\mathcal{H}} - \langle T_{\hat{\phi} \#}(\phi - \hat{\phi}), \phi - \hat{\phi} \rangle_{\mathcal{H}} \\
+                                                                              &= \langle T_{\phi \#}(\phi - \hat{\phi}) - T_{\hat{\phi} \#}(\phi - \hat{\phi}), \phi - \hat{\phi} \rangle_{\mathcal{H}} \\
+                                                                              &= \langle T_{\hat{\phi} \#}^*(T_{\hat{\phi} \#} \mu - T_{\phi \#} \mu), \phi - \hat{\phi} \rangle_{\mathcal{H}} \\
+                                                                              &= \langle (T_{\hat{\phi} \#} - I)^*(T_{\hat{\phi} \#} \mu - T_{\phi \#} \mu), \phi - \hat{\phi} \rangle_{\mathcal{H}} \\
+                                                                              &= \langle (T_{\hat{\phi} \#} - I)(T_{\hat{\phi} \#} \mu - T_{\phi \#} \mu), \phi - \hat{\phi} \rangle_{\mathcal{H}} \\
+                                                                              &\geq - \|(T_{\hat{\phi} \#} - I)(T_{\hat{\phi} \#} \mu - T_{\phi \#} \mu)\|_{\mathcal{H}} \|\phi - \hat{\phi}\|_{\mathcal{H}} \\
+                                                                              &= - \|T_{\hat{\phi} \#} \mu - T_{\phi \#} \mu\|_{\mathcal{H}} \|\phi - \hat{\phi}\|_{\mathcal{H}} \\
+                                                                              &= - \frac{1}{\sigma} \|\phi - \hat{\phi}\|_{\mathcal{H}}^2,
+  \end{align*}
+  ここで、2行目から3行目への変形で、ヒルベルト空間 $\mathcal{H}$ 上で内積をとりました。また、3行目から4行目への変形では、$T_{\hat{\phi} \#} - I$ が $\mathcal{H}$ 上の自己共役な線形作用素であることを用いました。最後の行では、前節での定義に従って、$\sigma = \|T_{\hat{\phi} \#} \mu - T_{\phi \#} \mu\|_{\mathcal{H}}$ とおきました。
+  したがって、不等式(\ref{eq:variation ascent})は以下のように得られます。
+  $$
+  \int_\Omega (\phi - \hat{\phi})(T_{\hat{\phi} \#} \mu - T_{\phi \#} \mu) \geq - \frac{1}{\sigma} \|\phi - \hat{\phi}\|_{\mathcal{H}}^2 \geq - \frac{1}{2\sigma} \|\phi - \hat{\phi}\|_{\mathcal{H}}^2,
+  $$
+  最後の不等号は $\sigma \leq \frac{1}{2}$ で成立するためです。従って、$\sigma \leq \frac{1}{2}$ の場合には、不等式(8)が成立することが示されました。
+\end{proof}
+
+\begin{proof}[Proof of Lemma \ref{lem:stability estimates}]
+  \hypertarget{proof:lem:stability estimates}{}
+
+  $\bold{Step 1.}$
+  証明は、次の等式を立証することから始めます。
+  \begin{equation}
+    \label{eq:F(phi2|phi1)}
+    F(\phi_2 | \phi_1) = \int_{\Omega} \left[\frac{1}{2} \left| T_{\phi_1}(x) - T_{\phi_2}(x) \right|^2 - \phi_2\left( T_{\phi_1}(x)) |T_{\phi_2}(x)\right) \right] \mu(x)dx.
+  \end{equation}
+  このために、まずFact 3の単純な変形を利用すると、$F$の導関数は
+  \begin{equation}
+    \label{eq:delta F}
+    \delta F_\phi = T_{\phi \#} \mu
+  \end{equation}  
+  であることがわかります。
+  \begin{align*}
+    F_\phi &= - \int_\Omega \phi^c \, d \mu\\
+    F_{\phi + \epsilon u} &= - \int_\Omega (\phi + \epsilon u)^c \, d \mu
+  \end{align*}
+  \begin{align*}
+    \lim_{\epsilon \to 0} \frac{F_{\phi + \epsilon u} - F_\phi}{\epsilon} &= - \lim_{\epsilon \to 0} \int_\Omega \frac{(\phi + \epsilon u)^c -  \phi^c}{\epsilon} \, d \mu\\
+                                                          \delta F_\phi(u) &= \int_\omega u(T_\phi(x)) \, d\mu(x) \\
+                                                                          &= \int_\omega u(y) \, d\, T_{\phi \#} \mu(y) & (\because (\ref{def:pushforward_int}))\\
+                                                                          &= \int_\omega u(x) T_{\phi \#} \mu(x) \, dx\\
+                                                                          &= \int_\omega u(x) T_{\phi \#} \mu(x)\, dx\\
+                                                                          &= \int_\omega u T_{\phi \#} \mu
+  \end{align*}
+  したがって、$F$に関連するBregman divergenceは以下のように書くことができます。
+  \[
+    F(\phi_2 | \phi_1) = \int_{\omega} \left[-\phi_2^c(x) + \phi_1^c(x) - \phi_2(T_{\phi_1}(x)) + \phi_1(T_{\phi_1}(x))\right] \mu(x)dx.
+  \]
+  上記の式は、次の等式を利用して簡略化できます。($\phi^c(x) = \inf_y \left[h(y - x) - \phi(y) \right], h(y - x) = \frac{1}{2}|y-x|^2$).
+  \[
+    -\phi^c(x) = \phi(T_{\phi}(x)) - \frac{1}{2} \left|T_{\phi}(x) - x\right|^2,
+  \]
+  これはc-transformと$T_{\phi}$の定義から直ちに導かれます。(Lemma \ref{lem:c-transform} $(\mathrm{ii})$ )したがって、
+  \[
+    F(\phi_2 | \phi_1) = \int_{\omega} \left[\frac{1}{2} |T_{\phi_1}(x) - x|^2 -\frac{1}{2} |T_{\phi_2}(x) - x|^2 + \phi_2(T_{\phi_2}(x)) - \phi_2 (T_{\phi_1}(x))\right] \mu(x)dx.
+  \]
+  さらに進めるために、次の等式を利用します。
+  \begin{equation}
+    \label{eq:nabla phi}
+    \nabla \phi(T_\phi(x)) = T_\phi(x) - x,
+  \end{equation}
+  これもc-transformの定義から直ちに導かれます。
+  $F(\phi_2 | \phi_1)$の式に
+  \[
+    -(T_{\phi_2}(x) - x) \cdot (T_{\phi_1}(x) - T_{\phi_2}(x)) + \nabla \phi_2(T_{\phi_2}(x)) \cdot (T_{\phi_1}(x) - T_{\phi_2}(x))
+  \]
+  （これは常に0です）を加えることで、所望の等式（\ref{eq:F(phi2|phi1)}）を得ることができます。
+
+  $\bold{Step 2.}$
+
+  不等式 
+  \begin{equation}
+    \label{eq:upper bound of F}
+    F(\phi_2|\phi_1) \leq \frac{\lambda^{-1}}{2} \int_\omega |\nabla \phi_2(y) - \nabla \phi_1(y)|^2 \rho_1(y) \, dy,
+  \end{equation}
+  を証明するために、関数 
+  \[
+    f_2(x) = \frac{1}{2}|x|^2 - \phi_2(x)
+  \] 
+  を導入します。
+  ただし、\(\rho_1 = T_{\phi_1\#}\mu\) と定義します。
+  ここで、\(\phi_2\) に対する仮定により、\(f_2\) は \(\lambda\)-強凸関数です。
+  よって、式 (\ref{eq:F(phi2|phi1)}) を以下のように書き換えることができます:
+  \[
+    F(\phi_2|\phi_1) = \int_\Omega f_2(T_{\phi_1}(x) | T_{\phi_2}(x))\,\mu(x) \,dx.
+  \]
+  Lemma \ref{lem:convex conjugate}$(\mathrm{iii})$を用いると、任意の \(t_1, t_2 \in \omega\)  に対して、
+  \[
+    f_2(t_1|t_2) \leq \frac{\lambda^{-1}}{2}|\nabla f_2(t_1) - \nabla f_2(t_2)|^2
+  \]
+  を満たす。
+  再び、恒等式 (\ref{eq:nabla phi}) を用いると、次のようになります:
+  \[
+    \nabla f_2(T_{\phi_1}(x)) = x + \nabla\phi_1(T_{\phi_1}(x)) - \nabla\phi_2(T_{\phi_1}(x)),
+  \]
+  一方で、\(\nabla f_2(T_{\phi_2}(x)) = x\) です。
+  このことから、以下の上界が導かれる。
+  \[
+    f_2(T_{\phi_1}(x) | T_{\phi_2}(x)) \leq \frac{\lambda^{-1}}{2} \left|\nabla\phi_1(T_{\phi_1}(x)) - \nabla\phi_2(T_{\phi_1}(x))\right|^2.
+  \]
+  これは、測度の変換後の形において、求める不等式(\ref{eq:upper bound of F})を導くことを意味します。
+
+  $\bold{Step 3.}$
+
+  次のステップでは、$\rho_1$の$L^{\infty}$ノルムを推定します:
+  \begin{equation}
+    \label{eq:L infty norm}
+    \| \rho_1 \| \leq \lambda^{-d} \|\mu\|.
+  \end{equation}
+  ここで、$\phi_1$の強凸性から$T_{\phi_1}$は単射であることが言えます。
+  $\rho_1$は$T_{\phi_1 \#} \mu$の密度であるため、変数変換の公式
+  \[
+    |\det D T_{\phi_1}(x)| \rho_1(T_{\phi_1}(x)) = \mu(x)
+  \]
+  が成立します。
+  この公式は単射かつ微分可能な写像に対して有効です。
+  次に、$DT_{\phi_1}$が対称かつ正定値行列であり、その固有値が$\lambda$以下であることを示します。
+  これには以下のように設定します:
+  \[
+    f_1(x) = \frac{1}{2} |x|^2 - \phi_1(x)
+  \]
+  ここで、$\phi_1$に対する仮定から \(D^2 f_1(x) \leq \lambda^{-1}\) となります。
+  恒等式 (\ref{eq:nabla phi}) を用いると、 \(x = \nabla f_1(T_{\phi_1}(x))\) と書けます。
+  この式は逆に \(\nabla f_1^*(x) = T_{\phi_1}(x)\) となります。
+  $f_1$のヘッセ行列の固有値が$\lambda^{-1}$以下であるため、その共役凸関数は$\lambda$-強凸です。
+  したがって、
+  \[
+    \det D T_{\phi_1}(x) \geq \lambda^d,
+  \]
+  が任意の \(x \in \omega\) に対して成り立ちます。これにより、不等式 (\ref{eq:L infty norm}) が直接導かれます。
+  これを式 (\ref{eq:upper bound of F}) と組み合わせることで、不等式 (\ref{eq:F_upper bound}) の証明が完了します。
+
+  $\bold{Step 4.}$
+
+  上限の不等式(\ref{eq:F_upper bound})が証明されたので、直接下限の不等式 (\ref{eq:F_lower bound}) が導かれます。
+  実際、不等式(\ref{eq:F_upper bound})を次のように書き直します:
+  \[
+    F(\phi + h|\phi_1) \leq \frac{C}{2}\|h\|^2_{\dot{H}^1}.
+  \]
+  ただし、$h = \phi_2 - \phi_1, C = \|\mu\| \lambda^{-(d+1)}$.
+  両辺に共役作用素を作用させると、不等号の向きが逆転します。
+  すると次のような不等式が得られます:
+  \[
+    F(\phi_1 + \cdot \,|\phi_1)^*(u) \geq \frac{C^{-1}}{2} \|u\|^2_{\dot{H}^{-1}}, 
+  \]
+
+  ここで $ \frac{1}{2}\| \cdot \|^2_{\dot{H}^1}$ ノルムと $ \frac{1}{2}\| \cdot \|^2_{\dot{H}^{-1}} $ ノルムは互いに共役であることがわかります。
+  次に、Lemma \ref{lem:convex conjugate}の性質 $(\mathrm{iv})$ であるBregmanダイバージェンスの性質を$F$関数に適用し、次の不等式を得ます:
+  \[
+    F^*(\phi_1 + u | \phi_1) \geq \frac{C^{-1}}{2} \|u\|^2_{\dot{H}^{-1}}, 
+  \]
+  ただし、$\rho_1 = \delta F_{\phi_1} = T_{\phi_1 \#} \mu$です。これは、\( u = \rho_2 - \rho_1 \) のときに正確に求めたい不等式です。
+
+\end{proof}
+
+\begin{proof}[Proof of Proposition \ref{prop:勾配上昇保持}]
+  \hypertarget{proof:prop:勾配上昇保持}{}
+  $\bold{上昇性質.}$
+  連続する2つの反復 $\phi_n$ と $\phi_{n+1}$ を考えます。
+  Lemma \ref{lem:variation}によれば、$J$の導関数は $\delta J_\phi = \nu - T_{\phi \#} \mu$ の形を取る。
+  したがって、以下のように表されます。
+  \[
+  J(\phi_{n+1}) - J(\phi_n) = J(\phi_{n+1}|\phi_n) + \int_\Omega (\phi_{n+1} - \phi_n)(\nu - T_{\phi_n \#} \mu).
+  \]
+  ここで、Bregmanダイバージェンス $J(\cdot|\cdot)$ を導入しました（Definition \ref{dfn:Bregman divergence}を参照）。
+  式(\ref{eq:F(phi)})によって定義される $F$ について、先に述べたように(\ref{eq:J-F}) $J(\phi_{n+1}|\phi_n) = -F(\phi_{n+1}|\phi_n)$ です。
+  さらに、勾配ステップ $\phi_{n+1} - \phi_n = \sigma(-\Delta)^{-1}(\nu - T_{\phi_n \#} \mu)$ は次のように表されます:
+  \[
+    \int_\omega (\phi_{n + 1} - \phi_n)(\nu - T_{\phi_n \#} \mu) = \sigma^{-1}\|\phi_{n + 1} - \phi_n\|_{\dot{H}^1}^2.
+  \]
+  これらの2つの式を組み合わせると、次のようになります。
+  \[
+    J(\phi_n) - J(\phi_{n+1}) = -F(\phi_{n+1}|\phi_n) + \sigma^{-1}\|\phi_{n+1} - \phi_n\|_{\dot{H}^1}^2,
+  \]
+  そして、$\sigma = \frac{\lambda^{d+1}}{\|\mu\|}$ とLemma \ref{lem:stability estimates}との組み合わせにより、以下の上昇性質が得られます:
+  \[
+  J(\phi_n) - J(\phi_{n+1}) \geq \frac{1}{\|\mu\|}\lambda^{-(d+1)}\|\phi_{n+1} - \phi_n\|_{\dot{H}^1}^2.
+  \]
+
+  $\bold{Decrease\,\, in\,\,} \bm{H^{-1}}\,\, \bold{norm}$
+
+  簡単な計算により、二次の項を展開し再配列することで次の式が得られます。
+  \[
+    \|\rho_{n+1} - \nu\|_{H^{-1}}^2 - \|\rho_n - \nu\|_{H^{-1}}^2 = \|\rho_{n+1} - \rho_n\|_{H^{-1}}^2 - 2 \int_\omega (-\Delta)^{-1}(\nu - \rho_n)(\rho_{n+1} - \rho_n).
+  \]
+  ここで、反復 $\phi_{n+1}$ は $\phi_{n+1} = \phi_n + \sigma(-\Delta)^{-1}(\nu - \rho_n)$ によって定義されるため、次のようになります。
+  \[
+    \|\rho_{n+1} - \nu\|_{H^{-1}}^2 - \|\rho_n - \nu\|_{H^{-1}}^2 = \|\rho_{n+1} - \rho_n\|_{H^{-1}}^2 - 2\sigma^{-1}\int_\omega (\phi_{n+1} - \phi_n)(\rho_{n+1} - \rho_n)
+  \]
+  次に、式(\ref{eq:delta F})で説明されているように、式(\ref{eq:F(phi)})で定義される汎関数 $F$ の導関数は $\delta F_\phi = \rho = T_{\phi \#} \mu$ となります。
+  {\color{teal}
+  また、$F$ は凸汎関数であるため、この関係は以下のように逆になります。
+  \[
+    \phi = \delta F^*_\rho,
+  \]
+  }
+  ここで、$F^*$ は $F$ の凸共役を表し、$F^*_{\rho} = F^*(\rho) = \sup_\phi \int \phi \rho - F(\phi)$ で定義されます。
+  \begin{align*}
+    F^*(\rho + \epsilon u) - F^*(\rho)  &= \sup_\phi \int_\Omega \phi (\rho + \epsilon u) \, dx - \int_\Omega \phi \rho \, dx  - F(\phi) + F(\phi) \\
+                                        &= \sup_\phi \int_\Omega \phi \rho \, dx  + \int_\Omega \phi \epsilon u \, dx - \int_\Omega \phi \rho \, dx\\
+                                        &= \sup_\phi \int_\Omega \phi \epsilon u \, dx
+  \end{align*}
+  \begin{align*}
+    \lim_{\epsilon \to 0} \frac{F^*(\rho + \epsilon u) - F^*(\rho)}{\epsilon}  &= \sup_\phi \lim_{\epsilon \to 0} \int_\Omega \frac{ \phi \epsilon u }{\epsilon} \, dx\\
+                                                          \delta F^*_{\rho}(u) &= \sup_\phi \int_\Omega u \phi \, dx \\
+                                                          \delta F^*_{\rho} &= \phi
+  \end{align*}
+
+
+  したがって、以下のように書くことができます。
+  \begin{align*}
+      \|\rho_{n+1} - \nu\|_{H^{-1}}^2 - \|\rho_n - \nu\|_{H^{-1}}^2 &= \|\rho_{n+1} - \rho_n\|_{H^{-1}}^2 - 2\sigma^{-1} \left( \delta F^*_{\rho_{n + 1}} - \delta F^*_{\rho_n} \right) (\rho_{n+1} - \rho_n)\\
+                                                                    &= \|\rho_{n+1} - \rho_n\|_{H^{-1}}^2 - 2\sigma^{-1} \left(F^*(\rho_{n+1}|\rho_n) + F^*(\rho_n|\rho_{n+1})\right)\\
+                                                                    &= - 2 \sigma^{-1}\left[ F^*(\rho_{n + 1} | \rho_n) + F^*(\rho_n | \rho_{n + 1}) - \frac{\sigma}{2} \|\rho_{n+1} - \rho_n \|_{H^{-1}}^2 \right].
+  \end{align*}
+  Lemma \ref{lem:stability estimates} により、$F^*(\rho_{n+1}|\rho_n) + F^*(\rho_n|\rho_{n+1}) \geq \sigma\|\rho_{n+1} - \rho_n\|^2_{H^{-1}}$ であるため、証明を結ぶのに十分です。
+\end{proof}
+
+\begin{proof}[Proof of Proposition \ref{prop:不等式連鎖}]
+  \hypertarget{proof:prop:不等式連鎖}{}
+  ある反復 $\phi_n$ を固定します。
+  すると、$J(\phi_n) = D(\phi_n, \phi_n^c)$ です。
+  Proposition \ref{prop:勾配上昇保持} により、
+  $$
+    J(\phi_{n + \frac{1}{2}}) \geq J(\phi_n)
+  $$
+  が成り立ちます。
+  なぜなら、$\phi_n \to \phi_{n + \frac{1}{2}}$ のステップは $J$ の勾配上昇ステップであり、
+  また $J(\phi_{n + \frac{1}{2}}) = D(\phi_{n + \frac{1}{2}}, (\phi_{n + \frac{1}{2}})^c) = D(\phi_{n + \frac{1}{2}}, \psi_{n + \frac{1}{2}})$ です。
+  次に、$c$-変換を行うと常に $D$ の値が増加するか、あるいは横ばいになることが容易にわかります。
+  したがって、
+  $$
+    D\left((\psi_{n + \frac{1}{2}})^c, \psi_{n + \frac{1}{2}}\right)\geq D(\phi_{n + \frac{1}{2}}, \psi_{n + \frac{1}{2}}).
+  $$
+  が成り立ちます。
+  したがって、$I(\psi_{n + \frac{1}{2}}) \geq J(\phi_{n + \frac{1}{2}})$ を示しました。
+  残りの不等式も同様の方法で扱うことができます。
+
+
+
+\end{proof}
+
 \end{document}
-
-
 
