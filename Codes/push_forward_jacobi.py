@@ -5,32 +5,32 @@ from c_transform import c_transform
 
 import numpy as np
 
-def push_forward_ver2(mu, phi, h):
-    assert mu.shape == phi.shape
+def push_forward2(mu, phi_c, h):
+    assert mu.shape == phi_c.shape
     
     t_mu = np.zeros_like(mu)
 
-    n = phi.shape[0]
-    l_dphi = []
+    n = phi_c.shape[0]
+    l_dphi_c = []
     l_det = []
     
     # iterate over each cell
     for i in range(n):
         # 3 neighboring cells
-        um = phi[max(i-1, 0)]
-        u = phi[i]
-        up = phi[min(i+1, n-1)]
+        um = phi_c[max(i-1, 0)]
+        u = phi_c[i]
+        up = phi_c[min(i+1, n-1)]
 
-        # \nabla\phi
-        dphi = (up - um) / (2. * h)
-        #print(dphi)
-        l_dphi.append(dphi)
-        # det (I - D^2\phi)
+        # \nabla\phi_c
+        dphi_c = (up - um) / (2. * h)
+        #print(dphi_c)
+        l_dphi_c.append(dphi_c)
+        # det (I - D^2\phi_c)
         det = (1. - (up - 2. * u + um) / (h * h)) 
         #print(det)
         l_det.append(det)
-        # x - \nabla\phi with respect to the cell grid
-        xcell = i - dphi / h
+        # x - \nabla\phi_c with respect to the cell grid
+        xcell = i - dphi_c / h
 
         # indices of the nearest cells
         ti = int(min(max(np.floor(xcell), 0.), n - 1))
@@ -43,19 +43,19 @@ def push_forward_ver2(mu, phi, h):
         
     return t_mu
 """
-def det(det, phi, h):
-    assert det.shape == phi.shape
+def det(det, phi_c, h):
+    assert det.shape == phi_c.shape
 
-    n = phi.shape[0]
+    n = phi_c.shape[0]
 
     # iterate over each cell
     for i in range(n):
         # 3 neighboring cells
-        um = phi[max(i-1, 0)]
-        u = phi[i]
-        up = phi[min(i+1, n-1)]
+        um = phi_c[max(i-1, 0)]
+        u = phi_c[i]
+        up = phi_c[min(i+1, n-1)]
 
-        # det (I - D^2\phi)
+        # det (I - D^2\phi_c)
         det[i] = (1. - (up - 2. * u + um) / (h * h)) ** 2
 
 """
@@ -74,22 +74,21 @@ def lap_solve(f):
 
 
 if __name__ == '__main__':
-    x = np.linspace(-10, 10, 101)
+    x = np.linspace(-10, 10, 10001)
     p = x
     #y = np.random.random(len(x))
-    y = np.sin(x) / 40
-    #y = 0.25 * x * x
+    #y = np.sin(x) / 40
+    y = 0.5 * x * x
     #y = 0 * x
 
-    yy, _ = c_transform(x, y, p)
-    t, _= c_transform(p, yy, p)
+    phi_c, _ = c_transform(x, y, p)
     #plt.plot(x, t)
     #plt.show() 
    
     h = x[1] - x[0]
     mu = np.ones_like(x)
-    mu[np.abs(x) < 1] = 0
-    nu = push_forward_ver2(mu, yy, h) #phi^c = psi
+    #mu[np.abs(x) < 1] = 0
+    nu = push_forward2(mu, phi_c, h) #phi_c^c = psi
 
     plt.plot(x, mu)
     plt.plot(x, nu)
@@ -101,36 +100,36 @@ if __name__ == '__main__':
 
 
 """
-def push_forward2_ver2(t_mu, mu, phi, h):
+def push_forward2_ver2(t_mu, mu, phi_c, h):
     assert t_mu.shape == mu.shape
-    assert t_mu.shape == phi.shape
+    assert t_mu.shape == phi_c.shape
 
-    ni, nj = phi.shape
+    ni, nj = phi_c.shape
 
     # map each cell
     for i in range(ni):
         for j in range(nj):
             # 9 neighboring cells
-            umm = phi[max(i - 1, 0), max(j - 1, 0)]
-            um_ = phi[max(i - 1, 0), j]
-            ump = phi[max(i - 1, 0), min(j + 1, nj - 1)]
-            u_m = phi[i, max(j - 1, 0)]
-            u__ = phi[i, j]
-            u_p = phi[i, min(j + 1, nj - 1)]
-            upm = phi[min(i + 1, ni - 1), max(j - 1, 0)]
-            up_ = phi[min(i + 1, ni - 1), j]
-            upp = phi[min(i + 1, ni - 1), min(j + 1, nj - 1)]
+            umm = phi_c[max(i - 1, 0), max(j - 1, 0)]
+            um_ = phi_c[max(i - 1, 0), j]
+            ump = phi_c[max(i - 1, 0), min(j + 1, nj - 1)]
+            u_m = phi_c[i, max(j - 1, 0)]
+            u__ = phi_c[i, j]
+            u_p = phi_c[i, min(j + 1, nj - 1)]
+            upm = phi_c[min(i + 1, ni - 1), max(j - 1, 0)]
+            up_ = phi_c[min(i + 1, ni - 1), j]
+            upp = phi_c[min(i + 1, ni - 1), min(j + 1, nj - 1)]
             
-            # nabla phi
-            dphix = (up_ - um_) / (2. * h)
-            dphiy = (u_p - u_m) / (2. * h)
+            # nabla phi_c
+            dphi_cx = (up_ - um_) / (2. * h)
+            dphi_cy = (u_p - u_m) / (2. * h)
             
-            # det (I - D^2 phi)
+            # det (I - D^2 phi_c)
             det = (1. - (up_ - 2. * u__ + um_) / (h * h)) * (1. - (u_p - 2. * u__ + u_m) / (h * h)) - ((upp + umm - ump - upm) / (4. * h * h)) ** 2
             
-            # x - nabla phi with respect to the cell grid
-            xcell = i - dphix / h
-            ycell = j - dphiy / h
+            # x - nabla phi_c with respect to the cell grid
+            xcell = i - dphi_cx / h
+            ycell = j - dphi_cy / h
             
             # indices of the nearest 4 cells
             ti = int(max(xcell, 0.)) if xcell >= 0 else 0
@@ -146,39 +145,39 @@ def push_forward2_ver2(t_mu, mu, phi, h):
             
             t_mu[i, j] = mu_inter * det
 
-def det(det, phi, h):
-    assert det.shape == phi.shape
+def det(det, phi_c, h):
+    assert det.shape == phi_c.shape
 
-    ni, nj = phi.shape
+    ni, nj = phi_c.shape
 
     # map each cell
     for i in range(ni):
         for j in range(nj):
             # 9 neighboring cells
-            umm = phi[max(i - 1, 0), max(j - 1, 0)]
-            um_ = phi[max(i - 1, 0), j]
-            ump = phi[max(i - 1, 0), min(j + 1, nj - 1)]
-            u_m = phi[i, max(j - 1, 0)]
-            u__ = phi[i, j]
-            u_p = phi[i, min(j + 1, nj - 1)]
-            upm = phi[min(i + 1, ni - 1), max(j - 1, 0)]
-            up_ = phi[min(i + 1, ni - 1), j]
-            upp = phi[min(i + 1, ni - 1), min(j + 1, nj - 1)]
+            umm = phi_c[max(i - 1, 0), max(j - 1, 0)]
+            um_ = phi_c[max(i - 1, 0), j]
+            ump = phi_c[max(i - 1, 0), min(j + 1, nj - 1)]
+            u_m = phi_c[i, max(j - 1, 0)]
+            u__ = phi_c[i, j]
+            u_p = phi_c[i, min(j + 1, nj - 1)]
+            upm = phi_c[min(i + 1, ni - 1), max(j - 1, 0)]
+            up_ = phi_c[min(i + 1, ni - 1), j]
+            upp = phi_c[min(i + 1, ni - 1), min(j + 1, nj - 1)]
             
-            # det (I - D^2 phi)
+            # det (I - D^2 phi_c)
             det[i, j] = (1. - (up_ - 2. * u__ + um_) / (h * h)) * (1. - (u_p - 2. * u__ + u_m) / (h * h)) - ((upp + umm - ump - upm) / (4. * h * h)) ** 2
-            dphix = (up_ - um_) / (2. * h)
-            dphiy = (u_p - u_m) / (2. * h)
-            # det[i, j] = dphiy
+            dphi_cx = (up_ - um_) / (2. * h)
+            dphi_cy = (u_p - u_m) / (2. * h)
+            # det[i, j] = dphi_cy
 
 # 使用例
 ni, nj = 10, 10
 h = 0.1
-phi = np.random.rand(ni, nj)
+phi_c = np.random.rand(ni, nj)
 mu = np.random.rand(ni, nj)
 t_mu = np.zeros((ni, nj))
 det = np.zeros((ni, nj))
 
-push_forward2_ver2(t_mu, mu, phi, h)
+push_forward2_ver2(t_mu, mu, phi_c, h)
 det(det, phi, h)
 """

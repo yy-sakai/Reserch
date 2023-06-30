@@ -105,8 +105,8 @@ if __name__ == '__main__':
 
     yy, _ = c_transform(x, y, p)
     t, _= c_transform(p, yy, p)
-    plt.plot(x, t)
-    plt.show() 
+    #plt.plot(x, t)
+    #plt.show() 
 
     h = x[1] - x[0]
     mu = np.ones_like(x)
@@ -116,8 +116,8 @@ if __name__ == '__main__':
     plt.plot(x, nu)
     plt.show() 
 
-    plt.plot(x, lap_solve(nu - mu))
-    plt.show()
+    #plt.plot(x, lap_solve(nu - mu))
+    #plt.show()
 
 
 """

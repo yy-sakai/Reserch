@@ -240,7 +240,7 @@ $
 なので、右辺で$\inf$をとっているので、左辺の$\varphi(x)$の中での$\sup$が$\psi^c$になるためである。\\
 
 また、\(\rho \geq 0\) の場合、\(- U^*(-\varphi)\) は \(\varphi\) に関して増加する関数です。
-よって、{\color{red}$-U^*(\varphi) \le -U^*(\psi)^c$}である。
+よって、{\color{red}$-U^*(\varphi) \le -U^*(\psi^c)$}である。
 
 
 したがって、以下のようになります。
@@ -379,91 +379,23 @@ $U_1(\rho) + U_0(\rho^{(n)}) + (\delta U_0(\rho^{(n)}), \rho - \rho^{(n)})$は�
 
 \begin{lem}
     \label{lem:c-transform}
+    \hyperlink{proof:lem:c-transform}{(Proof)}
     $\phi, \psi \in C(\Omega)$のとき,
     $\forall x \in \Omega \text{に対し,}\phi^{cc} \ge \phi$
     が成り立つ。また、$\phi^{cc} = \phi$の必要十分条件は$\phi$が$c$-concaveの時である。
     特に、$\phi^{ccc} = \phi^c$が成立する.[JL](Lemma 1(i))
 \end{lem}
 
-\begin{proof}
-    \begin{align*}
-            \phi^c(x)    &= \inf_{y\in\Omega} \left(\frac{1}{2 \tau}|x - y|^2 - \phi(y)\right)\\
-            \phi^{cc}(y) &= \inf_{x\in\Omega} \left(\frac{1}{2 \tau}|x - y|^2 - \phi^c(x)\right)\\
-                      &= \inf_{x\in\Omega} \left(\frac{1}{2 \tau}|x - y|^2 - \inf_{z\in\Omega} \left(\frac{1}{2 \tau}|x - z|^2 - \phi(z)\right)\right)\\
-                      &\ge  \inf_{x\in\Omega} \left(\frac{1}{2 \tau}|x - y|^2 - \left(\frac{1}{2 \tau}|x - y|^2 - \phi(y)\right)\right)\\
-                      &= \phi(y).
-    \end{align*}
-
-次に$\phi^{cc} = \phi$の必要十分条件は$\phi$が$c$-concaveであることを示す。
-
-$(\Leftarrow)$
-
-$\phi: c$-concaveすなわち、$\exists \psi \, s.t. \, \phi = \psi^c$のとき、$\phi^{cc} = \phi$を示す。
-
-$\exists \psi \, s.t. \, \phi = \psi^c$と仮定する。
-$\psi := \phi^c$とおくと、
-$$
-    \phi = \psi^c = (\phi^c)^c= \phi^{cc}
-$$
-
-$(\Rightarrow)$
-
-$\phi^{cc} = \phi$のとき、$\phi: c$-concaveすなわち、$\exists \psi \, s.t. \, \phi = \psi^c$を示す。
-
-$\phi^{cc} = \phi$と仮定すると、
-$$
-    \phi = \phi^{cc} = (\phi^c)^c
-$$
-よって、$\phi = (\phi^c)^c$となる$\phi^c$が存在する。したがって、$\phi$は$c$-concaveである。
-
-
-最後に、$\phi^{ccc} = \phi$を示す。
-まず、$\phi^{ccc} \geq \phi^c$を示す。
-\begin{align*}
-    \phi^{ccc}(x)   &= \inf_{w \in \Omega} \left( \frac{1}{2 \tau} |x - w|^2 - \phi^{cc}(w) \right)\\
-                    &= \inf_{w \in \Omega} \left( \frac{1}{2 \tau} |x - w|^2 - \inf_{z \in \Omega}\left( \frac{1}{2 \tau} |w - z|^2 - \phi^c(z)\right)\right)\\
-                    &= \inf_{w \in \Omega} \left( \frac{1}{2 \tau} |x - w|^2 + \sup_{z \in \Omega}\left( - \frac{1}{2 \tau} |w - z|^2 + \phi^c(z)\right)\right)\\
-                    &\geq \inf_{w \in \Omega} \left( \frac{1}{2 \tau} |x - w|^2 + \left( - \frac{1}{2 \tau} |w - x|^2 + \phi^c(x)\right)\right)\\
-                    &= \phi^c(x)\\
-\end{align*}
-次に、$\phi^{ccc} \leq \phi^c$を示す。
-\begin{align*}
-    \phi^{ccc}(x)   &= \inf_{w \in \Omega} \left( \frac{1}{2 \tau} |x - w|^2 - \phi^{cc}(w) \right)\\
-                    &\leq \inf_{w \in \Omega} \left( \frac{1}{2 \tau} |x - w|^2 - \phi(w) \right)\\
-                    &= \phi^c(x)\\
-\end{align*}
-よって、$\phi^{ccc} = \phi^c$が示された。
-
-{\color{gray}
-$\phi^{cc} = \phi$の必要十分条件は$\phi$が$c$-concaveであることを示す。(別解)
-
-$(\Leftarrow)$
-
-$\phi: c$-concaveすなわち、$\exists \psi \, s.t. \, \phi = \psi^c$のとき、$\phi^{cc} = \phi$を示す。
-
-$\phi = \psi^c$と仮定すると、
-$$
-\phi^{cc} =（\psi^{cc})^c = \psi^{ccc} = \psi^c = \phi
-$$
-
-$(\Rightarrow)$
-$\phi^{cc} = \phi$のとき、$\phi: c$-concaveすなわち、$\exists \psi \, s.t. \, \phi = \psi^c$を示す。
-
-$\phi^{cc} = \phi$と仮定すると、
-$$
-    \phi = \phi^{cc} = (\phi^c)^c
-$$
-よって、$\phi = (\phi^c)^c$となる$\phi^c$が存在する。したがって、$\phi$は$c$-concaveである。
-}
-\end{proof}
-
 \begin{prop}
     \label{prop:transport map}
+    \hyperlink{proof:prop:transport map}{(Proof)}
     $\phi \in C(\Omega)$が$c$-concaveのとき,以下の写像はwell-definedかつalmost everywhereでuniqueである。
     \begin{equation}
             T_\phi(x):= \underset{y \in \Omega} {\operatorname{argmin}}\left( \frac{1}{2 \tau} |x - y|^2 - \phi(y) \right) 
     \end{equation}
-    すなわち、$\phi^c$はただ一つの最少点を持ち、$\phi^c$が最小値を取る座標はtransport map $T_\phi(x)$で表される。
+    言い換えると、最小化問題 $\inf_{y \in \Omega} c(x, y) - \phi(y)$ はほとんど全ての(almost every) $x$ について,
+    唯一の最小値を与える関数(最小化関数) $T_\phi(x)$ を持つ。
+    すなわち、$c(x, y) - \phi(y)$が最小値を取る時、 $y = T_\phi(x)$である。
     さらに、$u \in C(\Omega)$であるとき、ほとんど全ての(almost every)$x, y \in \Omega$に対し、以下のような$c$-transformの摂動公式が成り立つ。
     \begin{equation}
         \lim_{\varepsilon \to 0} \frac{(\phi + \varepsilon u)^c(x) - \phi^c(x)}{\varepsilon} = - u(T_\phi(x))
@@ -480,97 +412,10 @@ $$
     }
 \end{prop}
 
-\begin{proof}
-
-まず、写像$T_\phi(x)$がwell-definedであることを示します。
-つまり、任意の$x \in \Omega$に対して$\underset{y \in \Omega} {\operatorname{argmin}}\left( \frac{1}{2 \tau} |x - y|^2 - \phi(y) \right)$が存在することを示す。
-関数$\frac{1}{2 \tau} |x - y|^2 - \phi(y)$は$\Omega$上の連続関数であり、$\Omega$がコンパクト(閉集合$\to$コンパクト)であることから、この関数は最小値を持つことが保証される。(コンパクト空間の連続関数はmaxとminを持つ。)
-したがって、$\underset{y \in \Omega} {\operatorname{argmin}}\left( \frac{1}{2 \tau} |x - y|^2 - \phi(y) \right)$は存在する。
-
-次に、$T_\phi(x)$がalmost everywhereで一意であることを示しす。
-つまり、ほとんど全ての$x \in \Omega$に対して、$\underset{y \in \Omega} {\operatorname{argmin}}\left( \frac{1}{2 \tau} |x - y|^2 - \phi(y) \right)$がただ一つの要素を持つことを示す。
-$\phi$が$c$-concaveであることから、\hypertarget{convex set of T}{$T_\phi(x) = \underset{y \in \Omega} {\operatorname{argmin}}\left( \frac{1}{2 \tau} |x - y|^2 - \phi(y) \right)$は凸集合}となります。(\hyperlink{convex set}{Proof}) 
-また、凸集合上の任意の点は最小値を持つ点として一意に定まります。
-したがって、ほとんど全ての$x \in \Omega$に対して$\underset{y \in \Omega} {\operatorname{argmin}}\left( \frac{1}{2 \tau} |x - y|^2 - \phi(y) \right)$がただ一つの要素を持つことが示されます。
-
-{\color{teal}
-さらに、$u \in C(\Omega)$の場合、ほとんど全ての$x, y \in \Omega$に対して以下の摂動公式が成り立つことを示します。
-}
-$$
-\lim_{\varepsilon \to 0} \frac{(\phi + \varepsilon u)^c(x) - \phi^c(x)}{\varepsilon} = - u(T_\phi(x))
-$$
-
-次に、$T_\phi(x) = x - \tau \nabla \phi(x)$が成り立つことを示します。
-
-$\phi^c(x) = \inf_{y\in\Omega} \left(\frac{1}{2 \tau}|x - y|^2 - \phi(y)\right)$より、$\phi^c$は$x$についての関数である。
-よって$\frac{1}{2 \tau}|x - y|^2- \phi(y)$最小値は$\frac{\partial }{\partial x} (\frac{1}{2 \tau}|x - y|^2- \phi(y)) = \nabla (\frac{1}{2 \tau}|x - y|^2- \phi(y)) = 0$となる点の値である。
-なぜなら、$\frac{1}{2 \tau}|x - y|^2- \phi(y)$は凸関数であるためである。($\phi$が凹関数より、$- \phi$は凸関数のため)
-よって、もちろん$\phi^c(x)$も凸関数。よって、
-
-$$
-  \nabla (\frac{1}{2 \tau}|x - y|^2- \phi(y)) = \frac{1}{\tau}(x - y)
-$$
-$T_\phi$の定義から、$y = T_\phi$のとき、$\frac{1}{2 \tau}|x - y|^2- \phi(y)$が$\inf$をとる。
-すなわち、$y = T_\phi$のとき、$\frac{1}{2 \tau}|x - y|^2- \phi(y) = \phi^c(x)$となる。
-よって、上の式を書き換えると
-$$
-    \nabla \phi^c(x) = \frac{1}{\tau}(x - T_\phi(x))
-$$
-よって、
-\begin{eqnarray*}
-    &\nabla \phi^c(x) = \frac{1}{\tau}(x - T_\phi(x)) \\
-    \iff& \tau \nabla \phi^c(x) = x - T_\phi(x)\\
-    \iff& T_\phi(x) = x - \tau \nabla \phi^c(x)
-\end{eqnarray*}
-同様に、以下も成り立つ。
-$$
-        T_\psi(y) = y - \tau \nabla \psi^c(y),
-$$
-\begin{align*}
-    T_\psi(T_\phi(x))   &= T_\psi(x - \nabla \phi^c(x))\\
-                        &= y - \tau \nabla \psi(y)
-\end{align*}
-
-\end{proof}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-{\color{gray}
-$T_\phi(T_\psi(y)) = y$を証明します。
-
-$T_\psi(y) = \underset{z \in \Omega}{\operatorname{argmin}}\left(\frac{1}{2 \tau} |y - z|^2 - \psi(z)\right)$と定義されています。
-
-$T_\phi(T_\psi(y))$を考えると、これは以下の最小化問題の解です：
-$$T_\phi(T_\psi(y)) = \underset{x \in \Omega}{\operatorname{argmin}}\left(\frac{1}{2 \tau} |T_\psi(y) - x|^2 - \phi(x)\right)$$
-
-この最小化問題の解$x$について考えましょう。最適解$x = T_\phi(T_\psi(y))$と仮定します。
-
-最適解$x = T_\phi(T_\psi(y))$に対して、以下の条件が成り立ちます：
-$$\frac{1}{\tau}(T_\psi(y) - x) - \nabla \phi(x) = 0$$
-
-この式を変形すると、
-$$T_\psi(y) - x = \tau \nabla \phi(x)$$
-
-両辺に$-1$をかけて整理すると、
-$$x - T_\psi(y) = -\tau \nabla \phi(x)$$
-
-ここで、$\nabla \phi(x) = -\nabla \phi^c(x)$を利用します（先程の議論で示しました）。
-
-したがって、上記の式は次のように書き換えられます：
-$$x - T_\psi(y) = \tau \nabla \phi^c(x)$$
-
-両辺に$-\tau$をかけて整理すると、
-$$T_\psi(y) - x = -\tau \nabla \phi^c(x)$$
-
-これは$T_\psi(y)$と$x$の関係を表しています。右辺は$c$-transformの勾配であり、左辺は$T_\psi(y)$と$x$の差を表しています。
-
-よって、$T_\phi(T_\psi(y)) = y$が成り立ちます。
-
-同様に、$T_\psi(T_\phi(x)) = x$も証明することができます。
-}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{prop}
+    \label{prop:wasserstein}
+    \hyperlink{proof:prop:wasserstein}{(Proof)}
     もし、$\mu$と$\nu$が$\Omega$上の非負密度関数で、質量が等しい場合、つまり、
     \[
         \int_{\Omega} \mu(x)dx = \int_{\Omega} \nu(y)dy
@@ -589,43 +434,10 @@ $$T_\psi(y) - x = -\tau \nabla \phi^c(x)$$
 この結果により、最適輸送写像の存在と一意性が保証されます。
 \end{prop}
 
-\begin{proof}
-    
-注意しておきますが、
-{\color{teal}
-与えられた \((\varphi, \psi) \in C\) に対して、{\color{red}\(\phi^c \geq \psi\) }が成り立ちます。
-}
-ただし、
-\[
-  \phi^c(x) := \inf_y \left( \frac{1}{2\tau}|x-y|^2 - \phi(y)\right)
-\]
-は \(\phi\) の c-変換（c-transform）です。なぜなら、
-$
-    \mathcal{C}  := \{(\phi, \psi) \in C(\Omega) \times C(\Omega) : \psi(x) + \phi(y) \leq \frac{1}{2 \tau} |x - y|^2 \}. 
-$
-であり,
-$
-  \psi(x) \le \frac{1}{2\tau}|x-y|^2 - \phi(y)
-$
-したがって、以下のようになります。
-\begin{align*}
-    \frac{1}{2 \tau}W_2^2(\mu, \nu) &= \sup_{(\psi(x), \phi(y)) \in C}  \left( \int \psi(x) d\mu(x) + \int \phi(y) d\nu(y) \right),\\
-                                    &\leq \sup_{\phi \in C(\Omega)} \left( \int_{\Omega} \phi^c(x) \mu(x)dx + \int_{\Omega} \phi(y) \nu(y)dy \right) 
-\end{align*}
-
-また、$(\varphi, \psi) \in \mathcal{C} \implies (\psi^c, \psi) \in \mathcal{C}$
-であるので,
-\[
-    \sup_{(\psi(x), \phi(y)) \in C}  \left( \int \psi(x) d\mu(x) + \int \phi(y) d\nu(y) \right) \geq \sup_{\phi \in C(\Omega)} \left( \int_{\Omega} \phi^c(x) \mu(x)dx + \int_{\Omega} \phi(y) \nu(y)dy \right) 
-\]
-が成立する。よって,
-\[
-    \sup_{(\psi(x), \phi(y)) \in C}  \left( \int \psi(x) d\mu(x) + \int \phi(y) d\nu(y) \right) = \sup_{\phi \in C(\Omega)} \left( \int_{\Omega} \phi^c(x) \mu(x)dx + \int_{\Omega} \phi(y) \nu(y)dy \right) 
-\]
-\end{proof}
-
 {\color{teal}
 \begin{thm}
+    \label{thm:pushforward measure}
+    \hyperlink{proof:thm:pushforward measure}{(Proof)}
     もし、$\mu$と$\nu$が$\Omega$上の非負密度関数で、質量が等しい場合、つまり、
     \[
         \int_{\Omega} \mu(x)dx = \int_{\Omega} \nu(y)dy
@@ -706,35 +518,41 @@ $
 
 \begin{lem}
     \label{lem:monotone increasing}
+    \hyperlink{proof:lem:monotone increasing}{(Proof)}
     $U^*$ は単調増加である、つまり、$\phi_0, \phi_1: \Omega \to \mathbb{R}$ が $\phi_0 \leq \phi_1$ となるすべての点で成り立つ場合、次の不等式が成り立ちます。
     $$
         U^*(\phi_0) \leq U^*(\phi_1).
     $$
 \end{lem}
 
-\begin{proof}
-    仮定 \ref{ass:rho>0} により、内部エネルギーは非負の密度に対してのみ有限です。
-    したがって、
-    $$
-        U^*(\phi) = \sup_{\rho \geq 0} \left\{ \int_\Omega \phi(y) \rho(y) dy - U(\rho) \right\}.
-    $$
-    ある $\rho \in L^1(\Omega)$ を取る、ただし$\rho(y) \geq 0 \text{ a.e.}$ であるとします。
-    すると、次の不等式が成り立ちます。
-    $$
-        \int \phi_0(y) \rho(y) dy - U(\rho) \leq \int \phi_1(y) \rho(y) dy - U(\rho).
-    $$
-    $\rho \geq 0$ に対して上記の不等式の上限を取ることで、証明が完了する。
-\end{proof}
+注意しておきますが、
+{\color{teal}
+与えられた \((\varphi, \psi) \in C\) に対して、{\color{red}\(\psi^c \geq \varphi\) }が成り立ちます。
+}
+同様に、\(\varphi^c \geq \psi\) 
+なぜなら、
+$
+    \mathcal{C}  := \{(\phi, \psi) \in C(\Omega) \times C(\Omega) : \psi(x) + \phi(y) \leq \frac{1}{2 \tau} |x - y|^2 \}. 
+$
+であり,
+$
+  \varphi(x) \le \frac{1}{2\tau}|x-y|^2 - \psi(y)
+$
+なので、右辺で$\inf$をとっているので、左辺の$\varphi(x)$の中での$\sup$が$\psi^c$になるためである。\\
+
+また、\(\rho \geq 0\) の場合、\(- U^*(-\varphi)\) は \(\varphi\) に関して増加する関数です。
+よって、{\color{red}$-U^*(\varphi) \le -U^*(\psi^c)$}である。
 
 \begin{prop}
     \label{prop:functional}
+    \hyperlink{proof:prop:functional}{(Proof)}
     与えられた非負密度$\mu \in L^1(\Omega)$に対して、汎関数$I$と$J$は以下のように定義される(\ref{eq:J}),(\ref{eq:I}):
     \begin{equation}
-        J(\phi):= \int_{\Omega} \phi^c(x) \,d\rho^{(n)}(x) - U^*(- \phi)
+        J(\phi):= \int_{\Omega} \phi^c(x) \mu(x) \,dx - U^*(- \phi)
     \end{equation}
     
     \begin{equation}
-        I(\psi):= \int_{\Omega} \psi(x) \, d\rho^{(n)}(x) - U^*(- \psi^{c})
+        I(\psi):= \int_{\Omega} \psi(x)\mu(x) \, dx - U^*(- \psi^{c})
     \end{equation}
 
     これらの汎関数はproperであり、弱上半連続であり、凹であり、さらに $\sup_{\varphi\in C(\Omega)} J(\varphi) = \sup_{\psi\in C(\Omega)} I(\psi)$ を満たします。
@@ -751,60 +569,6 @@ $
     \end{equation}
     }
 \end{prop}
-
-\begin{proof}
-    Lemma \ref{lem:monotone increasing}の証明の論理に従って、次のように表現することができます。
-    $$
-        U^*(\psi^c) = \sup_{\rho \geq 0} \left( \int_\Omega \psi^c(y) \rho(y) dy - U(\rho) \right).
-    $$
-    $$
-        U^*(- \psi^c) = \sup_{\rho \geq 0} \left( \int_\Omega - \psi^c(y) \rho(y) dy - U(\rho) \right).
-    $$
-
-    次に、$\mathcal{M}(\Omega \times \Omega)$を$\Omega \times \Omega$上の非負測度の集合とし、与えられた密度$\rho \geq 0$に対して次のように定義します。
-
-    \[
-        \Pi(\rho) = \left\{ \pi \in \mathcal{M}(\Omega \times \Omega) : \iint_{\Omega \times \Omega} f(y) \, d\pi(x, y) = \int_\Omega f(y) \rho(y) \, dy,  \, \forall f \in C(\Omega) \right\}.
-    \]
-
-    c-変換の定義を用いると、式は次のように書けます。
-
-    \begin{align*}
-        \int_\Omega - \psi^c(y) \rho(y) \, dy   &= - \int_\Omega \inf_{x \in \Omega} \left( \frac{1}{2\tau}|x-y|^2 - \psi(x)\right) \rho(y) \, dy,\\
-                                                &= \int_\Omega  \sup_{x \in \Omega} \left( \psi(x) - \frac{1}{2\tau}|x-y|^2 \right) \rho(y) \, dy,\\
-                                                &= \sup_{\pi \in \Pi(\rho)} \iint_{\Omega \times \Omega}\left(\psi(x) - \frac{1}{2 \tau}|x-y|^2 \right)\, d\pi(x, y).
-    \end{align*}
-
-    したがって、以下のようになります。
-
-    \begin{align*}
-        - U^*(- \psi^c) &= - \sup_{\rho \geq 0} \left( \int_\Omega - \psi^c(y) \rho(y) dy - U(\rho) \right),\\
-                        &= - \sup_{\rho \geq 0} \left( \sup_{\pi \in \Pi(\rho)} \left(\iint_{\Omega \times \Omega}  \left(\psi(x) - \frac{1}{2 \tau}|x-y|^2 \right) \, d\pi(x, y) \right)- U(\rho) \right),\\
-                        &= \inf_{\rho \geq 0} \left( - \sup_{\pi \in \Pi(\rho)} \left(\iint_{\Omega \times \Omega} \left(\psi(x) - \frac{1}{2 \tau}|x-y|^2 \right) \, d\pi(x, y) \right) + U(\rho) \right),\\
-                        &= \inf_{\rho \geq 0} \left( \inf_{\pi \in \Pi(\rho)} \left( - \iint_{\Omega \times \Omega}  \left(\psi(x) - \frac{1}{2 \tau}|x-y|^2 \right) \, d\pi(x, y) \right) + U(\rho) \right),\\
-                        &= \inf_{\rho \geq 0} \inf_{\pi \in \Pi(\rho)} U(\rho) -  \iint_{\Omega \times \Omega} \left( \psi(x) - \frac{1}{2 \tau} |x - y|^2\right) \, d\pi(x, y)
-    \end{align*}
-
-    これにより、$I$は$\psi$に関する一連の線形汎関数の下限として表現できることが明らかになりました。
-    {\color{teal}
-    したがって、$I$はproperであり、凹であり、弱上半連続です。同様の議論が$J$にも適用されます。
-    $U^*$が単調増加であることから、Lemma \ref{lem:monotone increasing}は任意の$\varphi$、$\psi \in C(\Omega)$に対して次の不等式が成り立つことを意味します。
-    \[
-        J(\varphi) \leq I(\varphi^c), \quad I(\psi) \leq J(\psi^c)
-    \]
-    したがって、次の関係が成り立ちます。
-    \[
-        \sup I(\psi) = \sup J(\varphi).
-    \]
-    $\varphi$と$\psi$が$c$-凹性を持つ場合、一次変分の式はProposition \ref{prop:transport map}から直接導かれます。
-
-
-
-    \begin{align*}
-        \delta J(\phi) &= \frac{d}{d\varepsilon}\Bigg|_{\varepsilon=0} J(\phi+\varepsilon u) \\
-    \end{align*}
-    }
-\end{proof}
 
 このsubsectionの最後に、$I$と$J$の最大化値から(\ref{eq: GOT})の解を復元する方法を以下に示す。
 
@@ -1230,7 +994,7 @@ $M$ の余因子行列 cof$(M)$ の固有値は $\{\frac{\det(M)}{\lambda_1},...
     &= \mu(y - \tau \nabla \phi_*(y)) \det(I_{d \times d} - \tau D^2 \phi(y))
 \end{align*}
 
-で与えられることを思い出す。(Thm.\ref{thm: duality})
+で与えられることを思い出す。(Thm.\ref{thm: duality})(\ref{eq:pushforward Tphi})(\ref{eq:pushforward Tpsi})
 したがって、$I_{d \times d} - \tau D^2 \phi$ の固有値は、$\rho^*$ の質量が $\mu$ に対してどれだけ集中しているかを大まかに測定します。
 $\rho^*$ と $\mu$ の差が $\tau$ のオーダーであることが期待されるため、$\Lambda$ は1に近い値になることが合理的です。
 }
@@ -1528,7 +1292,32 @@ $2 < m < \infty$ の場合はより難しいです。なぜなら、$C_{i,\lambd
 
 \subsection{Implementation details}
 \label{sect:Implementation details}
+\[
+    y = T_\phi(x), \quad x = T^{-1}_\phi (y), \quad dx = |\det \nabla T^{-1}_\phi (y)| dy 
+\]
 
+(\ref{eq:delta J}), (\ref{eq:delta I})から、
+\begin{align*}
+    T_{\phi \#} \mu (A) &= \int_A T_{\phi \#} \mu (x)\, dx = \mu(T^{-1}_\phi (A))\\
+                        &= \int_{T^{-1}_\phi (A)} \mu(x) \, dx\\
+                        &= \int_A \mu \left( T^{-1}_\phi(y) \right) |\det \nabla T^{-1}_\phi (y)|\, dy = \int_A \frac{\mu \left( T^{-1}_\phi(y) \right)}{|\det \nabla T\left(T^{-1}_\phi (y)\right)|}\, dy\\
+                        &= \int_A \mu(y - \tau \nabla \phi(y))|\det (I - \tau D^2 \phi(y))|\, dy = \mu(y - \tau \nabla \phi(y))|\det (I - \tau D^2 \phi(y))|
+\end{align*}
+\begin{align*}
+    T_{\psi \#} \delta U^* (- \psi^c) (A)   &= \int_A T_{\psi \#} \delta U^* (- \psi^c) (y)\, dy =  \delta U^* (- \psi^c)(T^{-1}_\psi (A))\\
+                                            &= \int_{T^{-1}_\psi (A)} \delta U^* (- \psi^c) (y) \, dx\\
+                                            &= \int_A  \delta U^* (- \psi^c)  \left(T^{-1}_\psi (x) \right) |\det \nabla T^{-1}_\psi (x)|\, dy = \int_A \frac{\ \delta U^* (- \psi^c)  \left( T^{-1}_\psi(x) \right)}{|\det \nabla T\left(T^{-1}_\psi (x)\right)|}\, dy\\
+                                            &= \int_A \delta U^* (- \psi^c)(x - \tau \nabla \psi(x))|\det (I - \tau D^2 \psi(x))|\, dx = \delta U^* (- \psi^c)(x - \tau \nabla \psi(x))|\det (I - \tau D^2 \psi(x))|
+\end{align*}
+
+\begin{equation}
+    \label{eq:pushforward Tphi}
+    T_{\phi \#} \mu (y) =\mu(y - \tau \nabla \phi(y))|\det (I - \tau D^2 \phi(y))|
+\end{equation}
+\begin{equation}
+    \label{eq:pushforward Tpsi}
+    T_{\psi \#} \delta U^* (- \psi^c)(x) =\delta U^* (- \psi^c)(x - \tau \nabla \psi(x))|\det (I - \tau D^2 \psi(x))|
+\end{equation}
 \subsection{Experiments}
 \subsubsection{Accuracy: Barenblatt solutions}
 \subsubsection{Slow diffusion with drifts and obstacles}
@@ -1574,134 +1363,365 @@ $$
 
 
 \subsection*{Proof}
-\begin{proof}[\hyperlink{convex set of T}{Proof of \hypertarget{convex set}{$T_\phi(x) = \underset{y \in \Omega} {\operatorname{argmin}}\left( \frac{1}{2 \tau} |x - y|^2 - \phi(y) \right)$は凸集合}}]
 
-$\phi$が$c$-concaveであると仮定します。
+\begin{proof}[Proof of Lemma \ref{lem:c-transform}]
+    \hypertarget{proof:lem:c-transform}{}
+    \begin{align*}
+        \phi^c(x)    &= \inf_{y\in\Omega} \left(\frac{1}{2 \tau}|x - y|^2 - \phi(y)\right)\\
+        \phi^{cc}(y) &= \inf_{x\in\Omega} \left(\frac{1}{2 \tau}|x - y|^2 - \phi^c(x)\right)\\
+                  &= \inf_{x\in\Omega} \left(\frac{1}{2 \tau}|x - y|^2 - \inf_{z\in\Omega} \left(\frac{1}{2 \tau}|x - z|^2 - \phi(z)\right)\right)\\
+                  &\ge  \inf_{x\in\Omega} \left(\frac{1}{2 \tau}|x - y|^2 - \left(\frac{1}{2 \tau}|x - y|^2 - \phi(y)\right)\right)\\
+                  &= \phi(y).
+    \end{align*}
 
-関数$f(y) = \frac{1}{2 \tau} |x - y|^2 - \phi(y)$を考えます。この関数は凸関数です。なぜなら、次のような理由からです：
+    次に$\phi^{cc} = \phi$の必要十分条件は$\phi$が$c$-concaveであることを示す。
 
-\begin{enumerate}
-    \item 二次関数$\frac{1}{2 \tau} |x - y|^2$は凸関数です。二次関数はそのヘッセ行列が半正定値であるため、凸性を持ちます。
-    \item $\phi$が$c$-凹関数より、$-\phi(y)$は下に凸です。$\phi$が$c$-concaveであるため、$\phi$の下に凸な接平面が存在し、その接平面よりも下に凸な部分を持ちます。
-    \item 凸関数の足し算は凸関数。
-\end{enumerate}
+    $(\Leftarrow)$
 
-したがって、$f(y) = \frac{1}{2 \tau} |x - y|^2 - \phi(y)$は凸関数です。
+    $\phi: c$-concaveすなわち、$\exists \psi \, s.t. \, \phi = \psi^c$のとき、$\phi^{cc} = \phi$を示す。
 
-関数$f(y)$の最小値を実現する点の集合は凸集合です。なぜなら、凸関数の最小値を実現する点の集合は常に凸集合であり、$f(y)$は凸関数であるためです。
+    $\exists \psi \, s.t. \, \phi = \psi^c$と仮定する。
+    $\psi := \phi^c$とおくと、
+    $$
+    \phi = \psi^c = (\phi^c)^c= \phi^{cc}
+    $$
 
-したがって、$\underset{y \in \Omega} {\operatorname{argmin}}\left( \frac{1}{2 \tau} |x - y|^2 - \phi(y) \right)$は凸集合です。
+    $(\Rightarrow)$
+
+    $\phi^{cc} = \phi$のとき、$\phi: c$-concaveすなわち、$\exists \psi \, s.t. \, \phi = \psi^c$を示す。
+
+    $\phi^{cc} = \phi$と仮定すると、
+    $$
+    \phi = \phi^{cc} = (\phi^c)^c
+    $$
+    よって、$\phi = (\phi^c)^c$となる$\phi^c$が存在する。したがって、$\phi$は$c$-concaveである。
+
+
+    最後に、$\phi^{ccc} = \phi$を示す。
+    まず、$\phi^{ccc} \geq \phi^c$を示す。
+    \begin{align*}
+    \phi^{ccc}(x)   &= \inf_{w \in \Omega} \left( \frac{1}{2 \tau} |x - w|^2 - \phi^{cc}(w) \right)\\
+                    &= \inf_{w \in \Omega} \left( \frac{1}{2 \tau} |x - w|^2 - \inf_{z \in \Omega}\left( \frac{1}{2 \tau} |w - z|^2 - \phi^c(z)\right)\right)\\
+                    &= \inf_{w \in \Omega} \left( \frac{1}{2 \tau} |x - w|^2 + \sup_{z \in \Omega}\left( - \frac{1}{2 \tau} |w - z|^2 + \phi^c(z)\right)\right)\\
+                    &\geq \inf_{w \in \Omega} \left( \frac{1}{2 \tau} |x - w|^2 + \left( - \frac{1}{2 \tau} |w - x|^2 + \phi^c(x)\right)\right)\\
+                    &= \phi^c(x)\\
+    \end{align*}
+    次に、$\phi^{ccc} \leq \phi^c$を示す。
+    \begin{align*}
+    \phi^{ccc}(x)   &= \inf_{w \in \Omega} \left( \frac{1}{2 \tau} |x - w|^2 - \phi^{cc}(w) \right)\\
+                    &\leq \inf_{w \in \Omega} \left( \frac{1}{2 \tau} |x - w|^2 - \phi(w) \right)\\
+                    &= \phi^c(x)\\
+    \end{align*}
+    よって、$\phi^{ccc} = \phi^c$が示された。
+
+    {\color{gray}
+    $\phi^{cc} = \phi$の必要十分条件は$\phi$が$c$-concaveであることを示す。(別解)
+
+    $(\Leftarrow)$
+
+    $\phi: c$-concaveすなわち、$\exists \psi \, s.t. \, \phi = \psi^c$のとき、$\phi^{cc} = \phi$を示す。
+
+    $\phi = \psi^c$と仮定すると、
+    $$
+    \phi^{cc} =（\psi^{cc})^c = \psi^{ccc} = \psi^c = \phi
+    $$
+
+    $(\Rightarrow)$
+    $\phi^{cc} = \phi$のとき、$\phi: c$-concaveすなわち、$\exists \psi \, s.t. \, \phi = \psi^c$を示す。
+
+    $\phi^{cc} = \phi$と仮定すると、
+    $$
+    \phi = \phi^{cc} = (\phi^c)^c
+    $$
+    よって、$\phi = (\phi^c)^c$となる$\phi^c$が存在する。したがって、$\phi$は$c$-concaveである。
+    }
+\end{proof}
+
+\begin{proof}[Proof of Proposition \ref{lem:c-transform}]
+    \hypertarget{proof:prop:transport map}{}
+
+    まず、写像$T_\phi(x)$がwell-definedであることを示します。
+    つまり、任意の$x \in \Omega$に対して$\underset{y \in \Omega} {\operatorname{argmin}}\left( \frac{1}{2 \tau} |x - y|^2 - \phi(y) \right)$が存在することを示す。
+    関数$\frac{1}{2 \tau} |x - y|^2 - \phi(y)$は$\Omega$上の連続関数であり、$\Omega$がコンパクト(閉集合$\to$コンパクト)であることから、この関数は最小値を持つことが保証される。(コンパクト空間の連続関数はmaxとminを持つ。)
+    したがって、$\underset{y \in \Omega} {\operatorname{argmin}}\left( \frac{1}{2 \tau} |x - y|^2 - \phi(y) \right)$は存在する。
+    
+    次に、$T_\phi(x)$がalmost everywhereで一意であることを示しす。
+    つまり、ほとんど全ての$x \in \Omega$に対して、$\underset{y \in \Omega} {\operatorname{argmin}}\left( \frac{1}{2 \tau} |x - y|^2 - \phi(y) \right)$がただ一つの要素を持つことを示す。
+    $\phi$が$c$-concaveであることから、\hypertarget{convex set of T}{$T_\phi(x) = \underset{y \in \Omega} {\operatorname{argmin}}\left( \frac{1}{2 \tau} |x - y|^2 - \phi(y) \right)$は凸集合}となります。(\hyperlink{convex set}{Proof}) 
+    また、凸集合上の任意の点は最小値を持つ点として一意に定まります。
+    したがって、ほとんど全ての$x \in \Omega$に対して$\underset{y \in \Omega} {\operatorname{argmin}}\left( \frac{1}{2 \tau} |x - y|^2 - \phi(y) \right)$がただ一つの要素を持つことが示されます。
+    
+    {\color{teal}
+    さらに、$u \in C(\Omega)$の場合、ほとんど全ての$x, y \in \Omega$に対して以下の摂動公式が成り立つことを示します。
+    }
+    $$
+    \lim_{\varepsilon \to 0} \frac{(\phi + \varepsilon u)^c(x) - \phi^c(x)}{\varepsilon} = - u(T_\phi(x))
+    $$
+
+
+    まず、
+    \begin{align*}
+        \phi^c(x) &:= \inf_{y\in\Omega} \left(\frac{1}{2 \tau}|x - y|^2 - \phi(y)\right).\\
+        (\phi + \epsilon u)^c(x) &= \inf_{y\in\Omega} \left(\frac{1}{2 \tau}|x - y|^2 - (\phi(y) + \epsilon u(y))\right).
+        \end{align*}
+    この時、
+    \begin{align*}
+    (\phi + \epsilon u)^c(x) - \phi^c(x) &= \inf_{y\in\Omega} \left(\frac{1}{2 \tau}|x - y|^2 - (\phi(y) + \epsilon u(y))\right) - \inf_{y\in\Omega} \left(\frac{1}{2 \tau}|x - y|^2 - \phi(y)\right) \\
+    &= \inf_{y\in\Omega} \left(\frac{1}{2 \tau}|x - y|^2 - (\phi(y) + \epsilon u(y)) - \left(\frac{1}{2 \tau}|x - y|^2 - \phi(y)\right)\right) \\
+    &= \inf_{y\in\Omega} \left(-\epsilon u(y)\right) \\
+    &= -\epsilon \inf_{y\in\Omega} u(y) \\
+    &= -\epsilon u \left(T_\phi(x)\right).  \qquad (\because \text{def of}\,  T_\phi (\text{$\phi^c$が最小値を取るとき、$y = T_\phi(x)$}))
+    \end{align*}
+    
+    よって、
+    
+    \begin{align*}
+       \lim_{\epsilon \to 0}\frac{(\phi + \epsilon u)^c(x) - \phi^c(x)}{\epsilon} &=  \lim_{\epsilon \to 0} \frac{-\epsilon u \left(T_\phi(x)\right)}{\epsilon} \\
+    &= -u (T_\phi(x)).
+    \end{align*}
+    
+    したがって、$\lim_{\epsilon \to 0} \frac{(\phi + \epsilon u)^c(x) - \phi^c(x)}{\epsilon} = -u(T_\phi(x))$ が証明されました。
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%    
+    
+    次に、$T_\phi(x) = x - \tau \nabla \phi(x)$が成り立つことを示します。
+    
+    $\phi^c(x) = \inf_{y\in\Omega} \left(\frac{1}{2 \tau}|x - y|^2 - \phi(y)\right)$より、$\phi^c$は$x$についての関数である。
+    よって$\frac{1}{2 \tau}|x - y|^2- \phi(y)$最小値は$\frac{\partial }{\partial x} (\frac{1}{2 \tau}|x - y|^2- \phi(y)) = \nabla (\frac{1}{2 \tau}|x - y|^2- \phi(y)) = 0$となる点の値である。
+    なぜなら、$\frac{1}{2 \tau}|x - y|^2- \phi(y)$は凸関数であるためである。($\phi$が凹関数より、$- \phi$は凸関数のため)
+    よって、もちろん$\phi^c(x)$も凸関数。よって、
+    
+    $$
+      \nabla (\frac{1}{2 \tau}|x - y|^2- \phi(y)) = \frac{1}{\tau}(x - y)
+    $$
+    $T_\phi$の定義から、$y = T_\phi$のとき、$\frac{1}{2 \tau}|x - y|^2- \phi(y)$が$\inf$をとる。
+    すなわち、$y = T_\phi$のとき、$\frac{1}{2 \tau}|x - y|^2- \phi(y) = \phi^c(x)$となる。
+    よって、上の式を書き換えると
+    $$
+        \nabla \phi^c(x) = \frac{1}{\tau}(x - T_\phi(x))
+    $$
+    よって、
+    \begin{eqnarray*}
+        &\nabla \phi^c(x) = \frac{1}{\tau}(x - T_\phi(x)) \\
+        \iff& \tau \nabla \phi^c(x) = x - T_\phi(x)\\
+        \iff& T_\phi(x) = x - \tau \nabla \phi^c(x)
+    \end{eqnarray*}
+    同様に、以下も成り立つ。
+    $$
+            T_\psi(y) = y - \tau \nabla \psi^c(y),
+    $$
+    \begin{align*}
+        T_\psi(T_\phi(x))   &= T_\psi(x - \nabla \phi^c(x))\\
+                            &= y - \tau \nabla \psi(y)
+    \end{align*}
+    
 \end{proof}
 
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+{\color{gray}
+$T_\phi(T_\psi(y)) = y$を証明します。
+
+$T_\psi(y) = \underset{z \in \Omega}{\operatorname{argmin}}\left(\frac{1}{2 \tau} |y - z|^2 - \psi(z)\right)$と定義されています。
+
+$T_\phi(T_\psi(y))$を考えると、これは以下の最小化問題の解です：
+$$T_\phi(T_\psi(y)) = \underset{x \in \Omega}{\operatorname{argmin}}\left(\frac{1}{2 \tau} |T_\psi(y) - x|^2 - \phi(x)\right)$$
+
+この最小化問題の解$x$について考えましょう。最適解$x = T_\phi(T_\psi(y))$と仮定します。
+
+最適解$x = T_\phi(T_\psi(y))$に対して、以下の条件が成り立ちます：
+$$\frac{1}{\tau}(T_\psi(y) - x) - \nabla \phi(x) = 0$$
+
+この式を変形すると、
+$$T_\psi(y) - x = \tau \nabla \phi(x)$$
+
+両辺に$-1$をかけて整理すると、
+$$x - T_\psi(y) = -\tau \nabla \phi(x)$$
+
+ここで、$\nabla \phi(x) = -\nabla \phi^c(x)$を利用します（先程の議論で示しました）。
+
+したがって、上記の式は次のように書き換えられます：
+$$x - T_\psi(y) = \tau \nabla \phi^c(x)$$
+
+両辺に$-\tau$をかけて整理すると、
+$$T_\psi(y) - x = -\tau \nabla \phi^c(x)$$
+
+これは$T_\psi(y)$と$x$の関係を表しています。右辺は$c$-transformの勾配であり、左辺は$T_\psi(y)$と$x$の差を表しています。
+
+よって、$T_\phi(T_\psi(y)) = y$が成り立ちます。
+
+同様に、$T_\psi(T_\phi(x)) = x$も証明することができます。
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
+\begin{proof}[\hyperlink{convex set of T}{Proof of \hypertarget{convex set}{$T_\phi(x) = \underset{y \in \Omega} {\operatorname{argmin}}\left( \frac{1}{2 \tau} |x - y|^2 - \phi(y) \right)$は凸集合}}]
 
+    $\phi$が$c$-concaveであると仮定します。
+    
+    関数$f(y) = \frac{1}{2 \tau} |x - y|^2 - \phi(y)$を考えます。この関数は凸関数です。なぜなら、次のような理由からです：
+    
+    \begin{enumerate}
+        \item 二次関数$\frac{1}{2 \tau} |x - y|^2$は凸関数です。二次関数はそのヘッセ行列が半正定値であるため、凸性を持ちます。
+        \item $\phi$が$c$-凹関数より、$-\phi(y)$は下に凸です。$\phi$が$c$-concaveであるため、$\phi$の下に凸な接平面が存在し、その接平面よりも下に凸な部分を持ちます。
+        \item 凸関数の足し算は凸関数。
+    \end{enumerate}
+    
+    したがって、$f(y) = \frac{1}{2 \tau} |x - y|^2 - \phi(y)$は凸関数です。
+    
+    関数$f(y)$の最小値を実現する点の集合は凸集合です。なぜなら、凸関数の最小値を実現する点の集合は常に凸集合であり、$f(y)$は凸関数であるためです。
+    
+    したがって、$\underset{y \in \Omega} {\operatorname{argmin}}\left( \frac{1}{2 \tau} |x - y|^2 - \phi(y) \right)$は凸集合です。
+\end{proof}
+    
 
-まず、与えられた式を使用して、$\delta J(\phi)$を展開します。
-
-\begin{align*}
-\delta J(\phi) &= \frac{d}{d\varepsilon}\Bigg|_{\varepsilon=0} J(\phi+\varepsilon u) \\
-&= \frac{d}{d\varepsilon}\Bigg|_{\varepsilon=0} \left( U^*(-(\phi+\varepsilon u)) - \int_{\Omega} (\phi+\varepsilon u) \, d\mu \right) \\
-&= \frac{d}{d\varepsilon}\Bigg|_{\varepsilon=0} \left( U^*(-\phi-\varepsilon u) - \int_{\Omega} \phi \, d\mu - \varepsilon \int_{\Omega} u \, d\mu \right) \\
-&= \frac{d}{d\varepsilon}\Bigg|_{\varepsilon=0} \left( U^*(-\phi-\varepsilon u) - \int_{\Omega} \phi \, d\mu \right) - \int_{\Omega} u \, d\mu \\
-&= \frac{d}{d\varepsilon}\Bigg|_{\varepsilon=0} \left( U^*(-(\phi+\varepsilon u)) - \int_{\Omega} \phi \, d\mu \right) - \int_{\Omega} u \, d\mu \\
-&= \lim_{\varepsilon \to 0} \frac{(U^*(-(\phi+\varepsilon u)))^c - (U^*(-\phi))^c}{\varepsilon} - \int_{\Omega} u \, d\mu \\
-&= \lim_{\varepsilon \to 0} \frac{(-(\phi+\varepsilon u))^c - (-\phi)^c}{\varepsilon} - \int_{\Omega} u \, d\mu \\
-&= \lim_{\varepsilon \to 0} \frac{(\phi + \varepsilon u)^c - \phi^c}{\varepsilon} - \int_{\Omega} u \, d\mu \\
-&= -\int_{\Omega} u \, d\mu - \lim_{\varepsilon \to 0} \frac{(\phi + \varepsilon u)^c - \phi^c}{\varepsilon}
-\end{align*}
-
-ここで、与えられた式 $\lim_{\varepsilon \to 0} \frac{(\phi + \varepsilon u)^c(x) - \phi^c(x)}{\varepsilon} = - u(T_\phi(x))$ を利用します。これにより、
-
-\begin{align*}
-\delta J(\phi) &= -\int_{\Omega} u \, d\mu - \lim_{\varepsilon \to 0} \frac{(\phi + \varepsilon u)^c - \phi^c}{\varepsilon} \\
-&= -\int_{\Omega} u \, d\mu - (-u(T_\phi(x))) \\
-&= -\int_{\Omega} u \, d\mu + u(T_\phi(x)) \\
-&= u(T_\phi(x)) - \int_{\Omega} u \, d\mu \\
-&= u(T_\phi(x)) - T_{\phi \#} \mu
-\end{align*}
-
-以上により、$\delta J(\phi) = \delta U^*(- \phi) - T_{\phi \#} \mu$ が証明されました。
-
-
-$$
-\lim_{\varepsilon \to 0} \frac{(\phi + \varepsilon u)^c(x) - \phi^c(x)}{\varepsilon} = - u(T_\phi(x))
-$$
-これを使って、
-  \[
-    \delta J(\phi) = \delta U^*(- \phi) - T_{\phi \#} \mu,
+\begin{proof}[Proof of Proposition \ref{prop:wasserstein}]
+    \hypertarget{proof:prop:wasserstein}{}
+    注意しておきますが、
+    {\color{teal}
+    与えられた \((\varphi, \psi) \in C\) に対して、{\color{red}\(\phi^c \geq \psi\) }が成り立ちます。
+    }
+    ただし、
+    \[
+    \phi^c(x) := \inf_y \left( \frac{1}{2\tau}|x-y|^2 - \phi(y)\right)
     \]
-を証明して欲しい
-ただし、 $U^*(- \phi)  =  \sup_{\rho \in L^1(\Omega)} \left( \int_\Omega \phi(y) , d\nu(y) - \int_\Omega \phi^c(y) , d\mu(y) \right)$ 
+    は \(\phi\) の c-変換（c-transform）です。なぜなら、
+    $
+        \mathcal{C}  := \{(\phi, \psi) \in C(\Omega) \times C(\Omega) : \psi(x) + \phi(y) \leq \frac{1}{2 \tau} |x - y|^2 \}. 
+    $
+    であり,
+    $
+    \psi(x) \le \frac{1}{2\tau}|x-y|^2 - \phi(y)
+    $
+    したがって、以下のようになります。
+    \begin{align*}
+        \frac{1}{2 \tau}W_2^2(\mu, \nu) &= \sup_{(\psi(x), \phi(y)) \in C}  \left( \int \psi(x) d\mu(x) + \int \phi(y) d\nu(y) \right),\\
+                                        &\leq \sup_{\phi \in C(\Omega)} \left( \int_{\Omega} \phi^c(x) \mu(x)dx + \int_{\Omega} \phi(y) \nu(y)dy \right) 
+    \end{align*}
 
+    また、$(\varphi, \psi) \in \mathcal{C} \implies (\psi^c, \psi) \in \mathcal{C}$
+    であるので,
+    \[
+        \sup_{(\psi(x), \phi(y)) \in C}  \left( \int \psi(x) d\mu(x) + \int \phi(y) d\nu(y) \right) \geq \sup_{\phi \in C(\Omega)} \left( \int_{\Omega} \phi^c(x) \mu(x)dx + \int_{\Omega} \phi(y) \nu(y)dy \right) 
+    \]
+    が成立する。よって,
+    \[
+        \sup_{(\psi(x), \phi(y)) \in C}  \left( \int \psi(x) d\mu(x) + \int \phi(y) d\nu(y) \right) = \sup_{\phi \in C(\Omega)} \left( \int_{\Omega} \phi^c(x) \mu(x)dx + \int_{\Omega} \phi(y) \nu(y)dy \right) 
+    \]
+\end{proof}
 
+\begin{proof}[Proof of Theorem \ref{thm:pushforward measure}]
+    \hypertarget{proof:thm:pushforward measure}{}
+    
+\end{proof}
 
-与申し訳ありませんが、与えられた式の表記にいくつかの誤りがありますので、修正して証明を行います。
+\begin{proof}[Proof of Lemma \ref{lem:monotone increasing}]
+    \hypertarget{proof:lem:monotone increasing}{}
+    Assuption \ref{ass:rho>0} により、内部エネルギーは非負の密度に対してのみ有限です。
+    したがって、
+    $$
+        U^*(\phi) = \sup_{\rho \geq 0} \left\{ \int_\Omega \phi(y) \rho(y) dy - U(\rho) \right\}.
+    $$
+    ある $\rho \in L^1(\Omega)$ を取る、ただし$\rho(y) \geq 0 \text{ a.e.}$ であるとします。
+    すると、次の不等式が成り立ちます。
+    $$
+        \int \phi_0(y) \rho(y) dy - U(\rho) \leq \int \phi_1(y) \rho(y) dy - U(\rho).
+    $$
+    $\rho \geq 0$ に対して上記の不等式の上限を取ることで、証明が完了する。
+    
+\end{proof}
 
-まず、修正された式を以下に示します。
+\begin{proof}[Proof of Proposition \ref{prop:functional}]
+    \hypertarget{proof:prop:functional}{}
+    Lemma \ref{lem:monotone increasing}の証明の論理に従って、次のように表現することができます。
+    $$
+        U^*(\psi^c) = \sup_{\rho \geq 0} \left( \int_\Omega \psi^c(y) \rho(y) dy - U(\rho) \right).
+    $$
+    $$
+        U^*(- \psi^c) = \sup_{\rho \geq 0} \left( \int_\Omega - \psi^c(y) \rho(y) dy - U(\rho) \right).
+    $$
 
-$$
-\lim_{\varepsilon \to 0} \frac{(\phi + \varepsilon u)^c(x) - \phi^c(x)}{\varepsilon} = -u(T_\phi(x))
-$$
+    次に、$\mathcal{M}(\Omega \times \Omega)$を$\Omega \times \Omega$上の非負測度の集合とし、与えられた密度$\rho \geq 0$に対して次のように定義します。
 
-この式を使って $\delta J(\phi) = \delta U^*(-\phi) - T_{\phi \#} \mu$ を証明します。
+    \[
+        \Pi(\rho) = \left\{ \pi \in \mathcal{M}(\Omega \times \Omega) : \iint_{\Omega \times \Omega} f(y) \, d\pi(x, y) = \int_\Omega f(y) \rho(y) \, dy,  \, \forall f \in C(\Omega) \right\}.
+    \]
 
-まず、$\delta J(\phi)$ の定義を展開します。
+    c-変換の定義を用いると、式は次のように書けます。
 
-$$
-\delta J(\phi) = \sup_{\rho \in L^1(\Omega)} \left( \int_\Omega \phi(y) \, d\rho(y) - \int_\Omega \phi^c(y) \, d\mu(y) \right) - T_{\phi \#} \mu
-$$
+    \begin{align*}
+        \int_\Omega - \psi^c(y) \rho(y) \, dy   &= - \int_\Omega \inf_{x \in \Omega} \left( \frac{1}{2\tau}|x-y|^2 - \psi(x)\right) \rho(y) \, dy,\\
+                                                &= \int_\Omega  \sup_{x \in \Omega} \left( \psi(x) - \frac{1}{2\tau}|x-y|^2 \right) \rho(y) \, dy,\\
+                                                &= \sup_{\pi \in \Pi(\rho)} \iint_{\Omega \times \Omega}\left(\psi(x) - \frac{1}{2 \tau}|x-y|^2 \right)\, d\pi(x, y).
+    \end{align*}
 
-次に、$\delta J(\phi)$ の最大値を実現する関数 $\rho$ を考えます。この関数によって $\delta J(\phi)$ の最大値が得られるとします。
+    したがって、以下のようになります。
 
-このとき、$\rho$ は以下のように表されます。
+    \begin{align*}
+        - U^*(- \psi^c) &= - \sup_{\rho \geq 0} \left( \int_\Omega - \psi^c(y) \rho(y) dy - U(\rho) \right),\\
+                        &= - \sup_{\rho \geq 0} \left( \sup_{\pi \in \Pi(\rho)} \left(\iint_{\Omega \times \Omega}  \left(\psi(x) - \frac{1}{2 \tau}|x-y|^2 \right) \, d\pi(x, y) \right)- U(\rho) \right),\\
+                        &= \inf_{\rho \geq 0} \left( - \sup_{\pi \in \Pi(\rho)} \left(\iint_{\Omega \times \Omega} \left(\psi(x) - \frac{1}{2 \tau}|x-y|^2 \right) \, d\pi(x, y) \right) + U(\rho) \right),\\
+                        &= \inf_{\rho \geq 0} \left( \inf_{\pi \in \Pi(\rho)} \left( - \iint_{\Omega \times \Omega}  \left(\psi(x) - \frac{1}{2 \tau}|x-y|^2 \right) \, d\pi(x, y) \right) + U(\rho) \right),\\
+                        &= \inf_{\rho \geq 0} \inf_{\pi \in \Pi(\rho)} U(\rho) -  \iint_{\Omega \times \Omega} \left( \psi(x) - \frac{1}{2 \tau} |x - y|^2\right) \, d\pi(x, y)
+    \end{align*}
 
-$$
-\rho(y) = (\phi(y) - \phi^c(y)) + x - \tau \nabla \phi^c(x)
-$$
+    これにより、$I$は$\psi$に関する一連の線形汎関数の下限として表現できることが明らかになりました。
+    {\color{teal}
+    したがって、$I$はproperであり、凹であり、弱上半連続です。同様の議論が$J$にも適用されます。
+    $U^*$が単調増加であることから($-U^*(- \cdot)$が単調増加であることから)、Lemma \ref{lem:monotone increasing}は任意の$\varphi$、$\psi \in C(\Omega)$に対して次の不等式が成り立つことを意味します。
+    \[
+        J(\varphi) \leq I(\varphi^c), \quad I(\psi) \leq J(\psi^c)
+    \]
+    したがって、次の関係が成り立ちます。
+    \[
+        \sup I(\psi) = \sup J(\varphi).
+    \]
+    }
+    $\varphi$と$\psi$が$c$-凹性を持つ場合、一次変分の式はProposition \ref{prop:transport map}から直接導かれます。
+    \begin{equation*}
+        \delta J(\phi) = \delta U^*(- \phi) - T_{\phi \#} \mu,
+    \end{equation*}
+    \begin{equation*}
+        \delta I(\psi) = \mu - T_{\psi \#} \delta U^* (- \psi^c).
+    \end{equation*}
 
-ここで、$\rho$ は $L^1(\Omega)$ の要素であるため、次の条件を満たす必要があります。
-
-$$
-\int_\Omega \rho(y) \, dy = 0
-$$
-
-この条件を満たすためには、$\int_\Omega \rho(y) \, dy = (\phi(x) - \phi^c(x)) + x - \tau \nabla \phi^c(x) = 0$ となる必要があります。
-
-したがって、$x - \tau \nabla \phi^c(x) = \phi^c(x) - \phi(x)$ が成り立ちます。
-
-この式は $T_\phi(x) = x - \tau \nabla \phi^c(x)$ の関係を表しています。
-
-さらに、与えられた式 $\lim_{\varepsilon \to 0} \frac{(\phi + \varepsilon u)^c(x) - \phi^c(x)}{\varepsilon} = -u(T_\phi(x))$ を使って証明を進めます。
-
-両辺を $\varepsilon$ で割り、$\varepsilon \to 0$ の極限を取ると、
-
-$$
-\lim_{\varepsilon \to 0} \frac{(\phi + \varepsilon u)^c(x) - \phi^c(x)}{\varepsilon} = -u(T_\phi(x))
-$$
-
-$$
-\frac{d}{d\varepsilon} (\phi + \varepsilon u)^c(x) \bigg|_{\varepsilon = 0} = -u(T_\phi(x))
-$$
-
-$(\phi + \varepsilon u)^c(x)$ の微分は次のように
-
-計算できます。
-
-$$
-\frac{d}{d\varepsilon} (\phi + \varepsilon u)^c(x) = -u(x)
-$$
-
-したがって、$-u(x) \bigg|_{\varepsilon = 0} = -u(T_\phi(x))$ が成り立ちます。
-
-つまり、$\delta J(\phi) = \delta U^*(-\phi) - T_{\phi \#} \mu$ の左辺と右辺が一致することが示されました。
-
-以上で証明が完了しました。もし他に疑問やご質問がありましたら、お知らせください。したら、お知らせください。
-
-
-
-
-
+    \begin{align*}
+        J(\phi) &= \int_{\Omega} \phi^c(x) \mu(x) \,dx - U^*(- \phi)\\
+        J(\phi + \epsilon u) &= \int_{\Omega} (\phi + \epsilon u)^c(x)\mu(x) \,dx - U^*(- \phi - \epsilon u)
+    \end{align*}
+    より、
+    \begin{align*}
+        J(\phi + \epsilon u) - J(\phi)  &= \int_{\Omega} (\phi + \epsilon u)^c(x)\mu(x) \,dx - U^*(- \phi - \epsilon u) - \left( \int_{\Omega} \phi^c(x) \mu(x) \,dx - U^*(- \phi) \right)\\
+                                        &= \int_\omega \left((\phi + \epsilon u)^c(x) - \phi^c(x) \right) \mu(x) \,dx - \left(U^*(- \phi - \epsilon u) - U^*(- \phi) \right)
+    \end{align*}
+    ここで、Proposition \ref{prop:transport map}を用いると、
+    \begin{align*}
+        \lim_{\epsilon \to 0} \frac{J(\phi + \epsilon u) - J(\phi)}{\epsilon} &= \lim_{\epsilon \to 0} \int_\omega \frac{(\phi + \epsilon u)^c(x) - \phi^c(x)}{\epsilon}\mu(x) \,dx - \frac{\left(U^*(- \phi - \epsilon u) - U^*(- \phi) \right)}{\epsilon}\\
+                                                            \delta J(\phi)(u)  &= \int_\omega \lim_{\epsilon \to 0} \frac{(\phi + \epsilon u)^c(x) - \phi^c(x)}{\epsilon} \, d\mu(x) - \lim_{\epsilon \to 0}\frac{\left(U^*(- \phi - \epsilon u) - U^*(- \phi) \right)}{\epsilon}\\
+                                                                              &= - \int_\omega u(T_\phi(x)) \, d\mu(x) + \delta U^*(- \phi)(u)\\
+                                                                              &=  - \int_\omega u(x) \, d\, T_{\phi \#} \mu(x) + \delta U^*(- \phi)(u) & (\because (\ref{def:pushforward_int}))\\
+                                                                              &=  - \int_\omega u(x) T_{\phi \#} \mu(x) \, dx + \delta U^*(- \phi)(u)\\
+                                                                              &= - \int_\omega u(x) T_{\phi \#} \mu(x)\, dx + \delta U^*(- \phi)(u)\\
+                                                                              &= \delta U^*(- \phi)(u) - \int_\omega u T_{\phi \#} \mu
+    \end{align*}
+    よって、
+    \begin{equation*}
+        \delta J(\phi) = \delta U^*(- \phi) - T_{\phi \#} \mu
+    \end{equation*}
+    
+    \begin{align*}
+        I(\psi) &= \int_{\Omega} \psi(x) \mu(x) \,dx - U^*(- \psi^c)\\
+        I(\psi + \epsilon u) &= \int_{\Omega} (\psi + \epsilon u)(x)\mu(x) \,dx - U^*((- \psi - \epsilon u)^c)
+    \end{align*}
+    より、
+    \begin{align*}
+        I(\psi + \epsilon u) -  I(\psi) &= \int_{\Omega} (\psi + \epsilon u)(x)\mu(x) \,dx - U^*((- \psi - \epsilon u)^c) - \int_{\Omega} \psi(x) \mu(x) \,dx + U^*(- \psi^c)\\
+                                        &= \int_{\Omega} (\psi + \epsilon u)(x) - \psi(x) \mu(x) \,dx -\left( U^*((- \psi - \epsilon u)^c) - U^*(- \psi^c) \right)\\
+    \end{align*}
+    \begin{align*}
+        \lim_{\epsilon \to 0} \frac{I(\psi + \epsilon u) -  I(\psi)}{\epsilon}    &= \int_{\Omega} \lim_{\epsilon \to 0} \frac{ (\psi + \epsilon u)(x) - \psi(x)}{\epsilon} \mu(x) \, dx - \lim_{\epsilon \to 0} \frac{\left( U^*((- \psi - \epsilon u)^c) - U^*(- \psi^c) \right)}{\epsilon}\\
+                                                                \delta I(\psi)(u) &= \int_{\Omega} u \mu(x) \, dx - 
+    \end{align*}
+    
+\end{proof}
 \end{document}

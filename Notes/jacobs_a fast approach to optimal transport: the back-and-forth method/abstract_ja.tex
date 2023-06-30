@@ -304,7 +304,8 @@ $c$-変換は、関数$\phi$を別の関数$\phi^c$にマップするもので�
   \item 任意の $x \in \Omega$ について、$\phi(x) \le \phi^{cc}(x)$ が成り立ち、$\phi(x) = \phi^{cc}(x)$ であるための必要十分条件は、$\phi$ が $c$-concave であることである。
   その結果、任意の連続関数$\phi$ について、$\phi^{ccc}(x) = \phi^{c}(x)$ が成立する。
   
-  \item $\phi$ が $c$-concave の場合、最小化問題 $\inf_{y \in \Omega} c(x, y) - \phi(y)$ はほとんど全ての(almost every) $x$ について唯一の最小値 $T_\phi(x)$ を持つ。
+  \item $\phi$ が $c$-concave の場合、最小化問題 $\inf_{y \in \Omega} c(x, y) - \phi(y)$ はほとんど全ての(almost every) $x$ について唯一の最小値を与える関数(最小化関数) $T_\phi(x)$ を持つ。
+  すなわち、$c(x, y) - \phi(y)$が最小値を取る時、 $y = T_\phi(x)$である。
   さらに、次の明示的な式が成り立ちます:
   \begin{equation*}
     T_\phi(x) = x - (\nabla h)^{-1}(\nabla \phi^c(x)),
