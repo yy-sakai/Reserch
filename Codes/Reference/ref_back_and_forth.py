@@ -138,7 +138,7 @@ for i in range(100):
     plt.matshow(pfwd)
     plt.savefig(f'{image_root}Tphi_mu{i:04}.png')
     plt.close()
-
+########################################################################
     sigma2, J, H1_sq = ascent(psi, phi, nu, mu, sigma2)
     if common_sigma:
         sigma1 = sigma2

@@ -2,7 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 from c_transform import c_transform
-from jacobs import push_forward1
+from sampling_push_forward import push_forward1
 from push_forward import lap_solve
 
 x = np.linspace(-1, 1, 201)

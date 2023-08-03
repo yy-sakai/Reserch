@@ -2,7 +2,6 @@ import numpy as np
 import math
 import matplotlib.pyplot as plt
 from c_transform import c_transform
-
 import numpy as np
 
 def push_forward2(mu, phi_c, h):
@@ -30,7 +29,7 @@ def push_forward2(mu, phi_c, h):
         #print(det)
         l_det.append(det)
         # x - \nabla\phi_c with respect to the cell grid
-        xcell = i - dphi_c / h
+        xcell = i - (dphi_c / h)
 
         # indices of the nearest cells
         ti = int(min(max(np.floor(xcell), 0.), n - 1))
@@ -42,6 +41,45 @@ def push_forward2(mu, phi_c, h):
         t_mu[i] = mu_inter * det
         
     return t_mu
+
+def push_forward2_tau(mu, phi_c, h, tau):
+    assert mu.shape == phi_c.shape
+    
+    t_mu = np.zeros_like(mu)
+
+    n = phi_c.shape[0]
+    l_dphi_c = []
+    l_det = []
+    
+    # iterate over each cell
+    for i in range(n):
+        # 3 neighboring cells
+        um = phi_c[max(i-1, 0)]
+        u = phi_c[i]
+        up = phi_c[min(i+1, n-1)]
+
+        # \nabla\phi_c
+        dphi_c = (up - um) / (2. * h)
+        #print(dphi_c)
+        l_dphi_c.append(dphi_c)
+        # det (I - tau * D^2\phi_c)
+        det = (1. - (up - 2. * u + um) / (h * h)) 
+        #print(det)
+        l_det.append(det)
+        # x - tau * \nabla\phi_c with respect to the cell grid
+        xcell = i - (dphi_c / h)
+
+        # indices of the nearest cells
+        ti = int(min(max(np.floor(xcell), 0.), n - 1))
+        tio = min(ti + 1, n - 1)
+
+        # interpolate the density value
+        mu_inter = mu[ti] * (1. - (xcell - np.floor(xcell))) + mu[tio] * (xcell - np.floor(xcell))
+
+        t_mu[i] = mu_inter * det
+        
+    return t_mu
+
 """
 def det(det, phi_c, h):
     assert det.shape == phi_c.shape
@@ -72,24 +110,42 @@ def lap_solve(f):
     # perform inverse fft and remove the even periodic extension
     return np.fft.irfft(ff)[:len(f)]
 
+def lap_solve_modified(f, theta1, theta2):
+    """Solves (\theta1 I - \theta2 \Delta)u = f with Neumann boundary condition on [0,1]. 
+    f needs to be given at all nodes including the endpoints. The mean of f is set to zero."""
+    # even periodic extension to get cosine series; imaginary part of the result will be zero
+    pf = np.concatenate((f, f[-2:0:-1]))
+    ff = np.fft.rfft(pf)
+    xi = np.linspace(0, 1, len(f))
+    N = len(f) - 1
+    ff[0] = 0 # set mean to 0
+    ff[1:] /= (theta2 * 4 * np.sin(0.5 * np.pi * xi[1:])**2 * N**2 + 1.*theta1)  # Modified denominator
+    # perform inverse fft and remove the even periodic extension
+    return np.fft.irfft(ff)[:len(f)]
+
 
 if __name__ == '__main__':
-    x = np.linspace(-10, 10, 10001)
+    
+    tau = 1 / 2
+    x = np.linspace(-10, 10, 101)
     p = x
-    #y = np.random.random(len(x))
-    #y = np.sin(x) / 40
+    #y = tau * np.random.random(len(x))
+    #y = np.sin(x)      #(y = tau * phi)
     y = 0.5 * x * x
+    phi = y
     #y = 0 * x
-
+    
     phi_c, _ = c_transform(x, y, p)
-    #plt.plot(x, t)
-    #plt.show() 
+    #phi_c *= tau                    # phi_c = (1 / tau) * (tau * phi)_c
+    #plt.plot(x, t)     
+    #plt.show()  
    
     h = x[1] - x[0]
     mu = np.ones_like(x)
     #mu[np.abs(x) < 1] = 0
     nu = push_forward2(mu, phi_c, h) #phi_c^c = psi
-
+    #nu = push_forward2_tau(mu, phi_c, h, tau) #phi_c^c = psi
+    
     plt.plot(x, mu)
     plt.plot(x, nu)
     plt.show() 

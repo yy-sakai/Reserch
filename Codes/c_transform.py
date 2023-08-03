@@ -20,7 +20,6 @@ def c_transform(x, phi, p):
     
     return 0.5 * p * p - t, index  # phi^c(p) = |p|^2 / 2 - f^*(p)
 
-
 if __name__ == '__main__':
     
     x = np.array([0, 1])

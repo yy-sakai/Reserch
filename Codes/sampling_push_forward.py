@@ -7,7 +7,7 @@ def dist(a, b):
     return abs(a - b)
 
 ##########################################################
-
+#sampling pushforward
 def push_forward1(mu, phi_c, h):
     assert mu.shape == phi_c.shape
     
@@ -96,10 +96,10 @@ def lap_solve(f):
 
 
 if __name__ == '__main__':
-    x = np.linspace(-10, 10, 101)
+    x = np.linspace(-10, 10, 10001)
     p = x
     #y = np.random.random(len(x))
-    #y = np.sin(0.5 * x)
+    #y = 0.5 * np.sin(x)
     y = 0.5 * x * x
     #y = 0 * x
 
