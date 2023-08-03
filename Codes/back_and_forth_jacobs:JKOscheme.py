@@ -169,19 +169,6 @@ for k in range(100):
     plt.close()
     #img1, = ax.plot(x, pfwd, color='red',label=r'$T_{\phi \#} \mu$')
     
-    
-    
-    
-    
-J = np.array(hist.J)
-plt.semilogy(np.max(J) - J)
-plt.savefig(f'{image_root}_J.png')
-plt.close()
-
-I = np.array(hist.I)
-plt.semilogy(np.max(I) - I)
-plt.savefig(f'{image_root}_I.png')
-plt.close()
 
 plt.semilogy(hist.H1_sq)
 plt.savefig(f'{image_root}_H1_sq.png')
