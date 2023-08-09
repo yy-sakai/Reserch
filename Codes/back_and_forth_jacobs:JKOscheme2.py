@@ -5,13 +5,12 @@ from c_transform import c_transform
 from push_forward_jacobian import push_forward2
 from push_forward_jacobian import lap_solve
 
-image_root = "/Users/sakaiyukito/Downloads/LABO/images/back_and_forth_jacobi_JKO/"
+image_root = "/Users/sakaiyukito/Downloads/LABO/images/back_and_forth_jacobi2/"
 os.makedirs(image_root, exist_ok = True)
 
 # Wasserstein distance \int \phi d\nu + \int \phi^c d\mu
 def w2(phi, psi, mu, nu):
     return np.sum(phi * nu + psi * mu)
-
 
 # ascent step of J(phi) = \int phi dnu + \int phi^c dmu
 # fills phi and phi_c, returns new sigma
@@ -69,7 +68,6 @@ hist.Tpsi_nu = []
 for k in range(100):
     if k == 0:
         plt.title(r'back-and-forth update $\mu$ and $\nu$. Example 1:  Iterate ' + str(k))
-        #plt.ylim(-0.001, 0.015)
         plt.plot(x, mu,label=r'$\mu$')
         plt.plot(x, nu,label=r'$\nu$')
         plt.plot(x, phi,label=r'$\phi$')
@@ -79,7 +77,6 @@ for k in range(100):
         plt.close()
         
         plt.plot(x, phi,label=r'$\phi$')
-        #plt.ylim(-0.018, 0.005)
         plt.legend()
         plt.savefig(f'{image_root}phi{k:04}.png', )
         plt.close()

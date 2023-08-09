@@ -5,7 +5,7 @@ from c_transform import c_transform
 from sampling_push_forward import push_forward1
 from push_forward_jacobian import lap_solve
 
-image_root = "/Users/sakaiyukito/Downloads/LABO/images/back_and_forth_jacobi_JKO2/"
+image_root = "/Users/sakaiyukito/Downloads/LABO/images/back_and_forth_sampling/"
 os.makedirs(image_root, exist_ok = True)
 
 # Wasserstein distance \int \phi d\nu + \int \phi^c d\mu
@@ -36,9 +36,9 @@ def ascent(phi, phi_c, mu, nu, sigma):
 
 H1_sq = 0
 
-x = np.linspace(-1, 1, 65)
+x = np.linspace(-1, 1, 1000)
 p = x
-nu = np.exp(-(x)**2*100) #e^(-(x)^2 * 100)    #True: 1. False: 0.
+nu = np.exp(-(x)**2 * 100) #e^(-(x)^2 * 100)    #True: 1. False: 0.
 nu_0 = nu
 #nu /= np.sum(nu) #　 rho = rho / np.sum(rho)
 mu = nu
