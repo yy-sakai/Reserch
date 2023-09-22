@@ -1,0 +1,39 @@
+\documentclass[a4j,10pt, dvipdfmx]{jbook}
+%\documentclass[a4paper,uplatex,dvipdfmx,ja=standard,12pt,jafont=noalphabet,openany,oneside,draft]{bxjsbook} % draft
+
+\usepackage[print]{Thesis}
+%\usepackage[phd]{Thesis}
+%%%%%%%%% タイトルページの設定 %%%%%%%%%%%%%%%%%%
+\nendo{5}
+\thesistype{修士}
+\title{日本語タイトル}
+\etitle{English title}
+\kyokanA{}{POZAR NORBERT 准教授}
+\affiliation{金沢大学大学院　自然科学研究科}
+\major{博士前期課程　数物科学専攻}
+
+\regnum{2215011016}
+\author{坂井幸人}
+
+\begin{document}
+\maketitle
+
+\frontmatter
+\tableofcontents
+\listoffigures
+\listoftables
+
+\mainmatter
+\input{chapter1}
+\input{chapter2}
+\input{chapter3}
+\input{chapter4}
+\input{chapter5}
+\input{chapter6}
+\input{conclusion}
+
+\input{appendix}
+\bibliography{references}	
+\input{achievements}
+\input{acknowledgments}
+\end{document}
