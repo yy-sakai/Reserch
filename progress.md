@@ -1,3 +1,11 @@
+## 2023-09-20
+- Todo
+    - tauの値を設定
+    - 解析解との比較
+    - bafのerror < 10**(-3)でloopを抜けるようにする
+    - \theta_1, \theta_2に変更
+    - テーブルでまとめる
+
 ## 2022-12-08
 - Done
     - Understanding　for push forward.
