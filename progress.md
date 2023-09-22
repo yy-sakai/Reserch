@@ -2,7 +2,7 @@
 - Todo
     - tauの値を設定
     - 解析解との比較
-    - bafのerror < 10^(-3)でloopを抜けるようにする
+    - bafの $error < 10^(-3)$でloopを抜けるようにする
     - \theta_1, \theta_2に変更
     - テーブルでまとめる
 
