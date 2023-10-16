@@ -1,0 +1,216 @@
+\ProvidesPackage{Thesis}
+\newif\if@phd
+\newif\if@print
+\@phdfalse
+\@printfalse
+\DeclareOption{phd}{\@phdtrue}
+\DeclareOption{print}{\@printtrue}
+% 変数定義
+\def\nendo#1{\gdef\@nendo{#1}}
+\let\@nendo\relax
+\def\thesistype#1{\gdef\@thesistype{#1}}
+\let\@thesistype\relax
+\def\etitle#1{\gdef\@etitle{#1}}
+\let\@etitle\relax
+\def\kyokanA#1#2{\gdef\@kyokanA{#1}\gdef\@profA{#2}}
+\let\@kyokanA\relax
+\let\@profA\relax
+\def\kyokanB#1#2{\gdef\@kyokanB{#1}\gdef\@profB{#2}}
+\let\@kyokanB\relax
+\let\@profB\relax
+\def\affiliation#1{\gdef\@affil{#1}}
+\let\@affil\relax
+\def\major#1{\gdef\@major{#1}}
+\let\@major\relax
+\def\course#1{\gdef\@course{#1}}
+\let\@course\relax
+\def\regnum#1{\gdef\@regnum{#1}}
+\let\@regnum\relax
+\let\@date\relax
+
+% 表紙の設定
+\renewcommand\maketitle{%
+	\begin{titlepage}%
+		\let\footnotesize\small
+		\let\footnoterule\relax
+		\let\footnote\thanks
+		\null
+		\vskip 20\p@
+		\begin{center}%
+			{\Large%
+				令和\@nendo{}年度%
+				\quad \@thesistype{}論文\\
+				\vskip1\Cvs
+				\huge\
+				\textbf{\@title} \par%
+			}%
+			{\@ifundefined{@etitle}{}{%
+					\vskip 0.5em \Large\bf \@etitle \par}}
+			\vfil%
+			\vskip 10em
+			{\Large
+				指導教員 \begin{tabular}[t]{ll}
+					\@kyokanA & \@profA \\
+					\@kyokanB & \@profB
+				\end{tabular}
+			}\\
+			\vfil
+			{\Large
+				\@affil \vskip5pt
+				%       \begin{tabular}{ll}
+				%        \@major  & \@course \\
+				%        \@regnum & \@author
+				%       \end{tabular}
+				\begin{tabular}{c}
+					\@major  \\
+					\@course \\
+					\if@phd
+						\@author
+					\else
+						\@regnum \hspace{1em}\@author
+					\fi
+				\end{tabular}
+			}\\
+			\@ifundefined{@date}{}%
+			{\vskip 1.5em%
+				\Large \@date\quad 提出\par}%
+		\end{center}
+	\end{titlepage}%
+	
+	\setcounter{footnote}{0}%
+	\global\let\thanks\relax
+	\global\let\maketitle\relax
+	\global\let\p@thanks\relax
+	\global\let\@thanks\@empty
+	\global\let\@author\@empty
+	\global\let\@date\@empty
+	\global\let\@title\@empty
+	\global\let\title\relax
+	\global\let\author\relax
+	\global\let\date\relax
+	\global\let\and\relax
+	\setcounter{page}{0}
+	\cleardoublepage
+}%
+
+\ProcessOptions\relax
+
+% subsectionまで目次に表示
+\setcounter{tocdepth}{2} 
+
+%jsbookの余白設定
+\if@print
+\addtolength{\oddsidemargin}{10pt} %製本用の余白
+\addtolength{\evensidemargin}{-15pt} %製本用の余白	
+\fi
+
+% リンクを貼る
+\usepackage[dvipdfmx, bookmarkstype=toc, colorlinks=false, pdfborder={0 0 0}, bookmarks=true, bookmarksnumbered=true]{hyperref}
+\usepackage{pxjahyper}
+
+% 図を挿入するために必要
+\usepackage{graphicx}
+
+%figure 関係
+\usepackage[hang,small,bf]{caption}
+\usepackage{subcaption} 
+\captionsetup{subrefformat=parens}
+
+% bibtex用
+\usepackage[numbers,sort&compress]{natbib}
+\bibliographystyle{jecon}
+\usepackage{multirow} % セルの列方向の結合
+
+\usepackage{amsmath, newtxtext, newtxmath}% 数式環境がより便利となる。
+
+\usepackage{bm}% 太字ベクトルを使えるようにしている
+\usepackage{url} % url出力
+\usepackage{siunitx} % IS単位用
+\usepackage{accents}
+\usepackage{longtable}
+\usepackage{ulem}
+\setcounter{secnumdepth}{4} % 論理構造の数列表示の深さ"narrow field"
+\renewcommand{\bibsection}{\chapter*{\bibname}\addcontentsline{toc}{chapter}{\bibname}} % 参考文献がブックマークに入るようになる。\chapterでないのは、\appendix が前にあると「付録B 参考文献」のようになってしまうため
+\usepackage{booktabs} % 表中で\topruleとかが使えるようになる
+
+\newcommand*{\dotbm}[1]{\dot{\bm{#1}}} % bold dot
+\newcommand*{\ddotbm}[1]{\ddot{\bm{#1}}} % bold dot dot
+\newcommand*{\dotvec}[1]{\dot{\vec{#1}}} % vec dot
+\newcommand*{\ddotvec}[1]{\ddot{\vec{#1}}} % vec dot dot
+\newcommand*{\rmd}[0]{\mathrm{d}} % \mathrm{d}
+\newcommand*{\basis}[1]{\{\vec{#1}\}} % basis
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator*{\argmin}{arg\,min}
+
+\newcommand*{\twovec}[2] % 2D Vector (2x1 Matrix)
+{
+	\begin{bmatrix}
+		#1 \\
+		#2
+	\end{bmatrix}
+}
+
+\newcommand*{\thrvec}[3] % 3D Vector (3x1 Matrix)
+{
+	\begin{bmatrix}
+		#1 \\
+		#2 \\
+		#3
+	\end{bmatrix}
+}
+
+\newcommand*{\twomat}[4] % 2x2 Matrix
+{ 
+	\begin{bmatrix}
+		#1 & #2 \\
+		#3 & #4
+	\end{bmatrix}
+}
+
+\newcommand*{\thrmat}[9] % 3x3 Matrix
+{
+	\begin{bmatrix}
+		#1 & #2 & #3 \\
+		#4 & #5 & #6 \\
+		#7 & #8 & #9
+	\end{bmatrix}
+}
+
+\newcommand*{\twovect}[2] % 2x1 Matrix
+{
+	\begin{bmatrix}
+		#1 & #2
+	\end{bmatrix}
+}
+
+\newcommand*{\thrvect}[3] % 3x1 Matrix
+{
+	\begin{bmatrix}
+		#1 & #2 & #3
+	\end{bmatrix}
+}
+
+\newcommand*{\diff}[2] % 全微分
+{
+	\frac{\mathrm{d}#1}{\mathrm{d}#2}
+}
+
+\newcommand*{\difftp}[3] % 時間微分、括弧バージョン
+{
+	\left\{\frac{\mathrm{d}#1}{\mathrm{d}t}{#2}\right\}_{#3}
+}
+
+\newcommand*{\diffts}[1] % 時間微分、上付き文字バージョン
+{
+	\frac{{}^{#1}\mathrm{d}}{\mathrm{d}t}
+}
+
+\newcommand*{\pardif}[2] % 偏微分
+{
+	\frac{\partial #1}{\partial #2}
+}
+
+\newcommand*{\nonumbernewline}[0]
+{
+	\nonumber \\
+}

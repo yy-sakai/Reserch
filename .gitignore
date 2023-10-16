@@ -1,0 +1,11 @@
+/target
+*.png
+*.mp4
+*.JPG
+*.jpeg
+Reference/*
+Codes/Reference
+.DS_Store
+__pycache__
+*.synctex.gz
+*.npz
