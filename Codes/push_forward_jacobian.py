@@ -110,7 +110,7 @@ def lap_solve(f):
     # perform inverse fft and remove the even periodic extension
     return np.fft.irfft(ff)[:len(f)]
 
-def lap_solve_modified(f, theta1, theta2):
+def lap_solve_modified(f, theta_1, theta_2):
     """Solves (\theta1 I - \theta2 \Delta)u = f with Neumann boundary condition on [0,1]. 
     f needs to be given at all nodes including the endpoints. The mean of f is set to zero."""
     # even periodic extension to get cosine series; imaginary part of the result will be zero
@@ -118,8 +118,7 @@ def lap_solve_modified(f, theta1, theta2):
     ff = np.fft.rfft(pf)
     xi = np.linspace(0, 1, len(f))
     N = len(f) - 1
-    ff[0] = 0 # set mean to 0
-    ff[1:] /= (theta2 * 4 * np.sin(0.5 * np.pi * xi[1:])**2 * N**2 + 1.*theta1)  # Modified denominator
+    ff /= (theta_2 * 4 * np.sin(0.5 * np.pi * xi)**2 * N**2) + theta_1  
     # perform inverse fft and remove the even periodic extension
     return np.fft.irfft(ff)[:len(f)]
 

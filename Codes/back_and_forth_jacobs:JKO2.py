@@ -3,9 +3,9 @@ import matplotlib.pyplot as plt
 import os
 from c_transform import c_transform
 from push_forward_jacobian import push_forward2
-from push_forward_jacobian import lap_solve_modified
+from push_forward_jacobian import lap_solve
 
-image_root = "/Users/sakaiyukito/Downloads/LABO/images/back_and_forth_jacobi_test/"
+image_root = "/Users/sakaiyukito/Downloads/LABO/images/back_and_forth_jacobi_test2/"
 os.makedirs(image_root, exist_ok = True)
 
 # Wasserstein distance \int \phi d\nu + \int \phi^c d\mu
@@ -16,21 +16,18 @@ def w2(phi, psi, mu, nu):
 # fills phi and phi_c, returns new sigma
 # using Jacobian push fofward (push_forward2) 
 # common ascent scheme
-def ascent(phi, phi_c, mu, nu):
+def ascent(phi, phi_c, mu, nu, sigma):
     #phi_c[:] = phi
     
     phi_c, _ = c_transform(x, tau * phi, x)                        # 1-1  phi_c, _ = c_transform(x, phi, p)
     phi_c /= tau
 
-    nmu = max(np.abs(mu))
-    theta_1 = 1 / 2
-    theta_2 = tau * nmu
 
     pfwd = push_forward2(mu, tau * phi, h)           # 1-2-1     pfwd : T_{\phi\#}\mu = \mu(x - \tau \nabla \phi(x))|det(I - \tau D^2\phi_c))|
     rho = nu - pfwd                                 # 1-2-2     rho = \nu - T_{\phi\#}\mu　＝ \delta U^*(- \phi) - T_{\phi\#}\mu
     # TODO: This is by far the slowest part of the algorithm
-    lp = lap_solve_modified(rho, theta_1, theta_2)                             # 1-2-3     lp: \nabla_{\dot{H}^1} J(\phi_n) = (- \Delta)^{-1} * rho
-    phi += lp                               # 1-2-4   phi_{n + 1/2} = phi_n + sigma * lp
+    lp = lap_solve(rho)                             # 1-2-3     lp: \nabla_{\dot{H}^1} J(\phi_n) = (- \Delta)^{-1} * rho
+    phi += sigma * lp                               # 1-2-4   phi_{n + 1/2} = phi_n + sigma * lp
 #####################################################################
     #phi_c[:] = phi                                 
     phi_c, _ = c_transform(x, tau * phi, x)                    # 2    psi_{n + 1/2} = (phi_{n + 1/2})^c
@@ -48,15 +45,13 @@ nu_0 = nu
 mu = nu
 m = 2
 h = x[1] - x[0]
-tau = 0.00016
+tau = 0.001
 c = np.zeros_like(x)
-eps = 0.001             #1.0**(-3)
-diff = 1
 
 # U(\rho) = 1 / m-1 \int \rho^m dx 
 phi = -(m / (m - 1)) * nu ** (m - 1)  #\phi_0 = \phi^(0) = -\delta U(\nu^(0)) =  \delta U(\rho^(0))
 psi = np.zeros_like(nu)  
-
+sigma = 10
 
 class Hist: pass
 
@@ -69,12 +64,8 @@ hist.rho = []
 hist.Tphi_mu = []
 hist.Tpsi_nu = []
 
-# JKO scheme
-for t in range (100):
-    k = 0
-    diff = 1
-# The back-and-forth scheme for solving J(phi) and I(psi)
-    while diff >= eps:
+for t in range (50):
+    for k in range(1000):
         if k == 0 and t == 0:
             plt.title(r'back-and-forth update $\mu$ and $\nu$. Example 1:  Iterate ' + str(k))
             plt.plot(x, mu,label=r'$\mu$')
@@ -91,14 +82,9 @@ for t in range (100):
             plt.close()
             
         nu = (((m - 1) / m) * np.maximum(c - phi, 0)) ** (1 / (m - 1)) # \rho_*(x) = \delta U^*(- \phi) 
-        H1_sq, phi, psi, pfwd  = ascent(phi, psi, mu, nu)  # phi = phi_{k + 1/2}, psi = psi_{k + 1/2}
+        H1_sq, phi, psi, pfwd  = ascent(phi, psi, mu, nu, sigma)  # phi = phi_{k + 1/2}, psi = psi_{k + 1/2}
         
-        
-        # Calculate residual $||\nabla U^*(- \varphi) - T_{\phi \#} \mu||_{L^1(\Omega)}
-        #L1 norm
-        diff = np.sum(np.abs(nu - pfwd)) * h
-        
-        print(f'{k:3}:(H¹)² = {H1_sq:.3}, diff = {diff:.5}, k = {k}')
+        print(f'{k:3}:(H¹)² = {H1_sq:.3}')
             
         hist.H1_sq.append(H1_sq)
         #hist.phi.append(np.float32(phi))
@@ -116,7 +102,7 @@ for t in range (100):
         psi_c /= tau
         nu = (((m - 1)/ m) * np.maximum(c - psi_c, 0)) ** (1 / (m - 1)) # nu = T_{\psi \#} \delta U^* (- \psi^c)
         
-        H1_sq, psi, phi, pfwd = ascent(psi, phi, nu, mu)
+        H1_sq, psi, phi, pfwd = ascent(psi, phi, nu, mu, sigma)
         
         print(f'{k:3}:(H¹)² = {H1_sq:.3}')
         
@@ -138,8 +124,6 @@ for t in range (100):
         plt.close()
         """
     
-        k += 1
-        
     """"""
     mu = (((m - 1) / m) * np.maximum(c - phi, 0)) ** (1 / (m - 1)) # 
     plt.plot(x, mu,label=r'$\mu$')

@@ -1,11 +1,12 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import os
+import time
 from c_transform import c_transform
 from push_forward_jacobian import push_forward2
 from push_forward_jacobian import lap_solve_modified
 
-image_root = "/Users/sakaiyukito/Downloads/LABO/images/back_and_forth_jacobi_test/"
+image_root = "/Users/sakaiyukito/Downloads/LABO/images/back_and_forth_jacobi_test3/"
 os.makedirs(image_root, exist_ok = True)
 
 # Wasserstein distance \int \phi d\nu + \int \phi^c d\mu
@@ -25,6 +26,12 @@ def ascent(phi, phi_c, mu, nu):
     nmu = max(np.abs(mu))
     theta_1 = 1 / 2
     theta_2 = tau * nmu
+    print(round(tau * nmu, 7), round(tau * (1 + max(-(m / (m - 1)) * nu ** (m - 1))) / 2, 7))
+    # if k == 1:
+    #     theta_2 = tau * nmu
+    # else:
+    #     theta_2 = tau * (1 + max(-(m / (m - 1)) * nu ** (m - 1))) / 2
+    #     print(tau * nmu, theta_2)
 
     pfwd = push_forward2(mu, tau * phi, h)           # 1-2-1     pfwd : T_{\phi\#}\mu = \mu(x - \tau \nabla \phi(x))|det(I - \tau D^2\phi_c))|
     rho = nu - pfwd                                 # 1-2-2     rho = \nu - T_{\phi\#}\mu　＝ \delta U^*(- \phi) - T_{\phi\#}\mu
@@ -38,6 +45,9 @@ def ascent(phi, phi_c, mu, nu):
     H1_sq = np.mean(rho * lp)                        #######       ?
     return H1_sq, phi, phi_c, pfwd   #  ?
 
+# whether to plot all timesteps and save the time step data
+track = True
+
 H1_sq = 0
 
 x = np.linspace(-1, 1, 65)
@@ -48,10 +58,11 @@ nu_0 = nu
 mu = nu
 m = 2
 h = x[1] - x[0]
-tau = 0.00016
+tau = 1e-3
 c = np.zeros_like(x)
-eps = 0.001             #1.0**(-3)
+eps = 1e-3             #1.0**(-3)
 diff = 1
+M = nu
 
 # U(\rho) = 1 / m-1 \int \rho^m dx 
 phi = -(m / (m - 1)) * nu ** (m - 1)  #\phi_0 = \phi^(0) = -\delta U(\nu^(0)) =  \delta U(\rho^(0))
@@ -70,26 +81,34 @@ hist.Tphi_mu = []
 hist.Tpsi_nu = []
 
 # JKO scheme
-for t in range (100):
-    k = 0
+
+start = time.process_time()
+
+for i in range (50):
+    j = 0
     diff = 1
+    count = 0
 # The back-and-forth scheme for solving J(phi) and I(psi)
     while diff >= eps:
-        if k == 0 and t == 0:
-            plt.title(r'back-and-forth update $\mu$ and $\nu$. Example 1:  Iterate ' + str(k))
+        if count > 200:
+            break
+        if i == 0 and j == 0:
+            plt.ylim([0, 1.2])
+            plt.title(r'back-and-forth update $\mu$ and $\nu$. Example 1:  Iterate ' + str(j))
             plt.plot(x, mu,label=r'$\mu$')
             plt.plot(x, nu,label=r'$\nu$')
             #plt.plot(x, phi,label=r'$\phi$')
-            plt.plot(x, nu_0 +  tau * 200 * np.exp(-(x)**2 * 100) * (200 * x**2 - 1), label=r'appr')
+            plt.plot(x, (np.maximum(((M / (4 * np.pi * m * (time.process_time() - start)))**((m - 1)/ m) - ((m - 1) / (4 * m**2 * (time.process_time() - start)) * x**2))**(1 / (m - 1)), 0)), label=r'appr')
             plt.legend(prop={'size': 15})
-            plt.savefig(f'{image_root}Tphi_mu,Tpsi_nu{k:04}.png', )
+            plt.savefig(f'{image_root}Tphi_mu,Tpsi_nu{j:04}.png', )
             plt.close()
             
             plt.plot(x, phi,label=r'$\phi$')
             plt.legend()
-            plt.savefig(f'{image_root}phi{k:04}.png', )
+            plt.savefig(f'{image_root}phi{j:04}.png', )
             plt.close()
             
+        #k = 1
         nu = (((m - 1) / m) * np.maximum(c - phi, 0)) ** (1 / (m - 1)) # \rho_*(x) = \delta U^*(- \phi) 
         H1_sq, phi, psi, pfwd  = ascent(phi, psi, mu, nu)  # phi = phi_{k + 1/2}, psi = psi_{k + 1/2}
         
@@ -98,7 +117,7 @@ for t in range (100):
         #L1 norm
         diff = np.sum(np.abs(nu - pfwd)) * h
         
-        print(f'{k:3}:(H¹)² = {H1_sq:.3}, diff = {diff:.5}, k = {k}')
+        print(f'{i:3}:(H¹)² = {H1_sq:.3}, diff = {diff:.5}, j = {j}')
             
         hist.H1_sq.append(H1_sq)
         #hist.phi.append(np.float32(phi))
@@ -114,11 +133,12 @@ for t in range (100):
         
         psi_c, _ = c_transform(x, tau * psi, x)        # 3-1  phi_c, _ = c_transform(x, phi, p)
         psi_c /= tau
-        nu = (((m - 1)/ m) * np.maximum(c - psi_c, 0)) ** (1 / (m - 1)) # nu = T_{\psi \#} \delta U^* (- \psi^c)
         
+        #k = 2
+        nu = (((m - 1)/ m) * np.maximum(c - psi_c, 0)) ** (1 / (m - 1)) # nu = T_{\psi \#} \delta U^* (- \psi^c)
         H1_sq, psi, phi, pfwd = ascent(psi, phi, nu, mu)
         
-        print(f'{k:3}:(H¹)² = {H1_sq:.3}')
+        print(f'{j:3}:(H¹)² = {H1_sq:.3}')
         
         hist.H1_sq.append(H1_sq)
         hist.Tpsi_nu.append(np.float32(pfwd))
@@ -138,16 +158,24 @@ for t in range (100):
         plt.close()
         """
     
-        k += 1
+        j += 1
+        count+= 1
         
     """"""
     mu = (((m - 1) / m) * np.maximum(c - phi, 0)) ** (1 / (m - 1)) # 
-    plt.plot(x, mu,label=r'$\mu$')
+    print(f'Elapsed {time.process_time() - start:.3}s')
     
-    #plt.plot(x, nu +  tau * 200 * np.exp(-(x)**2 * 100) * (200 * x**2 - 1), label=r'appr')
-    plt.plot(x, phi,label=r'$\phi$')
+    alpha = 1 / (m-1)
+    beta = 1 / (m+1)
+    gamma = (m-1) / (2*m*(m+1))
+    plt.ylim([0, 1.2])
+    plt.plot(x, nu,label=r'$\nu$')
+    #plt.plot(x, nu,label=r'$\nu$')
+    plt.plot(x, np.maximum(((M / (4 * np.pi * m * (time.process_time() - start)))**((m - 1)/ m) - ((m - 1) / (4 * m**2 * (time.process_time() - start)) * x**2))**(1 / (m - 1)), 0), label=r'appr')
+    plt.plot(x, np.maximum((1 /(time.process_time() - start)**beta * (M - gamma*(x/(time.process_time() - start)**beta)**2)**alpha), 0), label=r'appr2')
+    #plt.plot(x, phi,label=r'$\phi$')
     plt.legend(prop={'size': 15})
-    plt.savefig(f'{image_root}Tphi_mu,Tpsi_nu{t+1:04}.png', )
+    plt.savefig(f'{image_root}Tphi_mu,Tpsi_nu{i+1:04}.png', )
     plt.close()
 
 
