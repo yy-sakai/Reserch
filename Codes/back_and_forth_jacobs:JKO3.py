@@ -98,7 +98,7 @@ for i in range (50):
             plt.plot(x, mu,label=r'$\mu$')
             plt.plot(x, nu,label=r'$\nu$')
             #plt.plot(x, phi,label=r'$\phi$')
-            plt.plot(x, (np.maximum(((M / (4 * np.pi * m * (time.process_time() - start)))**((m - 1)/ m) - ((m - 1) / (4 * m**2 * (time.process_time() - start)) * x**2))**(1 / (m - 1)), 0)), label=r'appr')
+            #plt.plot(x, (np.maximum(((M / (4 * np.pi * m * i))**((m - 1)/ m) - ((m - 1) / (4 * m**2 * i) * x**2))**(1 / (m - 1)), 0)), label=r'appr')
             plt.legend(prop={'size': 15})
             plt.savefig(f'{image_root}Tphi_mu,Tpsi_nu{j:04}.png', )
             plt.close()
@@ -165,14 +165,15 @@ for i in range (50):
     mu = (((m - 1) / m) * np.maximum(c - phi, 0)) ** (1 / (m - 1)) # 
     print(f'Elapsed {time.process_time() - start:.3}s')
     
-    alpha = 1 / (m-1)
-    beta = 1 / (m+1)
-    gamma = (m-1) / (2*m*(m+1))
+    #alpha = 1 / (m-1)
+    #beta = 1 / (m+1)
+    #gamma = (m-1) / (2*m*(m+1))
     plt.ylim([0, 1.2])
     plt.plot(x, nu,label=r'$\nu$')
     #plt.plot(x, nu,label=r'$\nu$')
-    plt.plot(x, np.maximum(((M / (4 * np.pi * m * (time.process_time() - start)))**((m - 1)/ m) - ((m - 1) / (4 * m**2 * (time.process_time() - start)) * x**2))**(1 / (m - 1)), 0), label=r'appr')
-    plt.plot(x, np.maximum((1 /(time.process_time() - start)**beta * (M - gamma*(x/(time.process_time() - start)**beta)**2)**alpha), 0), label=r'appr2')
+    t = i * tau
+    if i > 0:
+        plt.plot(x, (np.maximum(((M / (4 * np.pi * m * t))**((m - 1)/ m) - ((m - 1) / (4 * m**2 * t) * x**2))**(1 / (m - 1)), 0)), label=r'appr')    #plt.plot(x, np.maximum((1 /(time.process_time() - start)**beta * (M - gamma*(x/(time.process_time() - start)**beta)**2)**alpha), 0), label=r'appr2')
     #plt.plot(x, phi,label=r'$\phi$')
     plt.legend(prop={'size': 15})
     plt.savefig(f'{image_root}Tphi_mu,Tpsi_nu{i+1:04}.png', )

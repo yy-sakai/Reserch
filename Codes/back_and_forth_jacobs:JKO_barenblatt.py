@@ -1,4 +1,5 @@
 import numpy as np
+
 import matplotlib.pyplot as plt
 import os
 import time
@@ -6,7 +7,7 @@ from c_transform import c_transform
 from push_forward_jacobian import push_forward2
 from push_forward_jacobian import lap_solve_modified
 
-image_root = "/Users/sakaiyukito/Downloads/LABO/images/back_and_forth_jacobi_test1/"
+image_root = "/Users/sakaiyukito/Downloads/LABO/images/back_and_forth_jacobi_test3/"
 os.makedirs(image_root, exist_ok = True)
 
 # Wasserstein distance \int \phi d\nu + \int \phi^c d\mu
@@ -21,7 +22,7 @@ def ascent(phi, phi_c, mu, nu):
     phi_c, _ = c_transform(x, tau * phi, x)                        # 1-1  phi_c, _ = c_transform(x, phi, p)
     phi_c /= tau
 
-    nmu = max(np.abs(mu))
+    nmu = max(abs(mu))
     theta_1 = 1 / (2 * gamma)
     theta_2 = tau * nmu
     
@@ -41,15 +42,14 @@ track = True
 H1_sq = 0
 
 
-x = np.linspace(-1, 1, 101)
+x = np.linspace(-0.5, 0.5, 257)
 h = x[1] - x[0]
-diff = 1
 
 
 # Set parameters
 m = 2
 c = np.zeros_like(x)
-tau = 0.1
+tau = 0.025
 eps = 1e-3             #1.0**(-3)
 M = 0.5
 b = (np.sqrt(3) * M / 8)**(2 / 3) 
@@ -81,7 +81,8 @@ hist.Tpsi_nu = []
 # JKO scheme
 
 start = time.process_time()
-for real_t in [0., 0.4, 0.8, 2.]:
+timestep = np.arange(0, 2, tau)
+for real_t in timestep:
     diff = 1
     count = 0
 # The back-and-forth scheme for solving J(phi) and I(psi)
@@ -94,7 +95,8 @@ for real_t in [0., 0.4, 0.8, 2.]:
             plt.plot(x, mu,label=r'$\mu$')
             plt.plot(x, nu,label=r'$\nu$')
             #plt.plot(x, phi,label=r'$\phi$')
-            plt.plot(x, np.maximum(1 / t**(1 / 3) * (b - (1 / (12 * t**(2 / 3))) * x**2), 0), "--",label=r'exact')
+            u = np.maximum(1 / t**(1 / 3) * (b - (1 / (12 * t**(2 / 3))) * x**2), 0)
+            plt.plot(x, u, "--",label=r'exact')
             plt.legend(prop={'size': 15})
             plt.savefig(f'{image_root}Tphi_mu,Tpsi_nu{real_t:.2}.png', )
             plt.close()
@@ -103,6 +105,9 @@ for real_t in [0., 0.4, 0.8, 2.]:
             plt.legend()
             plt.savefig(f'{image_root}phi{count:04}.png', )
             plt.close()
+            error = sum(abs((u - nu)[1:] + (u - nu)[:-1]) * h / 2) 
+            #print('error = ', error)
+            
             
         nu = (((m - 1) / (m * gamma)) * np.maximum(c - phi, 0)) ** (1 / (m - 1)) # \rho_*(x) = \delta U^*(- \phi) 
         H1_sq, phi, psi, pfwd  = ascent(phi, psi, mu, nu)  # phi = phi_{k + 1/2}, psi = psi_{k + 1/2}
@@ -110,9 +115,10 @@ for real_t in [0., 0.4, 0.8, 2.]:
         
         # Calculate residual $||\nabla U^*(- \varphi) - T_{\phi \#} \mu||_{L^1(\Omega)}
         #L1 norm
-        diff = np.sum(np.abs(nu - pfwd)) * h
+        diff = sum(abs(nu - pfwd) * h)
+        stepsize = timestep[1] - timestep[0]
         
-        print(f'{real_t:.2}:(H¹)² = {H1_sq:.3}, diff = {diff:.5}, baf_roop = {count}')
+        print(f'{real_t + stepsize:.4}:(H¹)² = {H1_sq:.3}, diff = {diff:.5}, baf_roop = {count}')
             
         hist.H1_sq.append(H1_sq)
         #hist.phi.append(np.float32(phi))
@@ -126,7 +132,7 @@ for real_t in [0., 0.4, 0.8, 2.]:
         nu = (((m - 1)/ (m * gamma)) * np.maximum(c - psi_c, 0)) ** (1 / (m - 1)) # nu = T_{\psi \#} \delta U^* (- \psi^c)
         H1_sq, psi, phi, pfwd = ascent(psi, phi, nu, mu)
         
-        print(f'{real_t:.2}:(H¹)² = {H1_sq:.3}, diff = {diff:.5}, baf_roop = {count}')
+        print(f'{real_t + stepsize:.4}:(H¹)² = {H1_sq:.3}, diff = {diff:.5}, baf_roop = {count}')
         
         hist.H1_sq.append(H1_sq)
         hist.Tpsi_nu.append(np.float32(pfwd))
@@ -142,19 +148,24 @@ for real_t in [0., 0.4, 0.8, 2.]:
     plt.ylim([-0.1, 15.1])
     plt.plot(x, nu,label=r'$\nu$')
     
-
-    t = (real_t * tau + t0) * gamma
+    
+    t = (real_t + stepsize + t0) * gamma
     u = np.maximum(1 / t**(1 / 3) * (b - (1 / (12 * t**(2 / 3))) * x**2), 0)
     area = sum((u[1:] + u[:-1]) * (x[1] - x[0]) / 2)
     print(area)
     plt.plot(x, u, "--", label=r'exact')    
+    
+    error += sum(abs((u - nu)[1:] + (u - nu)[:-1]) * h / 2) 
+    #print('error = ', error)
    
     #plt.plot(x, phi,label=r'$\phi$')
     plt.legend(prop={'size': 15})
-    plt.savefig(f'{image_root}Tphi_mu,Tpsi_nu{real_t :.2}.png', )
+    plt.savefig(f'{image_root}Tphi_mu,Tpsi_nu{real_t + stepsize:.4}.png', )
     plt.close()
 
 
+error /= 2 / tau
+print('error = ', error)
 plt.semilogy(hist.H1_sq)
 plt.savefig(f'{image_root}_H1_sq.png')
 plt.close()
