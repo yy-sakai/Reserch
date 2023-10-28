@@ -1,9 +1,10 @@
 import numpy as np
-import math
 import matplotlib.pyplot as plt
+from numba import njit
 from c_transform import c_transform
 import numpy as np
 
+@njit
 def push_forward2(mu, phi_c, h):
     assert mu.shape == phi_c.shape
     
@@ -109,6 +110,7 @@ def lap_solve(f):
     ff[1:] /= 4 * np.sin(0.5 * np.pi * xi[1:])**2 * N**2
     # perform inverse fft and remove the even periodic extension
     return np.fft.irfft(ff)[:len(f)]
+
 
 def lap_solve_modified(f, theta_1, theta_2):
     """Solves (\theta1 I - \theta2 \Delta)u = f with Neumann boundary condition on [0,1]. 

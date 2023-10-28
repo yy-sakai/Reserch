@@ -1,8 +1,9 @@
 import numpy as np
 import matplotlib.pyplot as plt
+from numba import njit
 from legendre_fenchel import legendre_fenchel
 
-
+@njit
 def c_transform(x, phi, p):
     """costが c(x,p) = |x - p|^2 / 2 である時の、φ phi = φ(y)の c-transform "ψ(psi) = φ^c(p) = |p|^2/2 - φ(p)" を計算する.
     c-transform の値と、 legendre fenchel transform で sup(max) となる時の 座標の添字を return する.
@@ -18,7 +19,7 @@ def c_transform(x, phi, p):
     psi = 0.5 * x * x - phi                                  # ①
     t, index  = legendre_fenchel(x, psi, p)  #t = f^*(p)       ②
     
-    return 0.5 * p * p - t, index  # phi^c(p) = |p|^2 / 2 - f^*(p)
+    return 0.5 * p * p - np.array(t), index  # phi^c(p) = |p|^2 / 2 - f^*(p)
 
 if __name__ == '__main__':
     

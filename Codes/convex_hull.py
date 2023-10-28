@@ -1,7 +1,10 @@
 import numpy as np
 import math
+from numba import njit
 import matplotlib.pyplot as plt
 
+
+@njit
 def convex_hull(x, y):
     # 関数f(x, y)のconvex hullを計算する。(y_i = f(x_i))
     # x座標とy座標を入力すると、convex hullのx座標の添字i(x_i)と傾き（その点と一つ前の点で作る傾き）をreturnする。

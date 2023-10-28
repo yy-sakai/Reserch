@@ -1,7 +1,9 @@
 import numpy as np
 from convex_hull import convex_hull
+from numba import njit
 import matplotlib.pyplot as plt
 
+@njit
 def legendre_fenchel(x, y, p):
     #y = f(x)で与えられるinput(x, y)に対し、Legendre-Fenchel transformを計算する
     #(f^*(p)=sup_x(px - f(x)) = inf_x(f(x)-px), 傾きvを固定し,x[i] p - y[i]が最大となるx[i]を探す。すなわち、傾きvがある点x[i]での∇f(x[i])となるx[i]を探す
@@ -12,7 +14,8 @@ def legendre_fenchel(x, y, p):
     v.append(np.Inf)
 
     t = []
-    iopt = np.zeros_like(p, dtype=int)           #x = v = np.linspace(-10, 10, 100),  np.zeros_like():要素全て0に初期化
+    iopt = np.zeros_like(p, dtype=np.int64)           #x = v = np.linspace(-10, 10, 100),  np.zeros_like():要素全て0に初期化
+    #iopt = np.zeros(len(p), dtype=np.int64) 
     i = 0
     for j, p in enumerate(p):
         while p > v[i]:                  #v[i]:現在と次の点を結んだ線の傾きは単調増加より、p:[-10,10]を99等分(-10,…,10)したものに対し、v[i]^を大きくしていき、
