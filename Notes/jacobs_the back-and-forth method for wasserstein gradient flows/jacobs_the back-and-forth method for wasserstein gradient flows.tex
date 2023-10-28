@@ -10,6 +10,9 @@
 \usepackage{here, amsmath, latexsym, amssymb, bm, ascmac, mathtools, multicol, tcolorbox, subfig, graphicx, comment, pgfplots}
 \usepackage{algpseudocode}
 \usepackage{algorithm}
+\usepackage{tikz, pgfplots}
+\usetikzlibrary{intersections}
+\usepgfplotslibrary{fillbetween}
 
 %
 
@@ -1411,22 +1414,93 @@ $V$が$\Omega$の閉じた集合$E \in \Omega$で$+ \infty$の値を取る場合
     U(\rho) = \int_\Omega \frac{\gamma}{m - 1}\rho(x)^m dx
 \]
 のWasserstein勾配流となります。
-初期データの単純さにより、領域\(R^2\)上で方程式には閉じた形の解が存在し、これはBarenblatt solutionとして知られています。
-Barenblatt solutionは以下のように与えられます(ただし、$(\cdot)_+ = max(\cdot, 0)$):
+初期データの単純さにより、領域\(R\)上で方程式には閉じた形の解が存在し、これはBarenblatt solutionとして知られています。
+Barenblatt solutionは以下のように与えられます(ただし、$(\cdot)_+ = max(\cdot, 0), \alpha = \frac{1}{m + 1}, \beta = \frac{1}{m + 1}$):
+\[
+    \rho(t,x)= \frac{1}{t^\alpha}\left(b - \frac{m - 1}{2m}\frac{\beta |x|^2}{t^{2\beta}} \right)_+^{\frac{1}{m - 1}}
+\]
+
 \begin{equation}
     \label{eq:barenblatt}
-    \rho(t,x)= \left( \frac{M}{4\pi m t \gamma}^{\frac{m - 1}{m}} - \frac{(m - 1)}{4m^2t\gamma}|x|^2 \right)^{\frac{1}{m - 1}}
+    \rho(t,x)= \frac{1}{t^{\frac{1}{m + 1}}}\left(b - \frac{m - 1}{2m}\frac{1}{m + 1} \frac{ |x|^2}{t^{\frac{2}{m + 1}}} \right)_+^{\frac{1}{m - 1}}
 \end{equation}
 
-そのため、質量が正方形の境界に達するまでの時間$t_c = \frac{m - 1}{16 m^2 \gamma}(\frac{\pi(m - 1)}{4mM})^{m - 1}$まで、$[- \frac{1}{2}, \frac{1}{2}]^2$の正方形上の解と一致します。
+$m = 2$のとき、
+\begin{equation}
+    \label{eq:barenblatt:m=2}
+    \rho(t,x)= \frac{1}{t^{\frac{1}{3}}}\left(b - \frac{1}{12} \frac{ |x|^2}{t^{\frac{2}{3}}} \right)_+
+\end{equation}
+
+\begin{align*}
+    \rho(t, x) = 0 &\iff \frac{1}{t^{\frac{1}{3}}}\left(b - \frac{1}{12} \frac{ |x|^2}{t^{\frac{2}{3}}} \right) = 0\\
+                    &\iff b = \frac{1}{12}\frac{|x|^2}{t^{\frac{2}{3}}} \\
+                    &\iff |x|^2 = 12t^{\frac{2}{3}}b \iff x = \pm \sqrt{12t^{\frac{2}{3}}b}
+\end{align*}
+
+
+% \begin{figure}
+%     \centering
+%     \begin{tikzpicture}
+%         \begin{axis}[
+%             width=0.8\textwidth,
+%             height=6cm,
+%             xlabel=$x$,
+%             ylabel=$\rho(t, x)$,
+%             legend style={at={(0.5,1.05)}, anchor=south},
+%             legend columns=4,
+%             grid=both,
+%             grid style={dotted},
+%             xmin=-0.5,
+%             xmax=0.5,
+%             ymin=0,
+%             ymax=16,
+%         ]
+%         \addplot[color=red, domain=-0.5:0.5, samples=200, name path=graph1] {1 / (x^2 + 0.4) * (1 - (1/12) * (x^2 / 0.4))^(3/2)};
+%         \addlegendentry{$t=0$};
+        
+%         \addplot[color=blue, domain=-0.5:0.5, samples=200, name path=graph2] {1 / (x^2 + 0.8) * (1 - (1/12) * (x^2 / 0.8))^(3/2)};
+%         \addlegendentry{$t=0.4$};
+        
+%         \addplot[color=green, domain=-0.5:0.5, samples=200, name path=graph3] {1 / (x^2 + 2) * (1 - (1/12) * (x^2 / 2))^(3/2)};
+%         \addlegendentry{$t=0.8$};
+        
+%         \addplot[color=orange, domain=-0.5:0.5, samples=200, name path=graph4] {1 / (x^2 + 2) * (1 - (1/12) * (x^2 / 2))^(3/2)};
+%         \addlegendentry{$t=2$};
+%         \end{axis} 
+%     \end{tikzpicture}
+% \end{figure} 
+
+
+\begin{align*}
+    \int^{+\infty}_{-\infty} \rho(t, x)dx &= 2 \int^{\sqrt{12t^{\frac{2}{3}}b}}_0 \frac{1}{t^{\frac{1}{3}}}\left(b - \frac{1}{12} \frac{|x|^2}{t^{\frac{2}{3}}}\right)dx\\
+                                            &= \frac{2}{t^{\frac{1}{3}}}\left(b r - \frac{r^3}{3 \cdot 12 t^{\frac{2}{3}}}\right) & r = \sqrt{12t^{\frac{2}{3}}b}\\
+                                            &= \frac{2}{t^{\frac{1}{3}}}\left(b r - \frac{12t^{\frac{2}{3}}b r}{3 \cdot 12 t^{\frac{2}{3}}}\right) = \frac{2}{t^{\frac{1}{3}}}\frac{2}{3}br\\
+                                            &= \frac{2}{t^{\frac{1}{3}}}\frac{2}{3}b \cdot 2\cdot \sqrt{3} t^{\frac{1}{3}}\\
+                                            &= \frac{8}{\sqrt{3}}b^{\frac{3}{2}} =: M  \qquad \Longrightarrow b = \left(\frac{\sqrt{3}}{8} M \right)^{\frac{2}{3}} \quad(M \text{ is total initial mass})
+\end{align*}
+
+
+
+そのため、質量が正方形の境界に達するまでの時間$t_c = \frac{m - 1}{16 m^2 \gamma}(\frac{\pi(m - 1)}{4mM})^{m - 1}$まで、$[- \frac{1}{2}, \frac{1}{2}]$の上の解と一致します。
 Barenblatt solutionをベンチマーク（基準）として使用して、私たちの方法の精度と効率をテストできます。
 指数$m = 2, 4, 6$の方程式をシミュレートします。
 数値的にはディラックのデルタ関数は扱いにくいため、高さ$h_0 > 0$を固定し、時間$t_0 > 0$からフローを開始します。
-ここで$t_0$は、$\|\rho(t_0, \cdot)\|_{L^\infty} = h_0$となるように選ぶ。
+{\color{red}
+    ここで$t_0$は、$\|\rho(t_0, \cdot)\|_{L^\infty} = h_0$となるように選ぶ。
+}
 ただし、$t_0$の値は指数$m$に依存し、式（\ref{eq:barenblatt}）から明示的に求めることができることに注意する。
 さらに、Barenblatt solutionは時間$t_c$までの間にのみ有効であるため、時間間隔$[t_0、t_c]$内でのフローのみを考慮します。
 
+\begin{align*}
+    \|\rho(t_0, \cdot)\|_{L^\infty} = h_0 \,
+    \Longrightarrow \,\|\rho(t_0, \cdot)\|_{L^\infty} &= \sup_x{\|(t_0, x)\|} = \rho(t_0, 0) = \frac{1}{t^{\frac{1}{3}}} b\\
+    \Longrightarrow \, t_0 = \left(\frac{b}{h_0}\right)
+\end{align*}
+
+
+{\color{red}
 すべてのベンチマーク実験では、$M = 0.5, h_0 = 15, \gamma = 10^{-3}$を設定します。
+}
 小さな$\gamma$の値は、フローが巨視的な時間間隔で発生するようにするための時間の再スケーリングです。
 さまざまなタイムステップサイズ$\tau = 0.4, 0.2, 0.1, 0.05, 0.025$で$t_0 \le t \le 2 + t_0$の時間進化を計算します（パラメータの選択により、$m = 2, 4, 6$の場合でも$t_0 + 2 < t_c$であることが確認できます）。
 さまざまなタイムステップサイズで実験を実行することにより、スキームがタイムステップを減少させるほど正確になることを確認できます。
@@ -1459,7 +1533,43 @@ $\varphi^{(n+1)}$を求める際、アルゴリズム \ref{algo:baf scheme}を�
 関数$s(x) = \max(x, 0)^{\frac{1}{m-1}}$はゼロで不連続な導関数を持っているため、
 $\varphi^{(n+1)}$が滑らかであっても、$\nabla\rho$はその台の境界で不連続性を持つでしょう。
 
+\begin{table}[hbtp]
+    \caption{Barenblatt solution test case (grid seize $512$)}
+    \label{table:data_type}
+    \centering
+    \begin{tabular}{llll}
+        \hline
+        $\tau$  & $N_\tau$  &  Error & Times$(s)$  \\
+        \hline \hline
+        $0.4$   & $5$   & $8.68 \times 10^{-2}$  & $11.70$\\
+        $0.2$   & $10$  & $5.73 \times 10^{-2}$  & $21.71$\\
+        $0.1$   & $20$  & $3.61 \times 10^{-2}$  & $28.93$\\
+        $0.05$  & $40$  & $2.14 \times 10^{-2}$  & $33.00$\\
+        $0.025$ & $80$  & $1.25 \times 10^{-2}$  & $47.91$\\
+        \hline
+    \end{tabular}
+\end{table}
 
+  \begin{figure}
+    \centering
+    \begin{minipage}{0.4\hsize}
+        \includegraphics[width=\linewidth]{/Users/sakaiyukito/Downloads/LABO/images/back_and_forth_jacobi_tau/t=0.png}
+        \caption{$t = 0$}
+    \end{minipage}
+    \begin{minipage}{0.4\hsize}
+        \includegraphics[width=\linewidth]{/Users/sakaiyukito/Downloads/LABO/images/back_and_forth_jacobi_tau/t=0.4.png}
+        \caption{$t = 0.4$}
+    \end{minipage}
+    \begin{minipage}{0.4\hsize}
+        \includegraphics[width=\linewidth]{/Users/sakaiyukito/Downloads/LABO/images/back_and_forth_jacobi_tau/t=0.8.png}
+        \caption{$t = 0.8$}
+    \end{minipage}
+    \begin{minipage}{0.4\hsize}
+        \includegraphics[width=\linewidth]{/Users/sakaiyukito/Downloads/LABO/images/back_and_forth_jacobi_tau/t=2.png}
+        \caption{$t = 2$}
+    \end{minipage}
+    \caption{1d computed solutions and the exact Barenblatt solution at times $t  = 0, t_0 + 0.4, t_0 + 0.8, t_0 + 2$}
+\end{figure}
 
 \subsubsection{Slow diffusion with drifts and obstacles}
 \subsubsection{Non-convex U (aggregation-diffusion)}

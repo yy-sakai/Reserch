@@ -1,5 +1,4 @@
 import numpy as np
-
 import matplotlib.pyplot as plt
 import os
 import time
@@ -82,6 +81,8 @@ hist.Tpsi_nu = []
 
 start = time.process_time()
 timestep = np.arange(0, 2, tau)
+stepsize = timestep[1] - timestep[0]
+
 for real_t in timestep:
     diff = 1
     count = 0
@@ -105,7 +106,7 @@ for real_t in timestep:
             plt.legend()
             plt.savefig(f'{image_root}phi{count:04}.png', )
             plt.close()
-            error = sum(abs((u - nu)[1:] + (u - nu)[:-1]) * h / 2) 
+            error = sum(abs((u - nu)[1:] + (u - nu)[:-1]) * h / 2)  #error = (2 / \tau) * \sigma_{n=0}^{2 / \tau} \int |\rho(n*\tau + t0, x) - \rho^(n)(x)| dx
             #print('error = ', error)
             
             
@@ -116,7 +117,6 @@ for real_t in timestep:
         # Calculate residual $||\nabla U^*(- \varphi) - T_{\phi \#} \mu||_{L^1(\Omega)}
         #L1 norm
         diff = sum(abs(nu - pfwd) * h)
-        stepsize = timestep[1] - timestep[0]
         
         print(f'{real_t + stepsize:.4}:(H¹)² = {H1_sq:.3}, diff = {diff:.5}, baf_roop = {count}')
             
@@ -151,20 +151,20 @@ for real_t in timestep:
     
     t = (real_t + stepsize + t0) * gamma
     u = np.maximum(1 / t**(1 / 3) * (b - (1 / (12 * t**(2 / 3))) * x**2), 0)
-    area = sum((u[1:] + u[:-1]) * (x[1] - x[0]) / 2)
+    area = sum((u[1:] + u[:-1]) * h / 2)   #trapezoidal formula
     print(area)
     plt.plot(x, u, "--", label=r'exact')    
     
-    error += sum(abs((u - nu)[1:] + (u - nu)[:-1]) * h / 2) 
+    
+    error += sum(abs((u - nu)[1:] + (u - nu)[:-1]) * h / 2)  #error = (2 / \tau) * \sigma_{n=0}^{2 / \tau} \int |\rho(n*\tau + t0, x) - \rho^(n)(x)| dx
     #print('error = ', error)
-   
     #plt.plot(x, phi,label=r'$\phi$')
     plt.legend(prop={'size': 15})
     plt.savefig(f'{image_root}Tphi_mu,Tpsi_nu{real_t + stepsize:.4}.png', )
     plt.close()
 
 
-error /= 2 / tau
+error /= 2 / tau  #error = (2 / \tau) * \sigma_{n=0}^{2 / \tau} \int |\rho(n*\tau + t0, x) - \rho^(n)(x)| dx
 print('error = ', error)
 plt.semilogy(hist.H1_sq)
 plt.savefig(f'{image_root}_H1_sq.png')
