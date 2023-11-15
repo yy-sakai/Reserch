@@ -1,6 +1,134 @@
 import numpy as np
 import matplotlib.pyplot as plt
-#"""
+
+"""
+x = np.linspace(-0.5, 0.5, 513)
+h = x[1] - x[0]
+
+
+# Set parameters
+m = 2
+c = np.zeros_like(x)
+tau = 0.001
+eps = 1e-3             #1.0**(-3)
+M = 0.5
+b = (np.sqrt(3) * M / 8)**(2 / 3) 
+gamma = 1e-3
+h0 = 15
+t0 = 1 / gamma * (b / h0)**3
+t = t0 * gamma
+z = np.maximum(1 / t**(1 / 3) * (b - (1 / (12 * t**(2 / 3))) * x**2), 0)   #z = rho
+nu = np.zeros_like(z)
+delta = 1e-6
+
+
+print(z)
+
+#def lu_decomposition(matrix):
+   
+mu = 1 / (delta + m * z**(m-1))
+
+a = mu + 2 * tau / h**2
+b = c = np.full_like(mu, - tau / h**2)
+nu = mu * z**m
+
+#LU decomposition
+for i in range(len(x) - 1):
+   b[i] /= a[i]
+   a[i+1] -= b[i] * c[i]
+
+#forward elimination
+for i in range(len(x) - 1):
+    nu[i+1] -= b[i] * nu[i] 
+    
+#backward substitution
+nu[-1] /= a[-1]
+
+for i in range(len(x)-2,-1,-1):
+    nu[i] = (nu[i] - c[i] * nu[i+1]) / a[i]
+    
+print(nu)
+    
+"""
+
+#mu = 1 / (delta + m * z**(m-1))
+a = np.array([2.,4.,-1.])
+#d = a
+b = np.array([4.,3.])
+c = np.array([3.,-3.])
+#l = np.array([0.,0.])
+u = np.array([8.,3.,3.])
+#y = z
+x = np.zeros_like(u)
+
+
+def tri_lu():
+    #a = mu + 2 * tau / h**2
+    #b = np.full_like(mu, - tau / h**2)
+    #b = c = np.delete(b, -1)
+    
+    
+    #LU decomposition
+    for i in range(len(x) - 1):
+        b[i] /= a[i]
+        a[i+1] -= b[i] * c[i]
+
+    #forward elimination
+    for i in range(len(x) - 1):
+        u[i+1] -= b[i] * u[i] 
+        
+    #backward substitution
+    u[-1] /= a[-1]
+    for i in range(len(x)-2,-1,-1):
+        u[i] = (u[i] - c[i] * u[i+1]) / a[i]
+    
+    return u
+print(tri_lu())
+
+
+a = np.array([2.,4.,-1.])
+#d = a
+b = np.array([4.,3.])
+c = np.array([3.,-3.])
+#l = np.array([0.,0.])
+u = np.array([8.,3.,3.])
+#LU decomposition
+#for i in range(2):
+#    l[i] = b[i] / d[i]
+#    d[i+1] = a[i+1] - l[i] * c[i]
+for i in range(2):
+    b[i] /= a[i]
+    a[i+1] -= b[i] * c[i]
+
+print(c)
+print(a)
+print(b)
+
+#forward elimination
+"""
+for i in range(2):
+    y[i+1] = z[i+1] - b[i] * y[i]
+print(y)
+"""
+for i in range(2):
+    u[i+1] -= b[i] * u[i] 
+print(u)
+#backward substitution
+"""
+x[-1] = z[-1] / a[-1]
+for i in range(1, -1, -1):
+    x[i] = (z[i] - c[i] * x[i+1]) / d[i]
+print(x)
+"""
+
+u[-1] /= a[-1]
+for i in range(1,-1,-1):
+    u[i] = (u[i] - c[i] * u[i+1]) / a[i]
+print(u)
+    
+
+# Example usage:
+"""
 D = 1
 dt = 0.0002
 
@@ -23,7 +151,7 @@ for j in range(50):
     #u, new_u = new_u, u.copy()
 plt.show()
 """   
-    
+"""
 # パラメータ
 L = 1.0  # 空間の長さ
 T = 1.0  # 計算時間
