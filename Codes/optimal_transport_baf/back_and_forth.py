@@ -1,8 +1,8 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from c_transform import c_transform
-from push_forward import push_forward
-from push_forward import lap_solve
+from premise_of_baf.c_transform import c_transform
+from premise_of_baf.push_forward import push_forward
+from premise_of_baf.push_forward import lap_solve
 
 
 x = np.linspace(-1, 1, 101)

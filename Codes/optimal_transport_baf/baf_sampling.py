@@ -1,9 +1,9 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import os
-from c_transform import c_transform
-from sampling_push_forward import push_forward1
-from push_forward_jacobian import lap_solve
+from premise_of_baf.c_transform import c_transform
+from premise_of_baf.sampling_push_forward import push_forward1
+from premise_of_baf.push_forward_jacobian import lap_solve
 
 image_root = "/Users/sakaiyukito/Downloads/LABO/images/back_and_forth_sampling/"
 os.makedirs(image_root, exist_ok = True)

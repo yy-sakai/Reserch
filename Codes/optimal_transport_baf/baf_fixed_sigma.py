@@ -1,9 +1,9 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
-from c_transform import c_transform
-from sampling_push_forward import push_forward1
-from push_forward import lap_solve
+from premise_of_baf.c_transform import c_transform
+from premise_of_baf.sampling_push_forward import push_forward1
+from premise_of_baf.push_forward import lap_solve
 
 x = np.linspace(-1, 1, 201)
 p = x
