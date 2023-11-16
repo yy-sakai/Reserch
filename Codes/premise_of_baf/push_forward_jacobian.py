@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from numba import njit
-from c_transform import c_transform
+from premise_of_baf.c_transform import c_transform
 import numpy as np
 
 @njit

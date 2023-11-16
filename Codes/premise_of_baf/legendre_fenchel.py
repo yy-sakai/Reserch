@@ -1,5 +1,5 @@
 import numpy as np
-from convex_hull import convex_hull
+from premise_of_baf.convex_hull import convex_hull
 from numba import njit
 import matplotlib.pyplot as plt
 

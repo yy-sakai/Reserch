@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from numba import njit
-from Codes.baf.legendre_fenchel import legendre_fenchel
+from premise_of_baf.legendre_fenchel import legendre_fenchel
 
 @njit
 def c_transform(x, phi, p):

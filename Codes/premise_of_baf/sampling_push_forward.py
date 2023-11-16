@@ -1,7 +1,6 @@
 import numpy as np
-import math
 import matplotlib.pyplot as plt
-from c_transform import c_transform
+from premise_of_baf.c_transform import c_transform
 
 def dist(a, b):
     return abs(a - b)

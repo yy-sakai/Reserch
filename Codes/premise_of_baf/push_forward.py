@@ -1,6 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from c_transform import c_transform
+from premise_of_baf.c_transform import c_transform
 
 def push_forward(mu, t):
     """t[i] is the index where t maps index i"""
