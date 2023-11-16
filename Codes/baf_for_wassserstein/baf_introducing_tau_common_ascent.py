@@ -1,11 +1,11 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import os
-from c_transform import c_transform
-from push_forward_jacobian import push_forward2
-from push_forward_jacobian import lap_solve
+from premise_of_baf.c_transform import c_transform
+from premise_of_baf.push_forward_jacobian import push_forward2
+from premise_of_baf.push_forward_jacobian import lap_solve
 
-image_root = "/Users/sakaiyukito/Downloads/LABO/images/back_and_forth_jacobi2/"
+image_root = "../images/baf_common/"
 os.makedirs(image_root, exist_ok = True)
 
 # Wasserstein distance \int \phi d\nu + \int \phi^c d\mu
