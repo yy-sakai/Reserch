@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-image_root = "/Users/sakaiyukito/Downloads/LABO/images/back_and_forth_jacobi_tau/"
+image_root = "../images/baf_tau/"
 
 img_tau0025 = np.load(f'{image_root}tau=0.025.npy')
 img_tau005 = np.load(f'{image_root}tau=0.05.npy')

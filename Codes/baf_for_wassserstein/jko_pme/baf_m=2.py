@@ -2,12 +2,15 @@ import numpy as np
 import matplotlib.pyplot as plt
 import os
 import time
-from c_transform import c_transform
-from push_forward_jacobian import push_forward2
-from push_forward_jacobian import lap_solve_modified
+from premise_of_baf.c_transform import c_transform
+from premise_of_baf.push_forward_jacobian import push_forward2
+from premise_of_baf.push_forward_jacobian import lap_solve_modified
 
-image_root = "/Users/sakaiyukito/Downloads/LABO/images/back_and_forth_jacobi_test/"
+image_root = "../images/baf_m=2/"
 os.makedirs(image_root, exist_ok = True)
+
+image_save = "../images/baf_tau/"
+os.makedirs(image_save, exist_ok = True)
 
 # Wasserstein distance \int \phi d\nu + \int \phi^c d\mu
 def w2(phi, psi, mu, nu):
@@ -179,7 +182,7 @@ plt.semilogy(hist.H1_sq)
 plt.savefig(f'{image_root}_H1_sq.png')
 plt.close()
 
-np.save("/Users/sakaiyukito/Downloads/LABO/images/back_and_forth_jacobi_tau/tau="f'{tau}', hist.rho)
-np.save("/Users/sakaiyukito/Downloads/LABO/images/back_and_forth_jacobi_tau/exact", hist.exact)
+np.save(f'{image_save}/tau="{tau}', hist.rho)
+np.save(f'{image_save}/exact', hist.exact)
 
 print(f'Plots saved in {image_root}')
