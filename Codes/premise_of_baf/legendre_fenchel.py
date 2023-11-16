@@ -28,7 +28,6 @@ def legendre_fenchel(x, y, p):
 
 if __name__ == '__main__':
    
-    
     x = [1, 2, 3, 4, 5]
     y = [0, 1, -2, 1, 0]
 

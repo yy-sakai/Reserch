@@ -3,7 +3,6 @@ import math
 from numba import njit
 import matplotlib.pyplot as plt
 
-
 @njit
 def convex_hull(x, y):
     # 関数f(x, y)のconvex hullを計算する。(y_i = f(x_i))

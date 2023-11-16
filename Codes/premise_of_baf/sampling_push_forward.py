@@ -58,7 +58,6 @@ def push_forward1(mu, phi_c, h):
         mass = mu_val / x_samples
 
 
-
         for k in range(x_samples):
             a = (k + 0.5) / x_samples      #a: [0, 1] 
 

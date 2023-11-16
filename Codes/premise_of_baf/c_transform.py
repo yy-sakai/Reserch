@@ -13,7 +13,6 @@ def c_transform(x, phi, p):
             = |p|^2 / 2 - sup_x( xp - (|x|^2 / 2 - φ(x)) ) 
             = |p|^2 / 2 - sup_x( xp - ψ(x) )        ψ(x) = |x|^2/2 - φ(x)       ①
             = |p|^2 / 2 - f^*(p)                                            ②
-    
     """
     #p = x
     psi = 0.5 * x * x - phi                                  # ①

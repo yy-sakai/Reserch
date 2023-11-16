@@ -23,6 +23,7 @@ def lap_solve(f):
     # perform inverse fft and remove the even periodic extension
     return np.fft.irfft(ff)[:len(f)]
 
+
 if __name__ == '__main__':
     x = np.linspace(-10, 10, 101)
     p = x
