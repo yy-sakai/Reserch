@@ -3,8 +3,10 @@ import matplotlib.pyplot as plt
 import os
 import time
 
-image_root = "/Users/sakaiyukito/Downloads/LABO/images/back_and_forth_jacobi_bbr/"
+image_root = "../images/bbr/"
 os.makedirs(image_root, exist_ok = True)
+image_save = "../images/bbr_tau/"
+os.makedirs(image_save, exist_ok = True)
 
 # Wasserstein distance \int \phi d\nu + \int \phi^c d\mu
 def w2(phi, psi, mu, nu):
@@ -168,7 +170,7 @@ plt.semilogy(hist.H1_sq)
 plt.savefig(f'{image_root}_H1_sq.png')
 plt.close()
 
-np.save("/Users/sakaiyukito/Downloads/LABO/images/back_and_forth_jacobi_tau/tau="f'{tau}', hist.rho)
-np.save("/Users/sakaiyukito/Downloads/LABO/images/back_and_forth_jacobi_tau/exact", hist.exact)
+np.save(f'{image_save}/tau="{tau}', hist.rho)
+np.save(f'{image_save}/exact', hist.exact)
 
 print(f'Plots saved in {image_root}')
