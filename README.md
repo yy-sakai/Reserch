@@ -4,6 +4,9 @@ Fast back-and-forth method
 
 How to proceed with research: <https://github.com/rekka/ctransform>
 
+# Module directory
+premise_of_baf
+
 ## References
 1.  [Jacobs, Matt; Léger, Flavien A fast approach to optimal transport: the back-and-forth method. Numer. Math. 146 (2020)](https://link.springer.com/article/10.1007/s00211-020-01154-8): original method
 

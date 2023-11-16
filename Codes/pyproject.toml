@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "codes"
+version = "0.1.0"
+description = ""
+authors = ["yy-sakai <92081039+yy-sakai@users.noreply.github.com>"]
+readme = "README.md"
+packages = [{include = "premise_of_baf"}]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+numpy = "^1.26.2"
+matplotlib = "^3.8.1"
+numba = "^0.58.1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
