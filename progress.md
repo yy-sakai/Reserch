@@ -1,3 +1,10 @@
+## 2023-11-23
+- Done
+  - 各tauに対してerrorとtimeを計測するプログラム作成(save_text)
+- Doing
+  - c-transformとポアソン方程式の計算速度計算
+  - ポアソン方程式のGauss消去法を使ったプログラム
+
 ## 2023-09-20
 - Todo
     - tauの値を設定
