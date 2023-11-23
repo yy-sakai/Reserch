@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-image_root = "../images/baf_tau/"
+image_root = "../images/bbr_tau/"
 
 img_tau000625 = np.load(f'{image_root}tau=0.00625.npy')
 img_tau00125 = np.load(f'{image_root}tau=0.0125.npy')
