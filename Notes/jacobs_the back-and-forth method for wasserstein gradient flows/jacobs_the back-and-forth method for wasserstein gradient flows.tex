@@ -10,9 +10,11 @@
 \usepackage{here, amsmath, latexsym, amssymb, bm, ascmac, mathtools, multicol, tcolorbox, subfig, graphicx, comment, pgfplots}
 \usepackage{algpseudocode}
 \usepackage{algorithm}
-\usepackage{tikz, pgfplots}
+\usepackage{tikz}
+\usepackage{siunitx}
 \usetikzlibrary{intersections}
 \usepgfplotslibrary{fillbetween}
+
 
 %
 
@@ -1534,41 +1536,88 @@ $\varphi^{(n+1)}$を求める際、アルゴリズム \ref{algo:baf scheme}を�
 $\varphi^{(n+1)}$が滑らかであっても、$\nabla\rho$はその台の境界で不連続性を持つでしょう。
 
 \begin{table}[hbtp]
-    \caption{Barenblatt solution test case (grid seize $512$)}
-    \label{table:data_type}
+    \caption{Back and forth method (grid size $512$)}
+    \label{table:baf_test}
     \centering
-    \begin{tabular}{llll}
-        \hline
-        $\tau$  & $N_\tau$  &  Error & Times$(s)$  \\
-        \hline \hline
-        $0.4$   & $5$   & $8.68 \times 10^{-2}$  & $11.70$\\
-        $0.2$   & $10$  & $5.73 \times 10^{-2}$  & $21.71$\\
-        $0.1$   & $20$  & $3.61 \times 10^{-2}$  & $28.93$\\
-        $0.05$  & $40$  & $2.14 \times 10^{-2}$  & $33.00$\\
-        $0.025$ & $80$  & $1.25 \times 10^{-2}$  & $47.91$\\
-        \hline
-    \end{tabular}
+    \input{../../Codes/result_baf.tex}
+\end{table}
+
+
+\begin{table}[hbtp]
+    \caption{Berger Brezis Rogers scheme (grid size $512$)}
+    \label{table:bbr_test}
+    \centering
+    \input{../../Codes/result_bbr.tex}
+\end{table}
+
+\begin{table}[hbtp]
+    \caption{Explicit Euler method (grid seize $512$)}
+    \label{table:baf_test}
+    \centering
+    \input{../../Codes/result_euler.tex}
 \end{table}
 
   \begin{figure}
     \centering
     \begin{minipage}{0.4\hsize}
-        \includegraphics[width=\linewidth]{/Users/sakaiyukito/Downloads/LABO/images/back_and_forth_jacobi_tau/t=0.png}
+        \includegraphics[width=\linewidth]{../../images/baf_tau/t=0.png}
         \caption{$t = 0$}
     \end{minipage}
     \begin{minipage}{0.4\hsize}
-        \includegraphics[width=\linewidth]{/Users/sakaiyukito/Downloads/LABO/images/back_and_forth_jacobi_tau/t=0.4.png}
+        \includegraphics[width=\linewidth]{../../images/baf_tau/t=0.4.png}
         \caption{$t = 0.4$}
     \end{minipage}
     \begin{minipage}{0.4\hsize}
-        \includegraphics[width=\linewidth]{/Users/sakaiyukito/Downloads/LABO/images/back_and_forth_jacobi_tau/t=0.8.png}
+        \includegraphics[width=\linewidth]{../../images/baf_tau/t=0.8.png}
         \caption{$t = 0.8$}
     \end{minipage}
     \begin{minipage}{0.4\hsize}
-        \includegraphics[width=\linewidth]{/Users/sakaiyukito/Downloads/LABO/images/back_and_forth_jacobi_tau/t=2.png}
+        \includegraphics[width=\linewidth]{../../images/baf_tau/t=2.png}
         \caption{$t = 2$}
     \end{minipage}
-    \caption{1d computed solutions and the exact Barenblatt solution at times $t  = 0, t_0 + 0.4, t_0 + 0.8, t_0 + 2$}
+    \caption{1d computed solutions using baf method and the exact Barenblatt solution at times $t  = 0, t_0 + 0.4, t_0 + 0.8, t_0 + 2$}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \begin{minipage}{0.4\hsize}
+        \includegraphics[width=\linewidth]{../../images/bbr_tau/t=0.png}
+        \caption{$t = 0$}
+    \end{minipage}
+    \begin{minipage}{0.4\hsize}
+        \includegraphics[width=\linewidth]{../../images/bbr_tau/t=0.4.png}
+        \caption{$t = 0.4$}
+    \end{minipage}
+    \begin{minipage}{0.4\hsize}
+        \includegraphics[width=\linewidth]{../../images/bbr_tau/t=0.8.png}
+        \caption{$t = 0.8$}
+    \end{minipage}
+    \begin{minipage}{0.4\hsize}
+        \includegraphics[width=\linewidth]{../../images/bbr_tau/t=2.png}
+        \caption{$t = 2$}
+    \end{minipage}
+    \caption{1d computed solutions using bbr method and the exact Barenblatt solution at times $t  = 0, t_0 + 0.4, t_0 + 0.8, t_0 + 2$}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \begin{minipage}{0.4\hsize}
+        \includegraphics[width=\linewidth]{../../images/bbr_tau/t=0.png}
+        \caption{$t = 0$}
+    \end{minipage}
+    \begin{minipage}{0.4\hsize}
+        \includegraphics[width=\linewidth]{../../images/bbr_tau/t=0.4.png}
+        \caption{$t = 0.4$}
+    \end{minipage}
+    \begin{minipage}{0.4\hsize}
+        \includegraphics[width=\linewidth]{../../images/bbr_tau/t=0.8.png}
+        \caption{$t = 0.8$}
+    \end{minipage}
+    \begin{minipage}{0.4\hsize}
+        \includegraphics[width=\linewidth]{../../images/bbr_tau/t=2.png}
+        \caption{$t = 2$}
+    \end{minipage}
+    \caption{1d computed solutions using Explicit Euler method and the exact Barenblatt solution at times $t  = 0, t_0 + 0.4, t_0 + 0.8, t_0 + 2$}
 \end{figure}
 
 \subsubsection{Slow diffusion with drifts and obstacles}
