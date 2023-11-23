@@ -21,7 +21,6 @@ def w2(phi, psi, mu, nu):
 # using Jacobian push fofward (push_forward2) 
 # common ascent scheme
 
-
 def ascent(phi, phi_c, mu, nu):
     phi_c, _ = c_transform(x, tau * phi, x)                        # 1-1  phi_c, _ = c_transform(x, phi, p)
     phi_c /= tau
@@ -45,15 +44,12 @@ def ascent(phi, phi_c, mu, nu):
 track = True
 H1_sq = 0
 
-
+# Set parameters
 x = np.linspace(-0.5, 0.5, 513)
 h = x[1] - x[0]
-
-
-# Set parameters
 m = 2
 c = np.zeros_like(x)
-tau = 0.025
+tau = 0.1
 eps = 1e-3             #1.0**(-3)
 M = 0.5
 b = (np.sqrt(3) * M / 8)**(2 / 3) 
@@ -63,8 +59,6 @@ t0 = 1 / gamma * (b / h0)**3
 t = t0 * gamma
 nu = np.maximum(1 / t**(1 / 3) * (b - (1 / (12 * t**(2 / 3))) * x**2), 0)   #nu = rho
 mu = nu
-
-
 
 # U(\rho) = 1 / m-1 \int \rho^m dx 
 phi = - gamma * (m / (m - 1)) * nu ** (m - 1)  #\phi_0 = \phi^(0) = -\delta U(\nu^(0)) =  \delta U(\rho^(0))
@@ -86,27 +80,36 @@ hist.Tpsi_nu = []
 
 # JKO scheme
 
-start = time.process_time()
+H1_sq, phi, psi, pfwd  = ascent(phi, psi, mu, nu)
+psi_c, _ = c_transform(x, tau * psi, x)
+
+
 timestep = np.arange(0, 2, tau)
 #stepsize = timestep[1] - timestep[0] = tau
+print('tau = ', tau)
+print('start')
+error = 0
+start = time.process_time()
 
 for real_t in timestep:
+    #if real_t == timestep[1]:
+     #   start = time.process_time()
     diff = 1
     count = 0
 # The back-and-forth scheme for solving J(phi) and I(psi)
     while diff >= eps:
         if count > 200:
             break
+        """
         if real_t == 0 and count == 0:
             plt.ylim([-0.1, 15.1])
-            plt.title(r'back-and-forth update $\mu$ and $\nu$. Example 1:  Iterate ' + str(count))
-            plt.plot(x, mu,label=r'$\mu$')
-            plt.plot(x, nu,label=r'$\nu$')
+            plt.title(r'PME m=2 baf method t = 0, $\tau = $' + str(tau))
+            plt.plot(x, nu,label=r'$\rho$')
             #plt.plot(x, phi,label=r'$\phi$')
             u = np.maximum(1 / t**(1 / 3) * (b - (1 / (12 * t**(2 / 3))) * x**2), 0)
             plt.plot(x, u, "--",label=r'exact')
             plt.legend(prop={'size': 15})
-            plt.savefig(f'{image_root}Tphi_mu,Tpsi_nu{real_t:.2}.png', )
+            plt.savefig(f'{image_root}baf_rho{real_t:.2}.png')
             plt.close()
             
             plt.plot(x, phi,label=r'$\phi$')
@@ -117,6 +120,7 @@ for real_t in timestep:
             #print('error = ', error)
             hist.rho.append(nu)
             hist.exact.append(u)
+        """
             
             
         nu = (((m - 1) / (m * gamma)) * np.maximum(c - phi, 0)) ** (1 / (m - 1)) # \rho_*(x) = \delta U^*(- \phi) 
@@ -127,7 +131,7 @@ for real_t in timestep:
         #L1 norm
         diff = sum(abs(nu - pfwd) * h)
         
-        print(f'{real_t + tau:.4}:(H¹)² = {H1_sq:.3}, diff = {diff:.5}, baf_roop = {count}')
+        #print(f'{real_t + tau:.4}:(H¹)² = {H1_sq:.3}, diff = {diff:.5}, baf_roop = {count}')
             
         hist.H1_sq.append(H1_sq)
         #hist.phi.append(np.float32(phi))
@@ -151,38 +155,44 @@ for real_t in timestep:
 
     mu = (((m - 1) / (m * gamma)) * np.maximum(c - phi, 0)) ** (1 / (m - 1)) # 
 
-    plt.ylim([-0.1, 15.1])
-    plt.plot(x, nu,label=r'$\nu$')
-    
+
     t = (real_t + tau + t0) * gamma
     u = np.maximum(1 / t**(1 / 3) * (b - (1 / (12 * t**(2 / 3))) * x**2), 0)
-    area = sum((u[1:] + u[:-1]) * h / 2)   #trapezoidal formula
-    print(area)
-    plt.plot(x, u, "--", label=r'exact')    
-    
-    
+    area = sum((u[1:] + u[:-1]) * h / 2)   #trapezoidal formula 
     error += sum(abs((u - nu)[1:] + (u - nu)[:-1]) * h / 2)  #error = (2 / \tau) * \sigma_{n=0}^{2 / \tau} \int |\rho(n*\tau + t0, x) - \rho^(n)(x)| dx
-    #print('error = ', error)
-    #plt.plot(x, phi,label=r'$\phi$')
-    plt.legend(prop={'size': 15})
-    plt.savefig(f'{image_root}Tphi_mu,Tpsi_nu{(real_t + tau):.4}.png', )
-    plt.close()
+
+#   Plot when tau is a multiple of 0.1.
+    """
+    if (abs((real_t+tau) % 0.1) < 1e-5 or abs(((real_t+tau) % 0.1) - 0.1) < 1e-5):
+        plt.ylim([-0.1, 15.1])
+        plt.plot(x, nu,label=r'$\rho$')        
+        plt.plot(x, u, "--", label=r'exact')  
+        
+        print(f'{real_t + tau:.4}: error =  {error}')
+        #plt.plot(x, phi,label=r'$\phi$')
+        plt.title(r'PME m=2 baf method t = ' + str(round(real_t+tau, 2)) + r', $\tau = $' + str(tau))
+        plt.legend(prop={'size': 15})
+        plt.savefig(f'{image_root}baf_rho{(real_t + tau):.2}.png')
+        plt.close()
+    """
 
     if round(real_t+tau, 3) in [0.40, 0.80, 2.00]:
         hist.rho.append(nu)
         hist.exact.append(u)
         print('real_t + stepsize(tau) = ', real_t+tau)
         
-    print(f'Elapsed {(time.process_time() - start):.4}s')
+    #print(f'Elapsed {(time.process_time() - start):.4}s')
 
 error /= 2 / tau  #error = (2 / \tau) * \sigma_{n=0}^{2 / \tau} \int |\rho(n*\tau + t0, x) - \rho^(n)(x)| dx
-error = round(error, 4)
+error = f"{round(error, 7):.3e}"
+realtime = f'{(time.process_time() - start):.4e}'
 print('error = ', error)
+print(f"Elapsed {realtime}s")
 plt.semilogy(hist.H1_sq)
 plt.savefig(f'{image_root}_H1_sq.png')
 plt.close()
 
-np.save(f'{image_save}/tau="{tau}', hist.rho)
+np.save(f'{image_save}/tau={tau}', hist.rho)
 np.save(f'{image_save}/exact', hist.exact)
 
 print(f'Plots saved in {image_root}')
