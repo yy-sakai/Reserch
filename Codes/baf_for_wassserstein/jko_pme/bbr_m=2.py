@@ -86,20 +86,22 @@ error = 0
 for real_t in timestep:
     if real_t == timestep[1]:
         start = time.process_time()
-    # if real_t == 0:
-    #     plt.ylim([-0.1, 15.1])
-    #     plt.title(r'PME m=2 bbr method t = 0, $\tau = $' + str(tau))
-    #     plt.plot(x, z,label=r'$\rho$')
-    #     #plt.plot(x, phi,label=r'$\phi$')
-    #     ex = np.maximum(1 / t**(1 / 3) * (b - (1 / (12 * t**(2 / 3))) * x**2), 0)
-    #     plt.plot(x, ex, "--",label=r'exact')
-    #     plt.legend(prop={'size': 15})
-    #     plt.savefig(f'{image_root}bbr_rho{real_t:.2}.png', )
-    #     plt.close()
-    #     error = sum(abs((ex - z)[1:] + (ex - z)[:-1]) * h / 2)  #error = (2 / \tau) * \sigma_{n=0}^{2 / \tau} \int |\rho(n*\tau + t0, x) - \rho^(n)(x)| dx
-    #     #print('error = ', error)
-    #     hist.rho.append(z)
-    #     hist.exact.append(ex)
+    """
+    if real_t == 0:
+        plt.ylim([-0.1, 15.1])
+        plt.title(r'PME m=2 bbr method t = 0, $\tau = $' + str(tau))
+        plt.plot(x, z,label=r'$\rho$')
+        #plt.plot(x, phi,label=r'$\phi$')
+        ex = np.maximum(1 / t**(1 / 3) * (b - (1 / (12 * t**(2 / 3))) * x**2), 0)
+        plt.plot(x, ex, "--",label=r'exact')
+        plt.legend(prop={'size': 15})
+        plt.savefig(f'{image_root}bbr_rho{real_t:.2}.png', )
+        plt.close()
+        error = sum(abs((ex - z)[1:] + (ex - z)[:-1]) * h / 2)  #error = (2 / \tau) * \sigma_{n=0}^{2 / \tau} \int |\rho(n*\tau + t0, x) - \rho^(n)(x)| dx
+        #print('error = ', error)
+        hist.rho.append(z)
+        hist.exact.append(ex)
+    """
 
 
     u[0] = u[-1] = 0
@@ -118,26 +120,28 @@ for real_t in timestep:
     area = sum((ex[1:] + ex[:-1]) * h / 2)   #trapezoidal formula 
     error += sum(abs((ex - z)[1:] + (ex - z)[:-1]) * h / 2)  #error = (2 / \tau) * \sigma_{n=0}^{2 / \tau} \int |\rho(n*\tau + t0, x) - \rho^(n)(x)| dx
 
-# # Plot when tau is a multiple of 0.1.
-#     if (abs((real_t+tau) % 0.1) < 1e-5 or abs(((real_t+tau) % 0.1) - 0.1) < 1e-5):
-#         plt.ylim([-0.1, 15.1])
-#         plt.plot(x, z,label=r'$\rho$')
+"""
+# Plot when tau is a multiple of 0.1.
+    if (abs((real_t+tau) % 0.1) < 1e-5 or abs(((real_t+tau) % 0.1) - 0.1) < 1e-5):
+        plt.ylim([-0.1, 15.1])
+        plt.plot(x, z,label=r'$\rho$')
         
-#         plt.plot(x, ex, "--", label=r'exact')    
+        plt.plot(x, ex, "--", label=r'exact')    
         
-#         print(f'{real_t + tau:.4}: error =  {error}')
-#         #plt.plot(x, phi,label=r'$\phi$')
-#         plt.title(r'PME m=2 bbr method t = ' + str(round(real_t+tau, 2)) + r', $\tau = $' + str(tau))
-#         plt.legend(prop={'size': 15})
-#         plt.savefig(f'{image_root}bbr_rho{(real_t + tau):.2}.png')
-#         plt.close()
+        print(f'{real_t + tau:.4}: error =  {error}')
+        #plt.plot(x, phi,label=r'$\phi$')
+        plt.title(r'PME m=2 bbr method t = ' + str(round(real_t+tau, 2)) + r', $\tau = $' + str(tau))
+        plt.legend(prop={'size': 15})
+        plt.savefig(f'{image_root}bbr_rho{(real_t + tau):.2}.png')
+        plt.close()
 
-#     if round(real_t+tau, 3) in [0.40, 0.80, 2.00]:
-#         hist.rho.append(z)
-#         hist.exact.append(ex)
-#         print('real_t + stepsize(tau) = ', real_t+tau)
+    if round(real_t+tau, 3) in [0.40, 0.80, 2.00]:
+        hist.rho.append(z)
+        hist.exact.append(ex)
+        print('real_t + stepsize(tau) = ', real_t+tau)
         
     #print(f'Elapsed {(time.process_time() - start):.4}s')
+"""
 
 error /= 2 / tau  #error = (2 / \tau) * \sigma_{n=0}^{2 / \tau} \int |\rho(n*\tau + t0, x) - \rho^(n)(x)| dx
 error = f"{round(error, 7):.3e}"
