@@ -25,7 +25,7 @@ x = np.linspace(-0.5, 0.5, 513)
 h = x[1] - x[0]
 m = 2
 c = np.zeros_like(x)
-tau = 0.0001
+tau = 0.000025
 # tau <= 1 / (2 * m * gamma) * h**2 = 0.00095367431640625 Stability conditions(maybe)
 # but 0.0002 is not stable
 
