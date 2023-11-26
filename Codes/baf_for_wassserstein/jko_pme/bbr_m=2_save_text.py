@@ -29,30 +29,7 @@ def gauss(mu, z, tau, h):
         u[i] = u[i] - c[i] * u[i+1]
     
     return u
-        
 
-@njit
-def tri_lu(mu, z, tau, h):
-    a = mu + 2 * tau / h**2
-    b = np.full_like(mu, - tau / h**2)
-    c = np.full_like(mu, - tau / h**2)
-    u = mu * z**m
-    
-    #LU decomposition
-    for i in range(len(x) - 1):
-        b[i] /= a[i]
-        a[i+1] -= b[i] * c[i]
-
-    #forward elimination
-    for i in range(len(x) - 1):
-        u[i+1] -= b[i] * u[i] 
-        
-    #backward substitution
-    u[-1] /= a[-1]
-    for i in range(len(x)-2,-1,-1):
-        u[i] = (u[i] - c[i] * u[i+1]) / a[i]
-    
-    return u
 
 # ascent step of J(phi) = \int phi dnu + \int phi^c dmu
 # fills phi and phi_c, returns new sigma

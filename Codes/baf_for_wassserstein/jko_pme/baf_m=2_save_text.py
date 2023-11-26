@@ -132,6 +132,22 @@ def lap_solve_modified(f, theta_1, theta_2):
     # perform inverse fft and remove the even periodic extension
     return np.fft.irfft(ff)[:len(f)]
 
+@njit
+def gauss(f, theta_1, theta_2):
+    a = np.full_like(x, - theta_2 / h**2)
+    b = np.full_like(x, theta_1 + 2 * theta_2 / h**2)
+    c = np.full_like(x, - theta_2 / h**2)
+    c[0] = c[0] / b[0]
+    f[0] = f[0] / b[0]
+    for i in range(1,len(x)):
+        c[i] = c[i] / (b[i] - a[i] * c[i-1])
+        f[i] = (f[i] - a[i] * f[i-1]) / (b[i] - a[i] * c[i-1])
+    for i in range(len(x)-3, 0, -1):
+    #for i in reversed(range(1, len(x)-2)):
+        f[i] = f[i] - c[i] * f[i+1]
+    
+    return f
+
 
 # ascent step of J(phi) = \int phi dnu + \int phi^c dmu
 # fills phi and phi_c, returns new sigma
@@ -150,7 +166,10 @@ def ascent(phi, phi_c, mu, nu):
     pfwd = push_forward2(mu, tau * phi, h)           # 1-2-1     pfwd : T_{\phi\#}\mu = \mu(x - \tau \nabla \phi(x))|det(I - \tau D^2\phi_c))|
     rho = nu - pfwd                                 # 1-2-2     rho = \nu - T_{\phi\#}\mu　＝ \delta U^*(- \phi) - T_{\phi\#}\mu
     #TODO: This is by far the slowest part of the algorithm
+    
+    # In one dimension, Gaussian elimination is faster than the Fast Fourier Transform.
     lp = lap_solve_modified(rho, theta_1, theta_2)                             # 1-2-3     lp: \nabla_{\dot{H}^1} J(\phi_n) = (- \Delta)^{-1} * rho
+    #lp = gauss(rho, theta_1, theta_2)
     phi += lp                               # 1-2-4   phi_{n + 1/2} = phi_n + sigma * lp
 #####################################################################                     
     phi_c, _ = c_transform(x, tau * phi, x)                    # 2    psi_{n + 1/2} = (phi_{n + 1/2})^c
