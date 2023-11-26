@@ -1,3 +1,19 @@
+## 2023-11-25
+- Done
+  - c-transformとポアソン方程式の計算速度計算
+  - 画像表示数減らす
+
+- Doing
+  - euler explicitの画像改善
+
+## 2023-11-25
+- Done
+  - ポアソン方程式のGauss消去法を使ったプログラム
+  - baf method の計算速度計測(ポアソン方程式でfftとgaussの比較)
+- Doing
+  - c-transformとポアソン方程式の計算速度計算
+  - 画像表示数減らす
+
 ## 2023-11-23
 - Done
   - 各tauに対してerrorとtimeを計測するプログラム作成(save_text)
