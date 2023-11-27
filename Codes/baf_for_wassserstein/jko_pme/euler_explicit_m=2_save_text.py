@@ -24,7 +24,7 @@ def euler(tau): # JKO scheme
     
     error = 0
     start = time.process_time()
-    # JKO scheme
+
     for real_t in timestep:
         nu[0] = nu[-1] = 0
         nu[1:-1] = nu[1:-1] + ((tau * gamma)/ h**2) * (nu[:-2]**m -2*nu[1:-1]**m + nu[2:]**m)

@@ -168,8 +168,8 @@ def ascent(phi, phi_c, mu, nu):
     #TODO: This is by far the slowest part of the algorithm
     
     # In one dimension, Gaussian elimination is faster than the Fast Fourier Transform.
-    lp = lap_solve_modified(rho, theta_1, theta_2)                             # 1-2-3     lp: \nabla_{\dot{H}^1} J(\phi_n) = (- \Delta)^{-1} * rho
-    #lp = gauss(rho, theta_1, theta_2)
+    #lp = lap_solve_modified(rho, theta_1, theta_2)                             # 1-2-3     lp: \nabla_{\dot{H}^1} J(\phi_n) = (- \Delta)^{-1} * rho
+    lp = gauss(rho, theta_1, theta_2)
     phi += lp                               # 1-2-4   phi_{n + 1/2} = phi_n + sigma * lp
 #####################################################################                     
     phi_c, _ = c_transform(x, tau * phi, x)                    # 2    psi_{n + 1/2} = (phi_{n + 1/2})^c
@@ -259,7 +259,7 @@ print(f"Elapsed {realtime}s")
 
 
 # Save the ERROR and TIME in a text file.
-with open("result_baf.tex", "w") as f:
+with open("result_baf_gauss.tex", "w") as f:
     f.write("\\begin{tabular}{llll} \n")
     f.write("\hline \n")
     f.write("$\\tau$  & $N_\\tau$  &  Error & Times$(s)$  \\\ \n")
@@ -277,7 +277,7 @@ with open("result_baf.tex", "w") as f:
 
         tau /= 2
         if i == 6:
-            tau = 1e-4
+            tau = 0.0001
 
     f.write("\hline \n")
     f.write("\end{tabular} \n")
