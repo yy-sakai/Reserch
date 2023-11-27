@@ -7,13 +7,19 @@
 \usepackage[dvipdfmx]{graphicx}
 \usepackage{listings,jvlisting}
 \usepackage{float}
-\usepackage{here, amsmath, latexsym, amssymb, bm, ascmac, mathtools, multicol, tcolorbox, subfig, graphicx, comment, pgfplots}
+\usepackage{here, amsmath, latexsym, amssymb, bm, ascmac, mathtools, multicol, tcolorbox,graphicx, comment, pgfplots}
 \usepackage{algpseudocode}
 \usepackage{algorithm}
 \usepackage{tikz}
 \usepackage{siunitx}
+\usepackage{subcaption}
+\usepackage{booktabs}
 \usetikzlibrary{intersections}
 \usepgfplotslibrary{fillbetween}
+
+
+
+
 
 
 %
@@ -1535,12 +1541,37 @@ $\varphi^{(n+1)}$を求める際、アルゴリズム \ref{algo:baf scheme}を�
 関数$s(x) = \max(x, 0)^{\frac{1}{m-1}}$はゼロで不連続な導関数を持っているため、
 $\varphi^{(n+1)}$が滑らかであっても、$\nabla\rho$はその台の境界で不連続性を持つでしょう。
 
+
 \begin{table}[hbtp]
-    \caption{Back and forth method (grid size $512$)}
-    \label{table:baf_test}
     \centering
-    \input{../../Codes/result_baf.tex}
+    \begin{subtable}{.5\textwidth}
+        \centering
+        \caption{Solving Laplace eq by FFT.}
+        \label{table:baf_fft_test}
+        \input{../../Codes/result_baf_fft.tex}
+    \end{subtable}%
+    \begin{subtable}{.5\textwidth}
+        \centering
+        \caption{Solving Laplace eq by Gaussian elimination.}
+        \label{table:baf_gauss_test}
+        \input{../../Codes/result_baf_gauss.tex}
+    \end{subtable}
+    \caption{Back and forth method (grid size $512$)}
 \end{table}
+
+% \begin{table}[hbtp]
+%     \caption{Back and forth method baf (grid size $512$)}
+%     \label{table:baf_fft_test}
+%     \centering
+%     \input{../../Codes/result_baf_fft.tex}
+% \end{table}
+
+% \begin{table}[hbtp]
+%     \caption{Back and forth method gauss (grid size $512$)}
+%     \label{table:baf_gauss_test}
+%     \centering
+%     \input{../../Codes/result_baf_gauss.tex}
+% \end{table}
 
 
 \begin{table}[hbtp]
