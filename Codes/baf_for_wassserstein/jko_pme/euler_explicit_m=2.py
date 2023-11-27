@@ -25,7 +25,7 @@ x = np.linspace(-0.5, 0.5, 513)
 h = x[1] - x[0]
 m = 2
 c = np.zeros_like(x)
-tau = 0.000025
+tau = 0.0001 /2 /2
 # tau <= 1 / (2 * m * gamma) * h**2 = 0.00095367431640625 Stability conditions(maybe)
 # but 0.0002 is not stable
 
@@ -75,7 +75,7 @@ for real_t in timestep:
         plt.close()
         error = sum(abs((u - nu)[1:] + (u - nu)[:-1]) * h / 2)  #error = (2 / \tau) * \sigma_{n=0}^{2 / \tau} \int |\rho(n*\tau + t0, x) - \rho^(n)(x)| dx
         #print('error = ', error)
-        hist.rho.append(nu)
+        hist.rho.append(np.array(nu))
         hist.exact.append(u)
     
 
@@ -103,7 +103,7 @@ for real_t in timestep:
     
     
     if round(real_t+tau, 5) in [0.40, 0.80, 2.00]:
-        hist.rho.append(nu)
+        hist.rho.append(np.array(nu))
         hist.exact.append(u)
         print('real_t + stepsize(tau) = ', real_t+tau)
         
