@@ -1542,19 +1542,20 @@ $\varphi^{(n+1)}$を求める際、アルゴリズム \ref{algo:baf scheme}を�
 $\varphi^{(n+1)}$が滑らかであっても、$\nabla\rho$はその台の境界で不連続性を持つでしょう。
 
 
+
 \begin{table}[hbtp]
     \centering
     \begin{subtable}{.5\textwidth}
         \centering
         \caption{Solving Laplace eq by FFT.}
         \label{table:baf_fft_test}
-        \input{../../Codes/result_baf_fft.tex}
+        \input{../../Codes/result/result_baf_fft512.tex}
     \end{subtable}%
     \begin{subtable}{.5\textwidth}
         \centering
         \caption{Solving Laplace eq by Gaussian elimination.}
         \label{table:baf_gauss_test}
-        \input{../../Codes/result_baf_gauss.tex}
+        \input{../../Codes/result/result_baf_gauss512.tex}
     \end{subtable}
     \caption{Back and forth method (grid size $512$)}
 \end{table}
@@ -1573,19 +1574,97 @@ $\varphi^{(n+1)}$が滑らかであっても、$\nabla\rho$はその台の境界
 %     \input{../../Codes/result_baf_gauss.tex}
 % \end{table}
 
+\begin{table}[hbtp]
+    \centering
+    \begin{subtable}{.5\textwidth}
+        \centering
+        \caption{Solving Laplace eq by FFT.}
+        \label{table:baf_fft_test}
+        \input{../../Codes/result/result_baf_fft1000.tex}
+    \end{subtable}%
+    \begin{subtable}{.5\textwidth}
+        \centering
+        \caption{Solving Laplace eq by Gaussian elimination.}
+        \label{table:baf_gauss_test}
+        \input{../../Codes/result/result_baf_gauss1000.tex}
+    \end{subtable}
+    \caption{Back and forth method (grid size $1000$)}
+\end{table}
 
 \begin{table}[hbtp]
-    \caption{Berger Brezis Rogers scheme (grid size $512$)}
-    \label{table:bbr_test}
     \centering
-    \input{../../Codes/result_bbr.tex}
+    \begin{subtable}{.5\textwidth}
+        \centering
+        \caption{Solving Laplace eq by FFT.}
+        \label{table:baf_fft_test}
+        \input{../../Codes/result/result_baf_fft2000.tex}
+    \end{subtable}%
+    \begin{subtable}{.5\textwidth}
+        \centering
+        \caption{Solving Laplace eq by Gaussian elimination.}
+        \label{table:baf_gauss_test}
+        \input{../../Codes/result/result_baf_gauss2000.tex}
+    \end{subtable}
+    \caption{Back and forth method (grid size $2000$)}
+\end{table}
+
+\begin{table}[hbtp]
+    \centering
+    \begin{subtable}{.5\textwidth}
+        \centering
+        \caption{Solving Laplace eq by FFT.}
+        \label{table:baf_fft_test}
+        \input{../../Codes/result/result_baf_fft4000.tex}
+    \end{subtable}%
+    \begin{subtable}{.5\textwidth}
+        \centering
+        \caption{Solving Laplace eq by Gaussian elimination.}
+        \label{table:baf_gauss_test}
+        \input{../../Codes/result/result_baf_gauss4000.tex}
+    \end{subtable}
+    \caption{Back and forth method (grid size $4000$)}
+\end{table}
+
+
+\begin{table}[hbtp]
+    \centering
+    \begin{subtable}{.5\textwidth}
+        \centering
+        \caption{grid size $512$}
+        \label{table:baf_fft_test}
+        \input{../../Codes/result/result_bbr512.tex}
+    \end{subtable}%
+    \begin{subtable}{.5\textwidth}
+        \centering
+        \caption{grid size $1000$}
+        \label{table:baf_gauss_test}
+        \input{../../Codes/result/result_bbr1000.tex}
+    \end{subtable}
+    \caption{Berger Brezis Rogers scheme }
+\end{table}
+
+\begin{table}[hbtp]
+    \centering
+    \begin{subtable}{.5\textwidth}
+        \centering
+        \caption{grid size $2000$}
+        \label{table:baf_fft_test}
+        \input{../../Codes/result/result_bbr2000.tex}
+    \end{subtable}%
+    \begin{subtable}{.5\textwidth}
+        \centering
+        \caption{grid size $4000$}
+        \label{table:baf_gauss_test}
+        \input{../../Codes/result/result_bbr4000.tex}
+    \end{subtable}
+    \caption{Berger Brezis Rogers scheme }
 \end{table}
 
 \begin{table}[hbtp]
     \caption{Explicit Euler method (grid seize $512$)}
     \label{table:baf_test}
     \centering
-    \input{../../Codes/result_euler.tex}
+    \input{../../Codes/result/result_euler512.tex}
 \end{table}
 
   \begin{figure}
