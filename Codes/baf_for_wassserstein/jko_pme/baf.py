@@ -165,14 +165,14 @@ def ascent(phi, phi_c, mu, nu):
     #TODO: This is by far the slowest part of the algorithm
     
     # In one dimension, Gaussian elimination is faster than the Fast Fourier Transform.
-    lp_time = time.process_time() 
+    #lp_time = time.process_time() 
     #lp = gauss(rho, theta_1, theta_2)                             # 1-2-3     lp: \nabla_{\dot{H}^1} J(\phi_n) = (- \Delta)^{-1} * rho
     lp = lap_solve_modified(rho, theta_1, theta_2)                             # 1-2-3     lp: \nabla_{\dot{H}^1} J(\phi_n) = (- \Delta)^{-1} * rho
-    print("lp_time = ", time.process_time() - lp_time)                           # 1-2-4   phi_{n + 1/2} = phi_n + sigma * lp
+    #print("lp_time = ", time.process_time() - lp_time)                           # 1-2-4   phi_{n + 1/2} = phi_n + sigma * lp
 #####################################################################                     
-    c_time = time.process_time()                  
+    #c_time = time.process_time()                  
     phi_c, _ = c_transform(x, tau * phi, x)                    # 2    psi_{n + 1/2} = (phi_{n + 1/2})^c
-    print("c_time = ", time.process_time() - c_time)
+    #print("c_time = ", time.process_time() - c_time)
     phi_c /= tau
     H1_sq = np.mean(rho * lp)                        #######       ?
     return H1_sq, phi, phi_c, pfwd   #  ?
