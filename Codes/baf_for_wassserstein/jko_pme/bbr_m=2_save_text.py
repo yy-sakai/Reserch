@@ -61,10 +61,12 @@ def bbr(tau): # JKO scheme
         error += sum(abs((ex - z)[1:] + (ex - z)[:-1]) * h / 2)  #error = (2 / \tau) * \sigma_{n=0}^{2 / \tau} \int |\rho(n*\tau + t0, x) - \rho^(n)(x)| dx
 
     error /= 2 / tau  #error = (2 / \tau) * \sigma_{n=0}^{2 / \tau} \int |\rho(n*\tau + t0, x) - \rho^(n)(x)| dx
-    error = f'{round(error, 7):.3e}'
-    realtime = f'{(time.process_time() - start):.4e}'
+    error = f'{round(error, 7):.2e}'
+    realtime = f'{(time.process_time() - start):.2e}'
     
     return error, realtime, area
+
+
 
 # whether to plot all timesteps and save the time step data
 track = True
@@ -95,7 +97,7 @@ print('')
 
 
 # Save the ERROR and TIME in a text file.
-with open('result_bbr.tex', 'w') as f:
+with open('./result/result_bbr512.tex', 'w') as f:
     f.write('\\begin{tabular}{llll} \n')
     f.write('\hline \n')
     f.write('$\\tau$  & $N_\\tau$  &  Error & Times$(s)$  \\\ \n')

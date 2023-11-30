@@ -197,7 +197,7 @@ def baf(tau):  # JKO scheme
         count = 0
         # The back-and-forth scheme for solving J(phi) and I(psi)
         while diff >= eps:
-            if count > 200:
+            if count > 100:
                 break
 
             nu = (((m - 1) / (m * gamma)) * np.maximum(c - phi, 0)) ** (1 / (m - 1))  # \rho_*(x) = \delta U^*(- \phi)
@@ -232,13 +232,19 @@ def baf(tau):  # JKO scheme
     return error, realtime, area
 
 
+class Hist: pass
+hist = Hist()
+
+hist.tau = []
+hist.N_tau = []
+hist.error = []
 
 # whether to plot all timesteps and save the time step data
 track = True
 H1_sq = 0
 
 # Set parameters
-x = np.linspace(-0.5, 0.5, 4001)
+x = np.linspace(-0.5, 0.5, 513)
 h = x[1] - x[0]
 m = 2
 c = np.zeros_like(x)
@@ -259,8 +265,9 @@ print("error = ", error)
 print(f"Elapsed {realtime}s")
 
 
+
 # Save the ERROR and TIME in a text file.
-with open("./result/result_baf_gauss4000.tex", "w") as f:
+with open("result_baf_gauss512.tex", "w") as f:
     f.write("\\begin{tabular}{llll} \n")
     f.write("\hline \n")
     f.write("$\\tau$  & $N_\\tau$  &  Error & Times$(s)$  \\\ \n")
@@ -276,9 +283,23 @@ with open("./result/result_baf_gauss4000.tex", "w") as f:
         # String to be saved in a text file.
         f.write(f"{tau}  & {int(2 / tau)} & \\num{{{error}}} & {realtime} \\\ \n")
 
+        hist.tau.append(tau)
+        hist.N_tau.append(int(2 / tau))
+        hist.error.append(error)
         tau /= 2
         if i == 6:
             tau = 0.0001
 
     f.write("\hline \n")
     f.write("\end{tabular} \n")
+
+
+print(hist.N_tau[:-1])
+print(hist.error[:-1])
+plt.plot(hist.N_tau[:-1][::-1], hist.error[:-1][::-1])
+plt.show()
+plt.semilogy(hist.N_tau[:-1][::-1], hist.error[:-1][::-1])
+plt.show()
+
+
+    
