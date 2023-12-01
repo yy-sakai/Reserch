@@ -1555,7 +1555,7 @@ $\varphi^{(n+1)}$が滑らかであっても、$\nabla\rho$はその台の境界
         \centering
         \caption{Solving Laplace eq by Gaussian elimination.}
         \label{table:baf_gauss_test}
-        \input{../../Codes/result/result_baf_gauss512.tex}
+        \input{../../Codes/result/result_baf_gauss512_eps=1e-3.tex}
     \end{subtable}
     \caption{Back and forth method (grid size $512$)}
 \end{table}
@@ -1588,7 +1588,7 @@ $\varphi^{(n+1)}$が滑らかであっても、$\nabla\rho$はその台の境界
         \label{table:baf_gauss_test}
         \input{../../Codes/result/result_baf_gauss1000.tex}
     \end{subtable}
-    \caption{Back and forth method (grid size $1000$)}
+    \caption{Back and forth method (grid size $1000$, $\epsilon=\num{1e-3}$)}
 \end{table}
 
 \begin{table}[hbtp]
@@ -1605,7 +1605,7 @@ $\varphi^{(n+1)}$が滑らかであっても、$\nabla\rho$はその台の境界
         \label{table:baf_gauss_test}
         \input{../../Codes/result/result_baf_gauss2000.tex}
     \end{subtable}
-    \caption{Back and forth method (grid size $2000$)}
+    \caption{Back and forth method (grid size $2000$, $\epsilon=\num{1e-3}$)}
 \end{table}
 
 \begin{table}[hbtp]
@@ -1620,9 +1620,26 @@ $\varphi^{(n+1)}$が滑らかであっても、$\nabla\rho$はその台の境界
         \centering
         \caption{Solving Laplace eq by Gaussian elimination.}
         \label{table:baf_gauss_test}
-        \input{../../Codes/result/result_baf_gauss4000.tex}
+        \input{../../Codes/result/result_baf_gauss4000_eps=1e-3.tex}
     \end{subtable}
-    \caption{Back and forth method (grid size $4000$)}
+    \caption{Back and forth method (grid size $4000$, $\epsilon=\num{1e-3}$)}
+\end{table}
+
+\begin{table}[hbtp]
+    \centering
+    \begin{subtable}{.5\textwidth}
+        \centering
+        \caption{grid size $4000$, $\epsilon=\num{1e-5}$}
+        \label{table:baf_fft_test}
+        \input{../../Codes/result/result_baf_gauss4000_eps=1e-5.tex}
+    \end{subtable}%
+    \begin{subtable}{.5\textwidth}
+        \centering
+        \caption{grid size $4000$, $\epsilon=\num{1e-6}$}
+        \label{table:baf_gauss_test}
+        \input{../../Codes/result/result_baf_gauss4000_eps=1e-6.tex}
+    \end{subtable}
+    \caption{Back and forth method, solving Laplace eq by Gaussian elimination.(grid size $4000$)}
 \end{table}
 
 
