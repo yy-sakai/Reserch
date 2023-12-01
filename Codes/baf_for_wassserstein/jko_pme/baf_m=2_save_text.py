@@ -4,10 +4,10 @@ import os
 import time
 from numba import njit
 
-image_root = "../images/baf_m=2/"
+image_root = "images/baf_m=2/"
 os.makedirs(image_root, exist_ok=True)
 
-image_save = "../images/baf_tau/"
+image_save = "images/baf_tau/"
 os.makedirs(image_save, exist_ok=True)
 
 
@@ -197,7 +197,7 @@ def baf(tau):  # JKO scheme
         count = 0
         # The back-and-forth scheme for solving J(phi) and I(psi)
         while diff >= eps:
-            if count > 200:
+            if count > 100:
                 break
 
             nu = (((m - 1) / (m * gamma)) * np.maximum(c - phi, 0)) ** (1 / (m - 1))  # \rho_*(x) = \delta U^*(- \phi)
@@ -223,22 +223,28 @@ def baf(tau):  # JKO scheme
         t = (real_t + tau + t0) * gamma
         u = np.maximum(1 / t ** (1 / 3) * (b - (1 / (12 * t ** (2 / 3))) * x**2), 0)
         area = sum((u[1:] + u[:-1]) * h / 2)  # trapezoidal formula
-        error += sum(abs((u - nu)[1:] + (u - nu)[:-1]) * h / 2)  # error = (2 / \tau) * \sigma_{n=0}^{2 / \tau} \int |\rho(n*\tau + t0, x) - \rho^(n)(x)| dx
+        error += (tau / 2) * sum(abs((u - nu)[1:] + (u - nu)[:-1]) * h / 2)  # error = (2 / \tau) * \sigma_{n=0}^{2 / \tau} \int |\rho(n*\tau + t0, x) - \rho^(n)(x)| dx
 
-    error /= (2 / tau)  # error = (2 / \tau) * \sigma_{n=0}^{2 / \tau} \int |\rho(n*\tau + t0, x) - \rho^(n)(x)| dx
+    #error /= (2 / tau)  # error = (2 / \tau) * \sigma_{n=0}^{2 / \tau} \int |\rho(n*\tau + t0, x) - \rho^(n)(x)| dx
     error = f"{round(error, 7):.2e}"
     realtime = f"{(time.process_time() - start):.3g}"
 
     return error, realtime, area
 
 
+class Hist: pass
+hist = Hist()
+
+hist.tau = []
+hist.N_tau = []
+hist.error = []
 
 # whether to plot all timesteps and save the time step data
 track = True
 H1_sq = 0
 
 # Set parameters
-x = np.linspace(-0.5, 0.5, 4001)
+x = np.linspace(-0.5, 0.5, 513)
 h = x[1] - x[0]
 m = 2
 c = np.zeros_like(x)
@@ -259,8 +265,9 @@ print("error = ", error)
 print(f"Elapsed {realtime}s")
 
 
+
 # Save the ERROR and TIME in a text file.
-with open("./result/result_baf_gauss4000.tex", "w") as f:
+with open("Codes/result/result_baf_gauss512_eps=1e-3.tex", "w") as f:
     f.write("\\begin{tabular}{llll} \n")
     f.write("\hline \n")
     f.write("$\\tau$  & $N_\\tau$  &  Error & Times$(s)$  \\\ \n")
@@ -276,9 +283,33 @@ with open("./result/result_baf_gauss4000.tex", "w") as f:
         # String to be saved in a text file.
         f.write(f"{tau}  & {int(2 / tau)} & \\num{{{error}}} & {realtime} \\\ \n")
 
+        hist.tau.append(tau)
+        hist.N_tau.append(int(2 / tau))
+        hist.error.append(error)
         tau /= 2
         if i == 6:
             tau = 0.0001
 
     f.write("\hline \n")
     f.write("\end{tabular} \n")
+
+
+print(hist.N_tau[:-1])
+print(hist.error[:-1])
+
+# plt.plot(hist.N_tau[:-1][::-1], hist.error[:-1][::-1])
+# plt.show()
+
+plt.semilogy(hist.N_tau[:-1], np.ones_like(hist.tau[:-1]) / hist.N_tau[:-1], marker='.', label=r'$\frac{1}{N_{\tau}}$')
+plt.semilogy(hist.N_tau[:-1], np.ones_like(hist.tau[:-1]) / np.square(hist.N_tau[:-1]), marker='.', label=r'$\frac{1}{N_{\tau}^2}$')
+# plt.semilogy(hist.N_tau[:-1], np.ones_like(hist.tau[:-1]) / np.power(hist.N_tau[:-1], 3), marker='.', label=r'$\frac{1}{N_{\tau}^3}$')
+plt.semilogy(hist.N_tau[::-1], hist.error[::-1], marker='.', label=r'error')
+plt.xlim(0,350)
+plt.legend()
+plt.show()   
+
+
+plt.semilogy(hist.N_tau[:-1],np.array(hist.error[:-1], dtype=float) - (np.ones_like(hist.tau[:-1]) / hist.N_tau[:-1]), marker='.', label=r'$error - \frac{1}{N_{\tau}}$')
+plt.semilogy(hist.N_tau[:-1],np.array(hist.error[:-1], dtype=float) - (np.ones_like(hist.tau[:-1]) / np.square(hist.N_tau[:-1])), marker='.', label=r'$error - \frac{1}{N_{\tau}^2}$')
+plt.legend()
+plt.show()
