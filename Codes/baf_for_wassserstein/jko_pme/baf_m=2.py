@@ -97,6 +97,7 @@ hist.rho = []
 hist.exact = []
 hist.Tphi_mu = []
 hist.Tpsi_nu = []
+hist.save_error = []
 
 
 # JKO scheme
@@ -119,9 +120,9 @@ for real_t in timestep:
     count = 0
 # The back-and-forth scheme for solving J(phi) and I(psi)
     while diff >= eps:
-        if count > 200:
+        if count > 100:
             break
-        """
+        
         if real_t == 0 and count == 0:
             plt.ylim([-0.1, 15.1])
             plt.title(r'PME m=2 baf method t = 0, $\tau = $' + str(tau))
@@ -137,11 +138,11 @@ for real_t in timestep:
             plt.legend()
             plt.savefig(f'{image_root}phi{count:04}.png', )
             plt.close()
-            error = sum(abs((u - nu)[1:] + (u - nu)[:-1]) * h / 2)  #error = (2 / \tau) * \sigma_{n=0}^{2 / \tau} \int |\rho(n*\tau + t0, x) - \rho^(n)(x)| dx
+            error += (tau / 2) * sum(abs((u - nu)[1:] + (u - nu)[:-1]) * h / 2)  #error = (2 / \tau) * \sigma_{n=0}^{2 / \tau} \int |\rho(n*\tau + t0, x) - \rho^(n)(x)| dx
             #print('error = ', error)
             hist.rho.append(nu)
             hist.exact.append(u)
-        """
+        
             
             
         nu = (((m - 1) / (m * gamma)) * np.maximum(c - phi, 0)) ** (1 / (m - 1)) # \rho_*(x) = \delta U^*(- \phi) 
@@ -180,10 +181,10 @@ for real_t in timestep:
     t = (real_t + tau + t0) * gamma
     u = np.maximum(1 / t**(1 / 3) * (b - (1 / (12 * t**(2 / 3))) * x**2), 0)
     area = sum((u[1:] + u[:-1]) * h / 2)   #trapezoidal formula 
-    error += sum(abs((u - nu)[1:] + (u - nu)[:-1]) * h / 2)  #error = (2 / \tau) * \sigma_{n=0}^{2 / \tau} \int |\rho(n*\tau + t0, x) - \rho^(n)(x)| dx
+    error += (tau / 2) * sum(abs((u - nu)[1:] + (u - nu)[:-1]) * h / 2)  #error = (2 / \tau) * \sigma_{n=0}^{2 / \tau} \int |\rho(n*\tau + t0, x) - \rho^(n)(x)| dx
 
 #   Plot when tau is a multiple of 0.1.
-    """
+    
     if (abs((real_t+tau) % 0.1) < 1e-5 or abs(((real_t+tau) % 0.1) - 0.1) < 1e-5):
         plt.ylim([-0.1, 15.1])
         plt.plot(x, nu,label=r'$\rho$')        
@@ -195,19 +196,19 @@ for real_t in timestep:
         plt.legend(prop={'size': 15})
         plt.savefig(f'{image_root}baf_rho{(real_t + tau):.2}.png')
         plt.close()
+        
     
 
-    if round(real_t+tau, 3) in [0.40, 0.80, 2.00]:
+    if round(real_t+tau, 5) in [0.40, 0.80, 2.00]:
         hist.rho.append(nu)
         hist.exact.append(u)
         print('real_t + stepsize(tau) = ', real_t+tau)
         
     #print(f'Elapsed {(time.process_time() - start):.4}s')
-    """
 
-error /= 2 / tau  #error = (2 / \tau) * \sigma_{n=0}^{2 / \tau} \int |\rho(n*\tau + t0, x) - \rho^(n)(x)| dx
-error = f"{round(error, 7):.3e}"
-realtime = f'{(time.process_time() - start):.4e}'
+#error /= 2 / tau  #error = (2 / \tau) * \sigma_{n=0}^{2 / \tau} \int |\rho(n*\tau + t0, x) - \rho^(n)(x)| dx
+error = f"{round(error, 7):.2e}"
+realtime = f'{(time.process_time() - start):.3g}'
 print('error = ', error)
 print(f"Elapsed {realtime}s")
 plt.semilogy(hist.H1_sq)
@@ -216,5 +217,18 @@ plt.close()
 
 np.save(f'{image_save}/tau={tau}', hist.rho)
 np.save(f'{image_save}/exact', hist.exact)
+
+# Save error for each x at t=2.0
+save_error = abs((u - nu)[1:] + (u - nu)[:-1]) * h / 2  
+hist.save_error.append(save_error)
+#print(save_error)
+
+#plot error graph
+center_x = np.array((x[1:] + x[:-1])/2)
+plt.plot(center_x, hist.save_error[0], label=r'$error_ baf$')
+plt.xlabel("x")
+plt.ylabel("error = exact - computed")
+plt.show()
+np.save(f'{image_save}/error_tau={tau}', hist.save_error[0])
 
 print(f'Plots saved in {image_root}')
