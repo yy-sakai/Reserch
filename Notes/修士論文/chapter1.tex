@@ -1,9 +1,225 @@
-\chapter{序論} \label{ch:intro}
-\section{研究背景}
-test  \cite{Wie1985,Wie2001}
+\chapter{イントロダクション} \label{ch:intro}
 
-\section{研究目的}
+近年、最適輸送問題（Optimal Transport Problem, OTP）と偏微分方程式の間に深い関係が発見されたことから最適輸送問題への関心が高まっている。
+偏微分方程式 を解くための新しい方法として、最適輸送問題の解法を用いるソルバーが注目されている。
+そんな中発表されたJacobsとLégerによって導入された the back-and-forth method(BFM)は、最適輸送問題のソルバーを用いた偏微分方程式の新たな解法が発表された。 [Numer. Math. 146（2020）513-544.]。
+この解法は特に非線形偏微分方程式に有効であり、今までの解法に比べて高速でかつ安定性条件を必要としないため、より幅広い問題を解くことが可能である。
+私はこの最適輸送問題を用いた偏微分方程式のソルバーに興味がある。
+
+本研究では、特に以下の偏微分方程式について考える。
+\begin{align}
+    \begin{split}
+        \label{eq:Darcy's}
+        \partial_t \rho - \nabla \cdot (\rho \nabla \phi) = 0, \\
+        \phi = \delta U(\rho).
+    \end{split}
+\end{align}
+この偏微分方程式(\ref{eq:Darcy's})は、以下のエネルギー関数$U$用いることで多孔質媒体方程式（Porous medium equation, PME）となる。
+$$
+    U(\rho) = \frac{\gamma}{m - 1} \int \rho^m \,dx \quad(m > 1, \gamma > 0)
+$$
+ここで、多孔質媒体方程式 は、多孔質媒体中での流体流動を記述する以下の偏微分方程式である。
+\begin{align}
+    \begin{split}
+        \label{eq:PME}
+        \partial_t \rho - \gamma\Delta(\rho^m) = 0  \quad(m > 1, \gamma > 0)
+    \end{split}
+\end{align}
+
+一般的に多孔質媒体方程式 は、剛性があり非線形であり、数値的に解くのは困難である。
+そのため本研究では、偏微分方程式のJacobs、Lee、Légerによって導入されたBFMを用いたソルバーと他のソルバーとの比較を行い、
+特定の条件下においてBFMのソルバーが、非線形な多孔質媒体方程式をより効率的に解くことができることを示す。
+
+
+\begin{comment}
+研究では、以下の研究内容を検討します。
+
+* BFM を PME に適用するための一般化
+* 提案するソルバーの効率性の評価
+* 提案するソルバーの他のソルバーとの比較
+
+BFM を PME に適用するためには、以下の点に留意する必要があります。
+
+* PME は、剛性があり非線形な方程式であるため、BFM の解法の適応が必要となる。
+* PME の境界条件は、通常、PDE の解法に固有の形状となる。BFM の解法では、これらの境界条件をどのように扱うかが課題となる。
+
+提案するソルバーの効率性を評価するためには、以下の点に留意する必要があります。
+
+* ソルバーの収束精度と収束速度を評価する。
+* ソルバーの計算コストを評価する。
+
+提案するソルバーと他のソルバーとの比較を行うためには、以下の点に留意する必要があります。
+
+* ソルバーの収束精度と収束速度を比較する。
+* ソルバーの計算コストを比較する。
+
+本研究では、これらの点に留意して、提案するソルバーの有効性を検証します。
+
+\end{comment}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\section{全体のアプローチ}
+\label{sect:全体のアプローチ}
+本論文では、次の条件に従うものとする。
+{\color{red}
+\begin{ass}
+\label{ass:1}
+    $\Omega$を凸であり、コンパクトな$\mathbb{R}^n$の部分集合とする。
+    $\Omega$ 上の確率測度であり、非負の測度で質量（mass）が1である確率測度の集合を $\mathcal{P} (\Omega)$ とする。
+    また、$\Omega$上の連続関数の空間を$C(\Omega)$で表す。
+    簡単のために積分が \(1\) となる非負の \(L^1(\mathbb{R}^n)\)関数 で考える
+\end{ass}
+}
+
+非線形の偏微分方程式である多孔質媒体方程式は、エネルギー関数$U$に基づくWasserstein 勾配流として表現できる。
+これにより、時間離散化を行い変分原理に基づき以下の反復を行うことによって多孔質媒体方程式の近似解を求めるJKOスキームを行うことができる。
+ただし、$\rho$は最小化問題(\ref{eq:minimizer})の解である。さらに、(\ref{eq:JKOscheme})を一般化最適輸送問題という。
+\begin{equation}
+    \label{eq:minimizer}
+    \min_{\rho \in \mathcal{P}} U(\rho) + \frac{1}{2\tau} W_2^2(\rho, \mu)
+\end{equation}
+\begin{equation}
+    \label{eq:JKOscheme}
+    \rho^{(n+1)} := \underset{\rho}{\operatorname{argmin}} U(\rho) + \frac{1}{2\tau} W_2^2(\rho, \rho^{(n)})
+\end{equation}
+ここで、2-Wasserstein距離のKantorovichの双対公式は次のように表される:
+
+\begin{equation}
+    \label{eq:wasserstein dual}
+    \frac{1}{2\tau} W_2^2(\rho, \mu) = \sup_{(\varphi, \psi) \in \mathcal{C}} \left( \int \varphi d\rho + \int \psi d\mu \right),
+\end{equation}
+
+ここで、$\mathcal{C}$は制約
+\[
+    \mathcal{C}  := \{(\varphi, \psi) \in C(\Omega) \times C(\Omega) : \varphi(x) + \psi(y) \leq \frac{1}{2 \tau} |x - y|^2 \}. 
+\]
+を満たす関数$(\varphi, \psi)$の集合、$\tau$はスキーム内の時間ステップを表す。
+重要な点として、集合$\mathcal{C}$は凸であることに注意する。
+
+双対形式を用いることで、
+\begin{align*}
+    \min_{\rho \in \mathcal{P}} U(\rho) + \frac{1}{2\tau} W_2^2(\rho, \mu) &= \min_{\rho \in \mathcal{P}} \left(U(\rho) + \sup_{(\varphi, \psi) \in \mathcal{C}} \left(\int \varphi \, d\rho + \int \psi \, d\mu\right)\right)\\
+                                                                            &= \min_{\rho \in \mathcal{P}} \sup_{(\varphi, \psi) \in \mathcal{C}} \left(U(\rho) + \int \varphi \, d\rho + \int \psi \, d\mu\right)
+  \end{align*}
+  次に、\(\mathcal{P}\)と\(\mathcal{C}\)が凸であり、\(U\)が凸であるとすると、関数
+  \[
+    \label{eq:L}
+    L(\rho, (\varphi, \psi)) := U(\rho) + \int \varphi \, d\rho + \int \psi \, d\mu
+  \]
+  は\hypertarget{rho_convex}{\(\rho\)に関して凸関数}（\((\varphi, \psi)\)が固定された場合）(\hyperlink{Proof:rho_convex}{Proof})、
+  および\hypertarget{varphipsi_concave}{\((\varphi, \psi)\)に関しては凹関数}になる。
+  このため、\cite[Prop. 2.4 (p176)]{MR1727362}のような最小最大の定理を適用して、\(\min\)と\(\sup\)の順序を交換することができる。
+  したがって、
+  \begin{align}
+    \label{eq:dual}
+    \min_{\rho \in \mathcal{P}} U(\rho) + \frac{1}{2\tau} W_2^2(\rho, \mu) &= \sup_{(\varphi, \psi) \in \mathcal{C}} \min_{\rho \in \mathcal{P}} \left(U(\rho) + \int \varphi \, d\rho + \int \psi \, d\mu \right)  \notag\\
+                                                                            &= \sup_{(\varphi, \psi) \in \mathcal{C}} \left(\min_{\rho \in \mathcal{P}} \left(U(\rho) + \int \varphi \, d\rho\right) + \int \psi \, d\mu\right)  \notag\\
+                                                                            &= \sup_{(\varphi, \psi) \in \mathcal{C}} \left(\int \psi \, d\mu - U^*(- \varphi)\right)  \\
+                                                                            &= \sup_{(\phi,\psi) \in \mathcal{C}} \left( \int \psi(y) d\rho^{(n)}(y) - U^*(- \varphi) \right)\notag
+  \end{align}
+  ここで、$U^*(\varphi)$は以下のように定義している。 
+  \[
+    U^*(\varphi) := \sup_{\rho \in \mathcal{P}} \left(\int \varphi \, d\rho - U(\rho) \right).
+  \]
+  \begin{align*}
+    U^*(- \varphi) &= \sup_{\rho \in \mathcal{P}} \left(\int - \varphi \, d\rho - U(\rho) \right),\\
+                   &= - \inf_{\rho \in \mathcal{P}} \left(\int \varphi \, d\rho + U(\rho) \right) .\\
+  \end{align*}
+$\mu$が非負測度であるため、(\ref{eq:dual})を満たすには、できるだけ大きな値を持つように$\psi$を選ぶ必要がある。
+
+そこで与えられた \((\varphi, \psi) \in C\) に対して、\(\psi\) の c-変換（c-transform）
+
+\begin{equation*}
+    \psi^c(x) := \inf_{y \in \Omega} \left( \frac{1}{2\tau}|x-y|^2 - \psi(y)\right)
+\end{equation*}
+を定義することで、
+\(\psi^c \geq \varphi\)が成り立つ。
+
+同様に、
+\begin{equation*}
+    \varphi^c(y) := \inf_{x \in \Omega} \left( \frac{1}{2\tau}|x-y|^2 - \varphi(x)\right)
+\end{equation*}
+も定義する。
+
+$c$-変換を利用することで、$\varphi$もしくは$\psi$のみの式にできる。
+よって制約条件$\mathcal{C}$を排除することができる。
+すなわち、(\ref{eq:dual})は制約条件のない以下２つの汎関数の最大値を求める問題と考えることができる。
+\begin{equation}
+    \label{eq:J}
+    J(\varphi):= \int_{\Omega} \varphi^c(x) \,d\mu(x) - U^*(- \varphi)
+\end{equation}
+
+\begin{equation}
+    \label{eq:I}
+    I(\psi):= \int_{\Omega} \psi(x) \, d\mu(x) - U^*(- \psi^{c})
+\end{equation}
+言い換えると、
+\[
+\sup_{(\varphi,\psi) \in \mathcal{C}} \int \psi(x) d\mu(x) - U^*(- \varphi) = \sup J(\varphi) = \sup I(\psi).
+\]
+が成立するということである。
+
+加えて、$\phi_*$が$J$の最大化関数であり、$\psi_*$が$I$の最大化関数であるならば、
+\[
+    \varphi_*^c = \psi_*, \qquad \psi_*^c = \varphi_*
+\]
+の関係が成り立ち、$(\varphi_*, \psi_*)$は(\ref{eq:dual})の最大化関数となる。
+back-and-forth methodのアルゴリズムのアイデアは、$\varphi$-空間での$J$の勾配上昇更新と$\psi$-空間での$I$の勾配上昇更新を交互に実行することである。
+$c$-変換によって$\varphi$と$\psi$を変換することで、互い空間に勾配上昇の計算した情報が伝達される。
+各空間の勾配は適切な重み付きSobolev空間で計算される。
+
+back-and-forth methodによって双対問題を解いた後、元の問題（\ref{eq:minimizer}）の解を復元することができる。
+$U$が凸であれば、最適な双対変数$\phi_*$は$\rho^{(n+1)}$との双対関係
+$$
+    \rho^{(n+1)} = \delta U^*(\phi_*)
+$$
+を介して復元される。
+
+本研究の偏微分方程式のソルバーは、最適輸送問題の解法の一つであるback-and-forth methodを用いて、Kantorovichの双対問題を求める。
+さらに$\rho^{(n+1)} = \delta U^*(\phi_*)$によって$\min_{\rho \in \mathcal{P}} U(\rho) + \frac{1}{2\tau} W_2^2(\rho, \mu)$の最小化問題の解を復元するというアイデアに基づいている。
 
 \section{論文の構成}
+\label{sect:論文の構成}
+1 intro
 
-\section{記法}
+1.1 全体の流れと最低限の内容
+
+1.2 論文の構成
+
+2 background
+
+2.1 最適輸送
+
+2.2 c-tra
+
+2.2.1 convex hull
+
+2.2.2 legendre transform
+
+2.2.3 c-transform
+
+3. bafmethod
+
+3.1 transport map
+
+3.2 baf method
+
+4. c-traまでのまとめ、結果
+
+5. PMEの導入
+
+6. 結果

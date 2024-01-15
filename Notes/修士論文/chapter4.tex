@@ -1,4 +1,68 @@
-\chapter{4} 
-\section{緒言}
+\chapter{The back-and-forth method} 
+\label{ch:The back-and-forth method}
+\section{The back-and-forth method algorithm}
+\label{sect:The back-and-forth method algorithm}
+本論文では多孔質勾配方程式について考える。
+The back-and-forth methodは標準的な勾配上昇法より収束速度がを大幅に速いため、the back-and-forth methodを用いる。
+The back-and-forth methodを用いてKantorovich双対問題を解くことで一般化最適輸送問題
+(\ref{eq: GOT})を求め、JKOスキームを求めることで多孔質勾配方程式を解くことができる。
+多孔質勾配方程式
+\[
+    \partial_t \rho - \gamma\Delta(\rho^m) = 0  \quad(m > 1, \gamma > 0)
+\]
+はエネルギー関数$U$に基づくWasserstein 勾配流として表現できる。
+ここで$U$は
+\[
+    U(\rho) := \frac{\gamma}{{m-1}} \int \rho^m \, dx
+\]
+であり、$\Omega$に対して凸である。
+ここで、$U$は凸である場合には、Thm. \ref{thm: duality}より一般化最適輸送問題は双対性を持つ。
+具体的には、$U$が凸であるとき、一般化最適輸送問題は$J$(\ref{eq:J})と$I$(\ref{eq:I})を用いて次のような双対性を表せる$:$
+$$
+    \inf_{\rho \in L^1(\Omega)} U(\rho) + \frac{1}{2 \tau} W^2_2(\rho, \mu) = \sup_\varphi J(\varphi) = \sup_\psi I (\psi)
+$$
+さらに一般化最適輸送問題の解は以下の性質を持つ$:$
+\begin{equation}
+    \label{eq:dualJI}
+    \rho_* \in \delta U^*(\varphi_*), \quad \varphi_* \in \delta U(\rho_*), \quad \rho_* = T_{\varphi_* \#} \mu,
+\end{equation}
+ただし、$\rho$は(\ref{eq: GOT})の最小化解であり、$(\varphi_*, \psi_*)$は(\ref{eq:dualJI})の最大化される関数である。
+$J, I$はどちらも制約がない汎関数であるので、いずれかの関数の最大化解を標準的な勾配上昇法で見つけることができる。
+しかし$I$または$J$だけを使用することは問題の対称性を崩すため、関数のいずれかにだけ焦点を当てるのではなく、back-and-forthメソッドでは$I$とs$J$の交互の勾配上昇ステップを行うことで対称性を保存することができる。
+$I$と$J$は異なる変数を使用しているが、$c$-変換を使用することで$\psi$と$\varphi$を変換できる。
+
+
+次に、問題(\ref{eq:dualJI})の$(\varphi_*, \psi_*)$を見つけるthe back-and-forth methodのアルゴリズムについて考える。
+アルゴリズムは以下のアイデアに基づいている$:$
+\begin{enumerate}
+    \item Back-and-Forth 上昇スキーム Scheme:$I$と$J$における勾配上昇ステップを交互に繰り返す。
+    \item Sobolev空間における$H^1$-型ノルム$H$における勾配上昇ステップは以下のようになる:
+        \begin{equation*}
+            \nabla_H J(\phi) = (\Theta_1 \text{Id} - \Theta_2 \Delta)^{-1} \left[\delta U^*(- \phi)-  T_{\phi \#} \mu \right], \\
+        \end{equation*}
+        \begin{equation*}
+            \nabla_H I(\psi) = (\Theta_1 \text{Id} - \Theta_2 \Delta)^{-1} \left[\mu - T_{\psi \#} (\delta U^*(\psi^c))\right].
+        \end{equation*}
+    ただし、$H$-勾配は(\ref{eq:H-gradient})、$\delta F(\varphi)$は(\ref{eq:delta J}),(\ref{eq:delta I})を参照すること。
+\end{enumerate}
+
+上記を踏まえ、the back-and-forth methodのアルゴリズムをAlgorithm \ref{al:baf-method}に示す。
+
+\begin{algorithm}[tb]
+    \caption{The back-and-forth method}
+    \label{al:baf-method}
+    \begin{algorithmic}[1]
+        \State \textbf{Input:} $\mu, \varphi_0, eps$
+        \For {a}
+        \EndFor
+    \end{algorithmic}
+\end{algorithm}
+
+
+
+
+
+
+back-and-forth methodは二つの固定された密度における最適輸送写像を計算するアルゴリズムである。
 
 \section{まとめ}

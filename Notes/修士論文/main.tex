@@ -1,27 +1,74 @@
-\documentclass[a4j,10pt, dvipdfmx]{jbook}
+\documentclass[11pt, a4paper, openany, oneside, dvipdfmx]{jsbook}
+\let\cleardoublepage\clearpage
 %\documentclass[a4paper,uplatex,dvipdfmx,ja=standard,12pt,jafont=noalphabet,openany,oneside,draft]{bxjsbook} % draft
-
+\usepackage{amsthm, amsfonts, amsmath}
 \usepackage[print]{Thesis}
 %\usepackage[phd]{Thesis}
+\usepackage{color}
+\usepackage{graphicx}
+\usepackage{listings,jvlisting}
+\usepackage{here, latexsym, bm, ascmac, mathtools, multicol, tcolorbox, graphicx, comment, pgfplots}
+\usepackage{algpseudocode}
+\usepackage{algorithm}
+\usepackage{tikz}
+\usepackage{siunitx}
+\usepackage{subcaption}
+\usepackage{booktabs}
+\usepackage{pxjahyper}
+\usepackage{xcolor}
+
+
+
+\usetikzlibrary{intersections}
+
+\usepgfplotslibrary{fillbetween}
+
+
+\hypersetup{
+    colorlinks=true,
+    citecolor=blue,
+    linkcolor=blue,
+    urlcolor=orange,
+}
+
+
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{cor}{Corollary} [section]
+\newtheorem{lem}{Lemma}[section]
+\newtheorem{prop}{Proposition}[section]
+\theoremstyle{definition}
+\newtheorem{dfn}{Definition}[section]
+\newtheorem{ex}{Example}[section]
+\newtheorem{rem}{Remark}[section]
+\newtheorem{ass}{Assumption}[section]
+\newtheorem*{monge}{Mongeの最適輸送問題}
+\newtheorem*{Kantorovich}{Kantorovich双対問題}
+
+\renewcommand{\labelenumii}{(\roman{enumii})}
+\renewcommand{\labelenumi}{(\arabic{enumi})}
+
 %%%%%%%%% タイトルページの設定 %%%%%%%%%%%%%%%%%%
+
 \nendo{5}
 \thesistype{修士}
-\title{日本語タイトル}
-\etitle{English title}
+\title{最適輸送法を用いた偏微分方程式のソルバー}
+\etitle{PDE solver using optimal transport}
 \kyokanA{}{POZAR NORBERT 准教授}
 \affiliation{金沢大学大学院　自然科学研究科}
 \major{博士前期課程　数物科学専攻}
 
 \regnum{2215011016}
 \author{坂井幸人}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 
 \begin{document}
 \maketitle
-
+% \makeatletter\@openrightfalse\makeatother
 \frontmatter
 \tableofcontents
-\listoffigures
-\listoftables
+% \listoffigures
+% \listoftables
 
 \mainmatter
 \input{chapter1}
@@ -33,7 +80,9 @@
 \input{conclusion}
 
 \input{appendix}
-\bibliography{references}	
-\input{achievements}
+\bibliographystyle{plain}
+\bibliography{ref}  % BibTeXファイルの指定
+
+% \input{achievements}\Delta 
 \input{acknowledgments}
 \end{document}

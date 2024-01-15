@@ -1,8 +1,482 @@
-\chapter{3}
-\section{緒言}
+\chapter{The back-and-forth methodの予備知識}
+\label{ch:baf_background}
 
-\section{まとめ}
+\section{輸送写像(Transport map)}
+\label{輸送写像(Transport map)}
+\begin{prop}
+    \label{prop:transport map}
+    \hyperlink{proof:prop:transport map}{（証明）}
+    $c$-concaveな関数$\varphi \in C(\Omega)$に対して、写像$T_\varphi(x)$がwell-definedかつalmost everywhereにおいて一意である。
+    
+    \begin{equation}
+        T_\varphi(x):= \underset{y \in \Omega} {\operatorname{argmin}}\left( \frac{1}{2 \tau} |x - y|^2 - \varphi(y) \right) 
+    \end{equation}
+    言い換えれば、almost everyの$x$に対して最小化問題 $\inf_{y \in \Omega} \frac{1}{2 \tau} |x - y|^2 - \varphi(y)$ は唯一の最小値をもつ関数$T_\varphi(x)$を提供する。
+    さらに、$u \in C(\Omega)$の場合、almost everyな$x, y \in \Omega$に対して次の$c$-transformの摂動公式が成り立つ。
+    
+    \begin{equation}
+        \lim_{\varepsilon \to 0} \frac{(\varphi + \varepsilon u)^c(x) - \varphi^c(x)}{\varepsilon} = - u(T_\varphi(x))
+    \end{equation}
+    
+    最後に、以下の式も成り立つ。
+    \[
+        T_\varphi(x) = x - \tau \nabla \varphi^c(x),
+    \]
+    \[
+        T_\psi(y) = y - \tau \nabla \psi^c(y).
+    \]
+    また、$\varphi, \psi$が$c$-共役の場合、$T_\varphi(T_\psi(y)) = y$および$T_\psi(T_\varphi(x)) = x$ はalmost everywhereで成り立つ。
+    具体的には、
+    \[
+        T_\varphi^{-1}(x) = x - \tau \nabla \varphi(x),
+    \] 
+    \[
+        T_\psi^{-1}(y) = y - \tau \nabla \psi(y) .
+    \] 
+\end{prop}
+
+\begin{prop}
+    \label{prop:wasserstein}
+    \hyperlink{proof:prop:wasserstein}{(Proof)}
+    $\mu$と$\nu$は$L^1(\Omega)$上の非負密度関数で、質量が等しく$1$である。すなわち、
+    \[
+        \int_{\Omega} \mu(x)dx = \int_{\Omega} \nu(y)dy = 1
+    \]
+    であるのでば、次の式が成り立ちます。
+    \[
+        \frac{1}{2\tau}W_2^2(\mu, \nu) = \sup_{\varphi \in C(\Omega)} \left( \int_{\Omega} \varphi^c(x) \mu(x)dx + \int_{\Omega} \varphi(y) \nu(y)dy \right) 
+    \]
+
+    \[
+        \frac{1}{2\tau}W_2^2(\mu, \nu) = \sup_{\psi \in C(\Omega)} \left( \int_{\Omega} \psi(x) \mu(x)dx + \int_{\Omega} \psi^c (y) \nu(y)dy \right) 
+    \]
+\end{prop}
+この結果により、最適輸送写像の存在と一意性が保証される。
+さらに、$\frac{1}{2\tau}W_2^2(\mu, \nu)$を$\varphi$もしくは$\psi$の式として表すことができることがわかる。
+
+\begin{thm}
+    \label{thm:pushforward measure}
+    \hyperlink{proof:thm:pushforward measure}{(Proof)}
+    $\mu$と$\nu$は$L^1(\Omega)$上の非負密度関数で、質量が等しく$1$であるので、次の条件を満たす$c$-共役のペア$(\varphi_*, \psi_*)$が存在する:
+    \begin{align*}
+        \varphi_* &\in \underset{\varphi \in C(\Omega)} {\operatorname{argmax}}\left\{\int_{\Omega} \varphi^c(x) \mu(x)dx + \int_{\Omega} \varphi(y) \nu(y)dy \right\} \\
+        \psi_* &\in \underset{\psi \in C(\Omega)} {\operatorname{argmax}} \left\{\int_{\Omega} \psi(x) \mu(x)dx +z \int_{\Omega} \psi^c(y) \nu(y)dy \right\}
+    \end{align*}
+さらに、$T_\varphi$は$\mu$を$\nu$に送る唯一の最適輸送写像であり、$T_\psi$は$\nu$を$\mu$に送る唯一の最適輸送写像である。
+これを押し出し速度を用いて表すと、$T_{\varphi_* \#} \mu = \nu$および$T_{\psi_* \#} \nu = \mu$となる。
+
+また、式(\ref{eq:wasserstein dual})から2-Wasserstein距離$W^2_2(\mu, \nu)$と関数$\varphi_*, \psi_*$との関係は次のようになる。
+
+\[
+\frac{1}{2\tau}W^2_2(\mu, \nu) = \int_{\Omega} \psi_*(x) \mu(x)dx + \int_{\Omega} \varphi_*(y) \nu(y)dy.
+\]
+\end{thm}
 
 
 
 
+\section{Dual Problem}
+\label{sect:Dual Problem}
+(\ref{eq:JKOscheme})のように、$\rho_*$を最小化問題(\ref{eq:minimizer})の解とすることで、以下のような問題として表すことができる(一般化最適輸送問題)。
+\begin{equation}
+    \label{eq: GOT}
+        \rho_* = \underset{\rho \in L^1(\Omega)} {\operatorname{argmin}} \left( U(\rho) + \frac{1}{2 \tau}W_2^2(\rho, \mu) \right), 
+\end{equation}
+ここで、$\mu \in L^1(\Omega)$で、非負の測度である。
+
+以後本論文において、以下を仮定して考える。
+{\color{red}
+\begin{ass}
+\label{ass:2}
+
+$\rho \in \mathcal{P}(\mathbb{R}^n) \setminus L^m(\mathbb{R}^n)$のとき、$U(\rho) = \infty$と定義されているとする。
+さらに$U$は、properで、凸かつ、下半連続な汎関数 $U: L^1(\Omega) \to \mathbb{R} \cup  \{+ \infty\}$ である。
+また、超線形成長条件(superlinear growth)を持つ$s: \mathbb{R} \to \mathbb{R} \cup  \{+ \infty\}$が存在し、以下の条件を満たす$:$
+$$
+    U(\rho) \geq \int_\Omega s(\rho(y)) \, dy
+$$
+
+これにより、非負の密度に対して関数$U(\rho)$が適切に定義されることが保証される。
+さらに任意の$A \in \mathbb{R}$に対して、集合$\{ \rho \in L^1(\Omega): U(\rho) < A\}$が弱収束位相において弱コンパクトであることを保証している。
+
+もしくは、Assumption\ref{ass:1}から$\rho, \mu \in L^1(\Omega)$は$\int \rho = 1, \int \mu = 1$、かつ$\varphi, \psi \in C(\Omega)$より、$\rho, \mu$は絶対連続である。
+よって、$\mathcal{P}$がヒルベルト空間の部分集合ではなく、
+測度と連続関数の間の双対性を使って内積の代わりに$\int \varphi d \rho$の積分を扱うことができる。
+さらに絶対連続であるとき、唯一の最適輸送写像$T_*$と逆写像$T_*^{-1}$が存在する。
+これを押し出し測度を用いて表すと、
+$T_{\varphi_* \#} \mu = \nu$および$T_{\psi_* \#} \nu = \mu$が存在する。
+さらにKantorovich双対問題の最適輸送写像を見つけることができる。
+
+\begin{comment}
+
+確率測度 $\mu$ がルベーグ積分に関して絶対連続であるとき、測度 $\mu$ と連続関数 $f$ の積分は、次の式で表されます。
+
+\[
+\int_\Omega f(x) \, \mu(dx) = \int_\Omega f(x) \, \rho(x) dx
+\]
+
+
+ここで、$\rho$ は $\mu$ の密度関数です。
+
+この式は、ルベーグ積分と測度の積分の関係から導かれます。
+
+ルベーグ積分では、関数 $f$ がルベーグ可積分であることを条件に、次の式で定義されます。
+
+\[
+\int_\Omega f(x) \, dx = \sup \left\{ \sum_{k=1}^\infty \lambda_k f(x_k) \mid \{x_k\} \subset \Omega, \sum_{k=1}^\infty \lambda_k < \infty \right\}
+\]
+
+確率測度 $\mu$ がルベーグ積分に関して絶対連続であるとき、$\mu$ の密度関数 $\rho$ は存在し、$\mu(A) = \int_A \rho(x) dx$ が成立します。
+
+したがって、次の等式が成立します。
+
+\[
+\int_\Omega f(x) \, \mu(dx) = \int_\Omega f(x) \, \rho(x) dx
+\]
+この式は、確率測度と連続関数の積分を計算する際によく使用されます。
+\end{comment}
+
+\end{ass}
+}
+
+最小化問題は、
+\[
+    U^*(\varphi) := \sup_{\rho \in \mathcal{P}} \left(\int \varphi \, d\rho - U(\rho) \right).
+\]
+を用いることで、
+\begin{equation*}
+    \min_{\rho \in \mathcal{P}} U(\rho) + \frac{1}{2\tau} W_2^2(\rho, \mu) = \sup_{(\varphi, \psi) \in \mathcal{C}} \left(\int \psi \, d\mu - U^*(- \varphi)\right)
+\end{equation*}
+と表すことができる(\ref{eq:dual})。
+
+$\mu$が非負測度であるため、上式を満たすには、できるだけ大きな値を持つように$\psi$を選ぶ必要がある。
+そこで与えられた \((\varphi, \psi) \in C\) に対して、\(\psi\) の c-変換（c-transform）は
+$
+    \psi^c(x) = \inf_{y \in \Omega} \left( \frac{1}{2\tau}|x-y|^2 - \psi(y)\right)
+$
+であるので、
+\(\psi^c \geq \varphi\)が成り立つ。
+
+
+なぜなら、
+$
+    \mathcal{C}  := \{(\varphi, \psi) \in C(\Omega) \times C(\Omega) : \varphi(x) + \psi(y) \leq \frac{1}{2 \tau} |x - y|^2 \}
+$
+であり、
+$
+  \varphi(x) \le \frac{1}{2\tau}|x-y|^2 - \psi(y)
+$
+なので、$\varphi(x)$の中での$\sup$が$\psi^c$になるためである。
+
+また、\(\rho \geq 0\) の場合、\(- U^*(-\varphi)\) は \(\varphi\) に関して減少しない関数である。
+よって、{\color{red}$-U^*(- \varphi) \le -U^*(- \psi^c)$}である。
+
+
+したがって、以下が満たされる。
+\[
+\sup_{(\varphi, \psi) \in \mathcal{C}} \left(\int \psi \, d\mu - U^*(- \varphi)\right) \le \sup_\psi \left(\int \psi \, d\mu - U^*(- \psi^c)\right)
+\]
+また、$(\varphi, \psi) \in \mathcal{C} \implies (\psi^c, \psi) \in \mathcal{C}$
+であるので、
+\[
+\sup_{(\varphi, \psi) \in \mathcal{C}} \left(\int \psi \, d\mu - U^*(- \varphi)\right) \ge \sup_\psi \left(\int \psi \, d\mu - U^*(- \psi^c)\right)
+\]
+が成立する。よって、
+\begin{equation}
+  \label{eq:psi^c}
+\sup_{(\varphi, \psi) \in \mathcal{C}} \left(\int \psi \, d\mu - U^*(- \varphi)\right) = \sup_\psi \left(\int \psi \, d\mu - U^*(- \psi^c)\right)
+\end{equation}
+
+同様に、\(\mu \geq 0\) であるため、
+$
+    \varphi^c(y) := \inf_{x \in \Omega} \left( \frac{1}{2\tau}|x-y|^2 - \varphi(x)\right)
+$
+を用いることで、
+
+\begin{equation}
+  \label{eq:phi^c}
+  \sup_{(\varphi, \psi) \in \mathcal{C}} \left(\int \psi \, d\mu - U^*(- \varphi)\right) = \sup_\varphi \left(\int \varphi^c \, d\mu - U^*(- \varphi)\right)
+\end{equation}
+が成り立つ。
+
+$c$-変換(\ref{dfn:backward-c-transform})(\ref{dfn:backward-c-transform})を利用して$\varphi$もしくは$\psi$のみの式にすることで、制約条件$\mathcal{C}$を排除することができる。
+すなわち、(\ref{eq:dual})は(\ref{eq:psi^c})(\ref{eq:phi^c})から制約条件のない以下２つの汎関数の最大値を求める問題と考えることができる。
+また、$J,I$はproper、上半連続、凹関数である。
+\begin{equation}
+    \label{eq:J}
+    J(\varphi):= \int_{\Omega} \varphi^c(x) \,d\mu(x) - U^*(- \varphi)
+\end{equation}
+
+\begin{equation}
+    \label{eq:I}
+    I(\psi):= \int_{\Omega} \psi(x) \, d\mu(x) - U^*(- \psi^{c})
+\end{equation}
+
+すなわち、
+\[
+\sup_{(\varphi,\psi) \in \mathcal{C}} \int \psi(x) d\mu(x) - U^*(- \varphi) = \sup J(\varphi) = \sup I(\psi).
+\]
+が成立する(双対性)。
+
+さらに、$\varphi, \psi$がc-凹である場合、$J$と$I$は以下のような一次変分を持つ：
+
+\begin{equation}
+    \label{eq:delta J}
+    \delta J(\varphi) = \delta U^*(- \varphi) - T_{\varphi \#} \mu,
+\end{equation}
+\begin{equation}
+    \label{eq:delta I}
+    \delta I(\psi) = \mu - T_{\psi \#} \delta U^* (- \psi^c).
+\end{equation}
+
+\begin{thm}
+    \label{thm: duality}
+    \hyperlink{proof:thm:duality}{(Proof)}
+        $\mu \in L^1(\Omega)$であり、$U$がAssumption\ref{ass:2}を満たし、さらに$\delta U(\mu)$が定数関数でない場合、
+        次の条件を満たす一意の密度$\rho_*$と$c$-共役な関数のペア$(\varphi_*, \psi_*)$が存在する。
+    \begin{equation*}
+        \rho_* = \underset{\rho \in L^1(\Omega)} {\operatorname{argmin}} \, U(\rho) + \frac{1}{2\tau} W_2(\rho, \mu), \quad \varphi_* \in \underset{\varphi \in C(\Omega)} {\operatorname{argmax}} \, J(\varphi), \quad \psi_* \in \underset{\psi \in C(\Omega)} {\operatorname{argmax}} \, I(\psi),
+    \end{equation*}
+    
+    \begin{equation*}
+    U(\rho_*) + \frac{1}{2\tau} W_2^2(\rho_*,\mu) = J(\varphi_*) = I(\psi_*) \quad (\text{双対性}), 
+    \end{equation*}
+    
+    \begin{equation*}
+        \rho_* \in \delta U^*(\varphi_*), \quad \phi_* \in \delta U(\rho_*), \quad \rho_* = T_{\varphi_* \#} \mu.
+    \end{equation*}
+    \end{thm}
+
+
+
+\section{多孔質勾配方程式の導入}
+\label{sect:多孔質勾配方程式の導入}
+多孔質媒体方程式（PME）は、固定された \(m > 1\) に対して以下の偏微分方程式のことをいう：
+\[
+\rho_t = \frac{{\partial \rho}}{{\partial t}} = \gamma\Delta (\rho^m)
+\]
+ここで、本論文では非負の解 \(\rho \geq 0\) を考えている。
+このPDEは、エネルギー関数
+\[
+    U(\rho) := \frac{\gamma}{{m-1}} \int \rho^m \, dx
+\]
+に基づくWasserstein勾配流として表現することがきる。
+ここで、
+\begin{align*}
+    U^*(\varphi) &= \sup_{\rho \in P} \left( \int \varphi \, d\rho - U(\rho) \right).\\
+                &= \sup_{\rho \in P} \int \left(- \frac{\gamma}{m-1}\rho^m + \rho\varphi\right) \, dx
+\end{align*}
+となる。
+
+$U^*$は、実質的には$U$のLagrange-Fenchel変換を$-\varphi$に対して行ったものである(\ref{eq:dual})。
+ここで、$L^1(\Omega) \subset \mathcal{P}$がヒルベルト空間の部分集合ではなく、
+測度と連続関数の間の双対性を使って内積の代わりに$\int \varphi d \rho$の積分を扱うことに注意する。
+これは$\rho, \mu$が絶対連続であることに基づいている。
+
+{\color{teal}
+$\delta U^*(\varphi)$は通常の設定における$\partial U^*(\varphi)$に類似しており、
+その場合下半連続な（つまり閉集合な）凸関数$f$について、次の関係が成り立つ。
+}
+\[
+    x \in \partial f^*(y) \iff z \cdot y - f(z) \text{が} z = x \text{において最大値を取る}
+\]
+言い換えると、
+\[
+    \partial f^*(y) = \operatorname{argmax}_x (x \cdot y - f(x))
+\]
+{\color{teal}
+よって、$\delta U^*$を見つけるために, 以下の最大値を求める必要がある。
+\[
+    V(\rho) := \int \left(- \frac{\gamma}{m-1}\rho^m + \rho\varphi\right) \, dx.
+\]
+}
+
+\begin{lem}
+    $\varphi \in C(\Omega)$ と仮定し、以下のように定義されるとする.
+    $$
+        \rho_*(x) := \left( \frac{m-1}{m\gamma}(C + \varphi)_+ \right)^{\frac{1}{m-1}} 
+    $$
+    ただし、$C \in \mathbb{R}$は$\int \rho_* = 1$となるように設定する。
+    $(s)_+ := max(s, 0)$と定義している。
+
+    この時、$\rho_*$ は$L^1(\Omega)$上の関数$V$の最大化関数。
+\end{lem}
+\begin{proof}
+    $C$の選び方により、 $\rho_* \in \mathcal{P}(\mathbb{R}^n)$であることがわかる。
+    次に、以下を示す。
+    $$
+    V(\rho) \leq V(\rho_*) \qquad \text{for all } \, \rho \in \mathcal{P}(\mathbb{R}^n) \cap L^1(\mathbb{R}^n).
+    $$
+    ここで$\rho$を固定し、 
+    $$
+    \mu(x) := \rho(x) - \rho_*(x)
+    $$
+    とする。
+    注意点として、$C$の選び方から、
+    \begin{equation}
+        \label{eq:intmu}
+        \int \mu \, dx = 0
+    \end{equation}
+    であり、また$\mu(x) \geq 0$は$\rho_*(x) = 0$の場所、つまり$\varphi(x) \geq -C$の場所で成り立つ。
+
+    よって、
+    \begin{align*}
+        V(\rho) - V(\rho_*) &= V(\rho_* + \mu) - V(\rho_*)\\
+                            &= \int \left(- \frac{\gamma}{m-1} ((\rho_* + \mu)^m - \rho_*^{m}) + \mu \varphi \right) \, dx.
+    \end{align*}
+    ここで、関数 $s \mapsto s^m$ は $[0, \infty)$ 上で凸であるため、$s, t \geq 0$ に対して 
+    $$
+        (s + t)^m \geq s^m + ms^{m-1}t, \qquad s + t \geq 0
+    $$ 
+    が成り立ちます。この不等式を適用することで、さらに次のように簡略化できます：
+    \begin{align*}
+        V(\rho) - V(\rho_*) &\leq \int \left(- \frac{\gamma}{m-1} ((\rho_*^m + m \rho_*^{m-1} \mu) - \rho_*^{m}) + \mu \varphi \right) \, dx\\
+                            &\leq \int \left(- \frac{m\gamma}{m-1} \rho_*^{m-1}\mu + \mu\varphi\right) \, dx\\
+    \end{align*}
+
+    $\rho_*$の式を利用することで、
+    \begin{align*}
+        \int \left(\frac{m\gamma}{m-1} \rho_*^{m-1}\mu + \mu\varphi\right) \, dx &= \int \left(-(C + \varphi)_+ \mu + \mu\varphi\right) \, dx \\
+                                                                        &= \int \left(-(C + \varphi)_+ \mu + \mu \varphi + C \mu\right) \, dx \\
+                                                                        &= \int \left(-(C + \varphi)_+ + \varphi + C\right)\mu \, dx \\  
+    \end{align*}
+    ただし、(\ref{eq:intmu})を利用する。
+
+    ここで、以下を考える$:$
+
+    \[
+        - (C + \varphi)_+ + \varphi + C = - (C + \varphi)_- \begin{cases} = 0 & \text{if } \varphi > - C \\ 
+                                                                    \leq 0 & \text{if } \varphi \leq - C \end{cases}.
+    \]
+    
+    また、\(\mu(x) \geq 0\) は、\(\varphi(x) \geq C\) のとき成り立つ。
+    したがって、
+    \[
+        V(\rho) - V(\rho_*) \leq \int (- (C + \varphi)_+ + \varphi + C) \mu \, dx \leq 0
+    \]
+
+    したがって、\(\rho_*\) は \(V\) の最大化点であることが証明された。
+\end{proof}
+
+以上から、多孔質勾配方程式において、$U^*$を満たす$\rho$は、
+\begin{equation}
+    \label{eq:PMErho}
+    \rho_*(x) = \left( \frac{m-1}{m\gamma}(C + \varphi)_+ \right)^{\frac{1}{m-1}} 
+\end{equation}
+である。
+
+
+\section{勾配上昇法}
+\label{sect:勾配上昇法}
+The back-and-forth methodで用いる勾配上昇法のために、実ヒルベルト空間$\mathcal{H}$の内積$\langle\cdot,\cdot\rangle_\mathcal{H}$とノルム$\|\cdot\|_\mathcal{H}$を使用する。
+
+まず第一変分を定義する。
+点$\varphi\in \mathcal{H}$に対して、有界線型写像$\delta F(\varphi): \mathcal{H} \to \mathbb{R}$が$F$の第1変分（フレシェ微分）であるとは、
+    \[
+        \lim_{\|h\|_{\mathcal{H}} \to 0} \frac{\|F(\varphi + h) - F(\varphi) - \delta F(\varphi)(h)\|_{\mathcal{H}}}{\|h\|_{\mathcal{H}}} = 0
+    \]
+が成り立つことをいう。
+
+\begin{dfn}
+    写像$\nabla_\mathcal{H} F: \mathcal{H} \to \mathcal{H}$が$\mathcal{H}$-勾配とは、
+    \[
+        \langle \nabla_\mathcal{H} F(\varphi), h \rangle_\mathcal{H} = \delta F(\varphi)(h)
+    \]
+    をすべての$(\varphi, h) \in \mathcal{H} \times \mathcal{H}$に対して満たすものを指す。
+\end{dfn}
+
+ここで、与えられた$\mathcal{H}$上の凹関数$J$に対し、勾配上昇法の反復式
+\begin{equation}
+    \label{eq:gradient ascent}
+    \phi_{k+1} = \phi_k + \nabla_\mathcal{H} J(\phi_k).
+\end{equation}
+を考える。
+勾配上昇法式(\ref{eq:gradient ascent})は、次の変分形式でも同等に書くことができる。
+\begin{equation}
+    \label{eq:gradient ascent variational}
+    \phi_{k+1} =  \underset{\phi} {\operatorname{argmax}} J(\varphi_k) + \delta J(\phi_k)(\varphi-\varphi_k) - \frac{1}{2}\|\varphi-\varphi_k\|_H^2.
+\end{equation}
+$J$を効率的に収束させるため、ノルムの取り方が重要である。
+\begin{thm}
+    \label{thm:chose norm}
+    $J: \mathcal{H} \rightarrow \mathbb{R}$ を2階フレシェ微分可能な凹関数であり、maximizer $\varphi^*$ を持つとする。
+    以下の条件がすべての $\varphi, h \in \mathcal{H}$ に対して成り立つとき,$J$ は「$1$-$smooth$」と呼ばれる:
+    \begin{equation}
+        \label{eq:1-smooth}
+        \delta^2 J(\varphi)(h, h) \leq \|h\|_\mathcal{H}^2.
+    \end{equation}
+    $J$が$1$-$smooth$のとき、
+    勾配上昇法 
+    $$
+        \varphi_{k+1} = \varphi_k + \nabla_\mathcal{H} J(\varphi_k)
+    $$
+    を初期点 $\varphi_0$ から開始すると、次の上昇特性(\ref{eq:ascent})を満たし、また収束率(\ref{eq:convergence})を持つ：
+    \begin{equation}
+        \label{eq:ascent}
+        J(\varphi_{k+1}) \geq J(\varphi_k) + \frac{1}{2}\|\nabla_\mathcal{H} J(\varphi_k)\|_\mathcal{H}^2,
+    \end{equation}
+    \begin{equation}
+        \label{eq:convergence}
+        J(\varphi^*) - J(\varphi_k) \leq \frac{\|\varphi^* - \varphi_0\|_\mathcal{H}^2}{2k}.
+    \end{equation}
+\end{thm}
+収束率である(\ref{eq:convergence})から、(\ref{eq:convergence})を満たすなるべく小さいノルムを取ることによって$J$を効率的に収束させることができる。
+
+
+
+\section{ソボレフ(Sobolev)空間における勾配}
+\label{sect:ソボレフ(Sobolev)空間における勾配}
+$\Omega$を$\mathbb{R}^d$の開有界凸部分集合とする。
+勾配上昇法は、Sobolev空間$H^1(\Omega)$に基づいたノルム$H$を使う。
+このとき次のようにノルムを定義する。
+\begin{equation}
+    \label{eq:norm}
+    \|h\|_H^2 = \int_{\Omega} \Theta_2 |\nabla h(x)|^2 + \Theta_1 |h(x)|^2 \, dx,
+\end{equation}
+ただし$\Theta_1 > 0$ and $\Theta_2 > 0$を定数とする。
+次に勾配の計算方法を示す。
+\begin{lem}[\cite{MR4238775}]
+    \label{lem:H-gradient}
+    $F = F(\varphi)$ がフレシェ微分可能な汎関数であり、任意の $\varphi$ に対して、任意の点 $h$ で評価される第1変分 $\delta F(\varphi)$ が関数 $f_{\varphi}$ に対する積分として表されるとします。
+    つまり、
+    \[
+        \delta F(\varphi)(h) = \int_\Omega h(x) f_{\varphi}(x) dx
+    \]
+
+とします。ただし式 (\ref{eq:norm}) で $\| \cdot \|_H$ を定義している。
+このとき、$F$ の $H$-勾配は次のように表される$:$
+\[
+    \nabla_H F(\varphi) = (\Theta_1 \mathrm{Id} - \Theta_2 \Delta)^{-1} f_{\varphi}.
+\]
+ここで、$\mathrm{Id}$ は単位作用素、$\Delta$ はラプラス作用素であり、ノイマン条件を伴って考える。
+\end{lem}
+
+Lemma\ref{lem:H-gradient}の意味は、$F$の$H$-勾配は$\delta F$を逆演算子$(\Theta_1 \text{Id} - \Theta_2\Delta)^{-1}$で事前調整することによって得られるということを表している。
+
+つまり、$F$の$H$-勾配を計算する場合、$\delta F$を直接適用する代わりに、まず逆演算子$(\Theta_1 \text{Id} - \Theta_2\Delta)^{-1}$を$\delta F$に適用する。
+この逆演算子を適用するプロセスは、「事前調整」と呼ばれ、収束特性を改善し、$H$-勾配の計算を効率化するために、$\delta F$を修正する役割を果たす。
+すなわち、
+\begin{equation*}
+    f_\varphi = (\Theta_1 \text{Id} - \Theta_2 \Delta)\nabla_H F(\varphi)
+\end{equation*}
+を用いると、
+\begin{align*}
+    \delta F(\varphi)(h)   &= \int_\Omega h(x) f_\varphi(x) \, dx \\
+                        &= \int_\Omega h(x)(\Theta_1 \text{Id} - \Theta_2 \Delta)\nabla_H F(\varphi)(x) \, dx \\
+\end{align*}
+となる。よって、
+\begin{align}
+    \label{eq:H-gradient}
+    \delta F(\varphi)  &= (\Theta_1 \text{Id} - \Theta_2 \Delta)\nabla_H F(\varphi)(x),\notag\\
+    \nabla_H F(\varphi) &= (\Theta_1 \text{Id} - \Theta_2 \Delta)^{-1} \delta F(\varphi).
+\end{align}
+となる。
+よって、(\ref{eq:delta J}),(\ref{eq:delta I})を参照することにより、$\delta F(\varphi)$は$J, I$を用いて、以下のように表される。
+\begin{equation}
+    \label{eq:J-gradient}
+    \nabla_H J(\varphi) = (\Theta_1 \text{Id} - \Theta_2 \Delta)^{-1} \left(\delta U^*(- \varphi) - T_{\varphi \#} \mu\right)
+\end{equation}
+\begin{equation}
+    \label{eq:I-gradient}
+    \nabla_H I(\varphi) = (\Theta_1 \text{Id} - \Theta_2 \Delta)^{-1}\left(\mu - T_{\psi \#} \delta U^* (- \psi^c)\right)
+\end{equation}

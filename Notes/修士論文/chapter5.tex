@@ -1,4 +1,45 @@
-\chapter{5}
-\section{緒言}
+\chapter{最適輸送写像のアルゴリズム}
+\label{ch:optmap_algorithm}
+\section{最適輸送写像}
+\label{sect:最適輸送写像}
 
-\section{まとめ}
+$I$および$J$の勾配(\ref{eq:J-gradient})(\ref{eq:I-gradient})を計算するには、押し出し測度も計算する必要がある。
+密度$\mu$および可逆な写像$T: \Omega \to \Omega$が与えられた場合、ヤコビアンの公式を使用して押し出し測度 $T_\# \mu$を計算できる。
+
+The back-and-forth methodの構造のおかげで、$\varphi, \psi$がどちらも$c$-凹の場合にのみ、$T_{\varphi \#} \mu$および$T_{\psi \#} \delta U^*(- \psi^c)$を計算すればよい。
+Proposition. \ref{prop:transport map}より、
+\[
+    T_\varphi ^{-1}(y) = y - \tau \nabla \varphi(y), T_\psi^{-1}(x) = x - \tau \nabla \psi(x),
+\]
+\[
+    y = T_\phi(x), \quad x = T^{-1}_\phi (y), \quad dx = |\det \nabla T^{-1}_\phi (y)| dy 
+\]
+
+$I$および$J$の勾配(\ref{eq:J-gradient})(\ref{eq:I-gradient})、さらに$J$と$I$ の一次変分(\ref{eq:delta J}), (\ref{eq:delta I})から、
+$T_{\varphi \#} \mu$, $T_{\psi \#} \delta U^*(- \psi^c)$は以下のように求められる。
+\begin{align*}
+    T_{\phi \#} \mu (A) &= \int_A T_{\phi \#} \mu (x)\, dx = \mu(T^{-1}_\phi (A))\\
+                        &= \int_{T^{-1}_\phi (A)} \mu(x) \, dx\\
+                        &= \int_A \mu \left( T^{-1}_\phi(y) \right) |\det \nabla T^{-1}_\phi (y)|\, dy = \int_A \frac{\mu \left( T^{-1}_\phi(y) \right)}{|\det \nabla T\left(T^{-1}_\phi (y)\right)|}\, dy\\
+                        &= \int_A \mu(y - \tau \nabla \phi(y))|\det (I - \tau D^2 \phi(y))|\, dy\\
+                        &= \mu(y - \tau \nabla \phi(y))|\det (I - \tau D^2 \phi(y))|
+\end{align*}
+\begin{align*}
+    T_{\psi \#} \delta U^* (- \psi^c) (A)   &= \int_A T_{\psi \#} \delta U^* (- \psi^c) (y)\, dy =  \delta U^* (- \psi^c)(T^{-1}_\psi (A))\\
+                                            &= \int_{T^{-1}_\psi (A)} \delta U^* (- \psi^c) (y) \, dx\\
+                                            &= \int_A  \delta U^* (- \psi^c)  \left(T^{-1}_\psi (x) \right) |\det \nabla T^{-1}_\psi (x)|\, dy = \int_A \frac{\ \delta U^* (- \psi^c)  \left( T^{-1}_\psi(x) \right)}{|\det \nabla T\left(T^{-1}_\psi (x)\right)|}\, dy\\
+                                            &= \int_A \delta U^* (- \psi^c)(x - \tau \nabla \psi(x))|\det (I - \tau D^2 \psi(x))|\, dx\\
+                                            &= \delta U^* (- \psi^c)(x - \tau \nabla \psi(x))|\det (I - \tau D^2 \psi(x))|
+\end{align*}
+
+\begin{equation}
+    \label{eq:pushforward Tphi}
+    T_{\phi \#} \mu (y) =\mu(y - \tau \nabla \phi(y))|\det (I - \tau D^2 \phi(y))|
+\end{equation}
+\begin{equation}
+    \label{eq:pushforward Tpsi}
+    T_{\psi \#} \delta U^* (- \psi^c)(x) =\delta U^* (- \psi^c)(x - \tau \nabla \psi(x))|\det (I - \tau D^2 \psi(x))|
+\end{equation}
+%実装する際、私たちのアルゴリズムではこれらの量をシンプルな中心差分スキームを使用して計算します。
+
+\section{最適輸送写像のアルゴリズム}
