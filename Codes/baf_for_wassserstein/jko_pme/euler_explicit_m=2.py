@@ -21,11 +21,11 @@ track = True
 H1_sq = 0
 
 # Set parameters
-x = np.linspace(-0.5, 0.5, 513)
+x = np.linspace(-0.5, 0.5, 4001)
 h = x[1] - x[0]
 m = 2
 c = np.zeros_like(x)
-tau = 0.0001 /2 /2
+tau = 0.0001 #/2 /2
 # tau <= 1 / (2 * m * gamma) * h**2 = 0.00095367431640625 Stability conditions(maybe)
 # but 0.0002 is not stable
 
@@ -50,6 +50,7 @@ hist.rho = []
 hist.exact = []
 hist.Tphi_mu = []
 hist.Tpsi_nu = []
+hist.save_error = []
 
 
 # JKO scheme
@@ -73,7 +74,7 @@ for real_t in timestep:
         plt.legend(prop={'size': 15})
         plt.savefig(f'{image_root}euler_rho{real_t:.2}.png', )
         plt.close()
-        error = sum(abs((u - nu)[1:] + (u - nu)[:-1]) * h / 2)  #error = (2 / \tau) * \sigma_{n=0}^{2 / \tau} \int |\rho(n*\tau + t0, x) - \rho^(n)(x)| dx
+        error += (tau / 2) * sum(abs((u - nu)[1:] + (u - nu)[:-1]) * h / 2)  #error = (2 / \tau) * \sigma_{n=0}^{2 / \tau} \int |\rho(n*\tau + t0, x) - \rho^(n)(x)| dx
         #print('error = ', error)
         hist.rho.append(np.array(nu))
         hist.exact.append(u)
@@ -85,7 +86,7 @@ for real_t in timestep:
     t = (real_t + tau + t0) * gamma
     u = np.maximum(1 / t**(1 / 3) * (b - (1 / (12 * t**(2 / 3))) * x**2), 0)
     area = sum((u[1:] + u[:-1]) * h / 2)   #trapezoidal formula
-    error += sum(abs((u - nu)[1:] + (u - nu)[:-1]) * h / 2)  #error = (2 / \tau) * \sigma_{n=0}^{2 / \tau} \int |\rho(n*\tau + t0, x) - \rho^(n)(x)| dx
+    error += (tau / 2) * sum(abs((u - nu)[1:] + (u - nu)[:-1]) * h / 2)  #error = (2 / \tau) * \sigma_{n=0}^{2 / \tau} \int |\rho(n*\tau + t0, x) - \rho^(n)(x)| dx
     #print(area)
     
     # # Plot when tau is a multiple of 0.1.
@@ -109,9 +110,9 @@ for real_t in timestep:
         
     
 
-error /= 2 / tau  #error = (2 / \tau) * \sigma_{n=0}^{2 / \tau} \int |\rho(n*\tau + t0, x) - \rho^(n)(x)| dx
-error = f'{round(error, 7):.3e}'
-realtime = f'{(time.process_time() - start):.3e}'
+#error /= 2 / tau  #error = (2 / \tau) * \sigma_{n=0}^{2 / \tau} \int |\rho(n*\tau + t0, x) - \rho^(n)(x)| dx
+error = f'{round(error, 7):.2e}'
+realtime = f'{(time.process_time() - start):.3g}'
 print('error = ', error)
 print(f'Elapsed {realtime}s')
 plt.semilogy(hist.H1_sq)
@@ -120,5 +121,16 @@ plt.close()
 
 np.save(f'{image_save}/tau={tau}', hist.rho)
 np.save(f'{image_save}/exact', hist.exact)
+
+save_error = abs((u - nu)[1:] + (u - nu)[:-1]) * h / 2
+hist.save_error.append(save_error)
+#print(save_error)
+#plot error graph
+center_x = np.array((x[1:] + x[:-1])/2)
+plt.plot(center_x, hist.save_error[0], label=r'$error_ euler$')
+plt.xlabel("x")
+plt.ylabel("error = exact - computed")
+plt.show()
+np.save(f'{image_save}/error_tau={tau}', hist.save_error[0])
 
 print(f'Plots saved in {image_root}')

@@ -66,12 +66,12 @@ track = True
 H1_sq = 0
 
 # Set parameters
-x = np.linspace(-0.5, 0.5, 513)
+x = np.linspace(-0.5, 0.5, 4001)
 h = x[1] - x[0]
 m = 2
 c = np.zeros_like(x)
-tau = 0.00625
-eps = 1e-3             #1.0**(-3)
+tau = 0.0001
+eps = 1e-5             #1.0**(-3)
 M = 0.5
 b = (np.sqrt(3) * M / 8)**(2 / 3) 
 gamma = 1e-3

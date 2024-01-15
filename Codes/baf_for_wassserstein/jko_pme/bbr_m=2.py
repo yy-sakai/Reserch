@@ -40,14 +40,14 @@ track = True
 H1_sq = 0
 
 
-x = np.linspace(-0.5, 0.5, 513)
+x = np.linspace(-0.5, 0.5, 4001)
 h = x[1] - x[0]
 
 
 # Set parameters
 m = 2
 c = np.zeros_like(x)
-tau = 0.00625
+tau = 0.0001
 eps = 1e-3             #1.0**(-3)
 M = 0.5
 b = (np.sqrt(3) * M / 8)**(2 / 3) 
@@ -161,7 +161,7 @@ hist.save_error.append(save_error)
 #print(save_error)
 #plot error graph
 center_x = np.array((x[1:] + x[:-1])/2)
-plt.plot(center_x, hist.save_error[0], label=r'$error_ baf$')
+plt.plot(center_x, hist.save_error[0], label=r'$error_ bbr$')
 plt.xlabel("x")
 plt.ylabel("error = exact - computed")
 plt.show()
