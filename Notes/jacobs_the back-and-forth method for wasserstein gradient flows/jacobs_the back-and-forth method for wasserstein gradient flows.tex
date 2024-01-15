@@ -115,7 +115,7 @@ $$
 $$
 の重要な特殊な場合では、方程式(\ref{eq:Darcy's})は熱方程式の非線形バージョンである多孔質媒体方程式（PME） 
 $$
-    \partial_t \rho - \delta(\rho^m = 0)
+    \partial_t \rho - \delta(\rho^m) = 0
 $$
 となる。
 
@@ -593,6 +593,7 @@ $
 {\color{teal}
 \begin{thm}
 \label{thm: duality}
+\hyperlink{proof:thm:duality}{(Proof)}
     $\mu \in L^1(\Omega)$であり、$U$がAssumptions \ref{ass:rho>0}と\ref{ass:weakly compact}を満たし、さらに$\delta U(\mu)$が定数関数でない場合、次の条件を満たす一意の密度$\rho_*$と$c$-共役な関数のペア$(\phi_*, \psi_*)$が存在します。
 \begin{equation*}
     \rho_* = \underset{\rho \in L^1(\Omega)} {\operatorname{argmin}} \, U(\rho) + \frac{1}{2\tau} W_2(\rho, \mu), \quad \phi_* \in \underset{\phi \in C(\Omega)} {\operatorname{argmax}} \, J(\phi), \quad \psi_* \in \underset{\psi \in C(\Omega)} {\operatorname{argmax}} \, I(\psi),
@@ -607,7 +608,6 @@ U(\rho_*) + \frac{1}{2\tau} W_2^2(\rho_*,\mu) = J(\phi_*) = I(\psi_*),
 \end{equation*}
 \end{thm}
 }
-
 \begin{rem}
     注意すべきは、もし$\delta U(\mu)$が定数関数である場合、$\mu = \underset{\rho \in L^1(\Omega)} {\operatorname{argmin}} \, U(\rho) + \frac{1}{2\tau} W_2^2(\rho, \mu)$となります。
     したがって、排除されたケースは自明な場合です。
@@ -2153,6 +2153,52 @@ T_\phi(T_\psi(x)) &= x - \tau \nabla \phi^c(x - \tau \nabla \psi(x)) \\
     \end{align*}
     
 \end{proof}
+{\color{teal}
+\begin{proof}[Proof of Theorem \ref{thm: duality}]
+    \hypertarget{proof:thm:duality}{}
+    \quad\par
+    定理の証明は、弱双対定理と次の二つの関係を用いて行います。
+
+1. $U^*$の凸性は、$U$の凸性と共役関数の性質から導かれます。
+2. 凸最適化問題の実行可能性と最適解の存在は、その関数が凸かつ弱コンパクトであることを保証すれば保証できます。
+
+**証明**
+
+1. 弱双対定理によれば、次の双対問題が存在します。
+
+\begin{align*}
+\sup_{\phi \in C(\Omega)} J(\phi) &= \inf_{\rho \in L^1(\Omega)} \sup_{\psi \in C(\Omega)} I(\psi) \\
+&= \inf_{\rho \in L^1(\Omega)} \left\{ U^*(\phi_*(\rho)) + \frac{1}{2\tau} W_2^2(\rho, \mu) \right\}.
+\end{align*}
+
+ここで、$J(\phi_*) = \sup_{\psi \in C(\Omega)} I(\psi)$は、$\phi_*$が$J$の最大値を取る点であることから従います。
+
+2. $U$がAssumption \ref{ass:rho>0}と\ref{ass:weakly compact}を満たすことから、$U^*$は凸かつ弱コンパクトです。したがって、双対問題の実行可能性と最適解の存在が保証されます。
+
+3. 双対問題の実行可能性と最適解の存在から、次の事実が導かれます。
+
+\begin{align*}
+U^*(\phi_*(\rho)) + \frac{1}{2\tau} W_2^2(\rho, \mu) &= J(\phi_*) \\
+&= \sup_{\psi \in C(\Omega)} I(\psi) \\
+&= \sup_{\psi \in C(\Omega)} \left\{ U^*(\psi(\rho)) + \frac{1}{2\tau} W_2^2(\rho, \mu) \right\}.
+\end{align*}
+
+この不等式を$\rho$について最小化すると、$\rho = \rho_*$が得られます。また、$\phi_*$と$\psi_*$を$\rho_*$に置き換えると、次の等式が得られます。
+
+\begin{align*}
+U(\rho_*) + \frac{1}{2\tau} W_2^2(\rho_*,\mu) &= U^*(\phi_*(\rho_*)) + \frac{1}{2\tau} W_2^2(\rho_*,\mu) \\
+&= U^*(\psi_*(\rho_*)) + \frac{1}{2\tau} W_2^2(\rho_*,\mu).
+\end{align*}
+
+この等式から、$\rho_* \in \delta U^*(\phi_*)$、$\phi_* \in \delta U(\rho_*)$、$\rho_* = T_{\phi_* \#} \mu$が導かれます。
+
+以上で、定理の証明が完了します。
+
+**一意性**
+
+定理の条件下では、$\rho_*$と$(\phi_*, \psi_*)$は一意に定まります。これは、双対問題の実行可能性と最適解の存在が保証されているためです。
+\end{proof}
+}
 
 \begin{proof}[Proof of Lemma \ref{lem:Hessian bounds on the c-transform}]
     \hypertarget{proof:lem:Hessian bounds on the c-transform}{}
