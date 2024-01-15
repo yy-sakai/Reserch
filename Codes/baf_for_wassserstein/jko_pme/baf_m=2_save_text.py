@@ -244,7 +244,7 @@ track = True
 H1_sq = 0
 
 # Set parameters
-x = np.linspace(-0.5, 0.5, 513)
+x = np.linspace(-0.5, 0.5, 2001)
 h = x[1] - x[0]
 m = 2
 c = np.zeros_like(x)
@@ -267,7 +267,7 @@ print(f"Elapsed {realtime}s")
 
 
 # Save the ERROR and TIME in a text file.
-with open("Codes/result/result_baf_gauss512_eps=1e-3.tex", "w") as f:
+with open("Codes/result/result_baf_gauss2000_eps=1e-3.tex", "w") as f:
     f.write("\\begin{tabular}{llll} \n")
     f.write("\hline \n")
     f.write("$\\tau$  & $N_\\tau$  &  Error & Times$(s)$  \\\ \n")
@@ -300,16 +300,21 @@ print(hist.error[:-1])
 # plt.plot(hist.N_tau[:-1][::-1], hist.error[:-1][::-1])
 # plt.show()
 
-plt.semilogy(hist.N_tau[:-1], np.ones_like(hist.tau[:-1]) / hist.N_tau[:-1], marker='.', label=r'$\frac{1}{N_{\tau}}$')
-plt.semilogy(hist.N_tau[:-1], np.ones_like(hist.tau[:-1]) / np.square(hist.N_tau[:-1]), marker='.', label=r'$\frac{1}{N_{\tau}^2}$')
+
+#Plot the expected scale of error for each tau.
+
+plt.loglog(hist.N_tau[:-1], np.ones_like(hist.tau[:-1]) / hist.N_tau[:-1], marker='.', label=r'$\frac{1}{N_{\tau}}$')
+plt.loglog(hist.N_tau[:-1], np.ones_like(hist.tau[:-1]) / np.square(hist.N_tau[:-1]), marker='.', label=r'$\frac{1}{N_{\tau}^2}$')
 # plt.semilogy(hist.N_tau[:-1], np.ones_like(hist.tau[:-1]) / np.power(hist.N_tau[:-1], 3), marker='.', label=r'$\frac{1}{N_{\tau}^3}$')
-plt.semilogy(hist.N_tau[::-1], hist.error[::-1], marker='.', label=r'error')
-plt.xlim(0,350)
+plt.loglog(hist.N_tau[::-1], hist.error[::-1], marker='.', label=r'error')
+#plt.xlim(0,350)
 plt.legend()
 plt.show()   
 
+#Make sure they are parallel.
 
-plt.semilogy(hist.N_tau[:-1],np.array(hist.error[:-1], dtype=float) - (np.ones_like(hist.tau[:-1]) / hist.N_tau[:-1]), marker='.', label=r'$error - \frac{1}{N_{\tau}}$')
-plt.semilogy(hist.N_tau[:-1],np.array(hist.error[:-1], dtype=float) - (np.ones_like(hist.tau[:-1]) / np.square(hist.N_tau[:-1])), marker='.', label=r'$error - \frac{1}{N_{\tau}^2}$')
+plt.loglog(hist.N_tau,np.array(hist.error, dtype=float) - (np.ones_like(hist.tau) / hist.N_tau), marker='.', label=r'$error - \frac{1}{N_{\tau}}$')
+plt.loglog(hist.N_tau,np.array(hist.error, dtype=float) - (np.ones_like(hist.tau) / np.square(hist.N_tau)), marker='.', label=r'$error - \frac{1}{N_{\tau}^2}$')
+#plt.xlim(0,350)
 plt.legend()
 plt.show()
