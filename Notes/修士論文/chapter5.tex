@@ -1,45 +1,272 @@
-\chapter{最適輸送写像のアルゴリズム}
-\label{ch:optmap_algorithm}
-\section{最適輸送写像}
-\label{sect:最適輸送写像}
-
-$I$および$J$の勾配(\ref{eq:J-gradient})(\ref{eq:I-gradient})を計算するには、押し出し測度も計算する必要がある。
-密度$\mu$および可逆な写像$T: \Omega \to \Omega$が与えられた場合、ヤコビアンの公式を使用して押し出し測度 $T_\# \mu$を計算できる。
-
-The back-and-forth methodの構造のおかげで、$\varphi, \psi$がどちらも$c$-凹の場合にのみ、$T_{\varphi \#} \mu$および$T_{\psi \#} \delta U^*(- \psi^c)$を計算すればよい。
-Proposition. \ref{prop:transport map}より、
-\[
-    T_\varphi ^{-1}(y) = y - \tau \nabla \varphi(y), T_\psi^{-1}(x) = x - \tau \nabla \psi(x),
-\]
-\[
-    y = T_\phi(x), \quad x = T^{-1}_\phi (y), \quad dx = |\det \nabla T^{-1}_\phi (y)| dy 
-\]
-
-$I$および$J$の勾配(\ref{eq:J-gradient})(\ref{eq:I-gradient})、さらに$J$と$I$ の一次変分(\ref{eq:delta J}), (\ref{eq:delta I})から、
-$T_{\varphi \#} \mu$, $T_{\psi \#} \delta U^*(- \psi^c)$は以下のように求められる。
-\begin{align*}
-    T_{\phi \#} \mu (A) &= \int_A T_{\phi \#} \mu (x)\, dx = \mu(T^{-1}_\phi (A))\\
-                        &= \int_{T^{-1}_\phi (A)} \mu(x) \, dx\\
-                        &= \int_A \mu \left( T^{-1}_\phi(y) \right) |\det \nabla T^{-1}_\phi (y)|\, dy = \int_A \frac{\mu \left( T^{-1}_\phi(y) \right)}{|\det \nabla T\left(T^{-1}_\phi (y)\right)|}\, dy\\
-                        &= \int_A \mu(y - \tau \nabla \phi(y))|\det (I - \tau D^2 \phi(y))|\, dy\\
-                        &= \mu(y - \tau \nabla \phi(y))|\det (I - \tau D^2 \phi(y))|
-\end{align*}
-\begin{align*}
-    T_{\psi \#} \delta U^* (- \psi^c) (A)   &= \int_A T_{\psi \#} \delta U^* (- \psi^c) (y)\, dy =  \delta U^* (- \psi^c)(T^{-1}_\psi (A))\\
-                                            &= \int_{T^{-1}_\psi (A)} \delta U^* (- \psi^c) (y) \, dx\\
-                                            &= \int_A  \delta U^* (- \psi^c)  \left(T^{-1}_\psi (x) \right) |\det \nabla T^{-1}_\psi (x)|\, dy = \int_A \frac{\ \delta U^* (- \psi^c)  \left( T^{-1}_\psi(x) \right)}{|\det \nabla T\left(T^{-1}_\psi (x)\right)|}\, dy\\
-                                            &= \int_A \delta U^* (- \psi^c)(x - \tau \nabla \psi(x))|\det (I - \tau D^2 \psi(x))|\, dx\\
-                                            &= \delta U^* (- \psi^c)(x - \tau \nabla \psi(x))|\det (I - \tau D^2 \psi(x))|
-\end{align*}
-
+\chapter{実験および結果}
+\label{ch:実験及び結果}
+多孔質勾配方程式をEuler陽解法、Berger, Brezis, Rogers\cite{M2AN_1979__13_4_297_0}によって提案されたBBRスキーム、
+さらに今回の論文で説明したthe back-and-forth methodの3つの解法を用いて計算する。
+また計算速度やBarenblatt solutionとの誤差を比較することで各計算法の違いをまとめる。
+全ての実装において、厳密解であるBarenblatt solutionでは$M = 0.5, h_0 = 15, \gamma = 10^{-3}$と設定する。
+ここでBBRスキームとは離散化多孔質勾配方程式$\frac{u^{(n)} - u^{(n-1)}}{\tau} = \Delta(u^{(n)})^m$を以下の連立方程式の$\rho$を求める問題として考える方法である。
 \begin{equation}
-    \label{eq:pushforward Tphi}
-    T_{\phi \#} \mu (y) =\mu(y - \tau \nabla \phi(y))|\det (I - \tau D^2 \phi(y))|
+    \left\{
+    \begin{aligned}
+        &\left\{
+        \begin{aligned}
+            u^{(n)} - \tau \Delta u^{(n)} = \nu^{(n-1)} \left(\rho^{(n-1)}\right)^m,\\
+            u^{(n)} = 0 \quad \text{on} \, \partial \Omega,\\
+        \end{aligned}
+        \right.\\
+        &\rho^{(n)} = \left(\rho^{(n-1)} + \nu^{(n-1)}\left(u^{(n)} - \left(\rho^{(n-1)}\right)^m\right) \right)_+,\\
+        &\nu^{(n)} = \frac{1}{\delta + m\left(\rho^{(n)}\right)^{m-1}}.
+    \end{aligned}
+    \right.
 \end{equation}
-\begin{equation}
-    \label{eq:pushforward Tpsi}
-    T_{\psi \#} \delta U^* (- \psi^c)(x) =\delta U^* (- \psi^c)(x - \tau \nabla \psi(x))|\det (I - \tau D^2 \psi(x))|
-\end{equation}
-%実装する際、私たちのアルゴリズムではこれらの量をシンプルな中心差分スキームを使用して計算します。
+ただし、$\tau$は時間ステップサイズ、$\delta = 10^{-6}$とする。
 
-\section{最適輸送写像のアルゴリズム}
+
+1次元における$m=2$の多孔質勾配方程式
+$
+    \rho_t = \gamma\Delta (\rho^2)
+$
+について検証する。
+(\ref{eq:m=2rho})から、
+$U$が
+$
+    U(\rho) := \frac{\gamma}{{m-1}} \int \rho^2 \, dx
+$
+の時、the back-and-forth methodを用いて求める解は
+\[
+    \rho_*(x) = \delta U^*(- \varphi) =  \frac{1}{2\gamma}(C - \varphi)_+ 
+\]
+であることがわかる。
+
+また本論文で行う実験はpythonでコードを書いており(Numbaを使用)、
+3.2GHz 8コア、8GB RAMを搭載した2020 MacBook AirのM1チップで実行した。
+
+\section{時間ごとの各数値解のグラフ}
+
+グリッドサイズ$512$、$\varepsilon = 10^{-3}$の条件で検証する。
+時間$t = t_0, t_0 + 0.4, t_0 + 0.8, t_0 + 2.0$における、複数の時間ステップサイズ$\tau$に対するグラフを図\ref{img:baf_m=2}、\ref{img:bbr_m=2}、\ref{img:euler_m=2}に示す。
+\begin{figure}[htbp]
+    \centering
+    \begin{tabular}{cc}
+        \begin{minipage}[t]{0.5\textwidth}
+            \centering
+            \includegraphics[keepaspectratio, scale=0.45]{../../images/baf_tau/t=0.png}
+            \subcaption{$t=0$}
+            \label{img:baf_0}
+        \end{minipage} &
+        \begin{minipage}[t]{0.5\textwidth}
+            \centering
+            \includegraphics[keepaspectratio, scale=0.45]{../../images/baf_tau/t=0.4.png}
+            \subcaption{$t = 0.4$}
+            \label{img:baf_1}
+        \end{minipage} \\
+        
+        \begin{minipage}[t]{0.5\textwidth}
+            \centering
+            \includegraphics[keepaspectratio, scale=0.45]{../../images/baf_tau/t=0.8.png}
+            \subcaption{$t = 0.8$}
+            \label{img:baf_2}
+        \end{minipage} &
+        \begin{minipage}[t]{0.5\textwidth}
+            \centering
+            \includegraphics[keepaspectratio, scale=0.45]{../../images/baf_tau/t=2.png}
+            \subcaption{$t = 2$}
+            \label{img:baf_3}
+        \end{minipage}
+    \end{tabular}
+    \caption{The back-and-forth methodを用いた数値解と厳密解Barenblatt solutionの比較}
+    \label{img:baf_m=2}
+\end{figure}
+
+\begin{figure}[htbp]
+    \begin{tabular}{cc}
+        \begin{minipage}[t]{0.5\hsize}
+            \centering
+            \includegraphics[keepaspectratio, scale=0.45]{../../images/bbr_tau/t=0.png}
+            \subcaption{$t=0$}
+            \label{img:bbr_0}
+        \end{minipage} &
+        \begin{minipage}[t]{0.5\hsize}
+            \centering
+            \includegraphics[keepaspectratio, scale=0.45]{../../images/bbr_tau/t=0.4.png}
+            \subcaption{$t = 0.4$}
+            \label{img:bbr_1}
+        \end{minipage} \\
+
+        \begin{minipage}[t]{0.5\hsize}
+            \centering
+            \includegraphics[keepaspectratio, scale=0.45]{../../images/bbr_tau/t=0.8.png}
+            \subcaption{$t = 0.8$}
+            \label{img:bbr_2}
+        \end{minipage} &
+        \begin{minipage}[t]{0.5\hsize}
+            \centering
+            \includegraphics[keepaspectratio, scale=0.45]{../../images/bbr_tau/t=2.png}
+            \subcaption{$t = 2$}
+            \label{img:bbr_3}
+        \end{minipage} \\
+    \end{tabular}
+    \caption{BBRスキーム用いた数値解と厳密解Barenblatt solutionの比較}
+    \label{img:bbr_m=2}
+\end{figure}
+
+\begin{figure}[htbp]
+    \begin{tabular}{cc}
+        \begin{minipage}[t]{0.5\hsize}
+            \centering
+            \includegraphics[keepaspectratio, scale=0.45]{../../images/euler_tau/t=0.png}
+            \subcaption{$t=0$}
+            \label{img:bbr_0}
+        \end{minipage} &
+        \begin{minipage}[t]{0.5\hsize}
+            \centering
+            \includegraphics[keepaspectratio, scale=0.45]{../../images/euler_tau/t=0.4.png}
+            \subcaption{$t = 0.4$}
+            \label{img:bbr_1}
+        \end{minipage} \\
+
+        \begin{minipage}[t]{0.5\hsize}
+            \centering
+            \includegraphics[keepaspectratio, scale=0.45]{../../images/euler_tau/t=0.8.png}
+            \subcaption{$t = 0.8$}
+            \label{img:bbr_2}
+        \end{minipage} &
+        \begin{minipage}[t]{0.5\hsize}
+            \centering
+            \includegraphics[keepaspectratio, scale=0.45]{../../images/euler_tau/t=2.png}
+            \subcaption{$t = 2$}
+            \label{img:bbr_3}
+        \end{minipage} \\
+    \end{tabular}
+    \caption{Euler陽解法を用いた数値解と厳密解Barenblatt solutionの比較}
+    \label{img:euler_m=2}
+\end{figure}
+
+Euler陽解法は制約条件から、およそ$\tau = 0.0001$以上の場合は発散が起きてしまう。
+しかし$\tau$を十分小さくとれば厳密解との誤差が少ないことがわかる。
+
+BBRスキームは陰解法であるのでEuler陽解法よりも時間ステップ$\tau$が大きな値で近似することができる。
+しかし図\ref{img:bbr_m=2}でもわかるように、時間によって移動する$\rho$の台$(\text{supp} \, \rho = \{ x \in \Omega \,| \, \rho(x) > 0\})$の境界で不連続であることから制約が生じる。
+そのため適切な大きさの$\tau$を取らないと急激な変動がある勾配$\nabla\rho$が影響し境界においてショックが生じる。
+
+一方the back-and-forth methodは大きい$\tau$であっても、不連続な$\rho$の台の境界でショックが起こることなく近似することができている。
+これは$\rho$を直接求めるのではなく、$\rho_*(x) = \delta U^*(- \varphi)$で$\rho$を再現するためである。
+
+
+\section{数値解の誤差とスピード}
+グリッドサイズ$512$のときの３つの解法の誤差と計算にかかった時間を表\ref{tab:grid512_1}、\ref{tab:grid512_2}に示す。
+
+\begin{table}[hbtp]
+    \centering
+    \caption{the back-and-forth methodとBBRスキーム(グリッドサイズ512、$\varepsilon = 10^{-3}$)}
+    \label{tab:grid512_1}
+    \begin{tabular}{llllll} 
+        \hline
+        \multirow{2}{*}{$\tau$} & \multirow{2}{*}{$N_\tau$} & \multicolumn{2}{c}{the back-and-forth method} & \multicolumn{2}{c}{BBRスキーム} \\
+        \cline{3-6}
+        & &  Error & Time(s) & Error & Time(s) \\
+        \hline \hline  
+        0.4  & 5 & \num{8.68e-02} & 0.069 & \num{7.19e-01} &  0.000342 \\  
+        0.2  & 10 & \num{5.74e-02} & 0.139 & \num{6.37e-01} &  0.00067 \\ 
+        0.1  & 20 & \num{3.61e-02} & 0.162 & \num{4.97e-01} &  0.00131 \\ 
+        0.05  & 40 & \num{2.15e-02} & 0.17 & \num{2.98e-01} &  0.00275 \\
+        0.025  & 80 & \num{1.25e-02} & 0.198 & \num{1.16e-01} &  0.00495 \\
+        0.0125  & 160 & \num{7.66e-03} & 0.214 & \num{3.77e-02} &  0.0102 \\ 
+        0.00625  & 320 & \num{5.06e-03} & 0.245 & \num{1.02e-02} &  0.0202 \\ 
+        0.0001  & 20000 & \num{1.81e-02} & 3.7 & \num{1.25e-04} &  1.54 \\ 
+        \hline 
+    \end{tabular} 
+\end{table}
+
+\begin{table}[hbtp]
+    \caption{Euler陽解法(グリッドサイズ512)}
+    \label{tab:grid512_2}
+    \centering
+    \input{../../Codes/result/result_euler512.tex}
+\end{table}
+
+\begin{table}[hbtp]
+    \centering
+    \caption{the back-and-forth methodのグリッドサイズによる違い($\varepsilon=10^{-5}$)}
+    \label{tab:change_gridsize}
+    \begin{tabular}{llllllll} 
+        \hline
+        \multirow{2}{*}{$\tau$} & \multirow{2}{*}{$N_\tau$} & \multicolumn{2}{c}{グリッドサイズ1000} & \multicolumn{2}{c}{グリッドサイズ2000} & \multicolumn{2}{c}{グリッドサイズ4000}\\
+        \cline{3-8}
+        & &  Error & Time(s) & Error & Time(s) & Error & Time(s)\\
+        \hline \hline  
+        0.4  & 5 & \num{8.67e-02} & \num{0.216} & \num{8.67e-02} & 0.193 & \num{8.67e-02} & 0.337 \\ 
+        0.2  & 10 & \num{5.73e-02} & \num{0.484} & \num{5.73e-02} & 0.388 & \num{5.73e-02} & 0.656 \\ 
+        0.1  & 20 & \num{3.60e-02} & \num{0.5} & \num{3.59e-02} & 0.466 & \num{3.58e-02} & 0.777 \\ 
+        0.05  & 40 & \num{2.14e-02} & \num{0.509} & \num{2.13e-02} & 0.525 & \num{2.13e-02} & 0.828 \\ 
+        0.025  & 80 & \num{1.20e-02} & \num{0.529} & \num{1.20e-02} & 0.566 & \num{1.20e-02} & 0.871 \\ 
+        0.0125  & 160 & \num{6.68e-03} & \num{0.564} & \num{6.44e-03} & 0.611 & \num{6.45e-03} & 1 \\ 
+        0.00625  & 320 & \num{4.04e-03} & \num{0.621} & \num{3.57e-03} & 0.693 & \num{3.59e-03} & 1.13 \\ 
+        0.0001  & 20000 & \num{2.29e-03} & \num{6.08} & \num{1.75e-03} & 10.9 & \num{1.82e-03} & 19.6 \\ 
+        \hline 
+    \end{tabular} 
+\end{table}
+
+\begin{table}[hbtp]
+    \centering
+    \caption{the back-and-forth methodのグリッドサイズ4000のときの$\varepsilon$による違い}
+    \label{tab:change_eps}
+    \begin{tabular}{llllllll} 
+        \hline
+        \multirow{2}{*}{$\tau$} & \multirow{2}{*}{$N_\tau$} & \multicolumn{2}{c}{$\varepsilon = 10^{-3}$} & \multicolumn{2}{c}{$\varepsilon = 10^{-5}$} & \multicolumn{2}{c}{$\varepsilon = 10^{-6}$}\\
+        \cline{3-8}
+        & &  Error & Time(s) & Error & Time(s) & Error & Time(s)\\
+        \hline \hline  
+        0.4  & 5 & \num{8.67e-02} & 0.337 & \num{8.67e-02} & 0.354 & \num{8.67e-02} & 0.345 \\ 
+        0.2  & 10 & \num{5.73e-02} & 0.656 & \num{5.73e-02} & 0.686 & \num{5.73e-02} & 0.675 \\ 
+        0.1  & 20 & \num{3.58e-02} & 0.777 & \num{3.59e-02} & 1.41 & \num{3.59e-02} & 1.33 \\ 
+        0.05  & 40 & \num{2.13e-02} & 0.828 & \num{2.14e-02} & 2.73 & \num{2.14e-02} & 2.65 \\ 
+        0.025  & 80 & \num{1.20e-02} & 0.871 & \num{1.23e-02} & 5.37 & \num{1.23e-02} & 5.29 \\ 
+        0.0125  & 160 & \num{6.45e-03} & 1 & \num{6.82e-03} & 9.86 & \num{6.82e-03} & 10.6 \\ 
+        0.00625  & 320 & \num{3.59e-03} & 1.13 & \num{3.67e-03} & 11.3 & \num{3.67e-03} & 21.2 \\ 
+        0.0001  & 20000 & \num{1.82e-03} & 19.6 & \num{8.39e-04} & 44.8 & \num{5.75e-04} & 122 \\ 
+        \hline 
+    \end{tabular} 
+\end{table}
+
+表\ref{tab:grid512_1}、\ref{tab:change_gridsize}、 \ref{tab:change_eps}から、
+the back-and-forth methodを用いた数値解は
+適切な$\tau$・グリッドサイズ・$\varepsilon$を取らないとうまく近似をすることができないことがわかる。
+また、the back-and-forth methodにはwhileループがあるため、その分他の数値解法より数値解を求めるのに時間がかかっていることが確かめられる。
+
+BBRスキームは前述したように$\tau$を十分小さく取らないと不連続な$\rho$の台の境界においてショックが発生してしまう。
+実際、表\ref{tab:grid512_1}のErrorの値からも確認できる。
+今回の結果ではショックがなければ十分小さい$\tau$においてBBRスキームの方がthe back-and-forth methodより計算精度が高いことが確認できた。
+
+Euler陽解法は制約条件から、$\tau = 0.0001$以下に取ることで厳密解との誤差がどの解法よりも少なく、また計算スピードが速いことがわかる(表\ref{tab:grid512_2})。
+
+
+
+% \begin{figure}[htbp]
+%     \begin{tabular}{cc}
+%         \begin{minipage}[t]{0.5\hsize}
+%             \centering
+%             \includegraphics[keepaspectratio, scale=0.45]{../../images/baf_tau/error_baf.png}
+%             \subcaption{the back-and-forth method}
+%             \label{img:baf_error}
+%         \end{minipage} &
+%         \begin{minipage}[t]{0.5\hsize}
+%             \centering
+%             \includegraphics[keepaspectratio, scale=0.45]{../../images/bbr_tau/error_bbr.png}
+%             \subcaption{BBRスキーム}
+%             \label{img:bbr_error}
+%         \end{minipage} \\
+%     \end{tabular}
+%     \caption{時間$t$に対する厳密解Barenblatt solutionとの誤差(error)}
+%     \label{img:bbr_m=2}
+% \end{figure}
+
+
+The back-and-forth methodの精度を検証したものが図\ref{img:error accuracy}である。
+図からわかるように、精度は$O(N_\tau)$ であることがわかる。
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[keepaspectratio, scale=0.45]{../../images/baf_tau/log_error.png}
+    \caption{The back-and-forth methodの誤差精度}
+    \label{img:error accuracy}
+\end{figure}

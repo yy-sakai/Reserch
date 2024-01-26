@@ -1,0 +1,96 @@
+\documentclass[a4,10pt, twocolumn, dvipdfmx]{article}
+
+\usepackage{amsthm, amsfonts, amsmath}
+\usepackage{color}
+\usepackage{graphicx}
+\usepackage{listings,jvlisting}
+\usepackage{here, latexsym, bm, ascmac, mathtools, multicol, tcolorbox, graphicx, comment, pgfplots}
+\usepackage{algpseudocode}
+\usepackage{algorithm}
+\usepackage{tikz}
+\usepackage{siunitx}
+\usepackage{subcaption}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\usepackage{pxjahyper}
+\usepackage{xcolor}
+\usepackage{pgfplots}
+\usepackage{mathtools}
+
+\hypersetup{
+    colorlinks=true,
+    citecolor=blue,
+    linkcolor=blue,
+    urlcolor=orange,
+}
+
+\usetikzlibrary{intersections}
+\usepgfplotslibrary{fillbetween}
+
+%---------------------------------------------------
+% ページの設定
+%---------------------------------------------------
+\setlength{\pdfpagewidth}{8.5in}  % DO NOT CHANGE THIS
+\setlength{\pdfpageheight}{11in}  % DO NOT CHANGE THIS
+\pagestyle{empty}
+\setlength{\headheight}{0truemm}
+\setlength{\parindent}{1zw}
+
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{cor}{Corollary} [thm]
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{prop}[thm]{Proposition}
+\theoremstyle{definition}
+\newtheorem{dfn}{Definition}[section]
+\newtheorem{ex}{Example}[section]
+
+
+
+
+\lstset{
+    basicstyle={\ttfamily},
+    identifierstyle={\small},
+    commentstyle={\smallitshape},
+    keywordstyle={\small\bfseries},
+    ndkeywordstyle={\small},
+    stringstyle={\small\ttfamily},
+    frame={tb},
+    breaklines=true,
+    columns=[l]{fullflexible},
+    numbers=left,
+    xrightmargin=0zw,
+    xleftmargin=3zw,
+    numberstyle={\scriptsize},
+    stepnumber=1,
+    numbersep=1zw,
+    lineskip=-0.5ex
+}
+
+
+%---------------------------
+%1段組
+\begin{document}
+\twocolumn
+[
+\begin{center}
+{\huge Application to Partial Differential Equations for Optimal Transport Problem}
+\end{center}
+\begin{flushright}
+\begin{tabular}{rr}
+{\Large \ } &\ \\
+2215011016&Yukito Sakai\\
+{\Large \ } &\ \\
+\end{tabular}
+\end{flushright}
+\vspace{2truemm}
+]
+
+
+\section{text}
+\cite{MR4238775}
+
+\section{参考文献}
+\bibliographystyle{plain}
+\bibliography{../ref}  % BibTeXファイルの指定
+
+\end{document}

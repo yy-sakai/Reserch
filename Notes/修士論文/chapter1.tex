@@ -2,7 +2,7 @@
 
 近年、最適輸送問題（Optimal Transport Problem, OTP）と偏微分方程式の間に深い関係が発見されたことから最適輸送問題への関心が高まっている。
 偏微分方程式 を解くための新しい方法として、最適輸送問題の解法を用いるソルバーが注目されている。
-そんな中発表されたJacobsとLégerによって導入された the back-and-forth method(BFM)は、最適輸送問題のソルバーを用いた偏微分方程式の新たな解法が発表された。 [Numer. Math. 146（2020）513-544.]。
+そんな中発表されたJacobsとLégerによって導入された the back-and-forth method(BFM)は、最適輸送問題のソルバーを用いた偏微分方程式の新たな解法が発表された。\cite{MR4238775}
 この解法は特に非線形偏微分方程式に有効であり、今までの解法に比べて高速でかつ安定性条件を必要としないため、より幅広い問題を解くことが可能である。
 私はこの最適輸送問題を用いた偏微分方程式のソルバーに興味がある。
 
@@ -74,16 +74,14 @@ BFM を PME に適用するためには、以下の点に留意する必要が�
 
 \section{全体のアプローチ}
 \label{sect:全体のアプローチ}
-本論文では、次の条件に従うものとする。
-{\color{red}
-\begin{ass}
-\label{ass:1}
-    $\Omega$を凸であり、コンパクトな$\mathbb{R}^n$の部分集合とする。
+本論文では、$\Omega$を凸であり、コンパクトな$\mathbb{R}^n$の部分集合と仮定する。
+また次の条件に従うものとする。
+\begin{dfn}
+\label{dfn:1}
     $\Omega$ 上の確率測度であり、非負の測度で質量（mass）が1である確率測度の集合を $\mathcal{P} (\Omega)$ とする。
     また、$\Omega$上の連続関数の空間を$C(\Omega)$で表す。
-    簡単のために積分が \(1\) となる非負の \(L^1(\mathbb{R}^n)\)関数 で考える
-\end{ass}
-}
+    簡単のために積分が \(1\) となる非負の \(L^1(\mathbb{R}^n)\)関数 で考える。
+\end{dfn}
 
 非線形の偏微分方程式である多孔質媒体方程式は、エネルギー関数$U$に基づくWasserstein 勾配流として表現できる。
 これにより、時間離散化を行い変分原理に基づき以下の反復を行うことによって多孔質媒体方程式の近似解を求めるJKOスキームを行うことができる。
@@ -100,12 +98,12 @@ BFM を PME に適用するためには、以下の点に留意する必要が�
 
 \begin{equation}
     \label{eq:wasserstein dual}
-    \frac{1}{2\tau} W_2^2(\rho, \mu) = \sup_{(\varphi, \psi) \in \mathcal{C}} \left( \int \varphi d\rho + \int \psi d\mu \right),
+    \frac{1}{2\tau} W_2^2(\rho, \mu) = \sup_{(\varphi, \psi) \in \mathcal{C}} \left( \int \varphi d\rho + \int \psi d\mu \right)
 \end{equation}
 
 ここで、$\mathcal{C}$は制約
 \[
-    \mathcal{C}  := \{(\varphi, \psi) \in C(\Omega) \times C(\Omega) : \varphi(x) + \psi(y) \leq \frac{1}{2 \tau} |x - y|^2 \}. 
+    \mathcal{C}  := \{(\varphi, \psi) \in C(\Omega) \times C(\Omega) : \varphi(x) + \psi(y) \leq \frac{1}{2 \tau} |x - y|^2 \}
 \]
 を満たす関数$(\varphi, \psi)$の集合、$\tau$はスキーム内の時間ステップを表す。
 重要な点として、集合$\mathcal{C}$は凸であることに注意する。
@@ -120,7 +118,7 @@ BFM を PME に適用するためには、以下の点に留意する必要が�
     \label{eq:L}
     L(\rho, (\varphi, \psi)) := U(\rho) + \int \varphi \, d\rho + \int \psi \, d\mu
   \]
-  は\hypertarget{rho_convex}{\(\rho\)に関して凸関数}（\((\varphi, \psi)\)が固定された場合）(\hyperlink{Proof:rho_convex}{Proof})、
+  は\hypertarget{rho_convex}{\(\rho\)に関して凸関数}（\((\varphi, \psi)\)が固定された場合）、
   および\hypertarget{varphipsi_concave}{\((\varphi, \psi)\)に関しては凹関数}になる。
   このため、\cite[Prop. 2.4 (p176)]{MR1727362}のような最小最大の定理を適用して、\(\min\)と\(\sup\)の順序を交換することができる。
   したがって、
@@ -129,7 +127,7 @@ BFM を PME に適用するためには、以下の点に留意する必要が�
     \min_{\rho \in \mathcal{P}} U(\rho) + \frac{1}{2\tau} W_2^2(\rho, \mu) &= \sup_{(\varphi, \psi) \in \mathcal{C}} \min_{\rho \in \mathcal{P}} \left(U(\rho) + \int \varphi \, d\rho + \int \psi \, d\mu \right)  \notag\\
                                                                             &= \sup_{(\varphi, \psi) \in \mathcal{C}} \left(\min_{\rho \in \mathcal{P}} \left(U(\rho) + \int \varphi \, d\rho\right) + \int \psi \, d\mu\right)  \notag\\
                                                                             &= \sup_{(\varphi, \psi) \in \mathcal{C}} \left(\int \psi \, d\mu - U^*(- \varphi)\right)  \\
-                                                                            &= \sup_{(\phi,\psi) \in \mathcal{C}} \left( \int \psi(y) d\rho^{(n)}(y) - U^*(- \varphi) \right)\notag
+                                                                            &= \sup_{(\varphi,\psi) \in \mathcal{C}} \left( \int \psi(y) d\rho^{(n)}(y) - U^*(- \varphi) \right)\notag
   \end{align}
   ここで、$U^*(\varphi)$は以下のように定義している。 
   \[
@@ -183,9 +181,9 @@ $c$-変換によって$\varphi$と$\psi$を変換することで、互い空間�
 各空間の勾配は適切な重み付きSobolev空間で計算される。
 
 back-and-forth methodによって双対問題を解いた後、元の問題（\ref{eq:minimizer}）の解を復元することができる。
-$U$が凸であれば、最適な双対変数$\phi_*$は$\rho^{(n+1)}$との双対関係
+$U$が凸であれば、最適な双対変数$\varphi_*$は$\rho^{(n+1)}$との双対関係
 $$
-    \rho^{(n+1)} = \delta U^*(\phi_*)
+    \rho^{(n+1)} = \delta U^*(\varphi_*)
 $$
 を介して復元される。
 
@@ -194,32 +192,8 @@ $$
 
 \section{論文の構成}
 \label{sect:論文の構成}
-1 intro
-
-1.1 全体の流れと最低限の内容
-
-1.2 論文の構成
-
-2 background
-
-2.1 最適輸送
-
-2.2 c-tra
-
-2.2.1 convex hull
-
-2.2.2 legendre transform
-
-2.2.3 c-transform
-
-3. bafmethod
-
-3.1 transport map
-
-3.2 baf method
-
-4. c-traまでのまとめ、結果
-
-5. PMEの導入
-
-6. 結果
+本論文の構成は以下のとおりである。2章でthe back-and-forth methodの理解に必要な前提知識を説明する。
+back-and-forth methodの解説を3章で行う。
+4章では2、3章の解説を基に実装に必要なアルゴリズムを説明する。
+5章では実装した結果から、back-and-forth methodの有用性を示す。
+最後の6章でまとめと今後の展開を展望する。
