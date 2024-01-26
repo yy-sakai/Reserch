@@ -47,7 +47,7 @@ h = x[1] - x[0]
 # Set parameters
 m = 2
 c = np.zeros_like(x)
-tau = 0.0001
+tau = 0.00625
 eps = 1e-3             #1.0**(-3)
 M = 0.5
 b = (np.sqrt(3) * M / 8)**(2 / 3) 
@@ -73,6 +73,7 @@ hist.exact = []
 hist.Tphi_nu = []
 hist.Tpsi_z = []
 hist.save_error = []
+hist.error = []
 
 
 # JKO scheme
@@ -102,6 +103,7 @@ for real_t in timestep:
         #print('error = ', error)
         hist.rho.append(z)
         hist.exact.append(ex)
+        hist.error.append(error)
     
 
 
@@ -130,6 +132,7 @@ for real_t in timestep:
         plt.plot(x, ex, "--", label=r'exact')    
         
         print(f'{real_t + tau:.4}: error =  {error}')
+        hist.error.append(error)
         #plt.plot(x, phi,label=r'$\phi$')
         plt.title(r'PME m=2 bbr method t = ' + str(round(real_t+tau, 2)) + r', $\tau = $' + str(tau))
         plt.legend(prop={'size': 15})
@@ -153,11 +156,15 @@ plt.semilogy(hist.H1_sq)
 plt.savefig(f'{image_root}_H1_sq.png')
 plt.close()
 
+# Save error per time step
+np.save(f"{image_save}/error_tau={tau}", hist.error)
+
 np.save(f'{image_save}/tau={tau}', hist.rho)
 np.save(f'{image_save}/exact', hist.exact)
 
 save_error = abs((ex - z)[1:] + (ex - z)[:-1]) * h / 2
 hist.save_error.append(save_error)
+
 #print(save_error)
 #plot error graph
 center_x = np.array((x[1:] + x[:-1])/2)
@@ -165,6 +172,6 @@ plt.plot(center_x, hist.save_error[0], label=r'$error_ bbr$')
 plt.xlabel("x")
 plt.ylabel("error = exact - computed")
 plt.show()
-np.save(f'{image_save}/error_tau={tau}', hist.save_error[0])
+#np.save(f'{image_save}/error_tau={tau}', hist.save_error[0])
 
 print(f'Plots saved in {image_root}')
