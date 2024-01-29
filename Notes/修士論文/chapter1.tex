@@ -2,7 +2,7 @@
 
 近年、最適輸送問題（Optimal Transport Problem, OTP）と偏微分方程式の間に深い関係が発見されたことから最適輸送問題への関心が高まっている。
 偏微分方程式 を解くための新しい方法として、最適輸送問題の解法を用いるソルバーが注目されている。
-そんな中発表されたJacobsとLégerによって導入された the back-and-forth method(BFM)は、最適輸送問題のソルバーを用いた偏微分方程式の新たな解法が発表された。\cite{MR4238775}
+そんな中発表されたJacobsとLégerによって導入された the back-and-forth method は、最適輸送問題のソルバーを用いた偏微分方程式の新たな解法が発表された\cite{MR4238775}。
 この解法は特に非線形偏微分方程式に有効であり、今までの解法に比べて高速でかつ安定性条件を必要としないため、より幅広い問題を解くことが可能である。
 私はこの最適輸送問題を用いた偏微分方程式のソルバーに興味がある。
 
@@ -10,8 +10,8 @@
 \begin{align}
     \begin{split}
         \label{eq:Darcy's}
-        \partial_t \rho - \nabla \cdot (\rho \nabla \phi) = 0, \\
-        \phi = \delta U(\rho).
+        \partial_t \rho - \nabla \cdot (\rho \nabla \varphi) = 0, \\
+        \varphi = \delta U(\rho).
     \end{split}
 \end{align}
 この偏微分方程式(\ref{eq:Darcy's})は、以下のエネルギー関数$U$用いることで多孔質媒体方程式（Porous medium equation, PME）となる。
@@ -27,8 +27,8 @@ $$
 \end{align}
 
 一般的に多孔質媒体方程式 は、剛性があり非線形であり、数値的に解くのは困難である。
-そのため本研究では、偏微分方程式のJacobs、Lee、Légerによって導入されたBFMを用いたソルバーと他のソルバーとの比較を行い、
-特定の条件下においてBFMのソルバーが、非線形な多孔質媒体方程式をより効率的に解くことができることを示す。
+そのため本研究では、偏微分方程式のJacobs、Lee、Légerによって導入された the back-and-forth methodを用いたソルバーと他のソルバーとの比較を行い、
+特定の条件下においてback-and-forth methodのソルバーが、非線形な多孔質媒体方程式をより効率的に解くことができることを示す。
 
 
 \begin{comment}
@@ -120,14 +120,13 @@ BFM を PME に適用するためには、以下の点に留意する必要が�
   \]
   は\hypertarget{rho_convex}{\(\rho\)に関して凸関数}（\((\varphi, \psi)\)が固定された場合）、
   および\hypertarget{varphipsi_concave}{\((\varphi, \psi)\)に関しては凹関数}になる。
-  このため、\cite[Prop. 2.4 (p176)]{MR1727362}のような最小最大の定理を適用して、\(\min\)と\(\sup\)の順序を交換することができる。
+  このため、\cite[Proposition 2.4 (p176)]{MR1727362}のような最小最大の定理を適用して、\(\min\)と\(\sup\)の順序を交換することができる。
   したがって、
   \begin{align}
     \label{eq:dual}
     \min_{\rho \in \mathcal{P}} U(\rho) + \frac{1}{2\tau} W_2^2(\rho, \mu) &= \sup_{(\varphi, \psi) \in \mathcal{C}} \min_{\rho \in \mathcal{P}} \left(U(\rho) + \int \varphi \, d\rho + \int \psi \, d\mu \right)  \notag\\
                                                                             &= \sup_{(\varphi, \psi) \in \mathcal{C}} \left(\min_{\rho \in \mathcal{P}} \left(U(\rho) + \int \varphi \, d\rho\right) + \int \psi \, d\mu\right)  \notag\\
-                                                                            &= \sup_{(\varphi, \psi) \in \mathcal{C}} \left(\int \psi \, d\mu - U^*(- \varphi)\right)  \\
-                                                                            &= \sup_{(\varphi,\psi) \in \mathcal{C}} \left( \int \psi(y) d\rho^{(n)}(y) - U^*(- \varphi) \right)\notag
+                                                                            &= \sup_{(\varphi, \psi) \in \mathcal{C}} \left(\int \psi \, d\mu - U^*(- \varphi)\right)
   \end{align}
   ここで、$U^*(\varphi)$は以下のように定義している。 
   \[
@@ -171,7 +170,7 @@ $c$-変換を利用することで、$\varphi$もしくは$\psi$のみの式に�
 \]
 が成立するということである。
 
-加えて、$\phi_*$が$J$の最大化関数であり、$\psi_*$が$I$の最大化関数であるならば、
+加えて、$\varphi_*$が$J$の最大化関数であり、$\psi_*$が$I$の最大化関数であるならば、
 \[
     \varphi_*^c = \psi_*, \qquad \psi_*^c = \varphi_*
 \]
@@ -188,7 +187,7 @@ $$
 を介して復元される。
 
 本研究の偏微分方程式のソルバーは、最適輸送問題の解法の一つであるback-and-forth methodを用いて、Kantorovichの双対問題を求める。
-さらに$\rho^{(n+1)} = \delta U^*(\phi_*)$によって$\min_{\rho \in \mathcal{P}} U(\rho) + \frac{1}{2\tau} W_2^2(\rho, \mu)$の最小化問題の解を復元するというアイデアに基づいている。
+さらに$\rho^{(n+1)} = \delta U^*(\varphi_*)$によって$\min_{\rho \in \mathcal{P}} U(\rho) + \frac{1}{2\tau} W_2^2(\rho, \mu)$の最小化問題の解を復元するというアイデアに基づいている。
 
 \section{論文の構成}
 \label{sect:論文の構成}

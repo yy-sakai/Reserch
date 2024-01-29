@@ -171,7 +171,7 @@ $conv f$は$f$よりも大きくない最大の凸関数である。
 \subsection{Legendre-Fenchel変換(Legendre-Fenchel transform)}
 \label{sect:Legendre-Fenchel変換(Legendre-Fenchel transform)}
 \begin{dfn}
-    関数$f \in \mathcal{C}$を凸で微分可能な関数とするとき、$f$のLegendre-Fenchel transformは以下のように定義される。
+    関数$f \in C$を凸で微分可能な関数とするとき、$f$のLegendre-Fenchel transformは以下のように定義される。
     \begin{equation}
         f^*(p) := sup_x\{p \cdot x - f(x) \} 
     \end{equation}
@@ -199,7 +199,7 @@ $conv f$は$f$よりも大きくない最大の凸関数である。
         \label{dfn:forward-c-transform}
         \varphi^c(y) := \inf_{x \in \Omega} \left( \frac{1}{2\tau}|x-y|^2 - \varphi(x)\right) = \frac{1}{\tau}\inf_{x \in \Omega} \left( \frac{1}{2}|x-y|^2 - \tau\varphi(x)\right)
     \end{equation}
-    また、 $\phi$ が $c$-凹関数とは、 $\varphi = \psi^c$ となる$\psi \in C(\Omega)$ が存在することをいう。
+    また、 $\varphi$ が $c$-凹関数とは、 $\varphi = \psi^c$ となる$\psi \in C(\Omega)$ が存在することをいう。
     さらに関数の組 $(\varphi, \psi) \in \mathcal{C}$が $c$-共役であるとは, $\varphi = \psi^c$ かつ $\psi = \varphi^c$のときをいう。
 \end{dfn}
 
@@ -207,9 +207,9 @@ $conv f$は$f$よりも大きくない最大の凸関数である。
 \begin{lem}
     \label{lem:c-transform}
     $\varphi, \psi \in C(\Omega)$のとき、
-    $\forall x \in \Omega \text{に対し,}\phi^{cc} \ge \varphi$
-    が成り立つ。また、$\phi^{cc} = \varphi$の必要十分条件は$\varphi$が$c$-concaveの時である。
-    ただし、$\varphi^{ccc} = \varphi^c$は常に成立する.[JL](Lemma 1(i))
+    $\forall x \in \Omega \text{に対し,}\varphi^{cc} \ge \varphi$
+    が成り立つ。また、$\varphi^{cc} = \varphi$の必要十分条件は$\varphi$が$c$-concaveの時である。
+    ただし、$\varphi^{ccc} = \varphi^c$は常に成立する\cite[(Lemma 1(i))]{MR4169482}。
 \end{lem}
 
 
@@ -450,7 +450,7 @@ $c$-変換(\ref{dfn:backward-c-transform})(\ref{dfn:forward-c-transform})を利�
     \end{equation*}
     
     \begin{equation*}
-        \rho_* \in \delta U^*(\varphi_*), \quad \phi_* \in \delta U(\rho_*), \quad \rho_* = T_{\varphi_* \#} \mu.
+        \rho_* \in \delta U^*(\varphi_*), \quad \varphi_* \in \delta U(\rho_*), \quad \rho_* = T_{\varphi_* \#} \mu.
     \end{equation*}
     \end{thm}
 
@@ -465,7 +465,7 @@ $c$-変換(\ref{dfn:backward-c-transform})(\ref{dfn:forward-c-transform})を利�
 ここで、本論文では非負の解 \(\rho \geq 0\) を考えている。
 このPDEは、エネルギー関数
 \[
-    U(\rho) := \frac{\gamma}{{m-1}} \int \rho^m \, dx
+    U(\rho) := \frac{\gamma}{{m-1}} \int \rho^m \, 
 \]
 に基づくWasserstein勾配流として表現することがきる。
 ここで、
@@ -475,7 +475,7 @@ $c$-変換(\ref{dfn:backward-c-transform})(\ref{dfn:forward-c-transform})を利�
 \end{align*}
 となる。
 
-$U^*$は、実質的には$U$のLagrange-Fenchel変換を$-\varphi$に対して行ったものである(\ref{eq:dual})。
+$U^*$は、実質的には$U$のLegendre-Fenchel変換を$-\varphi$に対して行ったものである(\ref{eq:dual})。
 ここで、$L^1(\Omega) \subset \mathcal{P}$がヒルベルト空間の部分集合ではなく、
 測度と連続関数の間の双対性を使って内積の代わりに$\int \varphi d \rho$の積分を扱うことに注意する。
 これは$\rho, \mu$が絶対連続であることに基づいている。
@@ -498,7 +498,7 @@ $\delta U^*(\varphi)$は通常の設定における$\partial U^*(\varphi)$に類
 
 \begin{lem}
     \label{lem:rho_opt}
-    $\varphi \in C(\Omega)$ と仮定し、以下のように定義されるとする.
+    $\varphi \in C(\Omega)$ と仮定し、以下のように定義されるとする。
     $$
         \rho_*(x) := \left( \frac{m-1}{m\gamma}(C + \varphi)_+ \right)^{\frac{1}{m-1}} 
     $$
@@ -600,7 +600,7 @@ The back-and-forth methodで用いる勾配上昇法のために、実ヒルベ�
 勾配上昇法式(\ref{eq:gradient ascent})は、次の変分形式でも同等に書くことができる。
 \begin{equation}
     \label{eq:gradient ascent variational}
-    \phi_{k+1} =  \underset{\varphi} {\operatorname{argmax}} J(\varphi_k) + \delta J(\varphi_k)(\varphi-\varphi_k) - \frac{1}{2}\|\varphi-\varphi_k\|_H^2.
+    \varphi_{k+1} =  \underset{\varphi} {\operatorname{argmax}} J(\varphi_k) + \delta J(\varphi_k)(\varphi-\varphi_k) - \frac{1}{2}\|\varphi-\varphi_k\|_H^2.
 \end{equation}
 $J$を効率的に収束させるため、ノルムの取り方が重要である。
 \begin{thm}

@@ -43,7 +43,7 @@ $
 
 \section{時間ごとの各数値解のグラフ}
 
-グリッドサイズ$512$、$\varepsilon = 10^{-3}$の条件で検証する。
+grid size $512$、$\varepsilon = 10^{-3}$の条件で検証する。
 時間$t = t_0, t_0 + 0.4, t_0 + 0.8, t_0 + 2.0$における、複数の時間ステップサイズ$\tau$に対するグラフを図\ref{img:baf_m=2}、\ref{img:bbr_m=2}、\ref{img:euler_m=2}に示す。
 \begin{figure}[htbp]
     \centering
@@ -154,15 +154,15 @@ BBRスキームは陰解法であるのでEuler陽解法よりも時間ステッ
 
 
 \section{数値解の誤差とスピード}
-グリッドサイズ$512$のときの３つの解法の誤差と計算にかかった時間を表\ref{tab:grid512_1}、\ref{tab:grid512_2}に示す。
+grid size $512$のときの３つの解法の誤差と計算にかかった時間を表\ref{tab:grid512_1}、\ref{tab:grid512_2}に示す。
 
 \begin{table}[hbtp]
     \centering
-    \caption{the back-and-forth methodとBBRスキーム(グリッドサイズ512、$\varepsilon = 10^{-3}$)}
+    \caption{The back-and-forth method と BBR スキーム(grid size 512、$\varepsilon = 10^{-3}$)}
     \label{tab:grid512_1}
     \begin{tabular}{llllll} 
         \hline
-        \multirow{2}{*}{$\tau$} & \multirow{2}{*}{$N_\tau$} & \multicolumn{2}{c}{the back-and-forth method} & \multicolumn{2}{c}{BBRスキーム} \\
+        \multirow{2}{*}{$\tau$} & \multirow{2}{*}{$N_\tau$} & \multicolumn{2}{c}{the back-and-forth method} & \multicolumn{2}{c}{BBR scheme} \\
         \cline{3-6}
         & &  Error & Time(s) & Error & Time(s) \\
         \hline \hline  
@@ -179,7 +179,7 @@ BBRスキームは陰解法であるのでEuler陽解法よりも時間ステッ
 \end{table}
 
 \begin{table}[hbtp]
-    \caption{Euler陽解法(グリッドサイズ512)}
+    \caption{Euler陽解法(grid size 512)}
     \label{tab:grid512_2}
     \centering
     \input{../../Codes/result/result_euler512.tex}
@@ -187,11 +187,11 @@ BBRスキームは陰解法であるのでEuler陽解法よりも時間ステッ
 
 \begin{table}[hbtp]
     \centering
-    \caption{the back-and-forth methodのグリッドサイズによる違い($\varepsilon=10^{-5}$)}
+    \caption{the back-and-forth methodのgrid sizeによる違い($\varepsilon=10^{-5}$)}
     \label{tab:change_gridsize}
     \begin{tabular}{llllllll} 
         \hline
-        \multirow{2}{*}{$\tau$} & \multirow{2}{*}{$N_\tau$} & \multicolumn{2}{c}{グリッドサイズ1000} & \multicolumn{2}{c}{グリッドサイズ2000} & \multicolumn{2}{c}{グリッドサイズ4000}\\
+        \multirow{2}{*}{$\tau$} & \multirow{2}{*}{$N_\tau$} & \multicolumn{2}{c}{grid size 1000} & \multicolumn{2}{c}{grid size 2000} & \multicolumn{2}{c}{grid size 4000}\\
         \cline{3-8}
         & &  Error & Time(s) & Error & Time(s) & Error & Time(s)\\
         \hline \hline  
@@ -209,7 +209,7 @@ BBRスキームは陰解法であるのでEuler陽解法よりも時間ステッ
 
 \begin{table}[hbtp]
     \centering
-    \caption{the back-and-forth methodのグリッドサイズ4000のときの$\varepsilon$による違い}
+    \caption{the back-and-forth methodのgrid size 4000のときの$\varepsilon$による違い}
     \label{tab:change_eps}
     \begin{tabular}{llllllll} 
         \hline
@@ -231,7 +231,7 @@ BBRスキームは陰解法であるのでEuler陽解法よりも時間ステッ
 
 表\ref{tab:grid512_1}、\ref{tab:change_gridsize}、 \ref{tab:change_eps}から、
 the back-and-forth methodを用いた数値解は
-適切な$\tau$・グリッドサイズ・$\varepsilon$を取らないとうまく近似をすることができないことがわかる。
+適切な$\tau$・grid size・$\varepsilon$を取らないとうまく近似をすることができないことがわかる。
 また、the back-and-forth methodにはwhileループがあるため、その分他の数値解法より数値解を求めるのに時間がかかっていることが確かめられる。
 
 BBRスキームは前述したように$\tau$を十分小さく取らないと不連続な$\rho$の台の境界においてショックが発生してしまう。

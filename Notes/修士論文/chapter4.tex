@@ -194,7 +194,7 @@ f^*(x) &= \displaystyle \sup_{p\in \Omega}{[x \cdot p - f(p)]} \quad (g(p) = x \
            &= \displaystyle \sup_{p\in \Omega}{[- \alpha(p^2 - \frac{1}{\alpha}xp)]}\\
            &= \displaystyle \sup_{p\in \Omega}{[- \alpha(p - \frac{1}{2 \alpha}x)^2 +  \frac{1}{4 \alpha}x^2]}\\
            &=  \frac{1}{4 \alpha}|x|^2 + \sup_{p\in \Omega}{[- \alpha(p - \frac{1}{2 \alpha}x)^2]}\\
-           &= \frac{1}{4 \alpha}|x|^2 \qquad (\because  \text{$p = \frac{1}{2 \alpha}x$のとき,$g(p)$はsup.  $\Rightarrow f^*$は $p = \frac{1}{2 \alpha}x$のとき成立})\\
+           &= \frac{1}{4 \alpha}|x|^2 \qquad (\because  \text{$p = \frac{1}{2 \alpha}x$のとき,$g(p)$はsup $\Rightarrow f^*$は $p = \frac{1}{2 \alpha}x$のとき成立})\\
            &= \frac{1}{4 \alpha^2}f(x)\\
 \end{align*}
 よって、$\alpha = \frac{1}{2}$のとき、$f^*(x) = f(x)。$
@@ -215,7 +215,7 @@ $g'(p) = 0 \Leftrightarrow x - 2 \alpha p = 0 \Leftrightarrow x - f'(p) = 0 \, (
 ここで$\alpha = \frac{1}{2}$のとき、 $f^*(x) = f(x) かつf'(p) = x = 2\alpha p = p$。
 
 従って「$v[i]: (x(chi[i+1]), y(chi[i+1]))$と$(x(chi[i]), y(chi[i]))$を結んだ線分の傾き」$=$ 「$(x(chi[i]), y(chi[i]))$での接線の傾き(微分)」になる。
-つまり、$\alpha = \frac{1}{2}$のとき、 $p$は$x$座標の分割であるので、十分小さい分割を取れば、 $p[j] = v[i]$となる$p$が必ず存在する.
+つまり、$\alpha = \frac{1}{2}$のとき、 $p$は$x$座標の分割であるので、十分小さい分割を取れば、 $p[j] = v[i]$となる$p$が必ず存在する。
 
 特に凸関数ならば、$f^*(x)$は減少しない関数なので、$v[i]$も減少しない。
 よって、$v[i] < p[j] \leq v[i+1]$となるものを見つけることができる(図\ref{gra:legendre})。この時、
@@ -318,7 +318,7 @@ $\varphi^c(p) = \frac{1}{\tau}\inf_x\left\{\frac{|x-p|^2}{2} - \tau\varphi(x)\ri
 \label{sect:al_pushforward}
 $\varphi, \psi$がどちらも$c$-凹のとき、押し出し測度$T_{\varphi \#} \mu$および$T_{\psi \#} \delta U^*(- \psi^c)$は、
 \begin{equation*}
-    T_{\phi \#} \mu (y) =\mu(y - \tau \nabla \phi(y))|\det (I - \tau D^2 \varphi(y))|
+    T_{\varphi \#} \mu (y) =\mu(y - \tau \nabla \varphi(y))|\det (I - \tau D^2 \varphi(y))|
 \end{equation*}
 \begin{equation*}
     T_{\psi \#} \delta U^* (- \psi^c)(x) =\delta U^* (- \psi^c)(x - \tau \nabla \psi(x))|\det (I - \tau D^2 \psi(x))|
@@ -344,7 +344,7 @@ $\varphi, \psi$がどちらも$c$-凹のとき、押し出し測度$T_{\varphi \
     \begin{enumerate}
         \item セル番号iの近傍の3つのセル(um,u,up)における$\varphi$の$c$-変換を求める。
         \item $\varphi$の$c$-変換に対するセル$i$における勾配(dphi\_c)を中心差分法で計算する。
-        \item セル \texttt{i} におけるヘッセ行列の行列式 det ($\text{det}(I - D^2\phi_c)$) を計算する。
+        \item セル \texttt{i} におけるヘッセ行列の行列式 det ($\text{det}(I - D^2\varphi_c)$) を計算する。
         \item 変形前の座標系における位置xcellの計算する。
         \item xcellに最も近いセルのインデックスtiとその次のセルtioを計算する。
         \item tiとtioにおける密度を線形補間して、xcellでの密度 mu\_inter を計算する。
@@ -542,7 +542,7 @@ $\overline{\rho}^{(n)}$は初期データ$\overline{\rho}^{(0)}(x) = \overline{\
             \State $\varphi \leftarrow \varphi + lp$ 
             
             \State $\varphi_c, \_ \leftarrow \text{c\_transform}(x, \tau \cdot \varphi, x)$
-            \State $\varphi_c \leftarrow \frac{\phi_c}{\tau}$
+            \State $\varphi_c \leftarrow \frac{\varphi_c}{\tau}$
     
             \State \textbf{return}  $\varphi, \varphi_c, \text{pfwd}$ 
         \end{algorithmic}

@@ -38,7 +38,7 @@ The back-and-forth methodを用いてKantorovich双対問題を解くことで�
     U(\rho) := \frac{\gamma}{{m-1}} \int \rho^m \, dx
 \]
 であり、$\Omega$に対して凸である。
-ここで、$U$は凸である場合には、Thm. \ref{thm: duality}より一般化最適輸送問題は双対性を持つ。
+ここで、$U$は凸である場合には、Theorem \ref{thm: duality}より一般化最適輸送問題は双対性を持つ。
 具体的には、$U$が凸であるとき、一般化最適輸送問題は$J$(\ref{eq:J})と$I$(\ref{eq:I})を用いて次のような双対性を表せる$:$
 $$
     \inf_{\rho \in L^1(\Omega)} U(\rho) + \frac{1}{2 \tau} W^2_2(\rho, \mu) = \sup_\varphi J(\varphi) = \sup_\psi I (\psi)
@@ -46,13 +46,12 @@ $$
 さらに一般化最適輸送問題の解は以下の性質を持つ$:$
 \begin{equation}
     \label{eq:dualJI}
-    \rho_* \in \delta U^*(\varphi_*), \quad \varphi_* \in \delta U(\rho_*), \quad \rho_* = T_{\varphi_* \#} \mu,
+    \rho_* \in \delta U^*(- \varphi_*), \quad \varphi_* \in \delta U(\rho_*), \quad \rho_* = T_{\varphi_* \#} \mu,
 \end{equation}
-ただし、$\rho$は(\ref{eq: GOT})の最小化解であり、$(\varphi_*, \psi_*)$は(\ref{eq:dualJI})の最大化される関数である。
+ただし、$\rho_*$は(\ref{eq: GOT})の最小化解であり、$(\varphi_*, \psi_*)$は(\ref{eq:dualJI})の最大化される関数である。
 $J, I$はどちらも制約がない汎関数であるので、いずれかの関数の最大化解を標準的な勾配上昇法で見つけることができる。
 しかし$I$または$J$だけを使用することは問題の対称性を崩すため、関数のいずれかにだけ焦点を当てるのではなく、back-and-forthメソッドでは$I$と$J$の交互の勾配上昇ステップを行うことで対称性を保存することができる。
-$I$と$J$は異なる変数を使用しているが、$c$-変換を使用することで$\psi$と$\varphi$を変換できる。
-
+$I$と$J$は異なる変数を使用しているが、$c$-変換を利用し、$\psi$と$\varphi$を変換し$J$と$I$を行き来することで、対称性を保ったままback-and-forth methodの解$\varphi_*$を見つけることができる。 
 
 次に、問題(\ref{eq:dualJI})の$(\varphi_*, \psi_*)$を見つけるthe back-and-forth methodのアルゴリズムについて考える。
 アルゴリズムは以下のアイデアに基づいている$:$
@@ -95,7 +94,7 @@ $
 であるので、
 \(\psi^c \geq \varphi\)が成り立つ。
 また、\(\rho \geq 0\) の場合、\(- U^*(-\varphi)\) は \(\varphi\) に関して減少しない関数である。
-このことと、Lemma. \ref{lem:c-transform}から、以下の関係が確認でき、$J, I$のそれぞれの関係性を保持したまま値を上昇できていることがわかる。
+このことと、Lemma \ref{lem:c-transform}から、以下の関係が確認でき、$J, I$のそれぞれの関係性を保持したまま値を上昇できていることがわかる。
 \[
     J(\varphi_{k + \frac{1}{2}}) \leq I((\varphi_{k + \frac{1}{2}})^c), \quad I(\psi_{k+1}) \leq J((\psi_{k+1})^c). 
 \]
