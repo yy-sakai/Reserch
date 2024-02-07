@@ -173,7 +173,8 @@ def ascent(phi, phi_c, mu, nu):
 
     # In one dimension, Gaussian elimination is faster than the Fast Fourier Transform.
     # lp = lap_solve_modified(rho, theta_1, theta_2)                             # 1-2-3     lp: \nabla_{\dot{H}^1} J(\phi_n) = (- \Delta)^{-1} * rho
-    lp = sigma * gauss(rho, theta_1, theta_2)
+    lp = gauss(rho, theta_1, theta_2)
+    # lp = sigma * gauss(rho, theta_1, theta_2)
     phi += lp  # 1-2-4   phi_{n + 1/2} = phi_n + sigma * lp
     #####################################################################
     phi_c, _ = c_transform(x, tau * phi, x)  # 2    psi_{n + 1/2} = (phi_{n + 1/2})^c
@@ -262,7 +263,7 @@ b = (np.sqrt(3) * M / 8) ** (2 / 3)
 gamma = 1e-3
 h0 = 15
 t0 = 1 / gamma * (b / h0) ** 3
-sigma = 0.9
+# sigma = 0.9
 
 
 # Load the respective function first.
