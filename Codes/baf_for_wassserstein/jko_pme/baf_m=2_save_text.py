@@ -173,7 +173,7 @@ def ascent(phi, phi_c, mu, nu):
 
     # In one dimension, Gaussian elimination is faster than the Fast Fourier Transform.
     # lp = lap_solve_modified(rho, theta_1, theta_2)                             # 1-2-3     lp: \nabla_{\dot{H}^1} J(\phi_n) = (- \Delta)^{-1} * rho
-    lp = gauss(rho, theta_1, theta_2)
+    lp = sigma * gauss(rho, theta_1, theta_2)
     phi += lp  # 1-2-4   phi_{n + 1/2} = phi_n + sigma * lp
     #####################################################################
     phi_c, _ = c_transform(x, tau * phi, x)  # 2    psi_{n + 1/2} = (phi_{n + 1/2})^c
@@ -262,6 +262,7 @@ b = (np.sqrt(3) * M / 8) ** (2 / 3)
 gamma = 1e-3
 h0 = 15
 t0 = 1 / gamma * (b / h0) ** 3
+sigma = 0.9
 
 
 # Load the respective function first.
@@ -280,7 +281,7 @@ with open("Codes/result/result_baf_gauss4000_eps=1e-6.tex", "w") as f:
     f.write("\hline \hline \n")
 
     # Repeat the operation of halving the value of tau 7 times.
-    for i in range(11):
+    for i in range(8):
         print("tau = ", tau)
         error, realtime, area = baf(tau)
         print("error = ", error)
@@ -291,10 +292,10 @@ with open("Codes/result/result_baf_gauss4000_eps=1e-6.tex", "w") as f:
 
         hist.tau.append(tau)
         hist.N_tau.append(int(2 / tau))
-        hist.error.append(error)
+        hist.error.append(f'{round(error, 7):.3e}')
         tau /= 2
-        # if i == 6:
-        #     tau = 0.0001
+        if i == 6:
+            tau = 0.0001
 
     f.write("\hline \n")
     f.write("\end{tabular} \n")
