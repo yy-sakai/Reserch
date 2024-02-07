@@ -1,4 +1,4 @@
-\documentclass[a4,11pt, twocolumn, dvipdfmx]{article}
+\documentclass[a4,10.5pt, twocolumn, dvipdfmx]{article}
 
 \usepackage{amsthm, amsfonts, amsmath}
 \usepackage{color}
@@ -16,6 +16,7 @@
 \usepackage{xcolor}
 \usepackage{pgfplots}
 \usepackage{mathtools}
+\usepackage[margin=5zw]{geometry} 
 
 \hypersetup{
     colorlinks=true,
@@ -31,10 +32,13 @@
 % ページの設定
 %---------------------------------------------------
 \setlength{\pdfpagewidth}{8.5in}  % DO NOT CHANGE THIS
-\setlength{\pdfpageheight}{11in}  % DO NOT CHANGE THIS
+\setlength{\pdfpageheight}{12in}  % DO NOT CHANGE THIS
 \pagestyle{empty}
 \setlength{\headheight}{0truemm}
 \setlength{\parindent}{1zw}
+\setlength{\columnsep}{3zw}
+
+
 
 \newtheorem{thm}{Theorem}[section]
 \newtheorem{cor}{Corollary} [thm]
@@ -108,9 +112,9 @@ This partial differential equation can be expressed as a Wasserstein gradient fl
 \[
     U(\rho) = \frac{\gamma}{m-1} \int_{\Omega} \rho^m \,dx.
 \]
-This allows the JKO scheme to find approximate solutions to the porous medium equation by discretizing in time and performing the following iterations based on the variational principle:
+This allows the JKO scheme to find approximate solutions to the porous medium equation by discretizing time using a time step size \( \tau \) and performing the following iterations based on the variational principle.
 \[
-    \min_{\rho \in P} \left(U(\rho) + \frac{1}{2\tau} W_2^2(\rho, \mu)\right)
+    \rho^{(n+1)} := \underset{\rho}{\operatorname{argmin}}\, U(\rho) + \frac{1}{2\tau} W_2^2(\rho, \rho^{(n)})
 \]
 Here, Kantorovich's dual formula for the 2-Wasserstein distance is expressed as
 \[
@@ -120,18 +124,13 @@ where \(\mathcal{C}\) is defined by
 \(\mathcal{C} = \{(\varphi, \psi) \in C(\Omega) \times C(\Omega) \,|\, \varphi(x) + \psi(y) \leq \frac{1}{2\tau} |x-y|^2\}\) 
 and \(\tau\) represents the time step within the scheme. 
 Therefore, the above minimization problem is represented as follows:
-\begin{align*}
-    &\min_{\rho \in P} \left(U(\rho) + \frac{1}{2\tau} W_2^2(\rho, \mu)\right)\\
-     &= \sup_{(\varphi, \psi) \in C} \left(\int_{\Omega} \psi \,d\mu - U^*(-\varphi)\right)
-\end{align*}
+\[
+    \min_{\rho \in P} \left(U(\rho) + \frac{1}{2\tau} W_2^2(\rho, \mu)\right)= \sup_{(\varphi, \psi) \in C} \left(\int_{\Omega} \psi \,d\mu - U^*(-\varphi)\right)
+\]
+
 Here, 
 \(U^*(-\varphi) = \sup_{\rho \in P} \int_{\Omega} \left(-\frac{\gamma}{m-1} \rho^m + \rho\varphi\right) \,dx\) 
-is the Legendre-Fenchel transform of \(U\) with respect to \(-\varphi\). 
-Note that the Legendre-Fenchel transform of $f$ is defined as
-\begin{equation*}
-    f^*(p) := \sup_x \{p \cdot x - f(x) \}.
-\end{equation*}
-where $f \in C$ be a convex and differentiable function. 
+is the Legendre-Fenchel transform of \(U\) with respect to \(-\varphi\).  
 
 Furthermore, by using the \(c\)-transform defined by 
 \(\psi^c(x) = \inf_{y \in \Omega} \left(\frac{1}{2\tau} |x-y|^2 - \psi(y)\right)\), 
@@ -186,11 +185,12 @@ Furthermore, utilizing the obtained solution \(\varphi_*\) from BFM,
 the minimization problem for \(\rho_*\) is solved using $\rho_*(x) = \delta U^*(- \varphi)$.
 
 \section{Experiments and Results}
-The porous medium equation is solved using two different methods: 
+The porous medium equation (m=2) is solved using two different methods: 
 The BBR scheme proposed by Berger, Brezis, Rogers \cite{M2AN_1979__13_4_297_0}, and the back-and-forth method explained in this paper. 
-A comparison is made in terms of computational speed and errors with the Barenblatt solution. In all implementations, 
-the parameters for the exact solution, Barenblatt solution, are set as $M = 0.5, h_0 = 15, \gamma = 10^{-3}$.
-
+The speed and error of the two computational methods are compared with the exact solution, the Barenblatt solution, given by:
+\[
+        \rho(t,x)= \max\left(\frac{1}{t^{\frac{1}{3}}}\left(\left(\frac{\sqrt{3}}{16} \right)^{\frac{2}{3}}  - \frac{1}{12} \frac{ |x|^2}{t^{\frac{2}{3}}} \right), 0\right)
+\]
 Verify under the conditions of a grid size of $512$ and $\varepsilon = 10^{-3}$. 
 Graphs for multiple time step sizes $\tau$ at times $t = t_0, t_0 + 0.4, t_0 + 0.8, t_0 + 2.0$ are shown in Figures \ref{img:baf_m=2} and \ref{img:bbr_m=2}.
 
@@ -200,30 +200,22 @@ Graphs for multiple time step sizes $\tau$ at times $t = t_0, t_0 + 0.4, t_0 + 0
         \begin{minipage}[t]{0.45\hsize}
             \centering
             \includegraphics[width=\linewidth]{../../../images/baf_tau/t=0.png}
-            \subcaption{$t=0$}
-            \label{img:baf_0}
         \end{minipage} &
         \begin{minipage}[t]{0.45\hsize}
             \centering
             \includegraphics[width=\linewidth]{../../../images/baf_tau/t=0.4.png}
-            \subcaption{$t = 0.4$}
-            \label{img:baf_1}
         \end{minipage} \\
         
         \begin{minipage}[t]{0.45\hsize}
             \centering
             \includegraphics[width=\linewidth]{../../../images/baf_tau/t=0.8.png}
-            \subcaption{$t = 0.8$}
-            \label{img:baf_2}
         \end{minipage} &
         \begin{minipage}[t]{0.45\hsize}
             \centering
             \includegraphics[width=\linewidth]{../../../images/baf_tau/t=2.png}
-            \subcaption{$t = 2$}
-            \label{img:baf_3}
         \end{minipage}
     \end{tabular}
-    \caption{Comparison between the numerical solution using the back-and-forth method and the exact solution Barenblatt solution.}
+    \caption{Comparison between the back-and-forth method and the barenblatt solution at times $t = 0,0.4, 0.8, 2.0$.}
     \label{img:baf_m=2}
 \end{figure}
 
@@ -232,46 +224,36 @@ Graphs for multiple time step sizes $\tau$ at times $t = t_0, t_0 + 0.4, t_0 + 0
         \begin{minipage}[t]{0.45\hsize}
             \centering
             \includegraphics[width=\linewidth]{../../../images/bbr_tau/t=0.png}
-            \subcaption{$t=0$}
-            \label{img:bbr_0}
         \end{minipage} &
         \begin{minipage}[t]{0.45\hsize}
             \centering
             \includegraphics[width=\linewidth]{../../../images/bbr_tau/t=0.4.png}
-            \subcaption{$t = 0.4$}
-            \label{img:bbr_1}
         \end{minipage} \\
 
         \begin{minipage}[t]{0.45\hsize}
             \centering
             \includegraphics[width=\linewidth]{../../../images/bbr_tau/t=0.8.png}
-            \subcaption{$t = 0.8$}
-            \label{img:bbr_2}
         \end{minipage} &
         \begin{minipage}[t]{0.45\hsize}
             \centering
             \includegraphics[width=\linewidth]{../../../images/bbr_tau/t=2.png}
-            \subcaption{$t = 2$}
-            \label{img:bbr_3}
         \end{minipage} \\
     \end{tabular}
-    \caption{Comparison between the numerical solution using BBR scheme and the exact solution Barenblatt solution.}
+    \caption{Comparison between the BBR scheme and the barenblatt solution at times $t = 0,0.4, 0.8, 2.0$.}
     \label{img:bbr_m=2}
 \end{figure}
-The BBR scheme, being an implicit method, allows for larger time step approximations compared to the explicit Euler method. 
-However, as observed in Figure \ref{img:bbr_m=2}, there are discontinuities at the boundary of the support $(\text{supp} \, \rho = \{ x \in \Omega \,| \, \rho(x) > 0\})$ of the evolving function $\rho$, leading to constraints. 
-Therefore, without choosing an appropriate size for the time step $\tau$, the presence of abrupt changes in the gradient $\nabla\rho$ can result in shocks at the boundary.
-
-On the other hand, the back-and-forth method can approximate the solution even with larger $\tau$, avoiding shocks at the discontinuous boundary of $\rho$'s support, as evident in Figure \ref{img:baf_m=2}. 
-This is attributed to the indirect computation of $\rho$ by reconstructing it through $\rho_*(x) = \delta U^*(- \varphi)$.
-
 \section{Conclusion}
 The main objective of this paper was to explore solutions to nonlinear porous gradient equations, particularly employing the back-and-forth method as a numerical approach for nonlinear partial differential equations. 
 I also compared the results with other solution methods.
 The back-and-forth method demonstrated the ability to approximate the solution with minimal errors even for large time step sizes compared to other methods. 
-This is attributed to the reconstruction of \(\rho\) through \(\rho_*(x) = \delta U^*(- \varphi)\), avoiding shocks at the discontinuous boundary of \(\rho\), and the capability to compute without constraints by solving the dual problem.
+This is attributed to the reconstruction of \(\rho\) through \(\rho_*(x) = \delta U^*(- \varphi)\), avoiding shocks at the discontinuous at the boundary of \(\rho\), and the capability to compute without constraints by solving the dual problem.
 
 However, it is essential to choose appropriate time steps, $\tau$, and conditions to exit the iterations of the back-and-forth method, such as $\|\delta U^*(- \varphi) - T_{\varphi \#} \mu \|_{L^1(\Omega)} < \varepsilon$, in alignment with the grid size.
+
+On the other hand, the BBR scheme, as observed in Figure \ref{img:bbr_m=2}, there are discontinuities at the boundary of the support $(\text{supp} \, \rho = \{ x \in \Omega \,| \, \rho(x) > 0\})$ of the evolving function $\rho$, leading to constraints. 
+Therefore, without choosing an small size for the time step $\tau$, the presence of abrupt changes in the gradient $\nabla\rho$ can result in shocks at the boundary.
+
+Therefore, as long as $\tau$ is not chosen too small, the back-and-forth method can accurately simulate the solution compared to other methods.
 
 For future prospects, increasing the value of $m$ in the porous medium gradient equation and exploring scenarios in two or three dimensions are potential directions to consider.
 \bibliographystyle{plain}
